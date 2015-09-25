@@ -1,0 +1,51 @@
+
+gui_textures.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+button
+  rotate: false
+  xy: 1, 1
+  size: 128, 32
+  split: 10, 10, 10, 10
+  orig: 128, 32
+  offset: 0, 0
+  index: -1
+button_clicked
+  rotate: false
+  xy: 131, 1
+  size: 128, 32
+  split: 10, 10, 10, 10
+  orig: 128, 32
+  offset: 0, 0
+  index: -1
+button_disabled
+  rotate: false
+  xy: 261, 1
+  size: 128, 32
+  split: 9, 10, 10, 10
+  orig: 128, 32
+  offset: 0, 0
+  index: -1
+button_hover
+  rotate: false
+  xy: 391, 1
+  size: 128, 32
+  split: 10, 10, 10, 10
+  orig: 128, 32
+  offset: 0, 0
+  index: -1
+gear_settings
+  rotate: false
+  xy: 521, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+gear_settings_white
+  rotate: false
+  xy: 555, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1

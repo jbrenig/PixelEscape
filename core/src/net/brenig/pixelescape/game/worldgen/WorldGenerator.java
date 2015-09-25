@@ -53,7 +53,7 @@ public class WorldGenerator {
 			Iterator<Map.Entry<Integer, ITerrainGenerator>> iterator = gens.entrySet().iterator();
 			while (iterator.hasNext()) {
 				Map.Entry<Integer, ITerrainGenerator> entry = iterator.next();
-				if(entry.getValue().getMinGenerationLength() > blockToGenerate) {
+				if(entry.getValue().getMinGenerationLength(old) > blockToGenerate) {
 					totalWeight -= entry.getKey();
 					iterator.remove();
 				}

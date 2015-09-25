@@ -20,7 +20,7 @@ public class TerrainOpening implements ITerrainGenerator {
 	}
 
 	@Override
-	public int getMinGenerationLength() {
+	public int getMinGenerationLength(TerrainPair last) {
 		return 2;
 	}
 }

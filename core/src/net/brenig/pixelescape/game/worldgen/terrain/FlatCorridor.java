@@ -27,7 +27,7 @@ public class FlatCorridor implements ITerrainGenerator {
 	}
 
 	@Override
-	public int getMinGenerationLength() {
+	public int getMinGenerationLength(TerrainPair last) {
 		return MIN_GENERATION_LENGTH;
 	}
 }

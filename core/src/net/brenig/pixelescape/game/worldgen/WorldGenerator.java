@@ -38,8 +38,6 @@ public class WorldGenerator {
 	}
 
 	public void generateWorld(World world, boolean fillArray, int blockToGenerate, int generationPasses, Random random) {
-//		List<ITerrainGenerator> gens = new ArrayList<ITerrainGenerator>();
-//		gens.addAll(terrainGenerators);
 		//Init available terrain gen list
 		TreeMap<Integer, ITerrainGenerator> gens = new TreeMap<Integer, ITerrainGenerator>();
 		gens.putAll(terrainGenerators);
@@ -60,11 +58,6 @@ public class WorldGenerator {
 					iterator.remove();
 				}
 			}
-//			for(int i  = gens.size(); i > 0; i--) {
-//				if(gens.get(i - 1).getMinGenerationLength() > blockToGenerate) {
-//					gens.remove(i - 1);
-//				}
-//			}
 			if(gens.size() <= 0) {
 				break;
 			}

@@ -10,6 +10,13 @@ import java.util.Random;
  * Created by Jonas Brenig on 15.08.2015.
  */
 public class RandomTerrainGenerator implements ITerrainGenerator {
+
+	private int weight;
+
+	public RandomTerrainGenerator(int i) {
+		this.weight = i;
+	}
+
 	@Override
 	public int generate(World world, TerrainPair lastPair, int blocksToGenerate, int generatedBlocksIndex, Random random) {
 		TerrainPair pair = world.getCreateTerrainPairForGeneration();
@@ -21,5 +28,10 @@ public class RandomTerrainGenerator implements ITerrainGenerator {
 	@Override
 	public int getMinGenerationLength(TerrainPair last) {
 		return 1;
+	}
+
+	@Override
+	public int getWeight() {
+		return weight;
 	}
 }

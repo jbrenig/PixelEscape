@@ -14,6 +14,12 @@ public class FlatCorridor implements ITerrainGenerator {
 	private static final int MIN_GENERATION_LENGTH = 2;
 	private static final int MAX_GENERATION_LENGTH = 4;
 
+	private int weight;
+
+	public FlatCorridor(int i) {
+		this.weight = i;
+	}
+
 
 	@Override
 	public int generate(World world, TerrainPair lastPair, int blocksToGenerate, int generatedBlocksIndex, Random random) {
@@ -29,5 +35,10 @@ public class FlatCorridor implements ITerrainGenerator {
 	@Override
 	public int getMinGenerationLength(TerrainPair last) {
 		return MIN_GENERATION_LENGTH;
+	}
+
+	@Override
+	public int getWeight() {
+		return weight;
 	}
 }

@@ -79,10 +79,10 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 		screen.game.batch.end();
 
 		//Info
-		if(animationProgress > TIME_TO_WAIT) {
+		if (animationProgress > TIME_TO_WAIT) {
 			mainMenu.setVisible(true);
 			mainMenu.invalidateHierarchy();
-			if((animationProgress - TIME_TO_WAIT) % 2 < 1.2F) {
+			if ((animationProgress - TIME_TO_WAIT) % 2 < 1.2F) {
 				screen.game.batch.begin();
 				screen.game.font.setColor(0, 1, 0, 1);
 				screen.game.font.getData().setScale(0.8F);
@@ -111,6 +111,12 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 	}
 
 	@Override
+	public void resume() {}
+
+	@Override
+	public void pause() {}
+
+	@Override
 	public void dispose() {
 		stage.dispose();
 	}
@@ -132,7 +138,7 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if(animationProgress > TIME_TO_WAIT && keycode == Input.Keys.SPACE) {
+		if (animationProgress > TIME_TO_WAIT && keycode == Input.Keys.SPACE) {
 			screen.resetToEmptyOverlay();
 			screen.restart();
 			return true;
@@ -152,7 +158,7 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		if(animationProgress > TIME_TO_WAIT) {
+		if (animationProgress > TIME_TO_WAIT) {
 			screen.resetToEmptyOverlay();
 			screen.restart();
 			return true;

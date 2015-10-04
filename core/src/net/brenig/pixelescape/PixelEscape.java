@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import net.brenig.pixelescape.game.GameSettings;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.screen.MainMenuScreen;
 
@@ -61,6 +62,8 @@ public class PixelEscape extends Game {
 	 * Main Gui Skin
 	 */
 	public Skin skin;
+
+	public GameSettings gameSettings;
 
 	public int gameSizeX = Reference.TARGET_RESOLUTION_X;
 	public int gameSizeY = Reference.GAME_RESOLUTION_Y + Reference.GAME_UI_Y_SIZE;
@@ -129,6 +132,10 @@ public class PixelEscape extends Game {
 
 		skin.add("default", labelStyle);
 
+		//load settings
+		gameSettings = new GameSettings();
+		gameSettings.loadFromDisk();
+
 		//open main menu
 		this.setScreen(new MainMenuScreen(this));
 	}
@@ -195,5 +202,9 @@ public class PixelEscape extends Game {
 
 	public void resetFontSize() {
 		font.getData().setScale(1.0F);
+	}
+
+	public void showMainMenu() {
+		setScreen(new MainMenuScreen(this));
 	}
 }

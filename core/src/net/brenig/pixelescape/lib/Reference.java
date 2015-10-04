@@ -36,6 +36,15 @@ public class Reference {
 	 */
 	public static final int BLOCK_WIDTH = 20;
 
+	//WORLDGEN
+	public static final int MIN_HEIGHT = 1;
+	public static final int MAX_HEIGHT = 8;
+	/**
+	 * This value describes the maximum value of the sum of both top and bottom terrain<br>
+	 * This Cannot be more than two times MAX_HEIGHT
+	 */
+	public static final int MAX_TERRAIN_SUM = 12;
+
 	public static final int TERRAIN_MIN_BUFFER_LEFT = 4;
 	public static final int TERRAIN_MIN_BUFFER_RIGHT = 4;
 	public static final int TERRAIN_BUFFER = 16;
@@ -54,5 +63,4 @@ public class Reference {
 	public static final boolean DEBUG_MODE = true;
 	public static final boolean SHOW_FPS = false;
 	public static final boolean DEBUG_UI = false;
-	public static final boolean ENABLE_SOUNDS = false;
 }

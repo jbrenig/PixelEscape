@@ -9,8 +9,8 @@ public abstract class AbstractTerrainGenerator implements ITerrainGenerator {
 
 	protected int weight;
 
-	public AbstractTerrainGenerator(int i) {
-		this.weight = i;
+	public AbstractTerrainGenerator(int weight) {
+		this.weight = weight;
 	}
 
 	public int getWeight() {

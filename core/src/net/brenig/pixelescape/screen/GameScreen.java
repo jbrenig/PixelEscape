@@ -246,7 +246,7 @@ public class GameScreen implements Screen {
 
 	public void onGameOver() {
 		setOverlay(new GameOverOverlay(this));
-		if (Reference.ENABLE_SOUNDS) {
+		if (game.gameSettings.soundEnabled) {
 			game.gameOverSound.play();
 		}
 	}
@@ -269,7 +269,7 @@ public class GameScreen implements Screen {
 	}
 
 	public void showMainMenu() {
-		game.setScreen(new MainMenuScreen(game));
+		game.showMainMenu();
 	}
 
 	public boolean isFirstUpdate() {

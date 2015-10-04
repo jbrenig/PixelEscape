@@ -50,6 +50,12 @@ public class MainMenuScreen implements Screen {
 		headLayout.pad(10);
 
 		btnSettings = new ImageButton(game.skin);
+		btnSettings.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new SettingsScreen(game));
+			}
+		});
 
 		headLayout.addActor(btnSettings);
 

@@ -1,6 +1,7 @@
 package net.brenig.pixelescape.game.worldgen;
 
 import net.brenig.pixelescape.game.World;
+import net.brenig.pixelescape.game.worldgen.terrain.DiagonalCorridor;
 import net.brenig.pixelescape.game.worldgen.terrain.FlatCorridor;
 import net.brenig.pixelescape.game.worldgen.terrain.RandomTerrainGenerator;
 import net.brenig.pixelescape.game.worldgen.terrain.TerrainClosing;
@@ -36,10 +37,11 @@ public class WorldGenerator {
 	 * registers default worldgen
 	 */
 	public void init() {
-		registerTerrainGenerator(new RandomTerrainGenerator(10));
-		registerTerrainGenerator(new FlatCorridor(1));
+		registerTerrainGenerator(new RandomTerrainGenerator(9));
+		registerTerrainGenerator(new FlatCorridor(3));
 		registerTerrainGenerator(new TerrainOpening(1));
-		registerTerrainGenerator(new TerrainClosing(1));
+		registerTerrainGenerator(new TerrainClosing(4));
+		registerTerrainGenerator(new DiagonalCorridor(7));
 	}
 
 	public void generateWorld(World world, boolean fillArray, int blockToGenerate, int generationPasses, Random random) {

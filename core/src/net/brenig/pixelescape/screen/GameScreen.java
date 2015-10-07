@@ -130,7 +130,7 @@ public class GameScreen implements Screen {
 			return;
 		}
 		//render world
-		worldRenderer.render();
+		worldRenderer.render(delta);
 
 		//draw ui
 

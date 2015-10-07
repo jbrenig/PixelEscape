@@ -28,6 +28,7 @@ public class PlayerEntity implements IMovingEntity {
 
 	private CycleIntArray lastYPositions;
 	private int lastXPosition = 0;
+	private float YVelocity;
 
 	public PlayerEntity() {
 		lastYPositions = new CycleIntArray(20, (int) yPos);
@@ -148,5 +149,9 @@ public class PlayerEntity implements IMovingEntity {
 
 	public int getPlayerSizeRadius() {
 		return getPlayerSize() / 2;
+	}
+
+	public float getYVelocity() {
+		return YVelocity;
 	}
 }

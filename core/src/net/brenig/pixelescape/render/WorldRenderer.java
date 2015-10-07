@@ -3,9 +3,10 @@ package net.brenig.pixelescape.render;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import net.brenig.pixelescape.PixelEscape;
+import net.brenig.pixelescape.game.World;
+import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.game.entity.PlayerEntity;
 import net.brenig.pixelescape.game.entity.PlayerPathEntity;
-import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.lib.Reference;
 
 /**
@@ -29,9 +30,16 @@ public class WorldRenderer {
 	/**
 	 * Renders the World
 	 */
-	public void render() {
+	public void render(float delta) {
 		renderPlayerEntity(world.player);
 		renderWorld();
+		renderEntities(delta);
+	}
+
+	private void renderEntities(float delta) {
+		for(Entity e : world.getEntityList()) {
+			e.render(game, delta);
+		}
 	}
 
 	private void renderPlayerEntity(PlayerEntity player) {

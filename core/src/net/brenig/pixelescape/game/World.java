@@ -199,7 +199,7 @@ public class World {
 			}
 			Barricade b = getCreateObstacleForGeneration();
 			b.posX = (int) (oldX + worldWidth * 0.7);
-			b.posY = rand.nextInt(worldHeight - Reference.FALLBACK_TERRAIN_HEIGHT * 2) + Reference.FALLBACK_TERRAIN_HEIGHT;
+			b.posY = rand.nextInt(worldHeight - Reference.OBSTACLE_MIN_HEIGHT * Reference.BLOCK_WIDTH * 2) + Reference.OBSTACLE_MIN_HEIGHT * Reference.BLOCK_WIDTH;
 		}
 	}
 

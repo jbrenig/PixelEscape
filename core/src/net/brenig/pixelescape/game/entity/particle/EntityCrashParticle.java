@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import net.brenig.pixelescape.PixelEscape;
+import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.lib.Reference;
@@ -23,7 +24,6 @@ public class EntityCrashParticle extends Entity {
 	private float xVel = 0;
 	private float yVel = 0;
 
-	private boolean isCollided = false;
 
 	public EntityCrashParticle(World world, float xPos, float yPos) {
 		super(world);
@@ -42,17 +42,20 @@ public class EntityCrashParticle extends Entity {
 		xPos += xVel * delta;
 		yPos += yVel * delta;
 
-		if(doesCollide()) {
-			if(isCollided) {
-				yVel += collisionSpeed * delta;
-			} else {
+		switch (doesCollide()) {
+			case TERRAIN_BOT:
 				yVel = 0;
 				xVel = 0;
-				isCollided = true;
-			}
-		} else {
-			isCollided = false;
-			yVel += Reference.GRAVITIY_ACCELERATION * delta;
+				break;
+			case OBSTACLE:
+				yVel = collisionSpeed * delta;
+				xVel = 0;
+				break;
+			case TERRAIN_TOP:
+			case NONE:
+			default:
+				yVel += Reference.GRAVITIY_ACCELERATION * delta;
+				break;
 		}
 
 		xVel = Math.min(Reference.MAX_ENTITY_SPEED, xVel);
@@ -70,7 +73,7 @@ public class EntityCrashParticle extends Entity {
 		return yPos - size >= worldObj.getWorldHeight() || yPos + size <= 0 || xPos - size >= worldObj.getWorldWidth() || xPos + size <= 0;
 	}
 
-	private boolean doesCollide() {
+	private CollisionType doesCollide() {
 		return worldObj.doesAreaCollideWithWorld(xPos - radius, yPos - radius, xPos + radius, yPos + radius);
 	}
 }

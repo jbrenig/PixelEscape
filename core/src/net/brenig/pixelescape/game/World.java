@@ -267,8 +267,8 @@ public class World {
 	 * returns the TerrainPair at the given position
 	 */
 	public TerrainPair getBlockForPosition(int x) {
-		int index = blocksGenerated - (player.getXPos() / Reference.BLOCK_WIDTH);
-		return getTerrainPairForIndex(index);
+		int index = blocksGenerated - (player.getXPos() / Reference.BLOCK_WIDTH) - player.getXPosScreen();
+		return getTerrainPairForIndex(index + x);
 	}
 
 	public void onPlayerCollide() {
@@ -300,24 +300,34 @@ public class World {
 	}
 
 
-	public boolean doesAreaCollideWithWorld(float x1, float y1, float x2, float y2) {
-		return doesAreaCollideWithTerrain(x1, y1, x2, y2) || doesAreaCollideWithObstacles(x1, y1, x2, y2);
+	public CollisionType doesAreaCollideWithWorld(float x1, float y1, float x2, float y2) {
+		CollisionType col = doesAreaCollideWithTerrain(x1, y1, x2, y2);
+		return  col != CollisionType.NONE ? col : doesAreaCollideWithObstacles(x1, y1, x2, y2);
 	}
 
-	public boolean doesAreaCollideWithTerrain(float x1, float y1, float x2, float y2) {
+	public CollisionType doesAreaCollideWithTerrain(float x1, float y1, float x2, float y2) {
 		TerrainPair back = this.getBlockForPosition((int) x1);
 		TerrainPair front = this.getBlockForPosition((int) x2);
 		//collide
-		return y1 < back.top * Reference.BLOCK_WIDTH || y1 < front.top * Reference.BLOCK_WIDTH || y2 > this.getWorldHeight() - back.bottom * Reference.BLOCK_WIDTH || y2 > this.getWorldHeight() - front.bottom * Reference.BLOCK_WIDTH;
+		if(y1 < back.top * Reference.BLOCK_WIDTH || y1 < front.top * Reference.BLOCK_WIDTH) {
+			return CollisionType.TERRAIN_BOT;
+		}
+		if(y2 > this.getWorldHeight() - back.bottom * Reference.BLOCK_WIDTH || y2 > this.getWorldHeight() - front.bottom * Reference.BLOCK_WIDTH) {
+			return CollisionType.TERRAIN_TOP;
+		}
+		return CollisionType.NONE;
 	}
 
-	public boolean doesAreaCollideWithObstacles(float x1, float y1, float x2, float y2) {
+	public CollisionType doesAreaCollideWithObstacles(float x1, float y1, float x2, float y2) {
+		float dif = (float) (player.getProgress() - player.getXPosScreen());
+		x1 += dif;
+		x2 += dif;
 		for (int i = 0; i < obstacles.size(); i++) {
 			if(doesAreaCollideWithObstacle(obstacles.get(i), x1, y1, x2, y2)) {
-				return true;
+				return CollisionType.OBSTACLE;
 			}
 		}
-		return false;
+		return CollisionType.NONE;
 	}
 
 	public boolean doesAreaCollideWithObstacle(Barricade ob, float x1, float y1, float x2, float y2) {

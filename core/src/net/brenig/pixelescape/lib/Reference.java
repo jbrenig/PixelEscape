@@ -25,7 +25,6 @@ public class Reference {
 	public static final int PLAYER_ENTITY_SIZE = 10;
 	public static final int PATH_ENTITY_SIZE = 6;
 	public static final float PATH_ENTITY_ACCELERATION_MOD = 0.0008F;
-//	public static final float PATH_ENTITY_ACCELERATION_MOD = 0.08F;
 	public static final int PATH_ENTITY_OFFSET = 16;
 
 	public static final float MAX_FRAME_TIME = 1;
@@ -45,7 +44,7 @@ public class Reference {
 	 */
 	public static final int MAX_TERRAIN_SUM = 12;
 
-	public static final int TERRAIN_MIN_BUFFER_LEFT = 4;
+	public static final int TERRAIN_MIN_BUFFER_LEFT = 6;
 	public static final int TERRAIN_MIN_BUFFER_RIGHT = 4;
 	public static final int TERRAIN_BUFFER = 16;
 	public static final int ADDITIONAL_GENERATION_PASSES = 20;
@@ -54,6 +53,7 @@ public class Reference {
 	 * the world will be rendered this high if the terrain generator fails
 	 */
 	public static final int FALLBACK_TERRAIN_HEIGHT = 2;
+	public static final int STARTING_TERRAIN_HEIGHT = 4;
 
 	public static final int OBSTACLE_MIN_HEIGHT = 3;
 
@@ -62,7 +62,17 @@ public class Reference {
 	public static final float TOUCH_ACCELERATION = 20 * BLOCK_WIDTH;
 	public static final float CLICK_ACCELERATION = 200 * BLOCK_WIDTH;
 
-	public static final boolean DEBUG_MODE = true;
+
+	//////////////////
+	// DEBUG CONFIG //
+	//////////////////
+
+	public static final boolean PLAYER_EXPLOSION_RED = false;
+	public static final boolean DEBUG_MODE_COORDS = true;
+	public static final boolean DEBUG_WORLD_GEN_VALIDATE = true;
+
+	public static final boolean DEBUG_GAME_SCREEN = false;
 	public static final boolean SHOW_FPS = false;
 	public static final boolean DEBUG_UI = false;
+	public static final boolean DEBUG_LOGGING = true;
 }

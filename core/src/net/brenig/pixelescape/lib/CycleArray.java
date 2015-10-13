@@ -21,7 +21,10 @@ public class CycleArray<T> {
 	}
 
 	private int convertToLocalIndex(int globalIndex) {
-		return (index + globalIndex) % data.length;
+		if(globalIndex < 0) {
+			throw new IllegalArgumentException("The index cannot be lower than 0!");
+		}
+		return (index + globalIndex + 1) % data.length;
 	}
 
 	private void updateIndexBounds() {

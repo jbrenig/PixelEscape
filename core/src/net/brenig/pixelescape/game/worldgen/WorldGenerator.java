@@ -54,7 +54,7 @@ public class WorldGenerator {
 			//get last terrain
 			TerrainPair old = world.terrain.getNewest();
 			if (old == null) {
-				old = new TerrainPair(Reference.FALLBACK_TERRAIN_HEIGHT, Reference.FALLBACK_TERRAIN_HEIGHT);
+				old = new TerrainPair(Reference.STARTING_TERRAIN_HEIGHT, Reference.STARTING_TERRAIN_HEIGHT);
 			}
 			//remove invalid generators
 			Iterator<Map.Entry<Integer, ITerrainGenerator>> iterator = gens.entrySet().iterator();
@@ -69,15 +69,26 @@ public class WorldGenerator {
 			if(gens.size() <= 0) {
 				break;
 			}
-			ITerrainGenerator gen = gens.ceilingEntry(random.nextInt(remaingWeight)).getValue();
+			ITerrainGenerator gen = ceilEntry(random.nextInt(remaingWeight), gens);
+//			ITerrainGenerator gen = gens.ceilingEntry(random.nextInt(remaingWeight)).getValue();
 			int generated = gen.generate(world, old, blockToGenerate, world.blocksGenerated, random);
 			blockToGenerate -= generated;
 			world.blocksGenerated += generated;
-			generationPasses++;
+			generationPasses--;
 		}
-		if (fillArray && world.getBlocksToGenerate() < 0) {
-			world.blocksGenerated += world.getBlocksToGenerate();
-		}
+//		if (fillArray && world.getBlocksToGenerate() < 0) {
+//			world.blocksGenerated += world.getBlocksToGenerate();
+//		}
 		world.generateObstacles();
+	}
+
+	private ITerrainGenerator ceilEntry(final int key, TreeMap<Integer, ITerrainGenerator> map) {
+		int lastKey = Integer.MAX_VALUE;
+		for(int i : map.keySet()) {
+			if(i >= key && i <= lastKey) {
+				lastKey = i;
+			}
+		}
+		return map.get(lastKey);
 	}
 }

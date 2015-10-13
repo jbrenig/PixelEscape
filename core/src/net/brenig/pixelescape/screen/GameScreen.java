@@ -3,6 +3,7 @@ package net.brenig.pixelescape.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
+import net.brenig.pixelescape.game.worldgen.TerrainPair;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.render.WorldRenderer;
@@ -136,7 +138,11 @@ public class GameScreen implements Screen {
 
 		//black background
 		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-		game.shapeRenderer.setColor(0, 0, 0, 1);
+		if(Reference.DEBUG_GAME_SCREEN) {
+			game.shapeRenderer.setColor(1, 0, 0, 0);
+		} else {
+			game.shapeRenderer.setColor(0, 0, 0, 1);
+		}
 		game.shapeRenderer.rect(0, 0, world.getWorldWidth(), uiPos);
 		game.shapeRenderer.rect(0, world.getWorldHeight() + uiPos, world.getWorldWidth(), uiPos + Reference.GAME_UI_Y_SIZE);
 		game.shapeRenderer.end();
@@ -155,10 +161,35 @@ public class GameScreen implements Screen {
 
 		//Overlay
 		overlay.render(delta);
+
+		if(Reference.DEBUG_MODE_COORDS) {
+			float x = game.getScaledMouseX();
+			float y = game.getScaledMouseY();
+			float worldY = world.convertScreenYToWorldCoordinate(y);
+			String screenTxt = "Screen: X: " + (int) x + ", Y: " + (int) y;
+			String worldTxt = "World: X: " + (int) world.convertScreenToWorldCoordinate(x) + ", Y: " + (int) worldY + ", Block: " + (int) world.convertScreenCoordToWorldBlockIndex(x) + " (" + (int) world.convertWorldBlockToLocalBlockIndex(world.convertScreenCoordToWorldBlockIndex(x)) + ")";
+			TerrainPair terrain = world.getBlockForScreenPosition(x);
+			boolean isTerrain = world.getWorldHeight() - terrain.getTop() * Reference.BLOCK_WIDTH < worldY || terrain.getBottom() * Reference.BLOCK_WIDTH >= worldY;
+			String blockInfoTxt = "Info: IsTerrain: " + isTerrain + ", BlocksGenerated: " + world.blocksGenerated;
+			game.batch.begin();
+			game.font.setColor(Color.LIGHT_GRAY);
+			game.font.getData().setScale(0.5F);
+			fontLayout.setText(game.font, screenTxt);
+			float pos = 5 + fontLayout.height;
+			game.font.draw(game.batch, fontLayout, 5, pos);
+			pos += fontLayout.height + 5;
+			fontLayout.setText(game.font, worldTxt);
+			game.font.draw(game.batch, fontLayout, 5, pos);
+			pos += fontLayout.height + 5;
+			fontLayout.setText(game.font, blockInfoTxt);
+			game.font.draw(game.batch, fontLayout, 5, pos);
+			game.font.getData().setScale(1F);
+			game.batch.end();
+		}
 	}
 
 	private void drawScoreScreen(float delta) {
-		String score = "Score: " + world.player.getXPos();
+		String score = "Score: " + world.player.getScore();
 		game.font.getData().setScale(0.8F, 0.9F);
 		game.font.setColor(0, 0, 0, 1);
 		fontLayout.setText(game.font, score);

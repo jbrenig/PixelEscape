@@ -1,5 +1,8 @@
 package net.brenig.pixelescape.game.entity;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
+import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.worldgen.Barricade;
@@ -10,7 +13,7 @@ import net.brenig.pixelescape.lib.Reference;
 /**
  * Created by Jonas Brenig on 02.08.2015.
  */
-public class PlayerEntity implements IMovingEntity {
+public class EntityPlayer extends Entity implements IMovingEntity {
 
 	private double velocity;
 	private float yVelocity;
@@ -18,9 +21,7 @@ public class PlayerEntity implements IMovingEntity {
 	private int xPosScreen;
 
 	private float yPos;
-
-
-	private double progress;
+	private float xPos;
 
 	private PlayerPathEntity[] pathEntities = new PlayerPathEntity[4];
 
@@ -30,7 +31,10 @@ public class PlayerEntity implements IMovingEntity {
 	private int lastXPosition = 0;
 	private float YVelocity;
 
-	public PlayerEntity() {
+	private boolean isDead = false;
+
+	public EntityPlayer(World world) {
+		super(world);
 		lastYPositions = new CycleIntArray(20, (int) yPos);
 		for (int i = 0; i < pathEntities.length; i++) {
 			pathEntities[i] = new PlayerPathEntity(yPos, xPosScreen);
@@ -39,7 +43,7 @@ public class PlayerEntity implements IMovingEntity {
 	}
 
 	public void update(float deltaTick, InputManager inputManager) {
-		progress += deltaTick * velocity;
+		xPos += deltaTick * velocity;
 		yPos += deltaTick * yVelocity;
 
 		//speed update
@@ -70,7 +74,7 @@ public class PlayerEntity implements IMovingEntity {
 
 		if(getXPos() - lastXPosition > Reference.PATH_ENTITY_OFFSET / 5) {
 			lastYPositions.add((int) yPos);
-			lastXPosition = getXPos();
+			lastXPosition = (int) getXPos();
 		}
 	}
 
@@ -78,7 +82,8 @@ public class PlayerEntity implements IMovingEntity {
 	 * resets this player entity to starting position
 	 */
 	public void reset() {
-		progress = 0;
+//		xPos = getXPosScreen();
+		xPos = 0;
 		yPos = Reference.GAME_RESOLUTION_Y / 2;
 		velocity = Reference.STARTING_SPEED;
 		yVelocity = 0;
@@ -86,23 +91,30 @@ public class PlayerEntity implements IMovingEntity {
 			pathEntities[i].reset(yPos, xPosScreen - Reference.PATH_ENTITY_OFFSET * (i + 1));
 		}
 		lastYPositions.fill((int) yPos);
+		isDead = false;
 	}
 
+	@Deprecated
 	public double getProgress() {
-		return progress;
+		return xPos;
 	}
 
 	/**
 	 * player progress in pixels
 	 */
-	public int getXPos() {
-		return (int) progress;
+	public float getXPos() {
+		return xPos + getXPosScreen();
+	}
+
+	public int getScore() {
+		return (int) xPos;
 	}
 
 	public double getVelocity() {
 		return velocity;
 	}
 
+	@Override
 	public float getYPos() {
 		return yPos;
 	}
@@ -119,15 +131,17 @@ public class PlayerEntity implements IMovingEntity {
 	}
 
 	public void collideWithWorld(World world) {
-		TerrainPair back = world.getBlockForPosition(xPosScreen - getPlayerSizeRadius());
-		TerrainPair front = world.getBlockForPosition(xPosScreen + getPlayerSizeRadius());
+		TerrainPair back = world.getBlockForScreenPosition(xPosScreen - getPlayerSizeRadius());
+		TerrainPair front = world.getBlockForScreenPosition(xPosScreen + getPlayerSizeRadius());
 		if (yPos - getPlayerSizeRadius() < back.top * Reference.BLOCK_WIDTH || yPos - getPlayerSizeRadius() < front.top * Reference.BLOCK_WIDTH) {
 			//collide
 			world.onPlayerCollide();
+			return;
 		}
 		if (yPos + getPlayerSizeRadius() > world.getWorldHeight() - back.bottom * Reference.BLOCK_WIDTH || yPos + getPlayerSizeRadius() > world.getWorldHeight() - front.bottom * Reference.BLOCK_WIDTH) {
 			//collide
 			world.onPlayerCollide();
+			return;
 		}
 	}
 
@@ -153,5 +167,33 @@ public class PlayerEntity implements IMovingEntity {
 
 	public float getYVelocity() {
 		return YVelocity;
+	}
+
+	public void setIsDead(boolean isDead) {
+		this.isDead = isDead;
+	}
+
+	@Override
+	public void render(PixelEscape game, float delta, int xPos, int yPos) {
+		if(this.isDead()) {
+			return;
+		}
+		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+		// Draw Background color
+		game.shapeRenderer.setColor(0, 0, 0, 1);
+		game.shapeRenderer.rect(xPos + this.getXPosScreen() - this.getPlayerSize() / 2, this.getYPos() - this.getPlayerSize() / 2 + yPos, this.getPlayerSize(), this.getPlayerSize());
+
+		for (PlayerPathEntity e : this.getPathEntities()) {
+			game.shapeRenderer.rect(xPos + e.getXPosScreen() - e.getSizeRadius(), yPos + e.getYPos() - e.getSizeRadius(), e.getSize(), e.getSize());
+		}
+
+		// End ShapeRenderer
+		game.shapeRenderer.end();
+	}
+
+	@Override
+	public boolean isDead() {
+		return isDead;
 	}
 }

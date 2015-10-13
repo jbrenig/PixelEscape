@@ -37,13 +37,17 @@ public class EntityCrashParticle extends Entity {
 	}
 
 	@Override
-	public void render(PixelEscape game, float delta) {
+	public void render(PixelEscape game, float delta, int x, int y) {
+		if(isDead()) {
+			return;
+		}
 		//Accelerate
 		xPos += xVel * delta;
 		yPos += yVel * delta;
 
 		switch (doesCollide()) {
-			case TERRAIN_BOT:
+			case TERRAIN_BOT_RIGHT:
+			case TERRAIN_BOT_LEFT:
 				yVel = 0;
 				xVel = 0;
 				break;
@@ -51,7 +55,26 @@ public class EntityCrashParticle extends Entity {
 				yVel = collisionSpeed * delta;
 				xVel = 0;
 				break;
-			case TERRAIN_TOP:
+			case TERRAIN_TOP_RIGHT:
+				if(xVel > 0) {
+					xVel = 0;
+				}
+				if(yVel > 0) {
+					yVel = 0;
+				} else {
+					yVel += Reference.GRAVITIY_ACCELERATION * delta;
+				}
+				break;
+			case TERRAIN_TOP_LEFT:
+				if(xVel < 0) {
+					xVel = 0;
+				}
+				if(yVel > 0) {
+					yVel = 0;
+				} else {
+					yVel += Reference.GRAVITIY_ACCELERATION * delta;
+				}
+				break;
 			case NONE:
 			default:
 				yVel += Reference.GRAVITIY_ACCELERATION * delta;
@@ -62,7 +85,7 @@ public class EntityCrashParticle extends Entity {
 		yVel = Math.min(Reference.MAX_ENTITY_SPEED, yVel);
 
 		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-		game.shapeRenderer.setColor(Color.RED);
+		game.shapeRenderer.setColor(Reference.PLAYER_EXPLOSION_RED ? Color.RED : Color.BLACK);
 		game.shapeRenderer.rect(xPos - radius, yPos - radius, size, size);
 		game.shapeRenderer.end();
 
@@ -70,7 +93,7 @@ public class EntityCrashParticle extends Entity {
 
 	@Override
 	public boolean isDead() {
-		return yPos - size >= worldObj.getWorldHeight() || yPos + size <= 0 || xPos - size >= worldObj.getWorldWidth() || xPos + size <= 0;
+		return yPos - radius >= worldObj.getWorldHeight() || yPos + radius <= 0 || xPos - radius >= worldObj.getWorldWidth() || xPos + radius <= 0;
 	}
 
 	private CollisionType doesCollide() {

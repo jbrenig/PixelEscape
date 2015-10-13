@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import net.brenig.pixelescape.game.GameSettings;
+import net.brenig.pixelescape.game.entity.EntityPlayer;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.screen.MainMenuScreen;
 
@@ -67,6 +68,9 @@ public class PixelEscape extends Game {
 
 	public int gameSizeX = Reference.TARGET_RESOLUTION_X;
 	public int gameSizeY = Reference.GAME_RESOLUTION_Y + Reference.GAME_UI_Y_SIZE;
+	private float scale = 1.0F;
+
+	public EntityPlayer thePlayer;
 
 	@Override
 	public void create() {
@@ -185,7 +189,7 @@ public class PixelEscape extends Game {
 		final float targetWidth = Reference.TARGET_RESOLUTION_X;
 		final float targetRatio = targetHeight / targetWidth;
 		float sourceRatio = (float) height / (float) width;
-		float scale = sourceRatio > targetRatio ? targetWidth / width : targetHeight / height;
+		this.scale = sourceRatio > targetRatio ? targetWidth / width : targetHeight / height;
 		gameSizeX = (int) Math.ceil(width * scale);
 		gameSizeY = (int) Math.ceil(height * scale);
 		cam.setToOrtho(false, gameSizeX, gameSizeY);
@@ -206,5 +210,25 @@ public class PixelEscape extends Game {
 
 	public void showMainMenu() {
 		setScreen(new MainMenuScreen(this));
+	}
+
+	public float getScale() {
+		return scale;
+	}
+
+	public float getScaledMouseX() {
+		return Gdx.input.getX() * scale;
+	}
+
+	public float getScaledMouseY() {
+		return Gdx.input.getY() * scale;
+	}
+
+	public float convertToScaled(float f) {
+		return f * getScale();
+	}
+
+	public float convertToUnscaled(float f) {
+		return f / getScale();
 	}
 }

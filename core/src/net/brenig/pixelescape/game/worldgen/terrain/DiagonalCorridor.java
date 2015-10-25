@@ -35,6 +35,9 @@ public class DiagonalCorridor extends AbstractTerrainGenerator {
 			}
 		}
 		int generateAmount = Math.min(blocksToGenerate, Math.min(MAX_GENERATION_LENGTH, (up ? lastPair.top : lastPair.bottom) - MIN_HEIGHT + 1));
+		if(generateAmount <= 0) {
+			return 0;
+		}
 		for(int i = 0; i < generateAmount; i++) {
 			TerrainPair pair = world.getCreateTerrainPairForGeneration();
 			if(up) {

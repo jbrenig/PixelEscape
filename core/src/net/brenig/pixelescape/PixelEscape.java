@@ -7,7 +7,6 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -19,9 +18,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import net.brenig.pixelescape.game.GameSettings;
+import net.brenig.pixelescape.game.UserData;
 import net.brenig.pixelescape.game.entity.EntityPlayer;
+import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.screen.MainMenuScreen;
+import net.brenig.pixelescape.screen.ui.TwoStateImageButton;
 
 public class PixelEscape extends Game {
 
@@ -41,6 +43,7 @@ public class PixelEscape extends Game {
 
 	/**
 	 * Main Camera
+	 * y-Up
 	 */
 	public OrthographicCamera cam;
 
@@ -65,6 +68,7 @@ public class PixelEscape extends Game {
 	public Skin skin;
 
 	public GameSettings gameSettings;
+	public UserData userData;
 
 	public int gameSizeX = Reference.TARGET_RESOLUTION_X;
 	public int gameSizeY = Reference.GAME_RESOLUTION_Y + Reference.GAME_UI_Y_SIZE;
@@ -74,13 +78,16 @@ public class PixelEscape extends Game {
 
 	@Override
 	public void create() {
-		Gdx.app.log("PixelEscape | Main", "Starting up...");
+		LogHelper.log("Main", "Starting up...");
+
 		//initialize drawing area
 		batch = new SpriteBatch();
-		//Use LibGDX's default Arial font.
+
+		//Use custom font
 		font = new BitmapFont(Gdx.files.internal("font/p2p.fnt"), Gdx.files.internal("font/p2p_0.png"), false, true);
 		font.setColor(Color.BLACK);
 
+		//load ui textures
 		guiAtlas = new TextureAtlas(Gdx.files.internal("drawable/gui/gui_textures.pack"));
 
 		//initialize viewport
@@ -96,13 +103,11 @@ public class PixelEscape extends Game {
 
 		//Setting up skin
 		skin = new Skin();
-		//skin data
-		Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-		pixmap.setColor(Color.WHITE);
-		pixmap.fill();
+
 		//Cache default button texture for other use cases
 		buttonNinePatch = guiAtlas.createPatch("button");
 
+		//Button textures
 		skin.add("up", buttonNinePatch);
 		skin.add("down", guiAtlas.createPatch("button_clicked"));
 		skin.add("hover", guiAtlas.createPatch("button_hover"));
@@ -111,27 +116,67 @@ public class PixelEscape extends Game {
 		skin.add("button_settings", guiAtlas.createSprite("gear_settings"));
 		skin.add("button_settings_white", guiAtlas.createSprite("gear_settings_white"));
 
-		ImageButton.ImageButtonStyle imageButtonStyle = new ImageButton.ImageButtonStyle();
-		imageButtonStyle.imageUp = skin.getDrawable("button_settings");
-		imageButtonStyle.imageOver = skin.newDrawable("button_settings_white", Color.LIGHT_GRAY);
-		imageButtonStyle.imageDown = skin.newDrawable("button_settings_white", Color.GRAY);
-		imageButtonStyle.imageDisabled = skin.newDrawable("button_settings_white", Color.DARK_GRAY);
+		skin.add("button_music_enabled", guiAtlas.createSprite("music_enabled"));
+		skin.add("button_music_disabled", guiAtlas.createSprite("music_disabled"));
 
-		skin.add("default", imageButtonStyle);
+		skin.add("button_sound_enabled", guiAtlas.createSprite("sound_enabled"));
+		skin.add("button_sound_disabled", guiAtlas.createSprite("sound_disabled"));
 
-		TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-		textButtonStyle.up = skin.getDrawable("up");
-		textButtonStyle.down = skin.getDrawable("down");
-//		textButtonStyle.checked = skin.newDrawable("up", Color.BLUE);
-		textButtonStyle.over = skin.getDrawable("hover");
-		textButtonStyle.disabled = skin.getDrawable("disabled");
-		textButtonStyle.font = font;
-		textButtonStyle.fontColor = Color.BLACK;
-		textButtonStyle.downFontColor = Color.WHITE;
-		textButtonStyle.disabledFontColor = Color.GRAY;
+		skin.add("button_pause", guiAtlas.createSprite("button_pause"));
 
-		skin.add("default", textButtonStyle);
+		//Button style: Settings
+		{
+			ImageButton.ImageButtonStyle imageButtonStyle = new ImageButton.ImageButtonStyle();
+			imageButtonStyle.imageUp = skin.getDrawable("button_settings");
+			imageButtonStyle.imageOver = skin.newDrawable("button_settings_white", Color.LIGHT_GRAY);
+			imageButtonStyle.imageDown = skin.newDrawable("button_settings_white", Color.GRAY);
+			imageButtonStyle.imageDisabled = skin.newDrawable("button_settings_white", Color.DARK_GRAY);
 
+			skin.add("settings", imageButtonStyle);
+		}
+
+		//Button style: Music
+		{
+			TwoStateImageButton.TwoStateImageButtonStyle imageButtonStyle = new TwoStateImageButton.TwoStateImageButtonStyle();
+			imageButtonStyle.imageUp = skin.getDrawable("button_music_enabled");
+			imageButtonStyle.image2Up = skin.getDrawable("button_music_disabled");
+
+			skin.add("music", imageButtonStyle);
+		}
+
+		//Button style: Sound
+		{
+			TwoStateImageButton.TwoStateImageButtonStyle imageButtonStyle = new TwoStateImageButton.TwoStateImageButtonStyle();
+			imageButtonStyle.imageUp = skin.getDrawable("button_sound_enabled");
+			imageButtonStyle.image2Up = skin.getDrawable("button_sound_disabled");
+
+			skin.add("sound", imageButtonStyle);
+		}
+
+		//Button style: Pause
+		{
+			ImageButton.ImageButtonStyle imageButtonStyle = new ImageButton.ImageButtonStyle();
+			imageButtonStyle.imageUp = skin.newDrawable("button_pause", Color.BLACK);
+
+			skin.add("pause", imageButtonStyle);
+		}
+
+		//Button style: Text (default)
+		{
+			TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
+			textButtonStyle.up = skin.getDrawable("up");
+			textButtonStyle.down = skin.getDrawable("down");
+			textButtonStyle.over = skin.getDrawable("hover");
+			textButtonStyle.disabled = skin.getDrawable("disabled");
+			textButtonStyle.font = font;
+			textButtonStyle.fontColor = Color.BLACK;
+			textButtonStyle.downFontColor = Color.WHITE;
+			textButtonStyle.disabledFontColor = Color.GRAY;
+
+			skin.add("default", textButtonStyle);
+		}
+
+		//Label style
 		Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
 
 		skin.add("default", labelStyle);
@@ -140,8 +185,18 @@ public class PixelEscape extends Game {
 		gameSettings = new GameSettings();
 		gameSettings.loadFromDisk();
 
+		//load userdata
+		//currently only highscore
+		userData = new UserData();
+		userData.loadFromDisk();
+
 		//open main menu
-		this.setScreen(new MainMenuScreen(this));
+		showMainMenu();
+
+		//Test
+//		CycleArrayTest.runTest();
+
+		LogHelper.log("Main", "Finished loading!");
 	}
 
 	@Override
@@ -174,6 +229,8 @@ public class PixelEscape extends Game {
 
 	@Override
 	public void dispose() {
+		gameSettings.saveToDisk();
+		userData.saveToDisk();
 		batch.dispose();
 		font.dispose();
 		shapeRenderer.dispose();
@@ -206,6 +263,7 @@ public class PixelEscape extends Game {
 
 	public void resetFontSize() {
 		font.getData().setScale(1.0F);
+//		font.getData().setScale(scale);
 	}
 
 	public void showMainMenu() {
@@ -230,5 +288,12 @@ public class PixelEscape extends Game {
 
 	public float convertToUnscaled(float f) {
 		return f / getScale();
+	}
+
+	/**
+	 * stops or starts music if settings have changed
+	 */
+	public void updateMusicPlaying() {
+
 	}
 }

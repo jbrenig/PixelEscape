@@ -43,22 +43,6 @@ public class WorldRenderer {
 
 	private void renderPlayerEntity(EntityPlayer player, float delta) {
 		player.render(game, delta, xPos, yPos);
-
-//		if(player.isDead()) {
-//			return;
-//		}
-//		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//
-//		// Draw Background color
-//		game.shapeRenderer.setColor(0, 0, 0, 1);
-//		game.shapeRenderer.rect(xPos + player.getXPosScreen() - player.getPlayerSize() / 2, player.getYPos() - player.getPlayerSize() / 2 + yPos, player.getPlayerSize(), player.getPlayerSize());
-//
-//		for (PlayerPathEntity e : player.getPathEntities()) {
-//			game.shapeRenderer.rect(xPos + e.getXPosScreen() - e.getSizeRadius(), yPos + e.getYPos() - e.getSizeRadius(), e.getSize(), e.getSize());
-//		}
-//
-//		// End ShapeRenderer
-//		game.shapeRenderer.end();
 	}
 
 	private void renderWorld() {

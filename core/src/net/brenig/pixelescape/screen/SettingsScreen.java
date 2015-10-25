@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.lib.Reference;
@@ -31,7 +31,7 @@ public class SettingsScreen implements Screen {
 	public SettingsScreen(final PixelEscape game) {
 		this.game = game;
 		//Setting up stage
-		uiStage = new Stage(new ScreenViewport());
+		uiStage = new Stage(new ExtendViewport(Reference.TARGET_RESOLUTION_X, Reference.TARGET_RESOLUTION_Y, game.cam));
 		uiStage.setDebugAll(Reference.DEBUG_UI);
 
 		game.resetFontSize();

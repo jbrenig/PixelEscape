@@ -57,4 +57,8 @@ public class LogHelper {
 	public static void error(String msg) {
 		log(LOG_LEVEL_ERROR, null, msg, null);
 	}
+
+	public static void newLine() {
+		Gdx.app.log("", "");
+	}
 }

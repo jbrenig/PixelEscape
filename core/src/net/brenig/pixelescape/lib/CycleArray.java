@@ -57,7 +57,8 @@ public class CycleArray<T> {
 
 	@SuppressWarnings("unchecked")
 	public T getOldest() {
-		return (T) data[(index + 1) % data.length];
+		return get(0);
+//		return (T) data[(index + 1) % data.length];
 	}
 
 	@SuppressWarnings("unchecked")

@@ -170,7 +170,7 @@ public class GameScreen implements Screen {
 			String worldTxt = "World: X: " + (int) world.convertScreenToWorldCoordinate(x) + ", Y: " + (int) worldY + ", Block: " + (int) world.convertScreenCoordToWorldBlockIndex(x) + " (" + (int) world.convertWorldBlockToLocalBlockIndex(world.convertScreenCoordToWorldBlockIndex(x)) + ")";
 			TerrainPair terrain = world.getBlockForScreenPosition(x);
 			boolean isTerrain = world.getWorldHeight() - terrain.getTop() * Reference.BLOCK_WIDTH < worldY || terrain.getBottom() * Reference.BLOCK_WIDTH >= worldY;
-			String blockInfoTxt = "Info: IsTerrain: " + isTerrain + ", BlocksGenerated: " + world.blocksGenerated;
+			String blockInfoTxt = "Info: IsTerrain: " + isTerrain + ", BlocksGenerated: " + world.getBlocksGenerated();
 			game.batch.begin();
 			game.font.setColor(Color.LIGHT_GRAY);
 			game.font.getData().setScale(0.5F);
@@ -223,14 +223,18 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void pause() {
-		isScreenPaused = true;
-		overlay.pause();
+		if(Reference.AUTO_PAUSE) {
+			isScreenPaused = true;
+			overlay.pause();
+		}
 	}
 
 	@Override
 	public void resume() {
-		isScreenPaused = false;
-		overlay.resume();
+		if(Reference.AUTO_PAUSE) {
+			isScreenPaused = false;
+			overlay.resume();
+		}
 	}
 
 	public boolean isScreenPaused() {
@@ -275,11 +279,16 @@ public class GameScreen implements Screen {
 		resetToEmptyOverlay();
 	}
 
+	/**
+	 * Callback when player died
+	 * Shows GameOver Overlay and registers highscore
+	 */
 	public void onGameOver() {
 		setOverlay(new GameOverOverlay(this));
 		if (game.gameSettings.soundEnabled) {
 			game.gameOverSound.play();
 		}
+		game.userData.updateHighscore(world.player.getScore());
 	}
 
 	public void restart() {

@@ -78,6 +78,23 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 		screen.game.font.draw(screen.game.batch, screen.fontLayout, xPos, yPos);
 		screen.game.batch.end();
 
+		//Highscore
+		screen.game.batch.begin();
+		if(screen.game.userData.lastHighScore < screen.world.player.getScore()) {
+			screen.game.font.setColor(0, 1, 0, 1);
+			screen.game.font.getData().setScale(1.2F);
+			screen.fontLayout.setText(screen.game.font, "New Highscore!");
+		} else {
+			screen.game.font.setColor(0, 0, 1, 1);
+			screen.game.font.getData().setScale(1.0F);
+			screen.fontLayout.setText(screen.game.font, "Highscore: " + screen.game.userData.highScore);
+		}
+		xPos = screen.world.getWorldWidth() / 2 - screen.fontLayout.width / 2;
+		float txtHighscoreHeight = screen.fontLayout.height / 2;
+		yPos -= screen.game.font.getLineHeight() + txtHighscoreHeight;
+		screen.game.font.draw(screen.game.batch, screen.fontLayout, xPos, yPos);
+		screen.game.batch.end();
+
 		//Info
 		if (animationProgress > TIME_TO_WAIT) {
 			mainMenu.setVisible(true);

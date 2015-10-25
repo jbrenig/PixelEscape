@@ -59,7 +59,13 @@ public class World {
 	/**
 	 * tracks how many block got generated
 	 */
+	@Deprecated
 	public int blocksGenerated = 0;
+
+	/**
+	 * tracks how many blocks got added to the terrain
+	 */
+	public int blocksRequested = 0;
 
 	private Random rand = new Random();
 
@@ -101,11 +107,13 @@ public class World {
 	public void update(float deltaTick) {
 		player.update(deltaTick, screen.getInput());
 		generateWorld(false);
-		player.collideWithWorld(this);
-		for (int i = 0; i < obstacles.size(); i++) {
-			player.collideWithObstacle(obstacles.get(i), this);
+		if(!Reference.DEBUG_GOD_MODE) {
+			player.collideWithWorld(this);
+			for (int i = 0; i < obstacles.size(); i++) {
+				player.collideWithObstacle(obstacles.get(i), this);
+			}
 		}
-		//remove invalid generators
+		//remove invalid entities
 		Iterator<Entity> iterator = entityList.iterator();
 		while (iterator.hasNext()) {
 			Entity e = iterator.next();
@@ -125,6 +133,7 @@ public class World {
 				int top = getTopBlockHeight(local);
 				int bot = getBottomBlockHeight(local);
 				if (top != lastTop || bot != lastBot) {
+					LogHelper.debug("WorldGen", "BlocksGenerated: " + getBlocksGenerated() + "; BlocksRequested: " + blocksRequested, null);
 					LogHelper.error("Error in WorldGen!");
 					LogHelper.error("TerrainBuffer:");
 					LogHelper.error(terrain.toString());
@@ -165,7 +174,8 @@ public class World {
 	 * returns how many blocks are generated
 	 */
 	public int getBlocksGenerated() {
-		return blocksGenerated;
+		return blocksRequested;
+//		return blocksGenerated;
 	}
 
 	/**
@@ -233,6 +243,7 @@ public class World {
 	}
 
 	public TerrainPair getCreateTerrainPairForGeneration() {
+		blocksRequested++;
 		TerrainPair pair = terrain.getOldest();
 		if (pair == null) {
 			pair = new TerrainPair(0, 0);
@@ -291,7 +302,7 @@ public class World {
 		//amount of blocks to the right edge of the screen
 		final int lengthToTheRight = worldWidth - player.getXPosScreen();
 		int neededBlocks = (int) ((player.getXPos() + lengthToTheRight) / Reference.BLOCK_WIDTH + Reference.TERRAIN_MIN_BUFFER_RIGHT);
-		int missingBlocks =  neededBlocks - blocksGenerated;
+		int missingBlocks =  neededBlocks - getBlocksGenerated();
 		if(missingBlocks >= 0) {
 			return missingBlocks + Reference.TERRAIN_BUFFER;
 		}
@@ -308,7 +319,8 @@ public class World {
 	public TerrainPair getBlockForScreenPosition(float x) {
 //		int index = blocksGenerated - (player.getXPos() / Reference.BLOCK_WIDTH) - player.getXPosScreen();
 //		return getTerrainPairForIndex(index + x);
-		return getTerrainPairForBlockIndex(convertScreenCoordToWorldBlockIndex(x));
+//		return getTerrainPairForBlockIndex(convertScreenCoordToWorldBlockIndex(x));
+		return getTerrainPairForIndex(convertScreenCoordToLocalBlockIndex(x));
 	}
 
 	public void onPlayerCollide() {
@@ -327,6 +339,7 @@ public class World {
 
 	public void restart() {
 		blocksGenerated = 0;
+		blocksRequested = 0;
 		obstacles.clear();
 		generateObstacles();
 		player.reset();
@@ -408,6 +421,13 @@ public class World {
 
 	public float convertScreenYToWorldCoordinate(float screenY) {
 		return screenY - Reference.GAME_UI_Y_SIZE - screen.uiPos;
+	}
+
+	/**
+	 * Converts a screen Coordinate to the block buffer index of the TerrainPair at the x Position
+	 */
+	public int convertScreenCoordToLocalBlockIndex(float screenX) {
+		return getBlocksGenerated() - (int) ((player.getXPos() + screenX - player.getXPosScreen()) / Reference.BLOCK_WIDTH) - 1;
 	}
 
 	/**

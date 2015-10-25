@@ -44,7 +44,9 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	public void update(float deltaTick, InputManager inputManager) {
 		xPos += deltaTick * velocity;
-		yPos += deltaTick * yVelocity;
+		if(!Reference.DEBUG_GOD_MODE) {
+			yPos += deltaTick * yVelocity;
+		}
 
 		//speed update
 		if (inputManager.isTouched() || inputManager.isSpaceDown()) {

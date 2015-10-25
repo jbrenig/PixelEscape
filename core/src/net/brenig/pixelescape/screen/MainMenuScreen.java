@@ -13,10 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.lib.Reference;
+import net.brenig.pixelescape.screen.ui.TwoStateImageButton;
 
 /**
  * Created by Jonas Brenig on 02.08.2015.
@@ -24,20 +25,29 @@ import net.brenig.pixelescape.lib.Reference;
 public class MainMenuScreen implements Screen {
 
 	private final PixelEscape game;
-
 	private Stage uiStage;
+
+	/**
+	 * layout used to group main ui elements
+	 */
 	private Table menuLayout;
+
+	/**
+	 * layout used to group setting buttons
+	 */
 	private HorizontalGroup headLayout;
 
 	private TextButton btnStart;
 	private TextButton btnQuit;
 
 	private ImageButton btnSettings;
+	private TwoStateImageButton btnSound;
+	private TwoStateImageButton btnMusic;
 
 	public MainMenuScreen(final PixelEscape game) {
 		this.game = game;
 		//Setting up stage
-		uiStage = new Stage(new ScreenViewport());
+		uiStage = new Stage(new ExtendViewport(Reference.TARGET_RESOLUTION_X, Reference.TARGET_RESOLUTION_Y, game.cam));
 		uiStage.setDebugAll(Reference.DEBUG_UI);
 
 		game.resetFontSize();
@@ -49,15 +59,43 @@ public class MainMenuScreen implements Screen {
 		headLayout.reverse();
 		headLayout.pad(10);
 
-		btnSettings = new ImageButton(game.skin);
+		btnSettings = new ImageButton(game.skin, "settings");
 		btnSettings.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				game.setScreen(new SettingsScreen(game));
 			}
 		});
-
 		headLayout.addActor(btnSettings);
+
+		btnSound = new TwoStateImageButton(game.skin, "sound");
+		btnSound.setState(game.gameSettings.soundEnabled);
+		btnSound.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				//Invert current selection
+				//btn checked --> no sound
+				//btn not checked --> sound enabled
+				game.gameSettings.soundEnabled = !btnSound.getState();
+				btnSound.setState(game.gameSettings.soundEnabled);
+			}
+		});
+		headLayout.addActor(btnSound);
+
+		btnMusic = new TwoStateImageButton(game.skin, "music");
+		btnMusic.setState(game.gameSettings.musicEnabled);
+		btnMusic.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				//Invert current selection
+				//btn checked --> no music
+				//btn not checked --> music enabled
+				game.gameSettings.musicEnabled = !btnMusic.getState();
+				btnMusic.setState(game.gameSettings.musicEnabled);
+				game.updateMusicPlaying();
+			}
+		});
+		headLayout.addActor(btnMusic);
 
 
 		menuLayout = new Table();
@@ -130,7 +168,7 @@ public class MainMenuScreen implements Screen {
 
 	@Override
 	public void hide() {
-		uiStage.dispose();
+		dispose();
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package net.brenig.pixelescape.render.overlay;
 
+import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.screen.GameScreen;
 
 /**
@@ -32,7 +33,7 @@ public final class EmptyOverlay extends Overlay {
 
 	@Override
 	public void onResize(int width, int height) {
-		if(!screen.isFirstUpdate()) {
+		if (!screen.isFirstUpdate() && Reference.AUTO_PAUSE) {
 			screen.showGamePausedOverlay();
 		}
 	}

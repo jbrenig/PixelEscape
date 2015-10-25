@@ -11,11 +11,25 @@ button
   orig: 128, 32
   offset: 0, 0
   index: -1
+button
+  rotate: false
+  xy: 1, 1
+  size: 128, 32
+  orig: 128, 32
+  offset: 0, 0
+  index: -1
 button_clicked
   rotate: false
   xy: 131, 1
   size: 128, 32
   split: 10, 10, 10, 10
+  orig: 128, 32
+  offset: 0, 0
+  index: -1
+button_clicked
+  rotate: false
+  xy: 131, 1
+  size: 128, 32
   orig: 128, 32
   offset: 0, 0
   index: -1
@@ -27,6 +41,13 @@ button_disabled
   orig: 128, 32
   offset: 0, 0
   index: -1
+button_disabled
+  rotate: false
+  xy: 261, 1
+  size: 128, 32
+  orig: 128, 32
+  offset: 0, 0
+  index: -1
 button_hover
   rotate: false
   xy: 391, 1
@@ -35,16 +56,58 @@ button_hover
   orig: 128, 32
   offset: 0, 0
   index: -1
-gear_settings
+button_hover
+  rotate: false
+  xy: 391, 1
+  size: 128, 32
+  orig: 128, 32
+  offset: 0, 0
+  index: -1
+button_pause
   rotate: false
   xy: 521, 1
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-gear_settings_white
+gear_settings
   rotate: false
   xy: 555, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+gear_settings_white
+  rotate: false
+  xy: 589, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+music_disabled
+  rotate: false
+  xy: 623, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+music_enabled
+  rotate: false
+  xy: 657, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+sound_disabled
+  rotate: false
+  xy: 691, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+sound_enabled
+  rotate: false
+  xy: 725, 1
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

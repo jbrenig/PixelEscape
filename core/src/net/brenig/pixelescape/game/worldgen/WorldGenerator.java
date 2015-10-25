@@ -6,6 +6,7 @@ import net.brenig.pixelescape.game.worldgen.terrain.FlatCorridor;
 import net.brenig.pixelescape.game.worldgen.terrain.RandomTerrainGenerator;
 import net.brenig.pixelescape.game.worldgen.terrain.TerrainClosing;
 import net.brenig.pixelescape.game.worldgen.terrain.TerrainOpening;
+import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
 
 import java.util.Iterator;
@@ -69,20 +70,24 @@ public class WorldGenerator {
 			if(gens.size() <= 0) {
 				break;
 			}
-			ITerrainGenerator gen = ceilEntry(random.nextInt(remaingWeight), gens);
-//			ITerrainGenerator gen = gens.ceilingEntry(random.nextInt(remaingWeight)).getValue();
-			int generated = gen.generate(world, old, blockToGenerate, world.blocksGenerated, random);
+			int lastRequested = world.blocksRequested;
+			ITerrainGenerator gen = ceilValue(random.nextInt(remaingWeight), gens);
+			int generated = gen.generate(world, old, blockToGenerate, world.getBlocksGenerated(), random);
 			blockToGenerate -= generated;
 			world.blocksGenerated += generated;
 			generationPasses--;
+			if(blockToGenerate < 0) {
+				LogHelper.error("Invalid World Gen!! Generator ignoring MAX! Generator: " + gen);
+			}
+			if((lastRequested + generated) != world.blocksRequested) {
+				LogHelper.error("Invalid World Gen!! Generator returnvalue invalid! Generator: " + gen + "; generated: " + generated + "; lastGen: " + lastRequested + "; currentGen: " + world.blocksRequested + "; blocksGenerated: " + world.blocksGenerated);
+			}
 		}
-//		if (fillArray && world.getBlocksToGenerate() < 0) {
-//			world.blocksGenerated += world.getBlocksToGenerate();
-//		}
 		world.generateObstacles();
 	}
 
-	private ITerrainGenerator ceilEntry(final int key, TreeMap<Integer, ITerrainGenerator> map) {
+	private ITerrainGenerator ceilValue(final int key, TreeMap<Integer, ITerrainGenerator> map) {
+//			ITerrainGenerator gen = gens.ceilingEntry(random.nextInt(remaingWeight)).getValue();
 		int lastKey = Integer.MAX_VALUE;
 		for(int i : map.keySet()) {
 			if(i >= key && i <= lastKey) {

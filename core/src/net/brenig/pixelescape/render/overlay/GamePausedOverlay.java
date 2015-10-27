@@ -20,7 +20,11 @@ import net.brenig.pixelescape.screen.ui.StageManagerGame;
  * Created by Jonas Brenig on 07.09.2015.
  */
 public class GamePausedOverlay extends Overlay implements InputProcessor {
+
+	private static final float ANIM_TIME_PAUSED = 0.4F;
 	private StageManagerGame stage;
+
+	private float animationProgress = 0;
 
 	public GamePausedOverlay(final GameScreen screen) {
 		super(screen);
@@ -53,16 +57,22 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 	}
 
 	@Override
+	public void renderFirst(float delta) {
+		if(Reference.SCREEN_TINT_STRENGTH > 0 && animationProgress > 0) {
+			renderScreenTint(Utils.easeOut(animationProgress, ANIM_TIME_PAUSED, 2) * Reference.SCREEN_TINT_STRENGTH);
+		}
+	}
+
+	@Override
 	public void render(float delta) {
-		//TODO: re-do this animation and layout
-		//Game Over
+		//Game Paused
 		screen.game.batch.begin();
 		screen.game.font.setColor(0, 0, 1, 1);
 		screen.game.font.getData().setScale(2, 4);
 		screen.fontLayout.setText(screen.game.font, "Game Paused!");
 		float xPos = screen.world.getWorldWidth() / 2 - screen.fontLayout.width / 2;
 		float txtGameOverHeight = screen.fontLayout.height / 2;
-		float yPos = ((2 * screen.world.getWorldHeight()) / 3) + screen.uiPos; // + txtGameOverHeight;
+		float yPos = ((2 * screen.world.getWorldHeight()) / 3) + screen.uiPos + txtGameOverHeight;
 		screen.game.font.draw(screen.game.batch, screen.fontLayout, xPos, yPos);
 		screen.game.batch.end();
 
@@ -73,7 +83,7 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 		screen.fontLayout.setText(screen.game.font, "Your score: " + screen.world.player.getScore());
 		xPos = screen.world.getWorldWidth() / 2 - screen.fontLayout.width / 2;
 		float txtScoreHeight = screen.fontLayout.height / 2;
-		yPos -= txtGameOverHeight + screen.game.font.getLineHeight();// + txtScoreHeight;
+		yPos -= txtGameOverHeight + screen.game.font.getLineHeight()+ txtScoreHeight;
 		screen.game.font.draw(screen.game.batch, screen.fontLayout, xPos, yPos);
 		screen.game.batch.end();
 
@@ -84,7 +94,7 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 		screen.fontLayout.setText(screen.game.font, "Highscore: " + screen.game.userData.highScore);
 		xPos = screen.world.getWorldWidth() / 2 - screen.fontLayout.width / 2;
 		float txtHighscoreHeight = screen.fontLayout.height / 2;
-		yPos -= screen.game.font.getLineHeight() + txtScoreHeight;
+		yPos -= screen.game.font.getLineHeight() + txtScoreHeight + txtHighscoreHeight;
 		screen.game.font.draw(screen.game.batch, screen.fontLayout, xPos, yPos);
 		screen.game.batch.end();
 
@@ -94,7 +104,7 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 		screen.game.font.getData().setScale(0.8F);
 		screen.fontLayout.setText(screen.game.font, "Tap to continue!");
 		xPos = screen.world.getWorldWidth() / 2 - screen.fontLayout.width / 2;
-		yPos -= screen.game.font.getLineHeight() + txtHighscoreHeight; // + screen.fontLayout.height / 2;
+		yPos -= screen.game.font.getLineHeight() + txtHighscoreHeight + screen.fontLayout.height / 2;
 		screen.game.font.draw(screen.game.batch, screen.fontLayout, xPos, yPos);
 		screen.game.batch.end();
 
@@ -102,6 +112,8 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 		screen.game.font.getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 		stage.draw();
 		stage.act(delta);
+
+		animationProgress += delta;
 	}
 
 	@Override

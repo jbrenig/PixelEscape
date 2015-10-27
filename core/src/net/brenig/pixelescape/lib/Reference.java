@@ -64,6 +64,8 @@ public class Reference {
 	public static final float TOUCH_ACCELERATION = 20 * BLOCK_WIDTH;
 	public static final float CLICK_ACCELERATION = 200 * BLOCK_WIDTH;
 
+	public static final float SCREEN_TINT_STRENGTH = 0.4F;
+
 
 	//////////////////
 	// DEBUG CONFIG //
@@ -77,7 +79,7 @@ public class Reference {
 	public static final boolean DEBUG_MODE_COORDS           = false;
 	public static final boolean DEBUG_WORLD_GEN_VALIDATE    = false;
 	public static final boolean DEBUG_SCREEN_BOUNDS         = false;
-	public static final boolean DEBUG_UI                    = true;
+	public static final boolean DEBUG_UI                    = false;
 	public static final boolean DEBUG_LOGGING               = true;
 	public static final boolean DEBUG_GOD_MODE              = false;
 }

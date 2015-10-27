@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.screen.GameScreen;
-import net.brenig.pixelescape.screen.ui.StageManager;
 import net.brenig.pixelescape.screen.ui.TwoStateImageButton;
 
 /**
@@ -20,6 +19,7 @@ public class Utils {
 
 	/**
 	 * Updates a table to the world bounds
+	 *
 	 * @param table table to resize
 	 * @param world current world instance
 	 * @param uiPos current uiPos
@@ -43,7 +43,7 @@ public class Utils {
 	 * creates an instance of Table to use for sound and music controls (unnecessary)
 	 */
 	public static Table createUIHeadLayout(PixelEscape game) {
-		Table table =  new Table();
+		Table table = new Table();
 		Drawable ninePatch = Utils.minimizeNinePatch((NinePatchDrawable) game.skin.getDrawable("up"));
 		table.setBackground(ninePatch);
 		//minimze padding
@@ -53,6 +53,7 @@ public class Utils {
 
 	/**
 	 * creates a new {@link Table} with two TwoStateButtons that are used to control sound and music
+	 *
 	 * @param game instance of the game
 	 * @return the table they got added to
 	 */
@@ -62,7 +63,8 @@ public class Utils {
 
 	/**
 	 * adds two TwoStateButtons to a Table that are used to control sound and music
-	 * @param game instance of the game
+	 *
+	 * @param game   instance of the game
 	 * @param layout the table they should get added to
 	 * @return the table they got added to
 	 */
@@ -101,6 +103,7 @@ public class Utils {
 	/**
 	 * NinePatchDrawables use their total size as minimum size by default
 	 * This helper function resizes them to their minimum, so they can be resized to be smaller than their total size
+	 *
 	 * @param patch The ninepatch to minimize
 	 * @return the given, minimized Ninepatch
 	 */
@@ -109,4 +112,25 @@ public class Utils {
 		patch.setMinWidth(patch.getPatch().getLeftWidth() + patch.getPatch().getRightWidth());
 		return patch;
 	}
+
+
+	public static float easeOut(float timePassed, float maxTime, int intensity, float target) {
+		return easeOut(timePassed, maxTime, intensity) * target;
+	}
+
+	public static float easeOut(float timePassed, float maxTime, int intensity) {
+		if (timePassed > maxTime) {
+			return 1;
+		}
+		return (float) (1 - Math.pow(1 - (timePassed / maxTime), intensity));
+	}
+
+	public static float easeInAndOut(float timePassed, float maxTime) {
+		if(timePassed > maxTime) {
+			return 1;
+		}
+		float t = timePassed / maxTime;
+		return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+	}
+
 }

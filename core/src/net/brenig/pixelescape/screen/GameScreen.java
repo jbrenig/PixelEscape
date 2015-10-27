@@ -153,6 +153,9 @@ public class GameScreen implements Screen {
 			//drawScoreScreen(delta);
 		}
 
+		//Overlay first callback
+		overlay.renderFirst(delta);
+
 		//UI
 		if(!overlay.shouldHideGameUI()) {
 			this.game.font.getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);

@@ -1,5 +1,9 @@
 package net.brenig.pixelescape.render.overlay;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 import net.brenig.pixelescape.screen.GameScreen;
 
 /**
@@ -20,6 +24,13 @@ public abstract class Overlay {
 	 * Called when the Overly gets displayed to the player
 	 */
 	public void show() {}
+
+	/**
+	 * method to render effects on the world<br></br>
+	 * (gets called before game ui is rendered)
+	 * @param delta time passed between frames in seconds
+	 */
+	public void renderFirst(float delta) {}
 
 	/**
 	 * renders the overlay
@@ -83,6 +94,32 @@ public abstract class Overlay {
 	@Deprecated
 	public boolean shouldHideScore() {
 		return false;
+	}
+
+	/**
+	 * Renders a black, transparent overlay
+	 */
+	protected void renderScreenTint() {
+		renderScreenTint(0.3F);
+	}
+
+	/**
+	 * Renders a black, transparent overlay
+	 */
+	protected void renderScreenTint(float alpha) {
+		renderScreenTint(0, 0, 0, alpha);
+	}
+
+	/**
+	 * Renders a coloured overlay in the given color
+	 */
+	protected void renderScreenTint(float r, float g, float b, float a) {
+		screen.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		Gdx.gl.glEnable(GL20.GL_BLEND);
+		screen.game.shapeRenderer.setColor(r, g, b, a);
+		screen.game.shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		screen.game.shapeRenderer.end();
+		Gdx.gl.glDisable(GL20.GL_BLEND);
 	}
 
 }

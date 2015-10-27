@@ -52,12 +52,21 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 	}
 
 	@Override
+	public void renderFirst(float delta) {
+		if(Reference.SCREEN_TINT_STRENGTH > 0 && animationProgress > 0) {
+			renderScreenTint(Utils.easeOut(animationProgress, ANIM_TIME_GAME_OVER, 2) * Reference.SCREEN_TINT_STRENGTH);
+		}
+	}
+
+	@Override
 	public void render(float delta) {
+
 		//Game Over
 		screen.game.batch.begin();
 		screen.game.font.setColor(1, 0, 0, 1);
 		screen.game.font.getData().setScale(2, 4);
 		screen.fontLayout.setText(screen.game.font, "Game Over!");
+		//Slide in
 		float gameOverAnim = Math.max(0, screen.world.getWorldHeight() / 4 - screen.world.getWorldHeight() / 4 * (animationProgress / ANIM_TIME_GAME_OVER));
 		float xPos = screen.world.getWorldWidth() / 2 - screen.fontLayout.width / 2;
 		float txtGameOverHeight = screen.fontLayout.height / 2;
@@ -78,7 +87,7 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 
 		//Highscore
 		screen.game.batch.begin();
-		if(screen.game.userData.lastHighScore < screen.world.player.getScore()) {
+		if (screen.game.userData.lastHighScore < screen.world.player.getScore()) {
 			screen.game.font.setColor(0, 1, 0, 1);
 			screen.game.font.getData().setScale(1.2F);
 			screen.fontLayout.setText(screen.game.font, "New Highscore!");

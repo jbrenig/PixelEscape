@@ -5,18 +5,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.lib.Reference;
+import net.brenig.pixelescape.lib.Utils;
+import net.brenig.pixelescape.screen.ui.StageManager;
 import net.brenig.pixelescape.screen.ui.TwoStateImageButton;
 
 /**
@@ -25,7 +26,7 @@ import net.brenig.pixelescape.screen.ui.TwoStateImageButton;
 public class MainMenuScreen implements Screen {
 
 	private final PixelEscape game;
-	private Stage uiStage;
+	private StageManager uiStage;
 
 	/**
 	 * layout used to group main ui elements
@@ -35,7 +36,7 @@ public class MainMenuScreen implements Screen {
 	/**
 	 * layout used to group setting buttons
 	 */
-	private HorizontalGroup headLayout;
+	private Table headLayout;
 
 	private TextButton btnStart;
 	private TextButton btnQuit;
@@ -47,17 +48,17 @@ public class MainMenuScreen implements Screen {
 	public MainMenuScreen(final PixelEscape game) {
 		this.game = game;
 		//Setting up stage
-		uiStage = new Stage(new ExtendViewport(Reference.TARGET_RESOLUTION_X, Reference.TARGET_RESOLUTION_Y, game.cam));
-		uiStage.setDebugAll(Reference.DEBUG_UI);
+		uiStage = new StageManager(new ExtendViewport(Reference.TARGET_RESOLUTION_X, Reference.TARGET_RESOLUTION_Y, game.cam));
 
 		game.resetFontSize();
 
-		headLayout = new HorizontalGroup();
-		headLayout.setFillParent(true);
-		headLayout.setPosition(0, 0);
-		headLayout.align(Align.right | Align.top);
-		headLayout.reverse();
-		headLayout.pad(10);
+		headLayout = Utils.createUIHeadLayout();
+		Drawable ninePatch = Utils.minimizeNinePatch((NinePatchDrawable) game.skin.getDrawable("up"));
+		headLayout.setBackground(ninePatch);
+		//minimze padding
+		headLayout.pad(4, 4, 4, 4);
+
+		Utils.addSoundAndMusicControllerToLayout(game, headLayout);
 
 		btnSettings = new ImageButton(game.skin, "settings");
 		btnSettings.addListener(new ClickListener() {
@@ -66,36 +67,8 @@ public class MainMenuScreen implements Screen {
 				game.setScreen(new SettingsScreen(game));
 			}
 		});
-		headLayout.addActor(btnSettings);
+		headLayout.add(btnSettings);
 
-		btnSound = new TwoStateImageButton(game.skin, "sound");
-		btnSound.setState(game.gameSettings.soundEnabled);
-		btnSound.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				//Invert current selection
-				//btn checked --> no sound
-				//btn not checked --> sound enabled
-				game.gameSettings.soundEnabled = !btnSound.getState();
-				btnSound.setState(game.gameSettings.soundEnabled);
-			}
-		});
-		headLayout.addActor(btnSound);
-
-		btnMusic = new TwoStateImageButton(game.skin, "music");
-		btnMusic.setState(game.gameSettings.musicEnabled);
-		btnMusic.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				//Invert current selection
-				//btn checked --> no music
-				//btn not checked --> music enabled
-				game.gameSettings.musicEnabled = !btnMusic.getState();
-				btnMusic.setState(game.gameSettings.musicEnabled);
-				game.updateMusicPlaying();
-			}
-		});
-		headLayout.addActor(btnMusic);
 
 
 		menuLayout = new Table();
@@ -129,15 +102,16 @@ public class MainMenuScreen implements Screen {
 		menuLayout.row();
 		menuLayout.add(btnQuit);
 
-		uiStage.addActor(headLayout);
-		uiStage.addActor(menuLayout);
+		uiStage.getRootTable().top().right().pad(4);
+		uiStage.add(headLayout);
+		uiStage.addActorToStage(menuLayout);
 	}
 
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(uiStage);
+		Gdx.input.setInputProcessor(uiStage.getInputProcessor());
 		game.resetFontSize();
-		uiStage.getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+		uiStage.updateViewportToScreen();
 		menuLayout.invalidateHierarchy();
 		headLayout.invalidateHierarchy();
 	}
@@ -151,9 +125,8 @@ public class MainMenuScreen implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		uiStage.getViewport().update(width, height, true);
+		uiStage.updateViewport(width, height, true);
 		menuLayout.invalidateHierarchy();
-		headLayout.invalidateHierarchy();
 	}
 
 	@Override

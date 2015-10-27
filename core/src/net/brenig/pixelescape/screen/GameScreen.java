@@ -25,6 +25,8 @@ import net.brenig.pixelescape.render.overlay.EmptyOverlay;
 import net.brenig.pixelescape.render.overlay.GameOverOverlay;
 import net.brenig.pixelescape.render.overlay.GamePausedOverlay;
 import net.brenig.pixelescape.render.overlay.Overlay;
+import net.brenig.pixelescape.screen.ui.HorizontalSpacer;
+import net.brenig.pixelescape.screen.ui.ScoreWidget;
 
 
 /**
@@ -98,6 +100,8 @@ public class GameScreen implements Screen {
 			}
 		});
 		table.add(mainMenu).padTop(20).padLeft(10);
+		table.add(new HorizontalSpacer());
+		table.add(new ScoreWidget(world.player, fontLayout, game)).left().padTop(20).padRight(10);
 
 		//init input
 		gameInput = new InputManager();
@@ -149,7 +153,7 @@ public class GameScreen implements Screen {
 
 		//Draw Score Screen
 		if(!overlay.shouldHideScore()) {
-			drawScoreScreen(delta);
+			//drawScoreScreen(delta);
 		}
 
 		//UI
@@ -203,7 +207,6 @@ public class GameScreen implements Screen {
 
 		//Score
 		game.batch.begin();
-		game.font.setColor(0, 0, 0, 1);
 		game.font.draw(game.batch, fontLayout, world.getWorldWidth() - 20 - 8 - lastScoreScreenWidth, uiPos + world.getWorldHeight() + 20 + 8 + fontLayout.height);
 		game.batch.end();
 	}

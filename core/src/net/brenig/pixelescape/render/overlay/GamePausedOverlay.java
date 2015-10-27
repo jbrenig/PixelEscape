@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -21,7 +22,7 @@ import net.brenig.pixelescape.screen.GameScreen;
 public class GamePausedOverlay extends Overlay implements InputProcessor {
 	private Stage stage;
 	private Table table;
-	private TextButton mainMenu;
+	private HorizontalGroup headLayout;
 
 	public GamePausedOverlay(final GameScreen screen) {
 		super(screen);
@@ -35,8 +36,12 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 
 		stage.addActor(table);
 
+		//TODO add sound controls to game paused and game over screen
+//		headLayout = Utils.addSoundAndMusicControllerToLayout(screen.game, Utils.createUIHeadLayout());
+//		stage.addActor(headLayout);
+
 		screen.game.font.getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
-		mainMenu = new TextButton("Main Menu", screen.game.skin);
+		TextButton mainMenu = new TextButton("Main Menu", screen.game.skin);
 		mainMenu.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -113,6 +118,7 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 	@Override
 	public void onResize(int width, int height) {
 		Utils.updateUIElementsToScreen(screen, stage, table, width, height);
+//		headLayout.invalidateHierarchy();
 	}
 
 	@Override

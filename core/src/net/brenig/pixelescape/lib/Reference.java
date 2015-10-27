@@ -67,15 +67,15 @@ public class Reference {
 	// DEBUG CONFIG //
 	//////////////////
 
-	public static final boolean PLAYER_EXPLOSION_RED = false;
-	public static final boolean AUTO_PAUSE = true;
+	public static final boolean PLAYER_EXPLOSION_RED        = false;
+	public static final boolean AUTO_PAUSE                  = true;
 
-	public static final boolean SHOW_FPS = false;
+	public static final boolean SHOW_FPS                    = false;
 
-	public static final boolean DEBUG_MODE_COORDS = false;
-	public static final boolean DEBUG_WORLD_GEN_VALIDATE = false;
-	public static final boolean DEBUG_GAME_SCREEN = false;
-	public static final boolean DEBUG_UI = false;
-	public static final boolean DEBUG_LOGGING = true;
-	public static final boolean DEBUG_GOD_MODE = false;
+	public static final boolean DEBUG_MODE_COORDS           = false;
+	public static final boolean DEBUG_WORLD_GEN_VALIDATE    = false;
+	public static final boolean DEBUG_GAME_SCREEN           = false;
+	public static final boolean DEBUG_UI                    = false;
+	public static final boolean DEBUG_LOGGING               = true;
+	public static final boolean DEBUG_GOD_MODE              = false;
 }

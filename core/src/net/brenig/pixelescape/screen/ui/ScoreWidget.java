@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.entity.EntityPlayer;
 import net.brenig.pixelescape.lib.Reference;
+import net.brenig.pixelescape.screen.GameScreen;
 
 /**
  * Created by Jonas Brenig on 27.10.2015.
@@ -21,6 +22,10 @@ public class ScoreWidget extends Widget {
 	private float lastScoreScreenWidth = 0;
 	private static final int paddingSide = 0;
 	private static final int paddingHeight = 0;
+
+	public ScoreWidget(GameScreen screen) {
+		this(screen.world.player, screen.fontLayout, screen.game);
+	}
 
 	public ScoreWidget(EntityPlayer player, GlyphLayout fontLayout, PixelEscape game) {
 		super();
@@ -46,7 +51,7 @@ public class ScoreWidget extends Widget {
 
 	private void setScoreText() {
 		String score = SCORE_TEXT + player.getScore();
-		game.font.getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
+//		game.font.getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 		fontLayout.setText(game.font, score);
 		if (fontLayout.width > lastScoreScreenWidth || lastScoreScreenWidth - fontLayout.width > Reference.GAME_UI_SCORE_SCREEN_SIZE_BUFFER) {
 			lastScoreScreenWidth = fontLayout.width;

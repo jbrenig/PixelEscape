@@ -15,8 +15,8 @@ import net.brenig.pixelescape.lib.Reference;
  */
 public class StageManager {
 	
-	private Stage uiStage;
-	private Table rootTable;
+	protected Stage uiStage;
+	protected Table rootTable;
 	
 	public StageManager(Viewport view) {
 		uiStage = new Stage(view);

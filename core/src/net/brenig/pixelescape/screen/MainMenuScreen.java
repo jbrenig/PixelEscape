@@ -10,8 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import net.brenig.pixelescape.PixelEscape;
@@ -52,11 +50,7 @@ public class MainMenuScreen implements Screen {
 
 		game.resetFontSize();
 
-		headLayout = Utils.createUIHeadLayout();
-		Drawable ninePatch = Utils.minimizeNinePatch((NinePatchDrawable) game.skin.getDrawable("up"));
-		headLayout.setBackground(ninePatch);
-		//minimze padding
-		headLayout.pad(4, 4, 4, 4);
+		headLayout = Utils.createUIHeadLayout(game);
 
 		Utils.addSoundAndMusicControllerToLayout(game, headLayout);
 

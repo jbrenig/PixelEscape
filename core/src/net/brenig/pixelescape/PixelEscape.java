@@ -27,6 +27,8 @@ import net.brenig.pixelescape.screen.ui.TwoStateImageButton;
 
 public class PixelEscape extends Game {
 
+	private static PixelEscape instance;
+
 	/**
 	 * Main ShapeRenderer
 	 */
@@ -48,7 +50,7 @@ public class PixelEscape extends Game {
 	public OrthographicCamera cam;
 
 	/**
-	 * GameOverSOund
+	 * GameOverSound
 	 */
 	public Sound gameOverSound;
 
@@ -79,6 +81,10 @@ public class PixelEscape extends Game {
 	@Override
 	public void create() {
 		LogHelper.log("Main", "Starting up...");
+		if(instance != null) {
+			throw new IllegalStateException("Critical Error! Game already initialized!");
+		}
+		instance = this;
 
 		//initialize drawing area
 		batch = new SpriteBatch();
@@ -197,6 +203,10 @@ public class PixelEscape extends Game {
 //		CycleArrayTest.runTest();
 
 		LogHelper.log("Main", "Finished loading!");
+	}
+
+	public static PixelEscape getPixelEscape() {
+		return instance;
 	}
 
 	@Override

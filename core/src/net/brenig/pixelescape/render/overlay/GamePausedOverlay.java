@@ -5,40 +5,32 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.screen.GameScreen;
+import net.brenig.pixelescape.screen.ui.HorizontalSpacer;
+import net.brenig.pixelescape.screen.ui.ScoreWidget;
+import net.brenig.pixelescape.screen.ui.StageManagerGame;
 
 /**
  * Created by Jonas Brenig on 07.09.2015.
  */
 public class GamePausedOverlay extends Overlay implements InputProcessor {
-	private Stage stage;
-	private Table table;
-	private HorizontalGroup headLayout;
+	private StageManagerGame stage;
 
 	public GamePausedOverlay(final GameScreen screen) {
 		super(screen);
-		stage = new Stage(new ExtendViewport(Reference.TARGET_RESOLUTION_X, Reference.TARGET_RESOLUTION_Y, screen.game.cam));
-		stage.setDebugAll(Reference.DEBUG_UI);
+		stage = new StageManagerGame(screen);
 
-		table = new Table();
-		table.setPosition(0, screen.uiPos);
-		table.setSize(screen.world.getWorldWidth(), screen.world.getWorldHeight() + Reference.GAME_UI_Y_SIZE);
+		Table table = new Table();
 		table.left().top();
+		table.padTop(20).padLeft(10).padRight(10);
 
-		stage.addActor(table);
-
-		//TODO add sound controls to game paused and game over screen
-//		headLayout = Utils.addSoundAndMusicControllerToLayout(screen.game, Utils.createUIHeadLayout());
-//		stage.addActor(headLayout);
+		stage.add(table);
 
 		screen.game.font.getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 		TextButton mainMenu = new TextButton("Main Menu", screen.game.skin);
@@ -48,16 +40,21 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 				screen.showMainMenu();
 			}
 		});
-		table.add(mainMenu).padTop(20).padLeft(10);
+		table.add(mainMenu);
+
+		table.add(new HorizontalSpacer());
+		table.add(Utils.addSoundAndMusicControllerToLayout(screen.game, Utils.createUIHeadLayout(screen.game)));
+		table.add(new ScoreWidget(screen));
 	}
 
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(new InputMultiplexer(stage, this));
+		Gdx.input.setInputProcessor(new InputMultiplexer(stage.getInputProcessor(), this));
 	}
 
 	@Override
 	public void render(float delta) {
+		//TODO: re-do this animation and layout
 		//Game Over
 		screen.game.batch.begin();
 		screen.game.font.setColor(0, 0, 1, 1);
@@ -117,8 +114,7 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 
 	@Override
 	public void onResize(int width, int height) {
-		Utils.updateUIElementsToScreen(screen, stage, table, width, height);
-//		headLayout.invalidateHierarchy();
+		stage.updateStageToGameBounds(width, height);
 	}
 
 	@Override

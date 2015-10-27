@@ -22,11 +22,13 @@ public class Reference {
 	public static final double STARTING_SPEED = 100D;
 	public static final float SPEED_MODIFIER = 3F;
 
+	//PATH ENTITIES
 	public static final int PLAYER_ENTITY_SIZE = 10;
 	public static final int PATH_ENTITY_SIZE = 6;
 	public static final float PATH_ENTITY_ACCELERATION_MOD = 0.0008F;
 	public static final int PATH_ENTITY_OFFSET = 16;
 
+	//SIMULATION LIMITS
 	public static final float MAX_FRAME_TIME = 1;
 	public static final float MAX_ENTITY_SPEED = 1000;
 
@@ -74,8 +76,8 @@ public class Reference {
 
 	public static final boolean DEBUG_MODE_COORDS           = false;
 	public static final boolean DEBUG_WORLD_GEN_VALIDATE    = false;
-	public static final boolean DEBUG_GAME_SCREEN           = false;
-	public static final boolean DEBUG_UI                    = false;
+	public static final boolean DEBUG_SCREEN_BOUNDS         = false;
+	public static final boolean DEBUG_UI                    = true;
 	public static final boolean DEBUG_LOGGING               = true;
 	public static final boolean DEBUG_GOD_MODE              = false;
 }

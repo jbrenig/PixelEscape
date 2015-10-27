@@ -77,8 +77,10 @@ public abstract class Overlay {
 	}
 
 	/**
-	 * @return true if the score widget should be hidden
+	 * @deprecated has no effect anymore, as score is now displayed in a widget
+	 * @see #shouldHideGameUI()
 	 */
+	@Deprecated
 	public boolean shouldHideScore() {
 		return false;
 	}

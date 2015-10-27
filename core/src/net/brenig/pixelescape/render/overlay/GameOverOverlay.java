@@ -5,15 +5,15 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.screen.GameScreen;
+import net.brenig.pixelescape.screen.ui.HorizontalSpacer;
+import net.brenig.pixelescape.screen.ui.StageManagerGame;
 
 /**
  * Created by Jonas Brenig on 06.08.2015.
@@ -25,22 +25,18 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 
 	private float animationProgress = 0;
 
-	private Stage stage;
+	private StageManagerGame stage;
 	private Table table;
 	private TextButton mainMenu;
 
 
 	public GameOverOverlay(final GameScreen screen) {
 		super(screen);
-		stage = new Stage(new ExtendViewport(Reference.TARGET_RESOLUTION_X, Reference.TARGET_RESOLUTION_Y, screen.game.cam));
-		stage.setDebugAll(Reference.DEBUG_UI);
+		stage = new StageManagerGame(screen);
 
 		table = new Table();
-		table.setPosition(0, screen.uiPos);
-		table.setSize(screen.world.getWorldWidth(), screen.world.getWorldHeight() + Reference.GAME_UI_Y_SIZE);
-		table.left().top();
-
-		stage.addActor(table);
+		table.padTop(20).padLeft(10).padRight(10);
+		stage.add(table);
 
 		mainMenu = new TextButton("Main Menu", screen.game.skin);
 		mainMenu.addListener(new ClickListener() {
@@ -50,7 +46,9 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 			}
 		});
 		mainMenu.setVisible(false);
-		table.add(mainMenu).padTop(20).padLeft(10);
+		table.add(mainMenu);
+		table.add(new HorizontalSpacer());
+		table.add(Utils.addSoundAndMusicControllerToLayout(screen.game));
 	}
 
 	@Override
@@ -119,12 +117,12 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(new InputMultiplexer(stage, this));
+		Gdx.input.setInputProcessor(new InputMultiplexer(stage.getInputProcessor(), this));
 	}
 
 	@Override
 	public void onResize(int width, int height) {
-		Utils.updateUIElementsToScreen(screen, stage, table, width, height);
+		stage.updateStageToGameBounds(width, height);
 	}
 
 	@Override

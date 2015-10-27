@@ -7,18 +7,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.worldgen.TerrainPair;
 import net.brenig.pixelescape.lib.Reference;
-import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.render.WorldRenderer;
 import net.brenig.pixelescape.render.overlay.CountDownOverlay;
 import net.brenig.pixelescape.render.overlay.EmptyOverlay;
@@ -27,6 +24,7 @@ import net.brenig.pixelescape.render.overlay.GamePausedOverlay;
 import net.brenig.pixelescape.render.overlay.Overlay;
 import net.brenig.pixelescape.screen.ui.HorizontalSpacer;
 import net.brenig.pixelescape.screen.ui.ScoreWidget;
+import net.brenig.pixelescape.screen.ui.StageManagerGame;
 
 
 /**
@@ -62,7 +60,7 @@ public class GameScreen implements Screen {
 
 	//Game UI
 	private final EmptyOverlay emptyOverlay;
-	private final Stage stage;
+	private final StageManagerGame stage;
 	private final Table table;
 	private final TextButton mainMenu;
 	private final InputManager gameInput;
@@ -81,15 +79,14 @@ public class GameScreen implements Screen {
 		this.emptyOverlay = new EmptyOverlay(this);
 
 		//init ui
-		stage = new Stage(new ExtendViewport(Reference.TARGET_RESOLUTION_X, Reference.TARGET_RESOLUTION_Y, game.cam));
-		stage.setDebugAll(Reference.DEBUG_UI);
+		stage = new StageManagerGame(this);
 
 		table = new Table();
-		table.setPosition(0, this.uiPos);
-		table.setSize(this.world.getWorldWidth(), this.world.getWorldHeight() + Reference.GAME_UI_Y_SIZE);
-		table.left().top();
+//		table.setPosition(0, this.uiPos);
+//		table.setSize(this.world.getWorldWidth(), this.world.getWorldHeight() + Reference.GAME_UI_Y_SIZE);
+//		table.left().top();
 
-		stage.addActor(table);
+		stage.add(table);
 
 		game.font.getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 		mainMenu = new TextButton("Pause", this.game.skin);
@@ -105,7 +102,7 @@ public class GameScreen implements Screen {
 
 		//init input
 		gameInput = new InputManager();
-		inputManager = new InputMultiplexer(stage, gameInput);
+		inputManager = new InputMultiplexer(stage.getInputProcessor(), gameInput);
 		Gdx.input.setInputProcessor(inputManager);
 
 		//set default overlay
@@ -142,7 +139,7 @@ public class GameScreen implements Screen {
 
 		//black background
 		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-		if(Reference.DEBUG_GAME_SCREEN) {
+		if(Reference.DEBUG_SCREEN_BOUNDS) {
 			game.shapeRenderer.setColor(1, 0, 0, 0);
 		} else {
 			game.shapeRenderer.setColor(0, 0, 0, 1);
@@ -219,7 +216,8 @@ public class GameScreen implements Screen {
 		world.resize(game.gameSizeX);
 		worldRenderer.setPosition(0, uiPos);
 		//Update UI
-		Utils.updateUIElementsToScreen(this, stage, table, width, height);
+//		Utils.updateUIElementsToScreen(this, stage, table, width, height);
+		stage.updateStageToGameBounds(width, height);
 		//update Overlay
 		overlay.onResize(width, height);
 	}
@@ -270,6 +268,11 @@ public class GameScreen implements Screen {
 		inputManager.mouseMoved(Gdx.input.getX(), Gdx.input.getY());
 	}
 
+	/**
+	 * Sets a new overlay as active<br></br>
+	 * disposes the old overlay and resets InputProcessors
+	 * @param o {@link Overlay} to show
+	 */
 	public void setOverlay(Overlay o) {
 		overlay.dispose();
 		resetInputManager();

@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.screen.GameScreen;
+import net.brenig.pixelescape.screen.ui.StageManager;
 import net.brenig.pixelescape.screen.ui.TwoStateImageButton;
 
 /**
@@ -41,13 +42,26 @@ public class Utils {
 	/**
 	 * creates an instance of Table to use for sound and music controls (unnecessary)
 	 */
-	@Deprecated
-	public static Table createUIHeadLayout() {
-		return new Table();
+	public static Table createUIHeadLayout(PixelEscape game) {
+		Table table =  new Table();
+		Drawable ninePatch = Utils.minimizeNinePatch((NinePatchDrawable) game.skin.getDrawable("up"));
+		table.setBackground(ninePatch);
+		//minimze padding
+		table.pad(4, 4, 4, 4);
+		return table;
 	}
 
 	/**
-	 * adds two TwoStateButtons to a Table that are used to controll sound and music
+	 * creates a new {@link Table} with two TwoStateButtons that are used to control sound and music
+	 * @param game instance of the game
+	 * @return the table they got added to
+	 */
+	public static Table addSoundAndMusicControllerToLayout(final PixelEscape game) {
+		return addSoundAndMusicControllerToLayout(game, createUIHeadLayout(game));
+	}
+
+	/**
+	 * adds two TwoStateButtons to a Table that are used to control sound and music
 	 * @param game instance of the game
 	 * @param layout the table they should get added to
 	 * @return the table they got added to

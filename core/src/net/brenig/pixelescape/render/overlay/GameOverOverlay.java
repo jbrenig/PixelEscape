@@ -67,7 +67,7 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 		screen.game.font.getData().setScale(2, 4);
 		screen.fontLayout.setText(screen.game.font, "Game Over!");
 		//Slide in
-		float gameOverAnim = Math.max(0, screen.world.getWorldHeight() / 4 - screen.world.getWorldHeight() / 4 * (animationProgress / ANIM_TIME_GAME_OVER));
+		float gameOverAnim = Math.max(0, screen.world.getWorldHeight() / 2 - screen.world.getWorldHeight() / 2 * Utils.easeOut(animationProgress, ANIM_TIME_GAME_OVER, 2));
 		float xPos = screen.world.getWorldWidth() / 2 - screen.fontLayout.width / 2;
 		float txtGameOverHeight = screen.fontLayout.height / 2;
 		float yPos = ((2 * screen.world.getWorldHeight()) / 3) + txtGameOverHeight + screen.uiPos + gameOverAnim;

@@ -15,6 +15,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
+import net.brenig.pixelescape.screen.ui.CurrentHighscoreLabel;
 import net.brenig.pixelescape.screen.ui.StageManager;
 import net.brenig.pixelescape.screen.ui.TwoStateImageButton;
 
@@ -91,6 +92,8 @@ public class MainMenuScreen implements Screen {
 
 		menuLayout.padTop(30);
 		menuLayout.add(header).padBottom(60);
+		menuLayout.row();
+		menuLayout.add(new CurrentHighscoreLabel()).padBottom(40);
 		menuLayout.row();
 		menuLayout.add(btnStart).padBottom(40);
 		menuLayout.row();

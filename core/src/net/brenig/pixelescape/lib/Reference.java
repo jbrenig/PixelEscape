@@ -80,6 +80,6 @@ public class Reference {
 	public static final boolean DEBUG_WORLD_GEN_VALIDATE    = false;
 	public static final boolean DEBUG_SCREEN_BOUNDS         = false;
 	public static final boolean DEBUG_UI                    = false;
-	public static final boolean DEBUG_LOGGING               = true;
+	public static final boolean DEBUG_LOGGING               = false;
 	public static final boolean DEBUG_GOD_MODE              = false;
 }

@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.utils.Align;
 
 import net.brenig.pixelescape.PixelEscape;
+import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Utils;
 
 import java.util.Random;
@@ -108,8 +109,8 @@ public class CurrentHighscoreLabel extends Widget {
 					fontSizeY = font_size_y - ease * font_size_y;
 				} else {
 					float ease = Utils.easeInAndOut(part - 0.5F, 0.5F) * font_scaling_strength;
-					fontSizeX = ease * font_size_x;
-					fontSizeY = ease * font_size_y;
+					fontSizeX = font_size_x - font_scaling_strength * font_size_x + ease * font_size_x;
+					fontSizeY = font_size_y - font_scaling_strength * font_size_y + ease * font_size_y;
 				}
 			}
 				break;
@@ -117,6 +118,14 @@ public class CurrentHighscoreLabel extends Widget {
 		}
 		//Score text
 		setColor(0, 0, 0, alpha);
+		if(fontSizeX <= 0) {
+			LogHelper.error("Invalid text scale in score widget animation");
+			fontSizeX = font_size_x;
+		}
+		if(fontSizeY <= 0) {
+			LogHelper.error("Invalid text scale in score widget animation");
+			fontSizeY = font_size_y;
+		}
 		game.font.getData().setScale(fontSizeX, fontSizeY);
 		fontLayout.setText(game.font, text, getColor(), 0, Align.center, false);
 		game.font.draw(batch, fontLayout, getX() + padding_side + offsetX + getWidth() / 2, getY() + fontLayout.height + padding_height + offsetY);

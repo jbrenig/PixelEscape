@@ -101,12 +101,13 @@ public class CurrentHighscoreLabel extends Widget {
 			case WAIT:
 				break;
 			case SIZE: {
-				float part = animationDuration / 2;
-				float ease = Utils.easeInAndOut(animationTimer, animationDuration) * font_scaling_strength;
-				if(animationTimer < part) {
+				float part = animationTimer / animationDuration;
+				if(part < 0.5) {
+					float ease = Utils.easeInAndOut(part, 0.5F) * font_scaling_strength;
 					fontSizeX = font_size_x - ease * font_size_x;
 					fontSizeY = font_size_y - ease * font_size_y;
 				} else {
+					float ease = Utils.easeInAndOut(part - 0.5F, 0.5F) * font_scaling_strength;
 					fontSizeX = ease * font_size_x;
 					fontSizeY = ease * font_size_y;
 				}

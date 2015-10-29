@@ -38,7 +38,6 @@ public class MainMenuScreen implements Screen {
 	private Table headLayout;
 
 	private TextButton btnStart;
-	private TextButton btnQuit;
 
 	private ImageButton btnSettings;
 	private TwoStateImageButton btnSound;
@@ -82,13 +81,7 @@ public class MainMenuScreen implements Screen {
 			}
 		});
 
-		btnQuit = new TextButton("Quit game", game.skin);
-		btnQuit.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				Gdx.app.exit();
-			}
-		});
+
 
 		menuLayout.padTop(30);
 		menuLayout.add(header).padBottom(60);
@@ -96,8 +89,18 @@ public class MainMenuScreen implements Screen {
 		menuLayout.add(new CurrentHighscoreLabel()).padBottom(40);
 		menuLayout.row();
 		menuLayout.add(btnStart).padBottom(40);
-		menuLayout.row();
-		menuLayout.add(btnQuit);
+
+		if(game.gameConfig.canQuitGame()) {
+			TextButton btnQuit = new TextButton("Quit game", game.skin);
+			btnQuit.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					Gdx.app.exit();
+				}
+			});
+			menuLayout.row();
+			menuLayout.add(btnQuit);
+		}
 
 		uiStage.getRootTable().top().right().pad(4);
 		uiStage.add(headLayout);

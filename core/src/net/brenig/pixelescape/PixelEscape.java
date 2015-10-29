@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import net.brenig.pixelescape.game.GameConfiguration;
 import net.brenig.pixelescape.game.GameSettings;
 import net.brenig.pixelescape.game.UserData;
 import net.brenig.pixelescape.game.entity.EntityPlayer;
@@ -71,12 +72,23 @@ public class PixelEscape extends Game {
 
 	public GameSettings gameSettings;
 	public UserData userData;
+	public GameConfiguration gameConfig;
 
 	public int gameSizeX = Reference.TARGET_RESOLUTION_X;
 	public int gameSizeY = Reference.GAME_RESOLUTION_Y + Reference.GAME_UI_Y_SIZE;
 	private float scale = 1.0F;
 
 	public EntityPlayer thePlayer;
+
+	public PixelEscape() {
+		//set default config
+		this(new GameConfiguration());
+	}
+
+	public PixelEscape(GameConfiguration config) {
+		super();
+		gameConfig = config;
+	}
 
 	@Override
 	public void create() {

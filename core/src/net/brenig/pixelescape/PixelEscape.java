@@ -2,6 +2,7 @@ package net.brenig.pixelescape;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
@@ -12,11 +13,9 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
+import net.brenig.pixelescape.game.GameAssets;
 import net.brenig.pixelescape.game.GameConfiguration;
 import net.brenig.pixelescape.game.GameSettings;
 import net.brenig.pixelescape.game.UserData;
@@ -24,7 +23,6 @@ import net.brenig.pixelescape.game.entity.EntityPlayer;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.screen.MainMenuScreen;
-import net.brenig.pixelescape.screen.ui.TwoStateImageButton;
 
 public class PixelEscape extends Game {
 
@@ -38,10 +36,7 @@ public class PixelEscape extends Game {
 	 * Main Sprite Batch
 	 */
 	public SpriteBatch batch;
-	/**
-	 * Main BitMap Font
-	 */
-	public BitmapFont font;
+//	private BitmapFont font;
 
 
 	/**
@@ -50,26 +45,15 @@ public class PixelEscape extends Game {
 	 */
 	public OrthographicCamera cam;
 
-	/**
-	 * GameOverSound
-	 */
-	public Sound gameOverSound;
+//	private Sound gameOverSound;
 
-	/**
-	 * Default button ninepatch
-	 */
-	public NinePatch buttonNinePatch;
+//	private NinePatch buttonNinePatch;
+//
+//	private TextureAtlas guiAtlas;
+//
+//	private Skin skin;
 
-	/**
-	 * Gui Texture atlas
-	 */
-	public TextureAtlas guiAtlas;
-
-	/**
-	 * Main Gui Skin
-	 */
-	public Skin skin;
-
+	private GameAssets gameAssets;
 	public GameSettings gameSettings;
 	public UserData userData;
 	public GameConfiguration gameConfig;
@@ -101,12 +85,6 @@ public class PixelEscape extends Game {
 		//initialize drawing area
 		batch = new SpriteBatch();
 
-		//Use custom font
-		font = new BitmapFont(Gdx.files.internal("font/p2p.fnt"), Gdx.files.internal("font/p2p_0.png"), false, true);
-		font.setColor(Color.BLACK);
-
-		//load ui textures
-		guiAtlas = new TextureAtlas(Gdx.files.internal("drawable/gui/gui_textures.pack"));
 
 		//initialize viewport
 		cam = new OrthographicCamera();
@@ -116,88 +94,9 @@ public class PixelEscape extends Game {
 		shapeRenderer = new ShapeRenderer();
 		shapeRenderer.setProjectionMatrix(cam.combined);
 
-		//load sounds
-		gameOverSound = Gdx.audio.newSound(Gdx.files.internal("sound/GameOverSlide.ogg"));
 
-		//Setting up skin
-		skin = new Skin();
-
-		//Cache default button texture for other use cases
-		buttonNinePatch = guiAtlas.createPatch("button");
-
-		//Button textures
-		skin.add("up", buttonNinePatch);
-		skin.add("down", guiAtlas.createPatch("button_clicked"));
-		skin.add("hover", guiAtlas.createPatch("button_hover"));
-		skin.add("disabled", guiAtlas.createPatch("button_disabled"));
-
-		skin.add("button_settings", guiAtlas.createSprite("gear_settings"));
-		skin.add("button_settings_white", guiAtlas.createSprite("gear_settings_white"));
-
-		skin.add("button_music_enabled", guiAtlas.createSprite("music_enabled"));
-		skin.add("button_music_disabled", guiAtlas.createSprite("music_disabled"));
-
-		skin.add("button_sound_enabled", guiAtlas.createSprite("sound_enabled"));
-		skin.add("button_sound_disabled", guiAtlas.createSprite("sound_disabled"));
-
-		skin.add("button_pause", guiAtlas.createSprite("button_pause"));
-
-		//Button style: Settings
-		{
-			ImageButton.ImageButtonStyle imageButtonStyle = new ImageButton.ImageButtonStyle();
-			imageButtonStyle.imageUp = skin.getDrawable("button_settings");
-			imageButtonStyle.imageOver = skin.newDrawable("button_settings_white", Color.LIGHT_GRAY);
-			imageButtonStyle.imageDown = skin.newDrawable("button_settings_white", Color.GRAY);
-			imageButtonStyle.imageDisabled = skin.newDrawable("button_settings_white", Color.DARK_GRAY);
-
-			skin.add("settings", imageButtonStyle);
-		}
-
-		//Button style: Music
-		{
-			TwoStateImageButton.TwoStateImageButtonStyle imageButtonStyle = new TwoStateImageButton.TwoStateImageButtonStyle();
-			imageButtonStyle.imageUp = skin.getDrawable("button_music_enabled");
-			imageButtonStyle.image2Up = skin.getDrawable("button_music_disabled");
-
-			skin.add("music", imageButtonStyle);
-		}
-
-		//Button style: Sound
-		{
-			TwoStateImageButton.TwoStateImageButtonStyle imageButtonStyle = new TwoStateImageButton.TwoStateImageButtonStyle();
-			imageButtonStyle.imageUp = skin.getDrawable("button_sound_enabled");
-			imageButtonStyle.image2Up = skin.getDrawable("button_sound_disabled");
-
-			skin.add("sound", imageButtonStyle);
-		}
-
-		//Button style: Pause
-		{
-			ImageButton.ImageButtonStyle imageButtonStyle = new ImageButton.ImageButtonStyle();
-			imageButtonStyle.imageUp = skin.newDrawable("button_pause", Color.BLACK);
-
-			skin.add("pause", imageButtonStyle);
-		}
-
-		//Button style: Text (default)
-		{
-			TextButton.TextButtonStyle textButtonStyle = new TextButton.TextButtonStyle();
-			textButtonStyle.up = skin.getDrawable("up");
-			textButtonStyle.down = skin.getDrawable("down");
-			textButtonStyle.over = skin.getDrawable("hover");
-			textButtonStyle.disabled = skin.getDrawable("disabled");
-			textButtonStyle.font = font;
-			textButtonStyle.fontColor = Color.BLACK;
-			textButtonStyle.downFontColor = Color.WHITE;
-			textButtonStyle.disabledFontColor = Color.GRAY;
-
-			skin.add("default", textButtonStyle);
-		}
-
-		//Label style
-		Label.LabelStyle labelStyle = new Label.LabelStyle(font, Color.BLACK);
-
-		skin.add("default", labelStyle);
+		updateAssetManager();
+		gameAssets.initAll();
 
 		//load settings
 		gameSettings = new GameSettings();
@@ -221,6 +120,16 @@ public class PixelEscape extends Game {
 		return instance;
 	}
 
+	public void updateAssetManager() {
+		if(gameAssets == null) {
+			gameAssets = new GameAssets();
+		}
+	}
+
+	public GameAssets getGameAssets() {
+		return gameAssets;
+	}
+
 	@Override
 	public void setScreen(Screen screen) {
 		//reset font
@@ -234,9 +143,9 @@ public class PixelEscape extends Game {
 		super.render();
 		if(Reference.SHOW_FPS) {
 			batch.begin();
-			font.setColor(Color.RED);
+			getFont().setColor(Color.RED);
 			resetFontSize();
-			font.draw(batch, "FPS " + Gdx.graphics.getFramesPerSecond(), 10, gameSizeY - 10);
+			getFont().draw(batch, "FPS " + Gdx.graphics.getFramesPerSecond(), 10, gameSizeY - 10);
 			batch.end();
 		}
 	}
@@ -254,9 +163,9 @@ public class PixelEscape extends Game {
 		gameSettings.saveToDisk();
 		userData.saveToDisk();
 		batch.dispose();
-		font.dispose();
+		getFont().dispose();
 		shapeRenderer.dispose();
-		gameOverSound.dispose();
+		getGameOverSound().dispose();
 		super.dispose();
 	}
 
@@ -280,11 +189,11 @@ public class PixelEscape extends Game {
 	}
 
 	public void setFontSizeToDefaultGuiSize() {
-		font.getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
+		getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 	}
 
 	public void resetFontSize() {
-		font.getData().setScale(1.0F);
+		getFont().getData().setScale(1.0F);
 //		font.getData().setScale(scale);
 	}
 
@@ -317,5 +226,54 @@ public class PixelEscape extends Game {
 	 */
 	public void updateMusicPlaying() {
 
+	}
+
+	/**
+	 * goes or leaves fullscreen
+	 */
+	public void updateFullscreen() {
+		if(gameConfig.canGoFullScreen()) {
+			if(gameSettings.fullscreen) {
+				final Graphics.DisplayMode oldMode = Gdx.graphics.getDesktopDisplayMode();
+				Gdx.graphics.setDisplayMode(oldMode.width, oldMode.height, true);
+			} else {
+				Gdx.graphics.setDisplayMode(Reference.TARGET_RESOLUTION_X, Reference.TARGET_RESOLUTION_Y, false);
+			}
+		}
+	}
+
+	/**
+	 * Main BitMap Font
+	 */
+	public BitmapFont getFont() {
+		return getGameAssets().getFont();
+	}
+
+	/**
+	 * GameOverSound
+	 */
+	public Sound getGameOverSound() {
+		return getGameAssets().getGameOverSound();
+	}
+
+	/**
+	 * Default button ninepatch
+	 */
+	public NinePatch getButtonNinePatch() {
+		return getGameAssets().getButtonNinePatch();
+	}
+
+	/**
+	 * Gui Texture atlas
+	 */
+	public TextureAtlas getGuiAtlas() {
+		return getGameAssets().getGuiAtlas();
+	}
+
+	/**
+	 * Main Gui Skin
+	 */
+	public Skin getSkin() {
+		return getGameAssets().getMainUiSkin();
 	}
 }

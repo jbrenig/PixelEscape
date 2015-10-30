@@ -12,4 +12,11 @@ public class GameConfiguration {
 	public boolean canGoFullScreen() {
 		return false;
 	}
+
+	/**
+	 * @return whether this platform should use bigger buttons (eg. to be optimized for touchscreens)
+	 */
+	public boolean useBiggerButtons() {
+		return false;
+	}
 }

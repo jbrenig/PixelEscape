@@ -6,6 +6,7 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 
 import net.brenig.pixelescape.PixelEscape;
+import net.brenig.pixelescape.game.GameConfiguration;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
@@ -15,5 +16,12 @@ public class AndroidLauncher extends AndroidApplication {
 		config.useAccelerometer = false;
 		config.useCompass = false;
 		initialize(new PixelEscape(), config);
+	}
+
+	public static class AndroidConfiguration extends GameConfiguration {
+		@Override
+		public boolean useBiggerButtons() {
+			return true;
+		}
 	}
 }

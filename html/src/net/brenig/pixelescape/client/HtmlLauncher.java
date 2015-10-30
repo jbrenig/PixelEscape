@@ -24,5 +24,10 @@ public class HtmlLauncher extends GwtApplication {
 	        public boolean canQuitGame() {
 		        return false;
 	        }
+
+                @Override
+                public boolean canGoFullScreen() {
+                        return true;
+                }
         }
 }

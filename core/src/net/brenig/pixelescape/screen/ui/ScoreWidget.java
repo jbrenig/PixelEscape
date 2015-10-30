@@ -41,18 +41,18 @@ public class ScoreWidget extends Widget {
 
 		//Background
 		batch.setColor(1, 1, 1, 1);
-		game.buttonNinePatch.draw(batch, getX(), getY(), getWidth(), getHeight());
+		game.getButtonNinePatch().draw(batch, getX(), getY(), getWidth(), getHeight());
 
 		//Score text
-		game.font.setColor(0, 0, 0, 1);
+		game.getFont().setColor(0, 0, 0, 1);
 		setScoreText();
-		game.font.draw(batch, fontLayout, getX() + game.buttonNinePatch.getPadLeft(), getY() + fontLayout.height + game.buttonNinePatch.getPadTop());
+		game.getFont().draw(batch, fontLayout, getX() + game.getButtonNinePatch().getPadLeft(), getY() + fontLayout.height + game.getButtonNinePatch().getPadTop());
 	}
 
 	private void setScoreText() {
 		String score = SCORE_TEXT + player.getScore();
 //		game.font.getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
-		fontLayout.setText(game.font, score);
+		fontLayout.setText(game.getFont(), score);
 		if (fontLayout.width > lastScoreScreenWidth || lastScoreScreenWidth - fontLayout.width > Reference.GAME_UI_SCORE_SCREEN_SIZE_BUFFER) {
 			lastScoreScreenWidth = fontLayout.width;
 			invalidateHierarchy();
@@ -62,12 +62,12 @@ public class ScoreWidget extends Widget {
 	@Override
 	public float getPrefWidth() {
 		setScoreText();
-		return game.buttonNinePatch.getPadLeft() + game.buttonNinePatch.getPadRight() + lastScoreScreenWidth;
+		return game.getButtonNinePatch().getPadLeft() + game.getButtonNinePatch().getPadRight() + lastScoreScreenWidth;
 	}
 
 	@Override
 	public float getPrefHeight() {
 		setScoreText();
-		return game.buttonNinePatch.getPadBottom() + game.buttonNinePatch.getPadTop() + fontLayout.height;
+		return game.getButtonNinePatch().getPadBottom() + game.getButtonNinePatch().getPadTop() + fontLayout.height;
 	}
 }

@@ -34,7 +34,7 @@ public class Utils {
 	 * Helper function to update gui Elements (eg. onResize)
 	 */
 	public static void updateUIElementsToScreen(GameScreen screen, Stage stage, Table table, int width, int height) {
-		screen.game.font.getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
+		screen.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 		stage.getViewport().update(width, height, true);
 		updateTableToGameBounds(table, screen.world, screen.uiPos);
 	}
@@ -44,10 +44,14 @@ public class Utils {
 	 */
 	public static Table createUIHeadLayout(PixelEscape game) {
 		Table table = new Table();
-		Drawable ninePatch = Utils.minimizeNinePatch((NinePatchDrawable) game.skin.getDrawable("up"));
+		Drawable ninePatch = Utils.minimizeNinePatch((NinePatchDrawable) game.getSkin().getDrawable("up"));
 		table.setBackground(ninePatch);
-		//minimze padding
-		table.pad(4, 4, 4, 4);
+		//minimize padding
+		if(game.gameConfig.useBiggerButtons()) {
+			table.pad(12, 12, 12, 12);
+		} else {
+			table.pad(8, 8, 8, 8);
+		}
 		return table;
 	}
 
@@ -69,7 +73,7 @@ public class Utils {
 	 * @return the table they got added to
 	 */
 	public static Table addSoundAndMusicControllerToLayout(final PixelEscape game, Table layout) {
-		final TwoStateImageButton btnSound = new TwoStateImageButton(game.skin, "sound");
+		final TwoStateImageButton btnSound = new TwoStateImageButton(game.getSkin(), "sound");
 		btnSound.setState(game.gameSettings.soundEnabled);
 		btnSound.addListener(new ClickListener() {
 			@Override
@@ -83,7 +87,7 @@ public class Utils {
 		});
 		layout.add(btnSound);
 
-		final TwoStateImageButton btnMusic = new TwoStateImageButton(game.skin, "music");
+		final TwoStateImageButton btnMusic = new TwoStateImageButton(game.getSkin(), "music");
 		btnMusic.setState(game.gameSettings.musicEnabled);
 		btnMusic.addListener(new ClickListener() {
 			@Override
@@ -101,12 +105,51 @@ public class Utils {
 	}
 
 	/**
-	 * NinePatchDrawables use their total size as minimum size by default
-	 * This helper function resizes them to their minimum, so they can be resized to be smaller than their total size
+	 * adds one TwoStateButtons to a Table that is used to go to fullscreen<br></br>
+	 * gets skipped if fullscreen is not supported
 	 *
-	 * @param patch The ninepatch to minimize
-	 * @return the given, minimized Ninepatch
+	 * @param layout the table they should get added to
+	 * @return the table they got added to
 	 */
+	public static Table addFullScreenButtonToTable(Table layout) {
+		return addFullScreenButtonToTable(PixelEscape.getPixelEscape(), layout);
+	}
+
+	/**
+	 * adds one TwoStateButtons to a Table that is used to go to fullscreen<br></br>
+	 * gets skipped if fullscreen is not supported
+	 *
+	 * @param game   instance of the game
+	 * @param layout the table they should get added to
+	 * @return the table they got added to
+	 */
+	public static Table addFullScreenButtonToTable(final PixelEscape game, Table layout) {
+		if(game.gameConfig.canGoFullScreen()) {
+			final TwoStateImageButton btnFullScreen = new TwoStateImageButton(game.getSkin(), "fullscreen");
+			btnFullScreen.setState(game.gameSettings.fullscreen);
+			btnFullScreen.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					//Invert current selection
+					//btn checked --> fullscreen
+					//btn not checked --> no fullscreen
+					game.gameSettings.fullscreen = !btnFullScreen.getState();
+					btnFullScreen.setState(game.gameSettings.fullscreen);
+					game.updateFullscreen();
+				}
+			});
+			layout.add(btnFullScreen);
+		}
+		return layout;
+	}
+
+		/**
+		 * NinePatchDrawables use their total size as minimum size by default
+		 * This helper function resizes them to their minimum, so they can be resized to be smaller than their total size
+		 *
+		 * @param patch The ninepatch to minimize
+		 * @return the given, minimized Ninepatch
+		 */
 	public static Drawable minimizeNinePatch(NinePatchDrawable patch) {
 		patch.setMinHeight(patch.getPatch().getBottomHeight() + patch.getPatch().getTopHeight());
 		patch.setMinWidth(patch.getPatch().getLeftWidth() + patch.getPatch().getRightWidth());
@@ -129,8 +172,13 @@ public class Utils {
 		if(timePassed > maxTime) {
 			return 1;
 		}
-		float t = timePassed / maxTime;
-		return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+		float timeProgress = timePassed / maxTime;
+		if (timeProgress < 0.5) {
+			return 2 * timeProgress * timeProgress;
+		}
+		else {
+			return -1 + (4 - 2 * timeProgress) * timeProgress;
+		}
 	}
 
 }

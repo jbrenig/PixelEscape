@@ -60,7 +60,7 @@ public class CurrentHighscoreLabel extends Widget {
 		super();
 		game = PixelEscape.getPixelEscape();
 		text = SCORE_TEXT + game.userData.highScore;
-		fontLayout = new GlyphLayout(game.font, text);
+		fontLayout = new GlyphLayout(game.getFont(), text);
 		state = Animations.WAIT;
 	}
 
@@ -73,8 +73,8 @@ public class CurrentHighscoreLabel extends Widget {
 			updateAnimation();
 		}
 
-		float oldFontSizeX = game.font.getScaleX();
-		float oldFontSizeY = game.font.getScaleY();
+		float oldFontSizeX = game.getFont().getScaleX();
+		float oldFontSizeY = game.getFont().getScaleY();
 		float fontSizeX = font_size_x;
 		float fontSizeY = font_size_y;
 		float offsetX = 0;
@@ -126,14 +126,14 @@ public class CurrentHighscoreLabel extends Widget {
 			LogHelper.error("Invalid text scale in score widget animation");
 			fontSizeY = font_size_y;
 		}
-		game.font.getData().setScale(fontSizeX, fontSizeY);
-		fontLayout.setText(game.font, text, getColor(), 0, Align.center, false);
-		game.font.draw(batch, fontLayout, getX() + padding_side + offsetX + getWidth() / 2, getY() + fontLayout.height + padding_height + offsetY);
+		game.getFont().getData().setScale(fontSizeX, fontSizeY);
+		fontLayout.setText(game.getFont(), text, getColor(), 0, Align.center, false);
+		game.getFont().draw(batch, fontLayout, getX() + padding_side + offsetX + getWidth() / 2, getY() + fontLayout.height + padding_height + offsetY);
 
 		float delta = Gdx.graphics.getDeltaTime();
 		animationTimer += delta;
 		//reset fontsize
-		game.font.getData().setScale(oldFontSizeX, oldFontSizeY);
+		game.getFont().getData().setScale(oldFontSizeX, oldFontSizeY);
 
 	}
 
@@ -163,22 +163,22 @@ public class CurrentHighscoreLabel extends Widget {
 
 	@Override
 	public float getPrefWidth() {
-		float oldFontSizeX = game.font.getScaleX();
-		float oldFontSizeY = game.font.getScaleY();
-		game.font.getData().setScale(font_size_x, font_size_y);
+		float oldFontSizeX = game.getFont().getScaleX();
+		float oldFontSizeY = game.getFont().getScaleY();
+		game.getFont().getData().setScale(font_size_x, font_size_y);
 		float v = fontLayout.width + padding_side * 2;
-		game.font.getData().setScale(oldFontSizeX, oldFontSizeY);
+		game.getFont().getData().setScale(oldFontSizeX, oldFontSizeY);
 		return v;
 
 	}
 
 	@Override
 	public float getPrefHeight() {
-		float oldFontSizeX = game.font.getScaleX();
-		float oldFontSizeY = game.font.getScaleY();
-		game.font.getData().setScale(font_size_x, font_size_y);
+		float oldFontSizeX = game.getFont().getScaleX();
+		float oldFontSizeY = game.getFont().getScaleY();
+		game.getFont().getData().setScale(font_size_x, font_size_y);
 		float v = fontLayout.height + padding_height * 2;
-		game.font.getData().setScale(oldFontSizeX, oldFontSizeY);
+		game.getFont().getData().setScale(oldFontSizeX, oldFontSizeY);
 		return v;
 	}
 }

@@ -88,8 +88,8 @@ public class GameScreen implements Screen {
 
 		stage.add(table);
 
-		game.font.getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
-		mainMenu = new TextButton("Pause", this.game.skin);
+		game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
+		mainMenu = new TextButton("Pause", this.game.getSkin());
 		mainMenu.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -158,7 +158,7 @@ public class GameScreen implements Screen {
 
 		//UI
 		if(!overlay.shouldHideGameUI()) {
-			this.game.font.getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
+			this.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 			stage.draw();
 			stage.act(delta);
 		}
@@ -176,38 +176,38 @@ public class GameScreen implements Screen {
 			boolean isTerrain = world.getWorldHeight() - terrain.getTop() * Reference.BLOCK_WIDTH < worldY || terrain.getBottom() * Reference.BLOCK_WIDTH >= worldY;
 			String blockInfoTxt = "Info: IsTerrain: " + isTerrain + ", BlocksGenerated: " + world.getBlocksGenerated();
 			game.batch.begin();
-			game.font.setColor(Color.LIGHT_GRAY);
-			game.font.getData().setScale(0.5F);
-			fontLayout.setText(game.font, screenTxt);
+			game.getFont().setColor(Color.LIGHT_GRAY);
+			game.getFont().getData().setScale(0.5F);
+			fontLayout.setText(game.getFont(), screenTxt);
 			float pos = 5 + fontLayout.height;
-			game.font.draw(game.batch, fontLayout, 5, pos);
+			game.getFont().draw(game.batch, fontLayout, 5, pos);
 			pos += fontLayout.height + 5;
-			fontLayout.setText(game.font, worldTxt);
-			game.font.draw(game.batch, fontLayout, 5, pos);
+			fontLayout.setText(game.getFont(), worldTxt);
+			game.getFont().draw(game.batch, fontLayout, 5, pos);
 			pos += fontLayout.height + 5;
-			fontLayout.setText(game.font, blockInfoTxt);
-			game.font.draw(game.batch, fontLayout, 5, pos);
-			game.font.getData().setScale(1F);
+			fontLayout.setText(game.getFont(), blockInfoTxt);
+			game.getFont().draw(game.batch, fontLayout, 5, pos);
+			game.getFont().getData().setScale(1F);
 			game.batch.end();
 		}
 	}
 
 	private void drawScoreScreen(float delta) {
 		String score = "Score: " + world.player.getScore();
-		game.font.getData().setScale(0.8F, 0.9F);
-		game.font.setColor(0, 0, 0, 1);
-		fontLayout.setText(game.font, score);
+		game.getFont().getData().setScale(0.8F, 0.9F);
+		game.getFont().setColor(0, 0, 0, 1);
+		fontLayout.setText(game.getFont(), score);
 		if (fontLayout.width > lastScoreScreenWidth || lastScoreScreenWidth - fontLayout.width > Reference.GAME_UI_SCORE_SCREEN_SIZE_BUFFER) {
 			lastScoreScreenWidth = fontLayout.width;
 		}
 		//Score Screen white background
 		game.batch.begin();
-		game.buttonNinePatch.draw(game.batch, world.getWorldWidth() - 20 - 16 - lastScoreScreenWidth, uiPos + world.getWorldHeight() + 20, 16 + lastScoreScreenWidth, 16 + fontLayout.height);
+		game.getButtonNinePatch().draw(game.batch, world.getWorldWidth() - 20 - 16 - lastScoreScreenWidth, uiPos + world.getWorldHeight() + 20, 16 + lastScoreScreenWidth, 16 + fontLayout.height);
 		game.batch.end();
 
 		//Score
 		game.batch.begin();
-		game.font.draw(game.batch, fontLayout, world.getWorldWidth() - 20 - 8 - lastScoreScreenWidth, uiPos + world.getWorldHeight() + 20 + 8 + fontLayout.height);
+		game.getFont().draw(game.batch, fontLayout, world.getWorldWidth() - 20 - 8 - lastScoreScreenWidth, uiPos + world.getWorldHeight() + 20 + 8 + fontLayout.height);
 		game.batch.end();
 	}
 
@@ -295,7 +295,7 @@ public class GameScreen implements Screen {
 	public void onGameOver() {
 		setOverlay(new GameOverOverlay(this));
 		if (game.gameSettings.soundEnabled) {
-			game.gameOverSound.play();
+			game.getGameOverSound().play();
 		}
 		game.userData.updateHighscore(world.player.getScore());
 	}

@@ -38,27 +38,27 @@ public class CountDownOverlay extends Overlay {
 		}
 		screen.game.batch.begin();
 		float mod = (timePassed % 1000);
-		screen.game.font.setColor(0.2F, 0.8F, 0, 1000 / mod);
+		screen.game.getFont().setColor(0.2F, 0.8F, 0, 1000 / mod);
 		if(mod < 100) {
 			float scaleMod = 1/((mod+1) * 10);
-			screen.game.font.getData().setScale(5 + scaleMod * 2);
+			screen.game.getFont().getData().setScale(5 + scaleMod * 2);
 		} else if(mod > 900) {
 			mod -= 900;
 			float scaleMod = 1/((mod+1) * 10);
-			screen.game.font.getData().setScale(3 + scaleMod);
+			screen.game.getFont().getData().setScale(3 + scaleMod);
 		} else {
-			screen.game.font.getData().setScale(5);
+			screen.game.getFont().getData().setScale(5);
 		}
 		if(secondsRemaining <= 0) {
-			screen.fontLayout.setText(screen.game.font, GO_TEXT);
+			screen.fontLayout.setText(screen.game.getFont(), GO_TEXT);
 		} else {
-			screen.fontLayout.setText(screen.game.font, "" + secondsRemaining);
+			screen.fontLayout.setText(screen.game.getFont(), "" + secondsRemaining);
 		}
 
 		float xPos = screen.world.getWorldWidth() / 2 - screen.fontLayout.width / 2;
 		float yPos = screen.world.getWorldHeight() / 2 + screen.fontLayout.height / 2 + screen.uiPos;
 
-		screen.game.font.draw(screen.game.batch, screen.fontLayout, xPos, yPos);
+		screen.game.getFont().draw(screen.game.batch, screen.fontLayout, xPos, yPos);
 		screen.game.batch.end();
 	}
 

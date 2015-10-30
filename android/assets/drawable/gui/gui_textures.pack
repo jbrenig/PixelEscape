@@ -70,44 +70,58 @@ button_pause
   orig: 32, 32
   offset: 0, 0
   index: -1
-gear_settings
+fullscreen
   rotate: false
   xy: 555, 1
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-gear_settings_white
+fullscreen_hover
   rotate: false
   xy: 589, 1
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-music_disabled
+gear_settings
   rotate: false
   xy: 623, 1
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-music_enabled
+gear_settings_white
   rotate: false
   xy: 657, 1
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-sound_disabled
+music_disabled
   rotate: false
   xy: 691, 1
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-sound_enabled
+music_enabled
   rotate: false
   xy: 725, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+sound_disabled
+  rotate: false
+  xy: 759, 1
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+sound_enabled
+  rotate: false
+  xy: 793, 1
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

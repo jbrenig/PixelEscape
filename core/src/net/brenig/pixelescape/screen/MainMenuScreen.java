@@ -54,7 +54,7 @@ public class MainMenuScreen implements Screen {
 
 		Utils.addSoundAndMusicControllerToLayout(game, headLayout);
 
-		btnSettings = new ImageButton(game.skin, "settings");
+		btnSettings = new ImageButton(game.getSkin(), "settings");
 		btnSettings.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -63,6 +63,8 @@ public class MainMenuScreen implements Screen {
 		});
 		headLayout.add(btnSettings);
 
+		Utils.addFullScreenButtonToTable(game, headLayout);
+
 
 
 		menuLayout = new Table();
@@ -70,10 +72,10 @@ public class MainMenuScreen implements Screen {
 		menuLayout.setPosition(0, 0);
 		menuLayout.center();
 
-		Label header = new Label("PixelEscape", game.skin);
+		Label header = new Label("PixelEscape", game.getSkin());
 		header.setHeight(150);
 
-		btnStart = new TextButton("Start game", game.skin);
+		btnStart = new TextButton("Start game", game.getSkin());
 		btnStart.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -91,7 +93,7 @@ public class MainMenuScreen implements Screen {
 		menuLayout.add(btnStart).padBottom(40);
 
 		if(game.gameConfig.canQuitGame()) {
-			TextButton btnQuit = new TextButton("Quit game", game.skin);
+			TextButton btnQuit = new TextButton("Quit game", game.getSkin());
 			btnQuit.addListener(new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {

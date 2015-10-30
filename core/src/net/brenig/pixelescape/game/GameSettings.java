@@ -9,6 +9,7 @@ import com.badlogic.gdx.Preferences;
  */
 public class GameSettings {
 
+
 	private static final class Keys {
 		public static final String soundEnabled = "ENABLE_SOUNDS";
 		public static final String musicEnabled = "ENABLE_MUSIC";
@@ -23,6 +24,11 @@ public class GameSettings {
 
 	public boolean soundEnabled = Defaults.soundEnabled;
 	public boolean musicEnabled = Defaults.musicEnabled;
+
+	/**
+	 * fullscreen, setting does not persist atm
+	 */
+	public boolean fullscreen = false;
 
 	public GameSettings() {
 

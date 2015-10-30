@@ -23,7 +23,7 @@ public class StageManagerGame extends StageManager {
 
 	public void updateStageToGameBounds(int width, int height) {
 		//reset font size for measuring
-		screen.game.font.getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
+		screen.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 
 		updateViewport(width, height, true);
 

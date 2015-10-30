@@ -42,11 +42,11 @@ public class SettingsScreen implements Screen {
 		uiLayout.setPosition(0, 0);
 		uiLayout.center();
 
-		Label header = new Label("[WIP]", game.skin);
+		Label header = new Label("[WIP]", game.getSkin());
 		header.setHeight(150);
 
 
-		btnBack = new TextButton("Go Back", game.skin);
+		btnBack = new TextButton("Go Back", game.getSkin());
 		btnBack.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {

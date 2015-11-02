@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
+import net.brenig.pixelescape.PixelEscape;
+
 /**
  * Created by Jonas Brenig on 20.08.2015.
  */
@@ -11,23 +13,66 @@ public class InputManager implements InputProcessor {
 
 	private boolean isTouched = false;
 	private boolean isSpaceDown = false;
+	private boolean isEscapeDown = false;
+
+	/** Cursor timer
+	 * -1 if idle
+	 * 0 if not idle
+	 * >0 if idle for n seconds
+	 */
+	private float cursorIdleTimer = 0;
+	private static final float cursorIdleTime = 3;
+
+	public void updateMouseVisibility(float delta, boolean canHide) {
+		if(canHide && cursorIdleTimer >= 0) {
+			cursorIdleTimer += delta;
+		}
+		if(cursorIdleTimer > cursorIdleTime) {
+			cursorIdleTimer = -1;
+			updateMouseVisibility();
+		}
+	}
+
+
+	private void updateMouseVisibility() {
+		if(PixelEscape.getPixelEscape().gameConfig.canHideCursor()) {
+			Gdx.input.setCursorCatched(cursorIdleTimer < 0);
+		}
+	}
+
+	public void resetMouseVisibility() {
+		if(PixelEscape.getPixelEscape().gameConfig.canHideCursor()) {
+			cursorIdleTimer = 0;
+			Gdx.input.setCursorCatched(false);
+		}
+	}
 
 	@Override
 	public boolean keyDown(int keycode) {
+		boolean changed = false;
+		if(keycode == Input.Keys.ESCAPE) {
+			isEscapeDown = true;
+			changed = true;
+		}
 		if(keycode == Input.Keys.SPACE) {
 			isSpaceDown = true;
-			return true;
+			changed = true;
 		}
-		return false;
+		return changed;
 	}
 
 	@Override
 	public boolean keyUp(int keycode) {
+		boolean changed = false;
+		if(keycode == Input.Keys.ESCAPE) {
+			isEscapeDown = false;
+			changed = true;
+		}
 		if(keycode == Input.Keys.SPACE) {
 			isSpaceDown = false;
-			return true;
+			changed = true;
 		}
-		return false;
+		return changed;
 	}
 
 	@Override
@@ -49,11 +94,15 @@ public class InputManager implements InputProcessor {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		cursorIdleTimer = 0;
+		updateMouseVisibility();
 		return false;
 	}
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
+		cursorIdleTimer = 0;
+		updateMouseVisibility();
 		return false;
 	}
 
@@ -73,10 +122,16 @@ public class InputManager implements InputProcessor {
 	public void resetTouchedState() {
 		isTouched = false;
 		isSpaceDown = false;
+		isEscapeDown = false;
 	}
 
 	public void refreshButtonState() {
 		isTouched = Gdx.input.isTouched();
 		isSpaceDown = Gdx.input.isKeyPressed(Input.Keys.SPACE);
+		isEscapeDown = Gdx.input.isKeyPressed(Input.Keys.ESCAPE);
+	}
+
+	public boolean isEscapeDown() {
+		return isEscapeDown;
 	}
 }

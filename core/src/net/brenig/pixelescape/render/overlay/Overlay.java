@@ -97,6 +97,13 @@ public abstract class Overlay {
 	}
 
 	/**
+	 * @return true if GameScreen should hide the cursor after time, (GameScreen InputManager needs focus)
+	 */
+	public boolean canHideCursor() {
+		return true;
+	}
+
+	/**
 	 * Renders a black, transparent overlay
 	 */
 	protected void renderScreenTint() {
@@ -122,4 +129,9 @@ public abstract class Overlay {
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 	}
 
+	public void updateMusic(boolean play) {}
+
+	public boolean shouldPauseOnEscape() {
+		return false;
+	}
 }

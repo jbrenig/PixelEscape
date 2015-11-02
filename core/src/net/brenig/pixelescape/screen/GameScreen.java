@@ -2,7 +2,7 @@ package net.brenig.pixelescape.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -30,9 +30,8 @@ import net.brenig.pixelescape.screen.ui.StageManagerGame;
 /**
  * Created by Jonas Brenig on 02.08.2015.
  */
-public class GameScreen implements Screen {
+public class GameScreen extends PixelScreen {
 
-	public final PixelEscape game;
 	public final World world;
 	public final WorldRenderer worldRenderer;
 	/**
@@ -63,15 +62,15 @@ public class GameScreen implements Screen {
 	private final StageManagerGame stage;
 	private final Table table;
 	private final TextButton mainMenu;
-	private final InputManager gameInput;
-	private final InputMultiplexer inputManager;
+	private final InputManager inputManager;
+	private final InputMultiplexer inputMultiplexer;
+
 
 	private Overlay overlay;
 
 	public GameScreen(final PixelEscape game) {
+		super(game);
 		Gdx.app.log("PixelEscape | GameScreen", "initializing GameScreen...");
-		//Game reference
-		this.game = game;
 		//init world and renderer
 		this.world = new World(this);
 		this.worldRenderer = new WorldRenderer(game, world);
@@ -82,9 +81,6 @@ public class GameScreen implements Screen {
 		stage = new StageManagerGame(this);
 
 		table = new Table();
-//		table.setPosition(0, this.uiPos);
-//		table.setSize(this.world.getWorldWidth(), this.world.getWorldHeight() + Reference.GAME_UI_Y_SIZE);
-//		table.left().top();
 
 		stage.add(table);
 
@@ -101,9 +97,9 @@ public class GameScreen implements Screen {
 		table.add(new ScoreWidget(world.player, fontLayout, game)).left().padTop(20).padRight(10);
 
 		//init input
-		gameInput = new InputManager();
-		inputManager = new InputMultiplexer(stage.getInputProcessor(), gameInput);
-		Gdx.input.setInputProcessor(inputManager);
+		inputManager = new InputManager();
+		inputMultiplexer = new InputMultiplexer(stage.getInputProcessor(), inputManager);
+		Gdx.input.setInputProcessor(inputMultiplexer);
 
 		//set default overlay
 		overlay = emptyOverlay;
@@ -111,6 +107,15 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
+		game.gameMusic.playOrFadeInto(getGameMusic());
+	}
+
+	public Music getGameMusic() {
+		if(PixelEscape.rand.nextBoolean()) {
+			return (game.getGameAssets().getMipComplete());
+		} else {
+			return (game.getGameAssets().getSnpMusic());
+		}
 	}
 
 	@Override
@@ -118,6 +123,9 @@ public class GameScreen implements Screen {
 		//Cap max frame time to ensure proper simulation
 		//Game will be slowed down if the frames don't get processed fast enough
 		delta = Math.min(Reference.MAX_FRAME_TIME, delta);
+
+		if(game.gameConfig.canHideCursor()) inputManager.updateMouseVisibility(delta, game.gameSettings.fullscreen && overlay.canHideCursor());
+
 		if (firstUpdate) {
 			//Setup world on first update
 			firstUpdate = false;
@@ -132,6 +140,14 @@ public class GameScreen implements Screen {
 			//skip rendering if necessary
 			return;
 		}
+
+		//Pause on escape
+		if(inputManager.isEscapeDown()) {
+			if(overlay.shouldPauseOnEscape()) {
+				showGamePausedOverlay();
+			}
+		}
+
 		//render world
 		worldRenderer.render(delta);
 
@@ -186,6 +202,15 @@ public class GameScreen implements Screen {
 			game.getFont().draw(game.batch, fontLayout, 5, pos);
 			pos += fontLayout.height + 5;
 			fontLayout.setText(game.getFont(), blockInfoTxt);
+			game.getFont().draw(game.batch, fontLayout, 5, pos);
+			game.getFont().getData().setScale(1F);
+			game.batch.end();
+		} else if(Reference.DEBUG_MUSIC) {
+			game.batch.begin();
+			game.getFont().setColor(Color.LIGHT_GRAY);
+			game.getFont().getData().setScale(0.5F);
+			fontLayout.setText(game.getFont(), "Music state: " + game.gameMusic.getState());
+			float pos = 5 + fontLayout.height;
 			game.getFont().draw(game.batch, fontLayout, 5, pos);
 			game.getFont().getData().setScale(1F);
 			game.batch.end();
@@ -254,6 +279,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void dispose() {
 		overlay.dispose();
+		inputManager.resetMouseVisibility();
 	}
 
 	/**
@@ -265,10 +291,9 @@ public class GameScreen implements Screen {
 		}
 	}
 
-	public void resetInputManager() {
-		Gdx.input.setInputProcessor(inputManager);
-		gameInput.refreshButtonState();
-		inputManager.mouseMoved(Gdx.input.getX(), Gdx.input.getY());
+	@Override
+	public void updateMusic(boolean play) {
+		overlay.updateMusic(play);
 	}
 
 	/**
@@ -281,6 +306,9 @@ public class GameScreen implements Screen {
 		resetInputManager();
 		overlay = o;
 		overlay.show();
+		if(!overlay.canHideCursor()) {
+			inputManager.resetMouseVisibility();
+		}
 	}
 
 	public void reset() {
@@ -306,7 +334,7 @@ public class GameScreen implements Screen {
 	}
 
 	public InputManager getInput() {
-		return gameInput;
+		return inputManager;
 	}
 
 	public boolean isGamePaused() {
@@ -323,5 +351,11 @@ public class GameScreen implements Screen {
 
 	public boolean isFirstUpdate() {
 		return firstUpdate;
+	}
+
+	public void resetInputManager() {
+		Gdx.input.setInputProcessor(inputMultiplexer);
+		inputManager.refreshButtonState();
+		stage.getInputProcessor().mouseMoved(Gdx.input.getX(), Gdx.input.getY());
 	}
 }

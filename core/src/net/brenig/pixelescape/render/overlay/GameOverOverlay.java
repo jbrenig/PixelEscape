@@ -127,6 +127,7 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 	@Override
 	public void show() {
 		Gdx.input.setInputProcessor(new InputMultiplexer(stage.getInputProcessor(), this));
+		screen.game.gameMusic.fadeOutToStop(0.6F);
 	}
 
 	@Override
@@ -145,6 +146,11 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 		stage.dispose();
 	}
 
+	private void restartMusic() {
+		screen.game.gameMusic.setCurrentMusic(screen.getGameMusic());
+		screen.game.gameMusic.play();
+	}
+
 	@Override
 	public boolean shouldHideGameUI() {
 		return true;
@@ -161,10 +167,16 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 	}
 
 	@Override
+	public boolean canHideCursor() {
+		return false;
+	}
+
+	@Override
 	public boolean keyDown(int keycode) {
 		if (animationProgress > TIME_TO_WAIT && keycode == Input.Keys.SPACE) {
 			screen.resetToEmptyOverlay();
 			screen.restart();
+			restartMusic();
 			return true;
 		}
 		return false;
@@ -185,6 +197,7 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 		if (animationProgress > TIME_TO_WAIT) {
 			screen.resetToEmptyOverlay();
 			screen.restart();
+			restartMusic();
 			return true;
 		}
 		return false;

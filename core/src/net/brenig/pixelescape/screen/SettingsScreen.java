@@ -1,7 +1,6 @@
 package net.brenig.pixelescape.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -17,9 +16,7 @@ import net.brenig.pixelescape.lib.Reference;
 /**
  * Created by Jonas Brenig on 26.09.2015.
  */
-public class SettingsScreen implements Screen {
-
-	private PixelEscape game;
+public class SettingsScreen extends PixelScreen {
 
 	private Stage uiStage;
 	private Table uiLayout;
@@ -29,7 +26,7 @@ public class SettingsScreen implements Screen {
 
 
 	public SettingsScreen(final PixelEscape game) {
-		this.game = game;
+		super(game);
 		//Setting up stage
 		uiStage = new Stage(new ExtendViewport(Reference.TARGET_RESOLUTION_X, Reference.TARGET_RESOLUTION_Y, game.cam));
 		uiStage.setDebugAll(Reference.DEBUG_UI);

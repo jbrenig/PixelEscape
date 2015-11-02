@@ -46,4 +46,9 @@ public final class EmptyOverlay extends Overlay {
 	public boolean shouldHideGameUI() {
 		return false;
 	}
+
+	@Override
+	public boolean shouldPauseOnEscape() {
+		return true;
+	}
 }

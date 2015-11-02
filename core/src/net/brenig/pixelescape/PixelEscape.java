@@ -15,18 +15,24 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
-import net.brenig.pixelescape.game.GameAssets;
-import net.brenig.pixelescape.game.GameConfiguration;
-import net.brenig.pixelescape.game.GameSettings;
-import net.brenig.pixelescape.game.UserData;
+import net.brenig.pixelescape.game.data.GameAssets;
+import net.brenig.pixelescape.game.data.GameConfiguration;
+import net.brenig.pixelescape.game.data.GameMusic;
+import net.brenig.pixelescape.game.data.GameSettings;
+import net.brenig.pixelescape.game.data.UserData;
 import net.brenig.pixelescape.game.entity.EntityPlayer;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.screen.MainMenuScreen;
+import net.brenig.pixelescape.screen.PixelScreen;
+
+import java.util.Random;
 
 public class PixelEscape extends Game {
 
 	private static PixelEscape instance;
+
+	public static final Random rand = new Random();
 
 	/**
 	 * Main ShapeRenderer
@@ -57,6 +63,7 @@ public class PixelEscape extends Game {
 	public GameSettings gameSettings;
 	public UserData userData;
 	public GameConfiguration gameConfig;
+	public GameMusic gameMusic;
 
 	public int gameSizeX = Reference.TARGET_RESOLUTION_X;
 	public int gameSizeY = Reference.GAME_RESOLUTION_Y + Reference.GAME_UI_Y_SIZE;
@@ -94,6 +101,7 @@ public class PixelEscape extends Game {
 		shapeRenderer = new ShapeRenderer();
 		shapeRenderer.setProjectionMatrix(cam.combined);
 
+		gameMusic = new GameMusic(this);
 
 		updateAssetManager();
 		gameAssets.initAll();
@@ -139,6 +147,7 @@ public class PixelEscape extends Game {
 
 	@Override
 	public void render() {
+		gameMusic.update(Gdx.graphics.getDeltaTime());
 		prepareRender();
 		super.render();
 		if(Reference.SHOW_FPS) {
@@ -163,9 +172,8 @@ public class PixelEscape extends Game {
 		gameSettings.saveToDisk();
 		userData.saveToDisk();
 		batch.dispose();
-		getFont().dispose();
 		shapeRenderer.dispose();
-		getGameOverSound().dispose();
+		gameAssets.disposeAll();
 		super.dispose();
 	}
 
@@ -225,7 +233,14 @@ public class PixelEscape extends Game {
 	 * stops or starts music if settings have changed
 	 */
 	public void updateMusicPlaying() {
-
+		if(gameSettings.musicEnabled) {
+//			gameMusic.play();
+		} else {
+			gameMusic.fadeOutToStop(0.5F);
+		}
+		if(screen instanceof PixelScreen) {
+			((PixelScreen) screen).updateMusic(gameSettings.musicEnabled);
+		}
 	}
 
 	/**

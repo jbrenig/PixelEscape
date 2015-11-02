@@ -2,7 +2,6 @@ package net.brenig.pixelescape.screen;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -22,9 +21,8 @@ import net.brenig.pixelescape.screen.ui.TwoStateImageButton;
 /**
  * Created by Jonas Brenig on 02.08.2015.
  */
-public class MainMenuScreen implements Screen {
+public class MainMenuScreen extends PixelScreen {
 
-	private final PixelEscape game;
 	private StageManager uiStage;
 
 	/**
@@ -44,7 +42,7 @@ public class MainMenuScreen implements Screen {
 	private TwoStateImageButton btnMusic;
 
 	public MainMenuScreen(final PixelEscape game) {
-		this.game = game;
+		super(game);
 		//Setting up stage
 		uiStage = new StageManager(new ExtendViewport(Reference.TARGET_RESOLUTION_X, Reference.TARGET_RESOLUTION_Y, game.cam));
 
@@ -116,6 +114,7 @@ public class MainMenuScreen implements Screen {
 		uiStage.updateViewportToScreen();
 		menuLayout.invalidateHierarchy();
 		headLayout.invalidateHierarchy();
+		game.gameMusic.playOrFadeInto(game.getGameAssets().getMainMenuMusic());
 	}
 
 	@Override

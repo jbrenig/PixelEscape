@@ -82,4 +82,5 @@ public class Reference {
 	public static final boolean DEBUG_UI                    = false;
 	public static final boolean DEBUG_LOGGING               = false;
 	public static final boolean DEBUG_GOD_MODE              = false;
+	public static final boolean DEBUG_MUSIC                 = false;
 }

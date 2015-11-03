@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 
 import net.brenig.pixelescape.PixelEscape;
@@ -114,16 +115,23 @@ public class GameAssets {
 
 		mainUiSkin.add("button_music_enabled", guiAtlas.createSprite("music_enabled"));
 		mainUiSkin.add("button_music_disabled", guiAtlas.createSprite("music_disabled"));
+		mainUiSkin.add("button_music_enabled_hover", guiAtlas.createSprite("music_enabled_hover"));
+		mainUiSkin.add("button_music_disabled_hover", guiAtlas.createSprite("music_disabled_hover"));
 
 		mainUiSkin.add("button_sound_enabled", guiAtlas.createSprite("sound_enabled"));
 		mainUiSkin.add("button_sound_disabled", guiAtlas.createSprite("sound_disabled"));
+		mainUiSkin.add("button_sound_enabled_hover", guiAtlas.createSprite("sound_enabled_hover"));
+		mainUiSkin.add("button_sound_disabled_hover", guiAtlas.createSprite("sound_disabled_hover"));
 
 		mainUiSkin.add("button_pause", guiAtlas.createSprite("button_pause"));
 
 		mainUiSkin.add("button_fullscreen", guiAtlas.createSprite("fullscreen"));
 		mainUiSkin.add("button_fullscreen_hover", guiAtlas.createSprite("fullscreen_hover"));
-		mainUiSkin.add("button_restore_window", guiAtlas.createSprite("fullscreen"));
-		mainUiSkin.add("button_restore_window_hover", guiAtlas.createSprite("fullscreen_hover"));
+		mainUiSkin.add("button_restore_window", guiAtlas.createSprite("fullscreen_restore"));
+		mainUiSkin.add("button_restore_window_hover", guiAtlas.createSprite("fullscreen_restore_hover"));
+
+		mainUiSkin.add("slider_background", guiAtlas.createSprite("slider_background"));
+		mainUiSkin.add("slider_knob", guiAtlas.createSprite("slider_knop"));
 
 		//Button style: Settings
 		{
@@ -141,6 +149,12 @@ public class GameAssets {
 			TwoStateImageButton.TwoStateImageButtonStyle imageButtonStyle = new TwoStateImageButton.TwoStateImageButtonStyle();
 			imageButtonStyle.imageUp = mainUiSkin.getDrawable("button_music_enabled");
 			imageButtonStyle.image2Up = mainUiSkin.getDrawable("button_music_disabled");
+			imageButtonStyle.imageOver = mainUiSkin.newDrawable("button_music_enabled_hover", Color.LIGHT_GRAY);
+			imageButtonStyle.image2Over = mainUiSkin.newDrawable("button_music_disabled_hover", Color.LIGHT_GRAY);
+			imageButtonStyle.imageDown = mainUiSkin.newDrawable("button_music_enabled_hover", Color.GRAY);
+			imageButtonStyle.image2Down = mainUiSkin.newDrawable("button_music_disabled_hover", Color.GRAY);
+			imageButtonStyle.imageDisabled = mainUiSkin.newDrawable("button_music_enabled_hover", Color.DARK_GRAY);
+			imageButtonStyle.image2Disabled = mainUiSkin.newDrawable("button_music_disabled_hover", Color.DARK_GRAY);
 
 			mainUiSkin.add("music", imageButtonStyle);
 		}
@@ -150,6 +164,12 @@ public class GameAssets {
 			TwoStateImageButton.TwoStateImageButtonStyle imageButtonStyle = new TwoStateImageButton.TwoStateImageButtonStyle();
 			imageButtonStyle.imageUp = mainUiSkin.getDrawable("button_sound_enabled");
 			imageButtonStyle.image2Up = mainUiSkin.getDrawable("button_sound_disabled");
+			imageButtonStyle.imageOver = mainUiSkin.newDrawable("button_sound_enabled_hover", Color.LIGHT_GRAY);
+			imageButtonStyle.image2Over = mainUiSkin.newDrawable("button_sound_disabled_hover", Color.LIGHT_GRAY);
+			imageButtonStyle.imageDown = mainUiSkin.newDrawable("button_sound_enabled_hover", Color.GRAY);
+			imageButtonStyle.image2Down = mainUiSkin.newDrawable("button_sound_disabled_hover", Color.GRAY);
+			imageButtonStyle.imageDisabled = mainUiSkin.newDrawable("button_sound_enabled_hover", Color.DARK_GRAY);
+			imageButtonStyle.image2Disabled = mainUiSkin.newDrawable("button_sound_disabled_hover", Color.DARK_GRAY);
 
 			mainUiSkin.add("sound", imageButtonStyle);
 		}
@@ -158,11 +178,13 @@ public class GameAssets {
 		{
 			TwoStateImageButton.TwoStateImageButtonStyle imageButtonStyle = new TwoStateImageButton.TwoStateImageButtonStyle();
 			imageButtonStyle.imageUp = mainUiSkin.getDrawable("button_fullscreen");
-			imageButtonStyle.image2Up = mainUiSkin.getDrawable("button_restore_window"); //TODO: image that represents inversion to fullscreen (go to windowed)
+			imageButtonStyle.image2Up = mainUiSkin.getDrawable("button_restore_window");
 			imageButtonStyle.imageOver = mainUiSkin.newDrawable("button_fullscreen_hover", Color.LIGHT_GRAY);
 			imageButtonStyle.image2Over = mainUiSkin.newDrawable("button_restore_window_hover", Color.LIGHT_GRAY);
 			imageButtonStyle.imageDown = mainUiSkin.newDrawable("button_fullscreen_hover", Color.GRAY);
 			imageButtonStyle.image2Down = mainUiSkin.newDrawable("button_restore_window_hover", Color.GRAY);
+			imageButtonStyle.imageDisabled = mainUiSkin.newDrawable("button_fullscreen_hover", Color.DARK_GRAY);
+			imageButtonStyle.image2Disabled = mainUiSkin.newDrawable("button_restore_window_hover", Color.DARK_GRAY);
 
 			mainUiSkin.add("fullscreen", imageButtonStyle);
 		}
@@ -190,10 +212,19 @@ public class GameAssets {
 			mainUiSkin.add("default", textButtonStyle);
 		}
 
-		//Label style
-		Label.LabelStyle labelStyle = new Label.LabelStyle(getFont(), Color.BLACK);
+		//Label style: default
+		{
+			Label.LabelStyle labelStyle = new Label.LabelStyle(getFont(), Color.BLACK);
 
-		mainUiSkin.add("default", labelStyle);
+			mainUiSkin.add("default", labelStyle);
+		}
+
+		//Slide style: default
+		{
+			Slider.SliderStyle style = new Slider.SliderStyle(mainUiSkin.getDrawable("slider_background"), mainUiSkin.getDrawable("slider_knob"));
+			mainUiSkin.add("default", style);
+		}
+
 	}
 
 	public Skin getMainUiSkin() {

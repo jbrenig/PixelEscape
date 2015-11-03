@@ -25,7 +25,6 @@ public class GameMusic {
 	private float fadingTime = 0;
 	private static final float defaultFadingTime = 1;
 
-	private float targetVolume = 1;
 	private float currentVolume = 1;
 
 	private MusicState state = MusicState.STOPPED;
@@ -41,6 +40,7 @@ public class GameMusic {
 	public void setCurrentMusic(Music m) {
 		stop();
 		currentMusic = m;
+		currentMusic.setVolume(currentVolume);
 	}
 
 	/**
@@ -52,12 +52,12 @@ public class GameMusic {
 		if (isFading()) {
 			fadingProgress += delta;
 			if (state == MusicState.FADE_IN) {
-				currentVolume = Utils.easeInAndOut(fadingProgress, fadingTime) * targetVolume;
+				currentVolume = Utils.easeInAndOut(fadingProgress, fadingTime) * game.gameSettings.musicVolume;
 				if (fadingProgress > fadingTime) {
 					state = MusicState.PLAYING;
 				}
 			} else {
-				currentVolume = 1 - Utils.easeInAndOut(fadingProgress, fadingTime);
+				currentVolume = game.gameSettings.musicVolume - Utils.easeInAndOut(fadingProgress, fadingTime) * game.gameSettings.musicVolume;
 				if (fadingProgress > fadingTime) {
 					fadingProgress = 0;
 					if (state == MusicState.FADE_OUT_PAUSE) {
@@ -71,6 +71,13 @@ public class GameMusic {
 				}
 			}
 			currentMusic.setVolume(currentVolume);
+		}
+	}
+
+	public void updateMusicVolume() {
+		if(!isFading()) {
+			currentVolume = game.gameSettings.musicVolume;
+			currentMusic.setVolume(game.gameSettings.musicVolume);
 		}
 	}
 
@@ -135,7 +142,7 @@ public class GameMusic {
 				fadingTime = fadeInTime;
 				state = MusicState.FADE_IN;
 			} else {
-				currentMusic.setVolume(targetVolume);
+				currentMusic.setVolume(game.gameSettings.musicVolume);
 				fadingProgress = 0;
 				fadingTime = 0;
 				state = MusicState.PLAYING;

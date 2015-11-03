@@ -323,7 +323,7 @@ public class GameScreen extends PixelScreen {
 	public void onGameOver() {
 		setOverlay(new GameOverOverlay(this));
 		if (game.gameSettings.soundEnabled) {
-			game.getGameOverSound().play();
+			game.getGameOverSound().play(game.gameSettings.soundVolume);
 		}
 		game.userData.updateHighscore(world.player.getScore());
 	}

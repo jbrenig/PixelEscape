@@ -57,7 +57,7 @@ public class TwoStateImageButton extends Button {
 
 	private void updateImage() {
 		Drawable drawable = null;
-		if (state) {
+		if (!state) {
 			if (isDisabled() && style.imageDisabled != null)
 				drawable = style.imageDisabled;
 			else if (isPressed() && style.imageDown != null)

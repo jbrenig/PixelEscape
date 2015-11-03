@@ -48,7 +48,7 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 		mainMenu.setVisible(false);
 		table.add(mainMenu);
 		table.add(new HorizontalSpacer());
-		table.add(Utils.addSoundAndMusicControllerToLayout(screen.game));
+		table.add(Utils.addFullScreenButtonToTable(screen.game, Utils.addSoundAndMusicControllerToLayout(screen.game)));
 	}
 
 	@Override

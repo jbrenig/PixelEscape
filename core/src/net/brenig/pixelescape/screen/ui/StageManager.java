@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -67,8 +68,8 @@ public class StageManager {
 	 * adds an actor to the rootTable
 	 * @see Table#add(Actor)
 	 */
-	public void add(Actor actor) {
-		rootTable.add(actor);
+	public Cell<Actor> add(Actor actor) {
+		return rootTable.add(actor);
 	}
 
 	/**

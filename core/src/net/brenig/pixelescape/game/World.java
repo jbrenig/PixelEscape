@@ -2,6 +2,7 @@ package net.brenig.pixelescape.game;
 
 import com.badlogic.gdx.Gdx;
 
+import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.game.entity.EntityPlayer;
 import net.brenig.pixelescape.game.entity.particle.EntityCrashParticle;
@@ -107,7 +108,7 @@ public class World {
 	public void update(float deltaTick) {
 		player.update(deltaTick, screen.getInput());
 		generateWorld(false);
-		if(!Reference.DEBUG_GOD_MODE) {
+		if(!GameDebugSettings.get("DEBUG_GOD_MODE")) {
 			player.collideWithWorld(this);
 			for (int i = 0; i < obstacles.size(); i++) {
 				player.collideWithObstacle(obstacles.get(i), this);
@@ -126,7 +127,7 @@ public class World {
 		}
 
 		//DEBUG Code
-		if(Reference.DEBUG_WORLD_GEN_VALIDATE) {
+		if(GameDebugSettings.get("DEBUG_WORLD_GEN_VALIDATE")) {
 			int index = convertScreenCoordToWorldBlockIndex(player.getXPosScreen());
 			if ((index - 5) <= lastIndex && index >= lastIndex) {
 				int local = convertWorldBlockToLocalBlockIndex(lastIndex);

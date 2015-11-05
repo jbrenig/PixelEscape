@@ -1,0 +1,154 @@
+package net.brenig.pixelescape.screen;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+
+import net.brenig.pixelescape.PixelEscape;
+import net.brenig.pixelescape.lib.Reference;
+import net.brenig.pixelescape.lib.Utils;
+import net.brenig.pixelescape.screen.ui.HorizontalSpacer;
+import net.brenig.pixelescape.screen.ui.StageManager;
+
+/**
+ * Created by Jonas Brenig on 26.09.2015.
+ */
+public class DebugSettingsScreen extends PixelScreen {
+
+	private StageManager uiStage;
+	private Table uiLayout;
+	private Table headLayout;
+	private ScrollPane pane;
+
+
+	public DebugSettingsScreen(final PixelEscape game) {
+		super(game);
+		//Setting up stage
+		uiStage = new StageManager(new ExtendViewport(Reference.TARGET_RESOLUTION_X, Reference.TARGET_RESOLUTION_Y, game.cam));
+
+		game.resetFontSize();
+
+		//configure main layout
+		uiLayout = new Table();
+		uiLayout.setFillParent(true);
+		uiLayout.setPosition(0, 0);
+		uiLayout.center();
+		uiLayout.padBottom(30);
+
+		uiLayout.add(createDebugSettingCheckBox("Show FPS", "SHOW_FPS")).left().row();
+		uiLayout.add(createDebugSettingCheckBox("Pause when window looses focus", "AUTO_PAUSE")).left().row();
+		uiLayout.add(createDebugSettingCheckBox("red player death particles", "PLAYER_EXPLOSION_RED")).left().row();
+		uiLayout.add(createDebugSettingCheckBox("show debug information", "DEBUG_MODE_COORDS")).left().row();
+		uiLayout.add(createDebugSettingCheckBox("validate world gen", "DEBUG_WORLD_GEN_VALIDATE")).left().row();
+		uiLayout.add(createDebugSettingCheckBox("Debug screen bounds", "DEBUG_SCREEN_BOUNDS")).left().row();
+		uiLayout.add(createDebugSettingCheckBox("Debug UI", "DEBUG_UI")).left().row();
+		uiLayout.add(createDebugSettingCheckBox("Enable debug Logging", "DEBUG_LOGGING")).left().row();
+		uiLayout.add(createDebugSettingCheckBox("Enable Godmode", "DEBUG_GOD_MODE")).left().row();
+		uiLayout.add(createDebugSettingCheckBox("Show music Debug information", "DEBUG_MUSIC")).left().row();
+
+
+		//Add ui elements to stage
+
+		//Head controls
+		uiStage.getRootTable().top().right().pad(4);
+		headLayout = Utils.createDefaultUIHeadControls();
+
+		Label header = new Label("DEBUG Settings", game.getSkin());
+		header.setFontScale(1.2F);
+
+		uiStage.add(new HorizontalSpacer()).width(headLayout.getPrefWidth());
+		uiStage.add(header).pad(8).fillX();
+		uiStage.add(headLayout);
+		uiStage.row();
+
+
+		//Main Layout
+
+		//configure scollpane
+		pane = new ScrollPane(uiLayout, game.getSkin());
+//		pane.setFillParent(true);
+//		uiStage.addActorToStage(pane);
+		uiStage.add(pane).expand().fillX().padTop(8).padLeft(20).padRight(20).center().colspan(3).row();
+
+		//Back Button
+		{
+			TextButton btnBack = new TextButton("Go Back", game.getSkin());
+			btnBack.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					game.setScreen(new SettingsScreen(game));
+				}
+			});
+
+			uiStage.add(btnBack).colspan(3).padTop(8);
+		}
+	}
+
+	private CheckBox createDebugSettingCheckBox(String text, final String property) {
+		CheckBox chbx = new CheckBox(text, game.getSkin());
+		chbx.setChecked(game.gameDebugSettings.getBoolean(property));
+		chbx.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				game.gameDebugSettings.setBoolean(property, ((CheckBox) actor).isChecked());
+			}
+		});
+		chbx.getImageCell().padBottom(8).padRight(10).size(32);
+		chbx.getLabel().setFontScale(0.7F);
+		return chbx;
+	}
+
+	@Override
+	public void show() {
+		Gdx.input.setInputProcessor(uiStage.getInputProcessor());
+		game.resetFontSize();
+		uiStage.updateViewportToScreen();
+//		uiLayout.invalidateHierarchy();
+		pane.invalidateHierarchy();
+		headLayout.invalidateHierarchy();
+	}
+
+	@Override
+	public void render(float delta) {
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		uiStage.act(delta);
+		uiStage.draw();
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		uiStage.updateViewport(width, height, true);
+		uiLayout.invalidateHierarchy();
+		pane.invalidateHierarchy();
+	}
+
+	@Override
+	public void pause() {
+
+	}
+
+	@Override
+	public void resume() {
+
+	}
+
+	@Override
+	public void hide() {
+		dispose();
+		game.gameDebugSettings.saveToDisk();
+	}
+
+	@Override
+	public void dispose() {
+		uiStage.dispose();
+	}
+}

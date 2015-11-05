@@ -2,6 +2,8 @@ package net.brenig.pixelescape.lib;
 
 import com.badlogic.gdx.Gdx;
 
+import net.brenig.pixelescape.game.data.GameDebugSettings;
+
 /**
  * Created by Jonas Brenig on 11.10.2015.
  */
@@ -49,7 +51,7 @@ public class LogHelper {
 	}
 
 	public static void debug(String tag, String msg, Throwable t) {
-		if(Reference.DEBUG_LOGGING) {
+		if(GameDebugSettings.get("DEBUG_LOGGING")) {
 			log(LOG_LEVEL_DEBUG, tag, msg, t);
 		}
 	}

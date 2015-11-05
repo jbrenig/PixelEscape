@@ -79,29 +79,29 @@ public class Utils {
 	 */
 	public static Table addSoundAndMusicControllerToLayout(final PixelEscape game, Table layout) {
 		final TwoStateImageButton btnSound = new TwoStateImageButton(game.getSkin(), "sound");
-		btnSound.setState(!game.gameSettings.soundEnabled);
+		btnSound.setState(!game.gameSettings.isSoundEnabled());
 		btnSound.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				//Invert current selection
 				//btn checked --> no sound
 				//btn not checked --> sound enabled
-				game.gameSettings.soundEnabled = btnSound.getState();
-				btnSound.setState(!game.gameSettings.soundEnabled);
+				game.gameSettings.setSoundEnabled(btnSound.getState());
+				btnSound.setState(!game.gameSettings.isSoundEnabled());
 			}
 		});
 		layout.add(btnSound);
 
 		final TwoStateImageButton btnMusic = new TwoStateImageButton(game.getSkin(), "music");
-		btnMusic.setState(!game.gameSettings.musicEnabled);
+		btnMusic.setState(!game.gameSettings.isMusicEnabled());
 		btnMusic.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				//Invert current selection
 				//btn checked --> no music
 				//btn not checked --> music enabled
-				game.gameSettings.musicEnabled = btnMusic.getState();
-				btnMusic.setState(!game.gameSettings.musicEnabled);
+				game.gameSettings.setMusicEnabled(btnMusic.getState());
+				btnMusic.setState(!game.gameSettings.isMusicEnabled());
 				game.updateMusicPlaying();
 			}
 		});

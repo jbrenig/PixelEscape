@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.World;
+import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.lib.Reference;
 
@@ -85,7 +86,7 @@ public class EntityCrashParticle extends Entity {
 		yVel = Math.min(Reference.MAX_ENTITY_SPEED, yVel);
 
 		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-		game.shapeRenderer.setColor(Reference.PLAYER_EXPLOSION_RED ? Color.RED : Color.BLACK);
+		game.shapeRenderer.setColor(GameDebugSettings.get("PLAYER_EXPLOSION_RED") ? Color.RED : Color.BLACK);
 		game.shapeRenderer.rect(xPos - radius, yPos - radius, size, size);
 		game.shapeRenderer.end();
 

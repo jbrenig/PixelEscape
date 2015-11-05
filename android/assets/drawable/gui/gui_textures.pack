@@ -182,3 +182,39 @@ sound_enabled_hover
   orig: 32, 32
   offset: 0, 0
   index: -1
+scrollbar
+  rotate: false
+  xy: 267, 61
+  size: 16, 32
+  orig: 16, 32
+  offset: 0, 0
+  index: -1
+checkbox
+  rotate: false
+  xy: 27, 9
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+checkbox_checked
+  rotate: false
+  xy: 267, 43
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+checkbox_hover
+  rotate: false
+  xy: 285, 77
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+scroll_background
+  rotate: false
+  xy: 45, 10
+  size: 15, 15
+  split: 4, 4, 4, 4
+  orig: 15, 15
+  offset: 0, 0
+  index: -1

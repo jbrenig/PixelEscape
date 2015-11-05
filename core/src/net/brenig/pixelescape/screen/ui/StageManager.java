@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import net.brenig.pixelescape.lib.Reference;
+import net.brenig.pixelescape.game.data.GameDebugSettings;
 
 /**
  * Manager that includes a rootTable to arrange ui Elements conveniently<br></br>
@@ -21,7 +21,7 @@ public class StageManager {
 	
 	public StageManager(Viewport view) {
 		uiStage = new Stage(view);
-		uiStage.setDebugAll(Reference.DEBUG_UI);
+		uiStage.setDebugAll(GameDebugSettings.get("DEBUG_UI"));
 
 		rootTable = new Table();
 		rootTable.setFillParent(true);
@@ -101,5 +101,9 @@ public class StageManager {
 	 */
 	public void updateViewportToScreen() {
 		updateViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+	}
+
+	public void row() {
+		rootTable.row();
 	}
 }

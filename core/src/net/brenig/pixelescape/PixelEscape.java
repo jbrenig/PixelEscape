@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import net.brenig.pixelescape.game.data.GameAssets;
 import net.brenig.pixelescape.game.data.GameConfiguration;
+import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.data.GameMusic;
 import net.brenig.pixelescape.game.data.GameSettings;
 import net.brenig.pixelescape.game.data.UserData;
@@ -61,6 +62,7 @@ public class PixelEscape extends Game {
 
 	private GameAssets gameAssets;
 	public GameSettings gameSettings;
+	public GameDebugSettings gameDebugSettings;
 	public UserData userData;
 	public GameConfiguration gameConfig;
 	public GameMusic gameMusic;
@@ -108,7 +110,7 @@ public class PixelEscape extends Game {
 
 		//load settings
 		gameSettings = new GameSettings();
-		gameSettings.loadFromDisk();
+		gameDebugSettings = new GameDebugSettings();
 
 		//load userdata
 		//currently only highscore
@@ -150,7 +152,7 @@ public class PixelEscape extends Game {
 		gameMusic.update(Gdx.graphics.getDeltaTime());
 		prepareRender();
 		super.render();
-		if(Reference.SHOW_FPS) {
+		if(GameDebugSettings.get("SHOW_FPS")) {
 			batch.begin();
 			getFont().setColor(Color.RED);
 			resetFontSize();
@@ -233,13 +235,13 @@ public class PixelEscape extends Game {
 	 * stops or starts music if settings have changed
 	 */
 	public void updateMusicPlaying() {
-		if(gameSettings.musicEnabled) {
+		if(gameSettings.isMusicEnabled()) {
 //			gameMusic.play();
 		} else {
 			gameMusic.fadeOutToStop(0.5F);
 		}
 		if(screen instanceof PixelScreen) {
-			((PixelScreen) screen).updateMusic(gameSettings.musicEnabled);
+			((PixelScreen) screen).updateMusic(gameSettings.isMusicEnabled());
 		}
 	}
 

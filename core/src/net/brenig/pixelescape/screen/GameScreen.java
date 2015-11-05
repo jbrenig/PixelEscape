@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
+import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.worldgen.TerrainPair;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.WorldRenderer;
@@ -155,7 +156,7 @@ public class GameScreen extends PixelScreen {
 
 		//black background
 		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-		if(Reference.DEBUG_SCREEN_BOUNDS) {
+		if(GameDebugSettings.get("DEBUG_SCREEN_BOUNDS")) {
 			game.shapeRenderer.setColor(1, 0, 0, 0);
 		} else {
 			game.shapeRenderer.setColor(0, 0, 0, 1);
@@ -182,7 +183,7 @@ public class GameScreen extends PixelScreen {
 		//Overlay
 		overlay.render(delta);
 
-		if(Reference.DEBUG_MODE_COORDS) {
+		if(GameDebugSettings.get("DEBUG_MODE_COORDS")) {
 			float x = game.getScaledMouseX();
 			float y = game.getScaledMouseY();
 			float worldY = world.convertScreenYToWorldCoordinate(y);
@@ -205,7 +206,7 @@ public class GameScreen extends PixelScreen {
 			game.getFont().draw(game.batch, fontLayout, 5, pos);
 			game.getFont().getData().setScale(1F);
 			game.batch.end();
-		} else if(Reference.DEBUG_MUSIC) {
+		} else if(GameDebugSettings.get("DEBUG_MUSIC")) {
 			game.batch.begin();
 			game.getFont().setColor(Color.LIGHT_GRAY);
 			game.getFont().getData().setScale(0.5F);
@@ -252,7 +253,7 @@ public class GameScreen extends PixelScreen {
 
 	@Override
 	public void pause() {
-		if(Reference.AUTO_PAUSE) {
+		if(GameDebugSettings.get("AUTO_PAUSE")) {
 			isScreenPaused = true;
 			overlay.pause();
 		}
@@ -260,7 +261,7 @@ public class GameScreen extends PixelScreen {
 
 	@Override
 	public void resume() {
-		if(Reference.AUTO_PAUSE) {
+		if(GameDebugSettings.get("AUTO_PAUSE")) {
 			isScreenPaused = false;
 			overlay.resume();
 		}
@@ -322,8 +323,8 @@ public class GameScreen extends PixelScreen {
 	 */
 	public void onGameOver() {
 		setOverlay(new GameOverOverlay(this));
-		if (game.gameSettings.soundEnabled) {
-			game.getGameOverSound().play(game.gameSettings.soundVolume);
+		if (game.gameSettings.isSoundEnabled()) {
+			game.getGameOverSound().play(game.gameSettings.getSoundVolume());
 		}
 		game.userData.updateHighscore(world.player.getScore());
 	}

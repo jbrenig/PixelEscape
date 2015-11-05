@@ -7,11 +7,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.screen.ui.TwoStateImageButton;
@@ -133,6 +137,13 @@ public class GameAssets {
 		mainUiSkin.add("slider_background", guiAtlas.createSprite("slider_background"));
 		mainUiSkin.add("slider_knob", guiAtlas.createSprite("slider_knop"));
 
+		mainUiSkin.add("chbx_unchecked", guiAtlas.createSprite("checkbox"));
+		mainUiSkin.add("chbx_checked", guiAtlas.createSprite("checkbox_checked"));
+		mainUiSkin.add("chbx_hover", guiAtlas.createSprite("checkbox_hover"));
+
+		mainUiSkin.add("scroll_background", guiAtlas.createPatch("scroll_background"));
+		mainUiSkin.add("scrollbar", guiAtlas.createSprite("scrollbar"));
+
 		//Button style: Settings
 		{
 			ImageButton.ImageButtonStyle imageButtonStyle = new ImageButton.ImageButtonStyle();
@@ -215,13 +226,42 @@ public class GameAssets {
 		//Label style: default
 		{
 			Label.LabelStyle labelStyle = new Label.LabelStyle(getFont(), Color.BLACK);
-
+			labelStyle.font = font;
+			labelStyle.fontColor = Color.BLACK;
 			mainUiSkin.add("default", labelStyle);
 		}
 
 		//Slide style: default
 		{
 			Slider.SliderStyle style = new Slider.SliderStyle(mainUiSkin.getDrawable("slider_background"), mainUiSkin.getDrawable("slider_knob"));
+			mainUiSkin.add("default", style);
+		}
+
+		//Dialog style: default
+		{
+			Window.WindowStyle style = new Window.WindowStyle();
+			style.titleFont = font;
+			style.titleFontColor = Color.BLACK;
+			style.background = new NinePatchDrawable(buttonNinePatch);
+			mainUiSkin.add("default", style);
+		}
+
+		//CheckBox style: default
+		{
+			CheckBox.CheckBoxStyle style = new CheckBox.CheckBoxStyle();
+			style.checkboxOff = mainUiSkin.getDrawable("chbx_unchecked");
+			style.checkboxOn = mainUiSkin.getDrawable("chbx_checked");
+			style.checkboxOver = mainUiSkin.getDrawable("chbx_hover");
+			style.font = font;
+			style.fontColor = Color.BLACK;
+			mainUiSkin.add("default", style);
+		}
+
+		//Scroller style: default
+		{
+			ScrollPane.ScrollPaneStyle style = new ScrollPane.ScrollPaneStyle();
+			style.background = new NinePatchDrawable(mainUiSkin.getPatch("scroll_background"));
+			style.vScrollKnob = mainUiSkin.getDrawable("scrollbar");
 			mainUiSkin.add("default", style);
 		}
 

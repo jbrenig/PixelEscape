@@ -26,11 +26,13 @@ public class GameSettings {
 
 	public static final String PREF_MAIN_SETTINGS = "PixelEscape_User_Preferences";
 
-	public boolean musicEnabled = Defaults.musicEnabled;
-	public boolean soundEnabled = Defaults.soundEnabled;
+	private Preferences prefs;
 
-	public float musicVolume = Defaults.soundVolume;
-	public float soundVolume = Defaults.musicVolume;
+	private boolean musicEnabled = Defaults.musicEnabled;
+	private boolean soundEnabled = Defaults.soundEnabled;
+
+	private float musicVolume = Defaults.soundVolume;
+	private float soundVolume = Defaults.musicVolume;
 
 	/**
 	 * fullscreen, setting does not persist atm
@@ -38,35 +40,43 @@ public class GameSettings {
 	public boolean fullscreen = false;
 
 	public GameSettings() {
-
-	}
-
-	public Preferences loadFromDisk() {
-		Preferences prefs = Gdx.app.getPreferences(PREF_MAIN_SETTINGS);
-
-		//Sound
-		musicEnabled = prefs.getBoolean(Keys.musicEnabled, Defaults.musicEnabled);
-		soundEnabled = prefs.getBoolean(Keys.soundEnabled, Defaults.soundEnabled);
-
-		musicVolume = prefs.getFloat(Keys.musicVolume, Defaults.musicVolume);
-		soundVolume = prefs.getFloat(Keys.soundVolume, Defaults.soundVolume);
-		return prefs;
+		prefs = Gdx.app.getPreferences(PREF_MAIN_SETTINGS);
 	}
 
 	public void saveToDisk() {
-		save().flush();
+		prefs.flush();
 	}
 
-	public Preferences save() {
-		Preferences prefs = Gdx.app.getPreferences(PREF_MAIN_SETTINGS);
+	public boolean isMusicEnabled() {
+		return prefs.getBoolean(Keys.musicEnabled, Defaults.musicEnabled);
+	}
 
-		//Sound
+	public void setMusicEnabled(boolean musicEnabled) {
 		prefs.putBoolean(Keys.musicEnabled, musicEnabled);
-		prefs.putBoolean(Keys.soundEnabled, soundEnabled);
+	}
 
+	public boolean isSoundEnabled() {
+		return prefs.getBoolean(Keys.soundEnabled, Defaults.soundEnabled);
+	}
+
+	public void setSoundEnabled(boolean soundEnabled) {
+		prefs.putBoolean(Keys.soundEnabled, soundEnabled);
+	}
+
+	public float getMusicVolume() {
+		return prefs.getFloat(Keys.musicVolume, Defaults.musicVolume);
+	}
+
+	public void setMusicVolume(float musicVolume) {
 		prefs.putFloat(Keys.musicVolume, musicVolume);
+	}
+
+	public float getSoundVolume() {
+		return prefs.getFloat(Keys.soundVolume, Defaults.soundVolume);
+	}
+
+	public void setSoundVolume(float soundVolume) {
 		prefs.putFloat(Keys.soundVolume, soundVolume);
-		return prefs;
 	}
 
 }

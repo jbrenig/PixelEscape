@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
+import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.worldgen.Barricade;
 import net.brenig.pixelescape.game.worldgen.TerrainPair;
 import net.brenig.pixelescape.lib.CycleIntArray;
@@ -44,7 +45,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	public void update(float deltaTick, InputManager inputManager) {
 		xPos += deltaTick * velocity;
-		if(!Reference.DEBUG_GOD_MODE) {
+		if(!GameDebugSettings.get("DEBUG_GOD_MODE")) {
 			yPos += deltaTick * yVelocity;
 		}
 

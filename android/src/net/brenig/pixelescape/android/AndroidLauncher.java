@@ -15,7 +15,7 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		config.useAccelerometer = false;
 		config.useCompass = false;
-		initialize(new PixelEscape(), config);
+		initialize(new PixelEscape(new AndroidConfiguration()), config);
 	}
 
 	public static class AndroidConfiguration extends GameConfiguration {

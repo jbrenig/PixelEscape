@@ -87,6 +87,7 @@ public class DebugSettingsScreen extends PixelScreen {
 			btnBack.addListener(new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
+					game.gameDebugSettings.saveToDisk();
 					game.setScreen(new SettingsScreen(game));
 				}
 			});
@@ -146,7 +147,6 @@ public class DebugSettingsScreen extends PixelScreen {
 	@Override
 	public void hide() {
 		dispose();
-		game.gameDebugSettings.saveToDisk();
 	}
 
 	@Override

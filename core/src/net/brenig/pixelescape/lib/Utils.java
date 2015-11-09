@@ -49,7 +49,7 @@ public class Utils {
 		//minimize padding
 		table.pad(8, 8, 8, 8);
 		if(game.gameConfig.useBiggerButtons()) {
-			table.defaults().pad(8, 4, 8, 4);
+			table.defaults().pad(8, 4, 8, 4).minSize(game.convertToScaled(48));
 		}
 		return table;
 	}
@@ -86,6 +86,7 @@ public class Utils {
 				//btn checked --> no sound
 				//btn not checked --> sound enabled
 				game.gameSettings.setSoundEnabled(btnSound.getState());
+				game.gameSettings.saveToDisk();
 				btnSound.setState(!game.gameSettings.isSoundEnabled());
 			}
 		});
@@ -100,6 +101,7 @@ public class Utils {
 				//btn checked --> no music
 				//btn not checked --> music enabled
 				game.gameSettings.setMusicEnabled(btnMusic.getState());
+				game.gameSettings.saveToDisk();
 				btnMusic.setState(!game.gameSettings.isMusicEnabled());
 				game.updateMusicPlaying();
 			}

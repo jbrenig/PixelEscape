@@ -1,5 +1,7 @@
 package net.brenig.pixelescape.game.data;
 
+import net.brenig.pixelescape.lib.Reference;
+
 /**
  * Allows for platform specific game settings
  */
@@ -22,5 +24,9 @@ public class GameConfiguration {
 
 	public boolean canHideCursor() {
 		return false;
+	}
+
+	public boolean debugSettingsAvailable() {
+		return Reference.DEBUG_SETTINGS_AVAILABLE;
 	}
 }

@@ -14,7 +14,6 @@ import java.util.Map;
  */
 public class GameDebugSettings {
 
-	public static final boolean DEBUG_SETTINGS_AVAILABLE    = true;
 
 	public static final String PREF_DEBUG_SETTINGS = "PixelEscape_Debug_Preferences";
 
@@ -67,5 +66,4 @@ public class GameDebugSettings {
 	public static void set(String s, boolean b) {
 		PixelEscape.getPixelEscape().gameDebugSettings.setBoolean(s, b);
 	}
-
 }

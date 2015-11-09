@@ -23,5 +23,10 @@ public class AndroidLauncher extends AndroidApplication {
 		public boolean useBiggerButtons() {
 			return true;
 		}
+
+		@Override
+		public boolean debugSettingsAvailable() {
+			return BuildConfig.DEBUG;
+		}
 	}
 }

@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import net.brenig.pixelescape.PixelEscape;
-import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.screen.ui.PixelDialog;
@@ -121,7 +120,7 @@ public class SettingsScreen extends PixelScreen {
 
 		Utils.addSoundAndMusicControllerToLayout(game, headLayout);
 
-		if (GameDebugSettings.DEBUG_SETTINGS_AVAILABLE) {
+		if (game.gameConfig.debugSettingsAvailable()) {
 			final ImageButton btnSettings = new ImageButton(game.getSkin(), "settings");
 			btnSettings.addListener(new ClickListener() {
 				@Override

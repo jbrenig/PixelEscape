@@ -28,12 +28,6 @@ public class GameSettings {
 
 	private Preferences prefs;
 
-	private boolean musicEnabled = Defaults.musicEnabled;
-	private boolean soundEnabled = Defaults.soundEnabled;
-
-	private float musicVolume = Defaults.soundVolume;
-	private float soundVolume = Defaults.musicVolume;
-
 	/**
 	 * fullscreen, setting does not persist atm
 	 */
@@ -53,6 +47,7 @@ public class GameSettings {
 
 	public void setMusicEnabled(boolean musicEnabled) {
 		prefs.putBoolean(Keys.musicEnabled, musicEnabled);
+		saveToDisk();
 	}
 
 	public boolean isSoundEnabled() {
@@ -61,6 +56,7 @@ public class GameSettings {
 
 	public void setSoundEnabled(boolean soundEnabled) {
 		prefs.putBoolean(Keys.soundEnabled, soundEnabled);
+		saveToDisk();
 	}
 
 	public float getMusicVolume() {
@@ -69,6 +65,7 @@ public class GameSettings {
 
 	public void setMusicVolume(float musicVolume) {
 		prefs.putFloat(Keys.musicVolume, musicVolume);
+		saveToDisk();
 	}
 
 	public float getSoundVolume() {
@@ -77,6 +74,7 @@ public class GameSettings {
 
 	public void setSoundVolume(float soundVolume) {
 		prefs.putFloat(Keys.soundVolume, soundVolume);
+		saveToDisk();
 	}
 
 }

@@ -108,6 +108,7 @@ public class GameScreen extends PixelScreen {
 
 	@Override
 	public void show() {
+		firstUpdate = true;
 		game.gameMusic.playOrFadeInto(getGameMusic());
 	}
 

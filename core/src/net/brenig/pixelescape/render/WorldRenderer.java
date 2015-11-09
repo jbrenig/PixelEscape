@@ -20,16 +20,62 @@ public class WorldRenderer {
 	private int xPos = 0;
 	private int yPos = 0;
 
+	private float screenShakeX = 0;
+	private float screenShakeY = 0;
+
+	private float screenShakeForceX = 0;
+	private float screenShakeForceY = 0;
+
+	private float screenShakeTimerX = 0;
+	private float screenShakeTimerY = 0;
+
+	private static final float screenShakeSpeed = 8;
+	private static final float screenShakeLengthMod = 4;
+	private static final float screenShakeForceMult = 8;
+
 
 	public WorldRenderer(final PixelEscape game, World world) {
 		this.world = world;
 		this.game = game;
 	}
 
+	private void shakeScreen(float delta) {
+		if(screenShakeForceX > 0) {
+			screenShakeTimerX += delta * (screenShakeLengthMod + game.rand.nextFloat());
+		}
+		if(screenShakeForceY > 0) {
+			screenShakeTimerY += delta * (screenShakeLengthMod + game.rand.nextFloat());
+		}
+		if(screenShakeTimerX >= screenShakeForceX) {
+			screenShakeX = screenShakeForceX = screenShakeTimerX = 0;
+		} else {
+			float difX = screenShakeForceX - screenShakeTimerX;
+			screenShakeX = (float) (Math.sin(screenShakeTimerX * screenShakeSpeed) * difX) * screenShakeForceMult;
+		}
+		if(screenShakeTimerY >= screenShakeForceY) {
+			screenShakeY = screenShakeForceY = screenShakeTimerY = 0;
+		} else {
+			float difY = screenShakeForceY - screenShakeTimerY;
+			screenShakeY = (float) (Math.sin(screenShakeTimerY * screenShakeSpeed) * difY) * screenShakeForceMult;
+		}
+	}
+
+	public void applyForceToScreen(float x, float y) {
+		if(x * Math.PI > screenShakeForceX) {
+			screenShakeForceX = (float) (x * Math.PI);
+		}
+		if(y * Math.PI > screenShakeForceY) {
+			screenShakeForceY = (float) (y * Math.PI);
+		}
+	}
+
 	/**
 	 * Renders the World
 	 */
 	public void render(float delta) {
+		if(game.gameDebugSettings.getBoolean("SCREEN_SHAKE")) {
+			shakeScreen(delta);
+		}
 		renderPlayerEntity(world.player, delta);
 		renderWorld();
 		renderEntities(delta);
@@ -37,12 +83,12 @@ public class WorldRenderer {
 
 	private void renderEntities(float delta) {
 		for(Entity e : world.getEntityList()) {
-			e.render(game, delta, xPos, yPos);
+			e.render(game, delta, xPos + screenShakeX, yPos + screenShakeY);
 		}
 	}
 
 	private void renderPlayerEntity(EntityPlayer player, float delta) {
-		player.render(game, delta, xPos, yPos);
+		player.render(game, delta, xPos + screenShakeX, yPos + screenShakeY);
 	}
 
 	private void renderWorld() {
@@ -54,15 +100,15 @@ public class WorldRenderer {
 			index++;
 		}
 		while (isBlockVisible(index) && index < world.getBlockBufferSize()) {
-			game.shapeRenderer.rect(xPos + getBlockPositionFromLocalIndex(index), yPos, Reference.BLOCK_WIDTH, world.getTopBlockHeight(index) * Reference.BLOCK_WIDTH);
-			game.shapeRenderer.rect(xPos + getBlockPositionFromLocalIndex(index), yPos + world.getWorldHeight(), Reference.BLOCK_WIDTH, world.getBottomBlockHeight(index) * Reference.BLOCK_WIDTH * -1);
+			game.shapeRenderer.rect(xPos + getBlockPositionFromLocalIndex(index) + screenShakeX, yPos, Reference.BLOCK_WIDTH, world.getTopBlockHeight(index) * Reference.BLOCK_WIDTH + screenShakeY);
+			game.shapeRenderer.rect(xPos + getBlockPositionFromLocalIndex(index) + screenShakeX, yPos + world.getWorldHeight(), Reference.BLOCK_WIDTH, (world.getBottomBlockHeight(index) * Reference.BLOCK_WIDTH - screenShakeY) * -1);
 			index++;
 		}
 
 		game.shapeRenderer.end();
 
 		for(int i = 0; i < world.obstacles.size(); i++) {
-			world.obstacles.get(i).render(xPos, yPos, world.player, game.shapeRenderer);
+			world.obstacles.get(i).render(xPos + screenShakeX, yPos + screenShakeY, world.player, game.shapeRenderer);
 		}
 
 	}

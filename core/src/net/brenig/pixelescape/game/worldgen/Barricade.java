@@ -19,7 +19,7 @@ public class Barricade {
 		this.posY = posY;
 	}
 
-	public void render(int x, int y, EntityPlayer player, ShapeRenderer render) {
+	public void render(float x, float y, EntityPlayer player, ShapeRenderer render) {
 		render.begin(ShapeRenderer.ShapeType.Filled);
 		render.setColor(0, 0, 0, 1);
 		render.rect(x + posX - sizeX / 2 - player.getXPos() + player.getXPosScreen(), y + posY - sizeY / 2, sizeX, sizeY);

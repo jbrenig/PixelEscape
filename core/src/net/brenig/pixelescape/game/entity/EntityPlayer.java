@@ -138,12 +138,12 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		TerrainPair front = world.getBlockForScreenPosition(xPosScreen + getPlayerSizeRadius());
 		if (yPos - getPlayerSizeRadius() < back.top * Reference.BLOCK_WIDTH || yPos - getPlayerSizeRadius() < front.top * Reference.BLOCK_WIDTH) {
 			//collide
-			world.onPlayerCollide();
+			world.onPlayerCollide(false);
 			return;
 		}
 		if (yPos + getPlayerSizeRadius() > world.getWorldHeight() - back.bottom * Reference.BLOCK_WIDTH || yPos + getPlayerSizeRadius() > world.getWorldHeight() - front.bottom * Reference.BLOCK_WIDTH) {
 			//collide
-			world.onPlayerCollide();
+			world.onPlayerCollide(false);
 			return;
 		}
 	}
@@ -151,7 +151,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	public void collideWithObstacle(net.brenig.pixelescape.game.worldgen.Barricade ob, World world) {
 		if(ob.posX - Barricade.sizeX / 2 < getXPos() + getPlayerSizeRadius() && ob.posX + Barricade.sizeX / getPlayerSizeRadius() > getXPos() - getPlayerSizeRadius()) {
 			if(ob.posY - Barricade.sizeY / 2 < getYPos() + getPlayerSizeRadius() && ob.posY + Barricade.sizeY / 2 > getYPos() - getPlayerSizeRadius()) {
-				world.onPlayerCollide();
+				world.onPlayerCollide(true);
 			}
 		}
 	}
@@ -177,7 +177,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	}
 
 	@Override
-	public void render(PixelEscape game, float delta, int xPos, int yPos) {
+	public void render(PixelEscape game, float delta, float xPos, float yPos) {
 		if(this.isDead()) {
 			return;
 		}

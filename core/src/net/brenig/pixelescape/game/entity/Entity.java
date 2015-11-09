@@ -14,7 +14,7 @@ public abstract class Entity {
 		worldObj = world;
 	}
 
-	public abstract void render(PixelEscape game, float delta, int x, int y);
+	public abstract void render(PixelEscape game, float delta, float x, float y);
 
 	public void update(float delta) {};
 

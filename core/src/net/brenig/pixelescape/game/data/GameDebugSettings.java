@@ -40,6 +40,7 @@ public class GameDebugSettings {
 		result.put("DEBUG_LOGGING", false);
 		result.put("DEBUG_GOD_MODE", false);
 		result.put("DEBUG_MUSIC", false);
+		result.put("SCREEN_SHAKE", true);
 		return Collections.unmodifiableMap(result);
 	}
 

@@ -39,10 +39,10 @@ public class DebugSettingsScreen extends PixelScreen {
 
 		//configure main layout
 		uiLayout = new Table();
-		uiLayout.setFillParent(true);
-		uiLayout.setPosition(0, 0);
+//		uiLayout.setFillParent(true);
+//		uiLayout.setPosition(0, 0);
 		uiLayout.center();
-		uiLayout.padBottom(30);
+		uiLayout.padBottom(30).padTop(30);
 
 		uiLayout.add(createDebugSettingCheckBox("Show FPS", "SHOW_FPS")).left().row();
 		uiLayout.add(createDebugSettingCheckBox("Pause when window looses focus", "AUTO_PAUSE")).left().row();
@@ -54,6 +54,7 @@ public class DebugSettingsScreen extends PixelScreen {
 		uiLayout.add(createDebugSettingCheckBox("Enable debug Logging", "DEBUG_LOGGING")).left().row();
 		uiLayout.add(createDebugSettingCheckBox("Enable Godmode", "DEBUG_GOD_MODE")).left().row();
 		uiLayout.add(createDebugSettingCheckBox("Show music Debug information", "DEBUG_MUSIC")).left().row();
+		uiLayout.add(createDebugSettingCheckBox("Enable Screen-Shake", "SCREEN_SHAKE")).left().row();
 
 
 		//Add ui elements to stage
@@ -78,6 +79,7 @@ public class DebugSettingsScreen extends PixelScreen {
 //		pane.setFillParent(true);
 //		uiStage.addActorToStage(pane);
 		uiStage.add(pane).expand().fillX().padTop(8).padLeft(20).padRight(20).center().colspan(3).row();
+		uiStage.getUiStage().setScrollFocus(pane);
 
 		//Back Button
 		{

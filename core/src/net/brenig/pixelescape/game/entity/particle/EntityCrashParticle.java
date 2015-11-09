@@ -38,7 +38,7 @@ public class EntityCrashParticle extends Entity {
 	}
 
 	@Override
-	public void render(PixelEscape game, float delta, int x, int y) {
+	public void render(PixelEscape game, float delta, float x, float y) {
 		if(isDead()) {
 			return;
 		}
@@ -87,7 +87,7 @@ public class EntityCrashParticle extends Entity {
 
 		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		game.shapeRenderer.setColor(GameDebugSettings.get("PLAYER_EXPLOSION_RED") ? Color.RED : Color.BLACK);
-		game.shapeRenderer.rect(xPos - radius, yPos - radius, size, size);
+		game.shapeRenderer.rect(x + xPos - radius, y + yPos - radius, size, size);
 		game.shapeRenderer.end();
 
 	}

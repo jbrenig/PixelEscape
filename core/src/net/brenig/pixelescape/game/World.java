@@ -324,7 +324,7 @@ public class World {
 		return getTerrainPairForIndex(convertScreenCoordToLocalBlockIndex(x));
 	}
 
-	public void onPlayerCollide() {
+	public void onPlayerCollide(boolean barricade) { //TODO: support collision types
 		player.setIsDead(true);
 		for (int i = 0; i < 60; i++) {
 			float x = (float) Math.sin(i) + (rand.nextFloat() - 0.5F);
@@ -335,6 +335,9 @@ public class World {
 			e.setVelocity(xVel, yVel);
 			this.spawnEntity(e);
 		}
+		float scoreModifier = 1 - 1 / (player.getScore() * 0.001F);
+		float force = 0.5F + rand.nextFloat() * 0.5F * scoreModifier;
+		screen.worldRenderer.applyForceToScreen(barricade ? force : 0, barricade ? 0 : force);
 		screen.onGameOver();
 	}
 

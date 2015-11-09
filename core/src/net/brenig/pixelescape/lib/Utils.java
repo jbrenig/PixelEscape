@@ -47,10 +47,9 @@ public class Utils {
 		Drawable ninePatch = Utils.minimizeNinePatch((NinePatchDrawable) game.getSkin().getDrawable("up"));
 		table.setBackground(ninePatch);
 		//minimize padding
+		table.pad(8, 8, 8, 8);
 		if(game.gameConfig.useBiggerButtons()) {
-			table.pad(12, 12, 12, 12);
-		} else {
-			table.pad(8, 8, 8, 8);
+			table.defaults().pad(8, 4, 8, 4);
 		}
 		return table;
 	}

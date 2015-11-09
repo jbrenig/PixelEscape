@@ -25,7 +25,7 @@ public class Reference {
 	//PATH ENTITIES
 	public static final int PLAYER_ENTITY_SIZE = 10;
 	public static final int PATH_ENTITY_SIZE = 6;
-	public static final float PATH_ENTITY_ACCELERATION_MOD = 0.0008F;
+	public static final float PATH_ENTITY_ACCELERATION_MOD = 0.05F;
 	public static final int PATH_ENTITY_OFFSET = 16;
 
 	//SIMULATION LIMITS
@@ -62,7 +62,7 @@ public class Reference {
 	public static final float GRAVITIY_ACCELERATION = -10 * BLOCK_WIDTH;
 
 	public static final float TOUCH_ACCELERATION = 20 * BLOCK_WIDTH;
-	public static final float CLICK_ACCELERATION = 200 * BLOCK_WIDTH;
+	public static final float CLICK_ACCELERATION = 4 * BLOCK_WIDTH;
 
 	public static final float SCREEN_TINT_STRENGTH = 0.4F;
 

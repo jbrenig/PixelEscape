@@ -13,6 +13,7 @@ public class DesktopLauncher {
 		config.title = "PixelEscape";
 		config.width = Reference.TARGET_RESOLUTION_X;
 		config.height = Reference.TARGET_RESOLUTION_Y;
+		config.foregroundFPS = 0;
 		new LwjglApplication(new PixelEscape(new DesktopConfiguration()), config);
 	}
 

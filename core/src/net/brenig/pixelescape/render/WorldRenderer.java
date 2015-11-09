@@ -17,8 +17,8 @@ public class WorldRenderer {
 	private World world;
 	private final PixelEscape game;
 
-	private int xPos = 0;
-	private int yPos = 0;
+	private float xPos = 0;
+	private float yPos = 0;
 
 	private float screenShakeX = 0;
 	private float screenShakeY = 0;
@@ -41,10 +41,10 @@ public class WorldRenderer {
 
 	private void shakeScreen(float delta) {
 		if(screenShakeForceX > 0) {
-			screenShakeTimerX += delta * (screenShakeLengthMod + game.rand.nextFloat());
+			screenShakeTimerX += delta * (screenShakeLengthMod + PixelEscape.rand.nextFloat());
 		}
 		if(screenShakeForceY > 0) {
-			screenShakeTimerY += delta * (screenShakeLengthMod + game.rand.nextFloat());
+			screenShakeTimerY += delta * (screenShakeLengthMod + PixelEscape.rand.nextFloat());
 		}
 		if(screenShakeTimerX >= screenShakeForceX) {
 			screenShakeX = screenShakeForceX = screenShakeTimerX = 0;
@@ -113,9 +113,9 @@ public class WorldRenderer {
 
 	}
 
+
 	private float getBlockPositionFromLocalIndex(int index) {
 		return world.convertWorldIndexToScreenCoordinate(world.convertLocalBlockToWorldBlockIndex(index));
-//		return (int) ((world.getBlocksGenerated() - index) * Reference.BLOCK_WIDTH - world.player.getXPos() + world.player.getXPosScreen());
 	}
 
 	/**
@@ -123,15 +123,6 @@ public class WorldRenderer {
 	 */
 	private boolean isBlockVisible(int index) {
 		return true;
-		/*
-		int blockPosition = getBlockPosition(index);
-		if(blockPosition > playerRenderX + Reference.BLOCK_WIDTH) {
-			return false;
-		} else if(blockPosition < -playerRenderX) {
-			return false;
-		}
-		return true;
-		*/
 	}
 
 	public void setPosition(int x, int y) {

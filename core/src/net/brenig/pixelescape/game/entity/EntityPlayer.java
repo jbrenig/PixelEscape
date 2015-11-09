@@ -52,7 +52,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		//speed update
 		if (inputManager.isTouched() || inputManager.isSpaceDown()) {
 			if(!lastTouched) {
-				yVelocity += Reference.CLICK_ACCELERATION * deltaTick;
+				yVelocity += Reference.CLICK_ACCELERATION;
 				lastTouched = true;
 			} else {
 				yVelocity += Reference.TOUCH_ACCELERATION * deltaTick;

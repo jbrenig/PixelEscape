@@ -26,7 +26,6 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 	private float animationProgress = 0;
 
 	private StageManagerGame stage;
-	private Table table;
 	private TextButton mainMenu;
 
 
@@ -34,7 +33,7 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 		super(screen);
 		stage = new StageManagerGame(screen);
 
-		table = new Table();
+		Table table = new Table();
 		table.padTop(20).padLeft(10).padRight(10);
 		stage.add(table);
 
@@ -53,6 +52,7 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 
 	@Override
 	public void renderFirst(float delta) {
+		//noinspection PointlessBooleanExpression,ConstantConditions
 		if(Reference.SCREEN_TINT_STRENGTH > 0 && animationProgress > 0) {
 			renderScreenTint(Utils.easeOut(animationProgress, ANIM_TIME_GAME_OVER, 2) * Reference.SCREEN_TINT_STRENGTH);
 		}
@@ -153,11 +153,6 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 
 	@Override
 	public boolean shouldHideGameUI() {
-		return true;
-	}
-
-	@Override
-	public boolean shouldHideScore() {
 		return true;
 	}
 

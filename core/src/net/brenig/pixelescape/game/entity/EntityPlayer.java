@@ -59,7 +59,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 				lastTouched = true;
 			}
 		} else {
-			yVelocity += Reference.GRAVITIY_ACCELERATION * deltaTick;
+			yVelocity += Reference.GRAVITY_ACCELERATION * deltaTick;
 			lastTouched = false;
 		}
 		velocity += Reference.SPEED_MODIFIER * deltaTick;
@@ -139,12 +139,9 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		if (yPos - getPlayerSizeRadius() < back.top * Reference.BLOCK_WIDTH || yPos - getPlayerSizeRadius() < front.top * Reference.BLOCK_WIDTH) {
 			//collide
 			world.onPlayerCollide(false);
-			return;
-		}
-		if (yPos + getPlayerSizeRadius() > world.getWorldHeight() - back.bottom * Reference.BLOCK_WIDTH || yPos + getPlayerSizeRadius() > world.getWorldHeight() - front.bottom * Reference.BLOCK_WIDTH) {
+		} else if (yPos + getPlayerSizeRadius() > world.getWorldHeight() - back.bottom * Reference.BLOCK_WIDTH || yPos + getPlayerSizeRadius() > world.getWorldHeight() - front.bottom * Reference.BLOCK_WIDTH) {
 			//collide
 			world.onPlayerCollide(false);
-			return;
 		}
 	}
 
@@ -160,6 +157,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		return pathEntities;
 	}
 
+	@SuppressWarnings("SameReturnValue")
 	public int getPlayerSize() {
 		return Reference.PLAYER_ENTITY_SIZE;
 	}

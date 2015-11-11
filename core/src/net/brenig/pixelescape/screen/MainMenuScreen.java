@@ -35,9 +35,6 @@ public class MainMenuScreen extends PixelScreen {
 	 */
 	private Table headLayout;
 
-	private TextButton btnStart;
-
-	private ImageButton btnSettings;
 	private TwoStateImageButton btnSound;
 	private TwoStateImageButton btnMusic;
 
@@ -52,7 +49,7 @@ public class MainMenuScreen extends PixelScreen {
 
 		Utils.addSoundAndMusicControllerToLayout(game, headLayout);
 
-		btnSettings = new ImageButton(game.getSkin(), "settings");
+		ImageButton btnSettings = new ImageButton(game.getSkin(), "settings");
 		btnSettings.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -73,7 +70,7 @@ public class MainMenuScreen extends PixelScreen {
 		Label header = new Label("PixelEscape", game.getSkin());
 		header.setHeight(150);
 
-		btnStart = new TextButton("Start game", game.getSkin());
+		TextButton btnStart = new TextButton("Start game", game.getSkin());
 		btnStart.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {

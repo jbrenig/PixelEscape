@@ -39,10 +39,6 @@ public final class EmptyOverlay extends Overlay {
 	}
 
 	@Override
-	public void dispose() {
-	}
-
-	@Override
 	public boolean shouldHideGameUI() {
 		return false;
 	}

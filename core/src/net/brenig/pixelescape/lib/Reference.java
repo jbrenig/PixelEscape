@@ -59,7 +59,7 @@ public class Reference {
 
 	public static final int OBSTACLE_MIN_HEIGHT = 3;
 
-	public static final float GRAVITIY_ACCELERATION = -10 * BLOCK_WIDTH;
+	public static final float GRAVITY_ACCELERATION = -10 * BLOCK_WIDTH;
 
 	public static final float TOUCH_ACCELERATION = 20 * BLOCK_WIDTH;
 	public static final float CLICK_ACCELERATION = 4 * BLOCK_WIDTH;

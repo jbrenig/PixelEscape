@@ -48,12 +48,6 @@ public class PixelDialog extends Dialog {
 		layout();
 	}
 
-	@Override
-	public void layout() {
-//		updateCells(getPrefWidth());
-		super.layout();
-	}
-
 	private void updateCells(float width) {
 		if(getContentTable() != null) {
 			for (Cell c : getContentTable().getCells()) {

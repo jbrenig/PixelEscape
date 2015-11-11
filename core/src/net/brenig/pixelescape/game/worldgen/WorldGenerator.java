@@ -74,12 +74,14 @@ public class WorldGenerator {
 			ITerrainGenerator gen = ceilValue(random.nextInt(remaingWeight), gens);
 			int generated = gen.generate(world, old, blockToGenerate, world.getBlocksGenerated(), random);
 			blockToGenerate -= generated;
+			//noinspection deprecation
 			world.blocksGenerated += generated;
 			generationPasses--;
 			if(blockToGenerate < 0) {
 				LogHelper.error("Invalid World Gen!! Generator ignoring MAX! Generator: " + gen);
 			}
 			if((lastRequested + generated) != world.blocksRequested) {
+				//noinspection deprecation
 				LogHelper.error("Invalid World Gen!! Generator returnvalue invalid! Generator: " + gen + "; generated: " + generated + "; lastGen: " + lastRequested + "; currentGen: " + world.blocksRequested + "; blocksGenerated: " + world.blocksGenerated);
 			}
 		}

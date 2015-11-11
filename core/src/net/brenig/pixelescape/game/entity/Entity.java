@@ -16,7 +16,7 @@ public abstract class Entity {
 
 	public abstract void render(PixelEscape game, float delta, float x, float y);
 
-	public void update(float delta) {};
+	public void update(float delta) {}
 
 	public abstract boolean isDead();
 

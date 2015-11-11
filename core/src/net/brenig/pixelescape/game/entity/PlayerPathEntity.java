@@ -39,6 +39,7 @@ public class PlayerPathEntity implements IMovingEntity {
 		this.xPosScreen = xPosScreen;
 	}
 
+	@SuppressWarnings("SameReturnValue")
 	public int getSize() {
 		return Reference.PATH_ENTITY_SIZE;
 	}

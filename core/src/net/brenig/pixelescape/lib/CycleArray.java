@@ -63,7 +63,7 @@ public class CycleArray<T> {
 
 	@SuppressWarnings("unchecked")
 	public T getOldestNonNull() {
-		int i = (index + 1) % data.length;;
+		int i = (index + 1) % data.length;
 		while (data[i] == null) {
 			i = (i + 1) % data.length;
 			if(i == index) {
@@ -117,7 +117,7 @@ public class CycleArray<T> {
 
 	/**
 	 * cycles the array amount steps forward, putting the oldest elements back to the front
-	 * @param amount the amount of entries that get readded to the front
+	 * @param amount the amount of entries that get re-added to the front
 	 */
 	public void cycleForward(int amount) {
 		index += amount;

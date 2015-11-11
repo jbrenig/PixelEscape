@@ -49,7 +49,7 @@ public class Utils {
 		//minimize padding
 		table.pad(8, 8, 8, 8);
 		if(game.gameConfig.useBiggerButtons()) {
-			table.defaults().pad(8, 4, 8, 4).minSize(game.convertToScaled(48));
+			table.defaults().pad(2, 1, 2, 1);
 		}
 		return table;
 	}

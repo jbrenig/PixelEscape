@@ -63,7 +63,7 @@ public class EntityCrashParticle extends Entity {
 				if(yVel > 0) {
 					yVel = 0;
 				} else {
-					yVel += Reference.GRAVITIY_ACCELERATION * delta;
+					yVel += Reference.GRAVITY_ACCELERATION * delta;
 				}
 				break;
 			case TERRAIN_TOP_LEFT:
@@ -73,12 +73,12 @@ public class EntityCrashParticle extends Entity {
 				if(yVel > 0) {
 					yVel = 0;
 				} else {
-					yVel += Reference.GRAVITIY_ACCELERATION * delta;
+					yVel += Reference.GRAVITY_ACCELERATION * delta;
 				}
 				break;
 			case NONE:
 			default:
-				yVel += Reference.GRAVITIY_ACCELERATION * delta;
+				yVel += Reference.GRAVITY_ACCELERATION * delta;
 				break;
 		}
 

@@ -35,11 +35,11 @@ public class LogHelper {
 
 	public static void log(String level, String tag, String msg, Throwable t) {
 		StringBuilder builder = new StringBuilder();
-		if(level != null && !level.isEmpty()) {
+		if(level != null && !(level.length() <= 0)) {
 			builder.append(LOG_LEVEL_BRACKET_OPEN).append(level).append(LOG_LEVEL_BRACKET_CLOSE);
 		}
 		builder.append(LOG_TAG_BRACKET_OPEN + LOG_TAG_NAME);
-		if(tag != null && !tag.isEmpty()) {
+		if(tag != null && !(tag.length() <= 0)) {
 			builder.append(LOG_TAG_BRACKET_SEPARATE).append(tag);
 		}
 		builder.append(LOG_TAG_BRACKET_CLOSE);

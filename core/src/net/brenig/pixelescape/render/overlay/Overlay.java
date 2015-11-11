@@ -124,7 +124,8 @@ public abstract class Overlay {
 		screen.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		screen.game.shapeRenderer.setColor(r, g, b, a);
-		screen.game.shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		screen.game.shapeRenderer.rect(0, 0, screen.game.gameSizeX, screen.game.gameSizeY);
+//		screen.game.shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		screen.game.shapeRenderer.end();
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 	}

@@ -342,6 +342,7 @@ public class World {
 	}
 
 	public void restart() {
+		//noinspection deprecation
 		blocksGenerated = 0;
 		blocksRequested = 0;
 		obstacles.clear();

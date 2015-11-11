@@ -11,7 +11,7 @@ import net.brenig.pixelescape.lib.Utils;
 public class GameMusic {
 
 	public enum MusicState {
-		PLAYING, PAUSED, STOPPED, FADE_IN, FADE_OUT_STOP, FADE_OUT_PAUSE, FADE_OUT_INTO;
+		PLAYING, PAUSED, STOPPED, FADE_IN, FADE_OUT_STOP, FADE_OUT_PAUSE, FADE_OUT_INTO
 	}
 
 	private Music currentMusic;

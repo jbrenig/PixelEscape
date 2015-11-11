@@ -235,9 +235,7 @@ public class PixelEscape extends Game {
 	 * stops or starts music if settings have changed
 	 */
 	public void updateMusicPlaying() {
-		if(gameSettings.isMusicEnabled()) {
-//			gameMusic.play();
-		} else {
+		if(!gameSettings.isMusicEnabled()) {
 			gameMusic.fadeOutToStop(0.5F);
 		}
 		if(screen instanceof PixelScreen) {

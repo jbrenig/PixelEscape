@@ -61,8 +61,6 @@ public class GameScreen extends PixelScreen {
 	//Game UI
 	private final EmptyOverlay emptyOverlay;
 	private final StageManagerGame stage;
-	private final Table table;
-	private final TextButton mainMenu;
 	private final InputManager inputManager;
 	private final InputMultiplexer inputMultiplexer;
 
@@ -81,12 +79,12 @@ public class GameScreen extends PixelScreen {
 		//init ui
 		stage = new StageManagerGame(this);
 
-		table = new Table();
+		Table table = new Table();
 
 		stage.add(table);
 
 		game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
-		mainMenu = new TextButton("Pause", this.game.getSkin());
+		TextButton mainMenu = new TextButton("Pause", this.game.getSkin());
 		mainMenu.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -165,11 +163,6 @@ public class GameScreen extends PixelScreen {
 		game.shapeRenderer.rect(0, 0, world.getWorldWidth(), uiPos);
 		game.shapeRenderer.rect(0, world.getWorldHeight() + uiPos, world.getWorldWidth(), uiPos + Reference.GAME_UI_Y_SIZE);
 		game.shapeRenderer.end();
-
-		//Draw Score Screen
-		if(!overlay.shouldHideScore()) {
-			//drawScoreScreen(delta);
-		}
 
 		//Overlay first callback
 		overlay.renderFirst(delta);

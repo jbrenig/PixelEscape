@@ -59,6 +59,7 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 
 	@Override
 	public void renderFirst(float delta) {
+		//noinspection PointlessBooleanExpression,ConstantConditions
 		if(Reference.SCREEN_TINT_STRENGTH > 0 && animationProgress > 0) {
 			renderScreenTint(Utils.easeOut(animationProgress, ANIM_TIME_PAUSED, 2) * Reference.SCREEN_TINT_STRENGTH);
 		}

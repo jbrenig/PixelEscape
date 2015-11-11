@@ -87,14 +87,14 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 
 		//Highscore
 		screen.game.batch.begin();
-		if (screen.game.userData.lastHighScore < screen.world.player.getScore()) {
+		if (screen.game.userData.getHighScore() == screen.world.player.getScore()) {
 			screen.game.getFont().setColor(0, 1, 0, 1);
 			screen.game.getFont().getData().setScale(1.2F);
 			screen.fontLayout.setText(screen.game.getFont(), "New Highscore!");
 		} else {
 			screen.game.getFont().setColor(0, 0, 1, 1);
 			screen.game.getFont().getData().setScale(1.0F);
-			screen.fontLayout.setText(screen.game.getFont(), "Highscore: " + screen.game.userData.highScore);
+			screen.fontLayout.setText(screen.game.getFont(), "Highscore: " + screen.game.userData.getHighScore());
 		}
 		xPos = screen.world.getWorldWidth() / 2 - screen.fontLayout.width / 2;
 		float txtHighscoreHeight = screen.fontLayout.height / 2;

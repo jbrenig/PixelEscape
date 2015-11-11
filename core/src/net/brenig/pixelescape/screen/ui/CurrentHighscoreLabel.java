@@ -59,7 +59,7 @@ public class CurrentHighscoreLabel extends Widget {
 	public CurrentHighscoreLabel() {
 		super();
 		game = PixelEscape.getPixelEscape();
-		text = SCORE_TEXT + game.userData.highScore;
+		text = SCORE_TEXT + game.userData.getHighScore();
 		fontLayout = new GlyphLayout(game.getFont(), text);
 		state = Animations.WAIT;
 	}

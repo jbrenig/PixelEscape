@@ -93,7 +93,7 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 		screen.game.batch.begin();
 		screen.game.getFont().setColor(0, 0, 1, 1);
 		screen.game.getFont().getData().setScale(1.0F);
-		screen.fontLayout.setText(screen.game.getFont(), "Highscore: " + screen.game.userData.highScore);
+		screen.fontLayout.setText(screen.game.getFont(), "Highscore: " + screen.game.userData.getHighScore());
 		xPos = screen.world.getWorldWidth() / 2 - screen.fontLayout.width / 2;
 		float txtHighscoreHeight = screen.fontLayout.height / 2;
 		yPos -= screen.game.getFont().getLineHeight() + txtScoreHeight + txtHighscoreHeight;

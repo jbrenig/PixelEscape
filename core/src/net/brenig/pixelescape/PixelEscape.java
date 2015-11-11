@@ -115,7 +115,6 @@ public class PixelEscape extends Game {
 		//load userdata
 		//currently only highscore
 		userData = new UserData();
-		userData.loadFromDisk();
 
 		//open main menu
 		showMainMenu();

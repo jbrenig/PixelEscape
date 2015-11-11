@@ -8,7 +8,6 @@ import com.badlogic.gdx.Preferences;
  */
 public class UserData {
 
-	public int lastHighScore;
 
 	private static final class Keys {
 		public static final String highScore = "highscore";
@@ -20,39 +19,36 @@ public class UserData {
 
 	public static final String PREF_MAIN_DATA = "PixelEscape_User_Data";
 
-	public int highScore = Defaults.highScore;
+	public int lastHighScore;
+
+	private Preferences prefs;
 
 	public UserData() {
-
-	}
-
-	public Preferences loadFromDisk() {
-		Preferences prefs = Gdx.app.getPreferences(PREF_MAIN_DATA);
-
-		//Sound
-		lastHighScore = highScore = prefs.getInteger(Keys.highScore, Defaults.highScore);
-		return prefs;
+		prefs = Gdx.app.getPreferences(PREF_MAIN_DATA);
+		lastHighScore = getHighScore();
 	}
 
 	public void saveToDisk() {
-		save().flush();
-	}
-
-	public Preferences save() {
-		Preferences prefs = Gdx.app.getPreferences(PREF_MAIN_DATA);
-
-		//Sound
-		prefs.putInteger(Keys.highScore, highScore);
-		return prefs;
+		prefs.flush();
 	}
 
 	public boolean updateHighscore(int score) {
-		if(score > highScore) {
+		int highScore = getHighScore();
+		if(score >= highScore) {
 			lastHighScore = highScore;
-			highScore = score;
-			saveToDisk();
-			return true;
+			setHighScore(score);
+			return highScore > lastHighScore;
 		}
 		return false;
 	}
+
+	public int getHighScore() {
+		return prefs.getInteger(Keys.highScore, Defaults.highScore);
+	}
+
+	public void setHighScore(int highScore) {
+		prefs.putInteger(Keys.highScore, highScore);
+		saveToDisk();
+	}
+
 }

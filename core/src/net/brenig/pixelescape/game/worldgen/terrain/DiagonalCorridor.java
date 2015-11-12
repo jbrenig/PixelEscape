@@ -26,26 +26,26 @@ public class DiagonalCorridor extends AbstractTerrainGenerator {
 	public int generate(World world, TerrainPair lastPair, int blocksToGenerate, int generatedBlocksIndex, Random random) {
 		boolean up = random.nextBoolean();
 		if(up) {
-			if(lastPair.top - MIN_GENERATION_LENGTH < MIN_HEIGHT) {
+			if(lastPair.getTop() - MIN_GENERATION_LENGTH < MIN_HEIGHT) {
 				up = false;
 			}
 		} else {
-			if(lastPair.bottom - MIN_GENERATION_LENGTH < MIN_HEIGHT) {
+			if(lastPair.getBottom() - MIN_GENERATION_LENGTH < MIN_HEIGHT) {
 				up = true;
 			}
 		}
-		int generateAmount = Math.min(blocksToGenerate, Math.min(MAX_GENERATION_LENGTH, (up ? lastPair.top : lastPair.bottom) - MIN_HEIGHT + 1));
+		int generateAmount = Math.min(blocksToGenerate, Math.min(MAX_GENERATION_LENGTH, (up ? lastPair.getTop() : lastPair.getBottom()) - MIN_HEIGHT + 1));
 		if(generateAmount <= 0) {
 			return 0;
 		}
 		for(int i = 0; i < generateAmount; i++) {
 			TerrainPair pair = world.getCreateTerrainPairForGeneration();
 			if(up) {
-				pair.top = lastPair.top - (i);
-				pair.bottom = lastPair.bottom + (i);
+				pair.setTop(lastPair.getTop() - (i));
+				pair.setBottom(lastPair.getBottom() + (i));
 			} else {
-				pair.top = lastPair.top + (i);
-				pair.bottom = lastPair.bottom - (i);
+				pair.setTop(lastPair.getTop() + (i));
+				pair.setBottom(lastPair.getBottom() - (i));
 			}
 		}
 		return generateAmount;
@@ -53,7 +53,7 @@ public class DiagonalCorridor extends AbstractTerrainGenerator {
 
 	@Override
 	public int getMinGenerationLength(TerrainPair last) {
-		if(last.bottom - MIN_GENERATION_LENGTH + 1 < MIN_HEIGHT && last.top - MIN_GENERATION_LENGTH + 1 < MIN_HEIGHT) {
+		if(last.getBottom() - MIN_GENERATION_LENGTH + 1 < MIN_HEIGHT && last.getTop() - MIN_GENERATION_LENGTH + 1 < MIN_HEIGHT) {
 			return 0;
 		}
 		return MIN_GENERATION_LENGTH;

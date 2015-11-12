@@ -6,7 +6,6 @@ import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.game.entity.EntityPlayer;
-import net.brenig.pixelescape.lib.Reference;
 
 /**
  * Helper class for rendering a {@link World}
@@ -100,8 +99,13 @@ public class WorldRenderer {
 			index++;
 		}
 		while (isBlockVisible(index) && index < world.getBlockBufferSize()) {
-			game.shapeRenderer.rect(xPos + getBlockPositionFromLocalIndex(index) + screenShakeX, yPos, Reference.BLOCK_WIDTH, world.getTopBlockHeight(index) * Reference.BLOCK_WIDTH + screenShakeY);
-			game.shapeRenderer.rect(xPos + getBlockPositionFromLocalIndex(index) + screenShakeX, yPos + world.getWorldHeight(), Reference.BLOCK_WIDTH, (world.getBottomBlockHeight(index) * Reference.BLOCK_WIDTH - screenShakeY) * -1);
+//			//Draw Bottom (y=0) blocks
+//			game.shapeRenderer.rect(xPos + getBlockPositionFromLocalIndex(index) + screenShakeX, yPos,
+//					Reference.BLOCK_WIDTH, world.getBottomBlockHeight(index) * Reference.BLOCK_WIDTH + screenShakeY);
+//			//Draw Top (y=worldHeight) blocks
+//			game.shapeRenderer.rect(xPos + getBlockPositionFromLocalIndex(index) + screenShakeX, yPos + world.getWorldHeight(),
+//					Reference.BLOCK_WIDTH, (world.getTopBlockHeight(index) * Reference.BLOCK_WIDTH - screenShakeY) * -1);
+			world.getTerrainPairForIndex(index).render(game, world, xPos + getBlockPositionFromLocalIndex(index) + screenShakeX, yPos, screenShakeY, 0);
 			index++;
 		}
 

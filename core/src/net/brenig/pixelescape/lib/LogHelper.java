@@ -50,6 +50,14 @@ public class LogHelper {
 		}
 	}
 
+	public static void debug(String msg) {
+		debug(null, msg, null);
+	}
+
+	public static void debug(String tag, String msg) {
+		debug(tag, msg, null);
+	}
+
 	public static void debug(String tag, String msg, Throwable t) {
 		if(GameDebugSettings.get("DEBUG_LOGGING")) {
 			log(LOG_LEVEL_DEBUG, tag, msg, t);

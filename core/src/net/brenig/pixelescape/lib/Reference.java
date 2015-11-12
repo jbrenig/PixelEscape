@@ -58,6 +58,8 @@ public class Reference {
 	public static final int STARTING_TERRAIN_HEIGHT = 4;
 
 	public static final int OBSTACLE_MIN_HEIGHT = 3;
+	public static final float OBSTACLE_MIN_SPACE = BLOCK_WIDTH * 1.5F;
+	public static final int OBSTACLE_X_CHECK_RADIUS = 4;
 
 	public static final float GRAVITY_ACCELERATION = -10 * BLOCK_WIDTH;
 
@@ -67,7 +69,7 @@ public class Reference {
 	public static final float SCREEN_TINT_STRENGTH = 0.4F;
 
 
-	public static final boolean DEBUG_SETTINGS_AVAILABLE    = false;
+	public static final boolean DEBUG_SETTINGS_AVAILABLE    = true;
 
 
 }

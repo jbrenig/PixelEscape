@@ -136,10 +136,10 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	public void collideWithWorld(World world) {
 		TerrainPair back = world.getBlockForScreenPosition(xPosScreen - getPlayerSizeRadius());
 		TerrainPair front = world.getBlockForScreenPosition(xPosScreen + getPlayerSizeRadius());
-		if (yPos - getPlayerSizeRadius() < back.top * Reference.BLOCK_WIDTH || yPos - getPlayerSizeRadius() < front.top * Reference.BLOCK_WIDTH) {
+		if (yPos - getPlayerSizeRadius() < back.getTop() * Reference.BLOCK_WIDTH || yPos - getPlayerSizeRadius() < front.getTop() * Reference.BLOCK_WIDTH) {
 			//collide
 			world.onPlayerCollide(false);
-		} else if (yPos + getPlayerSizeRadius() > world.getWorldHeight() - back.bottom * Reference.BLOCK_WIDTH || yPos + getPlayerSizeRadius() > world.getWorldHeight() - front.bottom * Reference.BLOCK_WIDTH) {
+		} else if (yPos + getPlayerSizeRadius() > world.getWorldHeight() - back.getBottom() * Reference.BLOCK_WIDTH || yPos + getPlayerSizeRadius() > world.getWorldHeight() - front.getBottom() * Reference.BLOCK_WIDTH) {
 			//collide
 			world.onPlayerCollide(false);
 		}

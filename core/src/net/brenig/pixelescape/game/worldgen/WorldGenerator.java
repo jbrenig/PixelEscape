@@ -1,5 +1,6 @@
 package net.brenig.pixelescape.game.worldgen;
 
+import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.worldgen.terrain.DiagonalCorridor;
 import net.brenig.pixelescape.game.worldgen.terrain.FlatCorridor;
@@ -26,7 +27,6 @@ public class WorldGenerator {
 	/**
 	 * registers a new TerrainGenerator
 	 * @param generator The Generator to register
-	 * @param weight weight
 	 */
 	public void registerTerrainGenerator(ITerrainGenerator generator) {
 		if (generator.getWeight() <= 0) return;
@@ -45,7 +45,14 @@ public class WorldGenerator {
 		registerTerrainGenerator(new DiagonalCorridor(7));
 	}
 
-	public void generateWorld(World world, boolean fillArray, int blockToGenerate, int generationPasses, Random random) {
+	/**
+	 * generates the World
+	 * @param world the world to populate
+	 * @param blockToGenerate amount of blocks that should get generated
+	 * @param generationPasses amount of tries to generate the world
+	 * @param random world random-generator
+	 */
+	public void generateWorld(World world, int blockToGenerate, int generationPasses, Random random) {
 		//Init available terrain gen list
 		TreeMap<Integer, ITerrainGenerator> gens = new TreeMap<Integer, ITerrainGenerator>();
 		gens.putAll(terrainGenerators);
@@ -85,9 +92,12 @@ public class WorldGenerator {
 				LogHelper.error("Invalid World Gen!! Generator returnvalue invalid! Generator: " + gen + "; generated: " + generated + "; lastGen: " + lastRequested + "; currentGen: " + world.blocksRequested + "; blocksGenerated: " + world.blocksGenerated);
 			}
 		}
-		world.generateObstacles();
+		generateObstacles(world, random);
 	}
 
+	/**
+	 * Helper-function to emulate {@link TreeMap#ceilingEntry(Object)}, which is not available on all platforms.
+	 */
 	private ITerrainGenerator ceilValue(final int key, TreeMap<Integer, ITerrainGenerator> map) {
 //			ITerrainGenerator gen = gens.ceilingEntry(random.nextInt(remaingWeight)).getValue();
 		int lastKey = Integer.MAX_VALUE;
@@ -97,5 +107,62 @@ public class WorldGenerator {
 			}
 		}
 		return map.get(lastKey);
+	}
+
+	public void generateObstacles(World world, Random rand) {
+		while (world.obstacles.getOldest() == null || world.obstacles.getOldest().posX < world.player.getXPos() - world.getWorldWidth() / 2) {
+			Barricade last = world.obstacles.getNewest();
+			int oldX = 0;
+			if (last != null) {
+				oldX = last.posX;
+			}
+			Barricade b = world.getCreateObstacleForGeneration();
+			b.posX = (int) (oldX + world.getWorldWidth() * 0.7);
+			b.posY = rand.nextInt(world.getWorldHeight() - Reference.OBSTACLE_MIN_HEIGHT * Reference.BLOCK_WIDTH * 2) + Reference.OBSTACLE_MIN_HEIGHT * Reference.BLOCK_WIDTH;
+			//TODO check this behaviour / test
+			if(PixelEscape.rand.nextBoolean()) {
+				LogHelper.debug("Correcting Top Barricade...");
+				b.posY -= getAmountToCorrectTop(world, b);
+			} else {
+				LogHelper.debug("Correcting Bottom Barricade...");
+				b.posY += getAmountToCorrectBot(world, b);
+			}
+		}
+	}
+
+	private float getAmountToCorrectTop(World world, Barricade b) {
+		int posXIndex = world.convertScreenCoordToLocalBlockIndex(b.posX);
+		float posYIndex = world.convertScreenYToWorldCoordinate(b.posY);
+		posYIndex += Barricade.getSizeY();
+
+		float correction = 0;
+		for(int i = (-1) * Reference.OBSTACLE_X_CHECK_RADIUS; i < Reference.OBSTACLE_X_CHECK_RADIUS; i++) {
+			if(posXIndex + i < 0) {
+				continue;
+			}
+			int h = world.getWorldHeight() - world.getTopBlockHeight(posXIndex + i);
+			if(h + Reference.OBSTACLE_MIN_SPACE > posYIndex) {
+				correction = h - posYIndex + Reference.OBSTACLE_MIN_SPACE;
+			}
+		}
+		return correction;
+	}
+
+	private float getAmountToCorrectBot(World world, Barricade b) {
+		int posXIndex = world.convertScreenCoordToLocalBlockIndex(b.posX);
+		float posYIndex = world.convertScreenYToWorldCoordinate(b.posY);
+		posYIndex -= Barricade.getSizeY();
+
+		float correction = 0;
+		for(int i = (-1) * Reference.OBSTACLE_X_CHECK_RADIUS; i < Reference.OBSTACLE_X_CHECK_RADIUS; i++) {
+			if(posXIndex + i < 0) {
+				continue;
+			}
+			int h = world.getBottomBlockHeight(posXIndex + i);
+			if(h + Reference.OBSTACLE_MIN_SPACE > posYIndex) {
+				correction = h - posYIndex + Reference.OBSTACLE_MIN_SPACE;
+			}
+		}
+		return correction;
 	}
 }

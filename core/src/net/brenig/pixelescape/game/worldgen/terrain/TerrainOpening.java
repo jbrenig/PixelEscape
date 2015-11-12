@@ -31,12 +31,12 @@ public class TerrainOpening implements ITerrainGenerator {
 	public int generate(World world, TerrainPair lastPair, int blocksToGenerate, int generatedBlocksIndex, Random random) {
 		int max = Math.min(blocksToGenerate,  MIN_GENERATION_LENGTH + random.nextInt(MAX_GENERATION_LENGTH - MIN_GENERATION_LENGTH + 1));
 		int generated = 0;
-		int bot = lastPair.bottom;
-		int top = lastPair.top;
+		int bot = lastPair.getBottom();
+		int top = lastPair.getTop();
 		while(bot >= Reference.MIN_HEIGHT && top >= Reference.MIN_HEIGHT && bot + top >= MAX_CORRIDOR_HEIGHT && generated < max) {
 			TerrainPair pair = world.getCreateTerrainPairForGeneration();
-			pair.top = top;
-			pair.bottom = bot;
+			pair.setTop(top);
+			pair.setBottom(bot);
 			top--;
 			bot--;
 			generated++;
@@ -46,8 +46,8 @@ public class TerrainOpening implements ITerrainGenerator {
 
 	@Override
 	public int getMinGenerationLength(TerrainPair last) {
-		int bot = last.bottom - MIN_GENERATION_LENGTH + 1;
-		int top = last.top -  MIN_GENERATION_LENGTH + 1;
+		int bot = last.getBottom() - MIN_GENERATION_LENGTH + 1;
+		int top = last.getTop() -  MIN_GENERATION_LENGTH + 1;
 		if(bot < Reference.MIN_HEIGHT || top < Reference.MIN_HEIGHT || bot + top < MAX_CORRIDOR_HEIGHT) {
 			return 0;
 		}

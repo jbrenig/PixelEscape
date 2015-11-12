@@ -49,7 +49,7 @@ public class World {
 
 //	private final List<ITerrainGenerator> terrainGenerators = new ArrayList<ITerrainGenerator>();
 
-	private final WorldGenerator worldGenerator;
+	public final WorldGenerator worldGenerator;
 	/**
 	 * obstacles
 	 */
@@ -131,8 +131,8 @@ public class World {
 			int index = convertScreenCoordToWorldBlockIndex(player.getXPosScreen());
 			if ((index - 5) <= lastIndex && index >= lastIndex) {
 				int local = convertWorldBlockToLocalBlockIndex(lastIndex);
-				int top = getTopBlockHeight(local);
-				int bot = getBottomBlockHeight(local);
+				int top = getBottomBlockHeight(local);
+				int bot = getTopBlockHeight(local);
 				if (top != lastTop || bot != lastBot) {
 					LogHelper.debug("WorldGen", "BlocksGenerated: " + getBlocksGenerated() + "; BlocksRequested: " + blocksRequested, null);
 					LogHelper.error("Error in WorldGen!");
@@ -142,8 +142,8 @@ public class World {
 			} else {
 				int local = convertWorldBlockToLocalBlockIndex(index);
 				lastIndex = index;
-				lastTop = getTopBlockHeight(local);
-				lastBot = getBottomBlockHeight(local);
+				lastTop = getBottomBlockHeight(local);
+				lastBot = getTopBlockHeight(local);
 			}
 		}
 	}
@@ -176,13 +176,12 @@ public class World {
 	 */
 	public int getBlocksGenerated() {
 		return blocksRequested;
-//		return blocksGenerated;
 	}
 
 	/**
-	 * returns the height of the top terrain at the given index
+	 * returns the height of the bottom terrain at the given index (y0 = 0)
 	 */
-	public int getTopBlockHeight(int index) {
+	public int getBottomBlockHeight(int index) {
 		if (terrain.size() < index) {
 			Gdx.app.error("PixelEscape | World", "Requested world Block index is out of Bounds!");
 			return Reference.FALLBACK_TERRAIN_HEIGHT;
@@ -192,14 +191,14 @@ public class World {
 			Gdx.app.error("PixelEscape | World", "Requested Terrain is not available! Falling back to Default!");
 			return Reference.FALLBACK_TERRAIN_HEIGHT;
 		} else {
-			return pair.getTop();
+			return pair.getBottom();
 		}
 	}
 
 	/**
-	 * returns the height of the bottom terrain at the given index
+	 * returns the height of the top terrain at the given index (y0 = worldHeight)
 	 */
-	public int getBottomBlockHeight(int index) {
+	public int getTopBlockHeight(int index) {
 		if (terrain.size() < index) {
 			Gdx.app.error("PixelEscape | World", "Requested world Block index is out of Bounds!");
 			return Reference.FALLBACK_TERRAIN_HEIGHT;
@@ -208,7 +207,7 @@ public class World {
 		if (pair == null) {
 			return Reference.FALLBACK_TERRAIN_HEIGHT;
 		} else {
-			return pair.getBottom();
+			return pair.getTop();
 		}
 	}
 
@@ -227,20 +226,7 @@ public class World {
 	public void generateWorld(boolean fillArray) {
 		int blockToGenerate = fillArray ? getBlockBufferSize() : getBlocksToGenerate();
 		int generationPasses = blockToGenerate + Reference.ADDITIONAL_GENERATION_PASSES;
-		worldGenerator.generateWorld(this, fillArray, blockToGenerate, generationPasses, rand);
-	}
-
-	public void generateObstacles() {
-		while (obstacles.getOldest() == null || obstacles.getOldest().posX < player.getXPos() - worldWidth / 2) {
-			Barricade last = obstacles.getNewest();
-			int oldX = 0;
-			if (last != null) {
-				oldX = last.posX;
-			}
-			Barricade b = getCreateObstacleForGeneration();
-			b.posX = (int) (oldX + worldWidth * 0.7);
-			b.posY = rand.nextInt(worldHeight - Reference.OBSTACLE_MIN_HEIGHT * Reference.BLOCK_WIDTH * 2) + Reference.OBSTACLE_MIN_HEIGHT * Reference.BLOCK_WIDTH;
-		}
+		worldGenerator.generateWorld(this, blockToGenerate, generationPasses, rand);
 	}
 
 	public TerrainPair getCreateTerrainPairForGeneration() {
@@ -256,7 +242,7 @@ public class World {
 		}
 	}
 
-	private Barricade getCreateObstacleForGeneration() {
+	public Barricade getCreateObstacleForGeneration() {
 		Barricade b = obstacles.getOldest();
 		if (b == null) {
 			b = new Barricade(0, 0);
@@ -278,7 +264,7 @@ public class World {
 	/**
 	 * @return the Terrain at the specified position in the buffer
 	 */
-	private TerrainPair getTerrainPairForIndex(int i) {
+	public TerrainPair getTerrainPairForIndex(int i) {
 		if (i < 0) {
 			Gdx.app.error("PixelEscape | World", "Invalid World index! Must be greater than 0!");
 			return BACKUP_TERRAIN_PAIR;
@@ -318,9 +304,6 @@ public class World {
 	 * returns the TerrainPair at the given position
 	 */
 	public TerrainPair getBlockForScreenPosition(float x) {
-//		int index = blocksGenerated - (player.getXPos() / Reference.BLOCK_WIDTH) - player.getXPosScreen();
-//		return getTerrainPairForIndex(index + x);
-//		return getTerrainPairForBlockIndex(convertScreenCoordToWorldBlockIndex(x));
 		return getTerrainPairForIndex(convertScreenCoordToLocalBlockIndex(x));
 	}
 
@@ -345,8 +328,9 @@ public class World {
 		//noinspection deprecation
 		blocksGenerated = 0;
 		blocksRequested = 0;
+		//regenerate obstacles
 		obstacles.clear();
-		generateObstacles();
+		worldGenerator.generateObstacles(this, rand);
 		player.reset();
 		for(Entity e : entityList) {
 			e.removeEntityOnDeath();
@@ -368,16 +352,16 @@ public class World {
 		TerrainPair back = this.getBlockForScreenPosition((int) x1);
 		TerrainPair front = this.getBlockForScreenPosition((int) x2);
 		//collide
-		if(y1 < front.top * Reference.BLOCK_WIDTH) {
+		if(y1 < front.getTop() * Reference.BLOCK_WIDTH) {
 			return CollisionType.TERRAIN_BOT_RIGHT;
 		}
-		if(y1 < back.top * Reference.BLOCK_WIDTH) {
+		if(y1 < back.getTop() * Reference.BLOCK_WIDTH) {
 			return CollisionType.TERRAIN_BOT_LEFT;
 		}
-		if(y2 > this.getWorldHeight() - front.bottom * Reference.BLOCK_WIDTH) {
+		if(y2 > this.getWorldHeight() - front.getBottom() * Reference.BLOCK_WIDTH) {
 			return CollisionType.TERRAIN_TOP_RIGHT;
 		}
-		if(y2 > this.getWorldHeight() - back.bottom * Reference.BLOCK_WIDTH) {
+		if(y2 > this.getWorldHeight() - back.getBottom() * Reference.BLOCK_WIDTH) {
 			return CollisionType.TERRAIN_TOP_LEFT;
 		}
 		return CollisionType.NONE;

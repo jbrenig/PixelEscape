@@ -25,4 +25,12 @@ public class Barricade {
 		render.rect(x + posX - sizeX / 2 - player.getXPos() + player.getXPosScreen(), y + posY - sizeY / 2, sizeX, sizeY);
 		render.end();
 	}
+
+	public static int getSizeX() {
+		return sizeX;
+	}
+
+	public static int getSizeY() {
+		return sizeY;
+	}
 }

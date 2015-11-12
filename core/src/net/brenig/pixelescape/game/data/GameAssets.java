@@ -67,7 +67,7 @@ public class GameAssets {
 
 	public void initSounds() {
 		//load sounds
-		gameOverSound = Gdx.audio.newSound(Gdx.files.internal("sound/GameOverSlide.ogg"));
+		gameOverSound = Gdx.audio.newSound(Gdx.files.internal("sound/explode.ogg"));
 	}
 
 	public void initMusic() {

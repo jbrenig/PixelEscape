@@ -30,7 +30,7 @@ public class Reference {
 
 	//SIMULATION LIMITS
 	public static final float MAX_FRAME_TIME = 1;
-	public static final float MAX_ENTITY_SPEED = 1000;
+	public static final float MAX_ENTITY_SPEED = 480;
 
 	/**
 	 * dimension of one inworld Block
@@ -59,7 +59,7 @@ public class Reference {
 
 	public static final int OBSTACLE_MIN_HEIGHT = 3;
 	public static final float OBSTACLE_MIN_SPACE = BLOCK_WIDTH * 1.5F;
-	public static final int OBSTACLE_X_CHECK_RADIUS = 4;
+	public static final int OBSTACLE_X_CHECK_RADIUS_MAX = 4;
 
 	public static final float GRAVITY_ACCELERATION = -10 * BLOCK_WIDTH;
 

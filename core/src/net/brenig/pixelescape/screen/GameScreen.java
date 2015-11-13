@@ -181,7 +181,7 @@ public class GameScreen extends PixelScreen {
 			float x = game.getScaledMouseX();
 			float y = game.getScaledMouseY();
 			float worldY = world.convertScreenYToWorldCoordinate(y);
-			String screenTxt = "Screen: X: " + (int) x + ", Y: " + (int) y;
+			String screenTxt = "Screen: X: " + (int) x + ", Y: " + (int) y + ", Player speed: " + world.player.getVelocity();
 			String worldTxt = "World: X: " + (int) world.convertScreenToWorldCoordinate(x) + ", Y: " + (int) worldY + ", Block: " + (int) world.convertScreenCoordToWorldBlockIndex(x) + " (" + (int) world.convertWorldBlockToLocalBlockIndex(world.convertScreenCoordToWorldBlockIndex(x)) + ")";
 			TerrainPair terrain = world.getBlockForScreenPosition(x);
 			boolean isTerrain = world.getWorldHeight() - terrain.getTop() * Reference.BLOCK_WIDTH < worldY

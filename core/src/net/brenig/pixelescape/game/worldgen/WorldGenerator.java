@@ -120,23 +120,24 @@ public class WorldGenerator {
 			b.posX = (int) (oldX + world.getWorldWidth() * 0.7);
 			b.posY = rand.nextInt(world.getWorldHeight() - Reference.OBSTACLE_MIN_HEIGHT * Reference.BLOCK_WIDTH * 2) + Reference.OBSTACLE_MIN_HEIGHT * Reference.BLOCK_WIDTH;
 			//TODO check this behaviour / test
+			int checkRadius = (int) ((world.player.getVelocity() / Reference.MAX_ENTITY_SPEED) * Reference.OBSTACLE_X_CHECK_RADIUS_MAX);
 			if(PixelEscape.rand.nextBoolean()) {
 				LogHelper.debug("Correcting Top Barricade...");
-				b.posY -= getAmountToCorrectTop(world, b);
+				b.posY -= getAmountToCorrectTop(world, b, checkRadius);
 			} else {
 				LogHelper.debug("Correcting Bottom Barricade...");
-				b.posY += getAmountToCorrectBot(world, b);
+				b.posY += getAmountToCorrectBot(world, b, checkRadius);
 			}
 		}
 	}
 
-	private float getAmountToCorrectTop(World world, Barricade b) {
+	private float getAmountToCorrectTop(World world, Barricade b, int checkRadius) {
 		int posXIndex = world.convertScreenCoordToLocalBlockIndex(b.posX);
 		float posYIndex = world.convertScreenYToWorldCoordinate(b.posY);
 		posYIndex += Barricade.getSizeY();
 
 		float correction = 0;
-		for(int i = (-1) * Reference.OBSTACLE_X_CHECK_RADIUS; i < Reference.OBSTACLE_X_CHECK_RADIUS; i++) {
+		for(int i = (-1) * checkRadius; i <= checkRadius; i++) {
 			if(posXIndex + i < 0) {
 				continue;
 			}
@@ -148,13 +149,13 @@ public class WorldGenerator {
 		return correction;
 	}
 
-	private float getAmountToCorrectBot(World world, Barricade b) {
+	private float getAmountToCorrectBot(World world, Barricade b, int checkRadius) {
 		int posXIndex = world.convertScreenCoordToLocalBlockIndex(b.posX);
 		float posYIndex = world.convertScreenYToWorldCoordinate(b.posY);
 		posYIndex -= Barricade.getSizeY();
 
 		float correction = 0;
-		for(int i = (-1) * Reference.OBSTACLE_X_CHECK_RADIUS; i < Reference.OBSTACLE_X_CHECK_RADIUS; i++) {
+		for(int i = (-1) * checkRadius; i <= checkRadius; i++) {
 			if(posXIndex + i < 0) {
 				continue;
 			}

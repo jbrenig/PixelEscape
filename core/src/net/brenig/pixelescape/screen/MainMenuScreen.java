@@ -56,7 +56,10 @@ public class MainMenuScreen extends PixelScreen {
 				game.setScreen(new SettingsScreen(game));
 			}
 		});
+		btnSettings.getImageCell().fill().expand();
 		headLayout.add(btnSettings);
+
+		headLayout.invalidateHierarchy();
 
 		Utils.addFullScreenButtonToTable(game, headLayout);
 

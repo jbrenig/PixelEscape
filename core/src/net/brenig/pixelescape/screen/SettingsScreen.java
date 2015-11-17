@@ -157,6 +157,7 @@ public class SettingsScreen extends PixelScreen {
 					d.show(uiStage.getUiStage());
 				}
 			});
+			btnSettings.getImageCell().fill().expand();
 			headLayout.add(btnSettings);
 
 		}

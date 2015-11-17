@@ -1,5 +1,6 @@
 package net.brenig.pixelescape.screen.ui;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import net.brenig.pixelescape.lib.Reference;
@@ -30,5 +31,19 @@ public class StageManagerGame extends StageManager {
 		rootTable.setPosition(0, screen.uiPos);
 		rootTable.setSize(screen.world.getWorldWidth(), screen.world.getWorldHeight() + Reference.GAME_UI_Y_SIZE);
 		rootTable.invalidateHierarchy();
+	}
+
+	/**
+	 * creates a new table that should be used for the main menu bar and adds it to the stage
+	 * @return
+	 */
+	public Table createHeadUiLayoutTable() {
+		Table table = new Table();
+		table.defaults().height(screen.getUiSize() - 2 * screen.getUiPadding()).fillY();
+		table.pad(screen.getUiPadding(), screen.getUiPadding(), screen.getUiPadding(), screen.getUiPadding()); //top, left, bottom, right
+		table.setHeight(screen.getUiSize());
+		table.top().left();
+		add(table).height(screen.getUiSize()).fillY();
+		return table;
 	}
 }

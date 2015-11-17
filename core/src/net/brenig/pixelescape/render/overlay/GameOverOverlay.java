@@ -33,9 +33,7 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 		super(screen);
 		stage = new StageManagerGame(screen);
 
-		Table table = new Table();
-		table.padTop(20).padLeft(10).padRight(10);
-		stage.add(table);
+		Table table = stage.createHeadUiLayoutTable();
 
 		mainMenu = new TextButton("Main Menu", screen.game.getSkin());
 		mainMenu.addListener(new ClickListener() {

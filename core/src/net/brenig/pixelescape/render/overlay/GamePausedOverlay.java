@@ -30,11 +30,7 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 		super(screen);
 		stage = new StageManagerGame(screen);
 
-		Table table = new Table();
-		table.left().top();
-		table.padTop(20).padLeft(10).padRight(10);
-
-		stage.add(table);
+		Table table = stage.createHeadUiLayoutTable();
 
 		screen.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 		TextButton mainMenu = new TextButton("Main Menu", screen.game.getSkin());
@@ -177,9 +173,12 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		screen.setOverlay(new CountDownOverlay(screen));
-		restartMusic();
-		return true;
+		if(screenY > screen.uiPos + screen.getUiSize()) {
+			screen.setOverlay(new CountDownOverlay(screen));
+			restartMusic();
+			return true;
+		}
+		return false;
 	}
 
 	@Override

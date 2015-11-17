@@ -30,7 +30,7 @@ public class TwoStateImageButton extends Button {
 		super(style);
 		image = new Image();
 		image.setScaling(Scaling.fit);
-		add(image);
+		add(image).fill().expand();
 		setStyle(style);
 		setSize(getPrefWidth(), getPrefHeight());
 	}

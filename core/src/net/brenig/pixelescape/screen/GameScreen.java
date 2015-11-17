@@ -79,9 +79,7 @@ public class GameScreen extends PixelScreen {
 		//init ui
 		stage = new StageManagerGame(this);
 
-		Table table = new Table();
-
-		stage.add(table);
+		Table table = stage.createHeadUiLayoutTable();
 
 		game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 		TextButton mainMenu = new TextButton("Pause", this.game.getSkin());
@@ -91,9 +89,9 @@ public class GameScreen extends PixelScreen {
 				setOverlay(new GamePausedOverlay(GameScreen.this));
 			}
 		});
-		table.add(mainMenu).padTop(20).padLeft(10);
+		table.add(mainMenu);
 		table.add(new HorizontalSpacer());
-		table.add(new ScoreWidget(world.player, fontLayout, game)).left().padTop(20).padRight(10);
+		table.add(new ScoreWidget(world.player, fontLayout, game));
 
 		//init input
 		inputManager = new InputManager();
@@ -353,5 +351,13 @@ public class GameScreen extends PixelScreen {
 		Gdx.input.setInputProcessor(inputMultiplexer);
 		inputManager.refreshButtonState();
 		stage.getInputProcessor().mouseMoved(Gdx.input.getX(), Gdx.input.getY());
+	}
+
+	public float getUiSize() {
+		return Reference.GAME_UI_Y_SIZE;
+	}
+
+	public float getUiPadding() {
+		return Reference.GAME_UI_Y_PADDING;
 	}
 }

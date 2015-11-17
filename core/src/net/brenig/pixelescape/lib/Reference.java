@@ -15,6 +15,7 @@ public class Reference {
 	 */
 	public static final int GAME_RESOLUTION_Y = 400;
 	public static final int GAME_UI_Y_SIZE = 80;
+	public static final float GAME_UI_Y_PADDING = 4;
 
 	public static final int GAME_UI_SCORE_SCREEN_SIZE_BUFFER = 20;
 	public static final float GAME_UI_MAIN_MENU_FONT_SIZE = 0.8F;
@@ -59,7 +60,7 @@ public class Reference {
 
 	public static final int OBSTACLE_MIN_HEIGHT = 3;
 	public static final float OBSTACLE_MIN_SPACE = BLOCK_WIDTH * 1.5F;
-	public static final int OBSTACLE_X_CHECK_RADIUS_MAX = 4;
+	public static final int OBSTACLE_X_CHECK_RADIUS_MAX = 8;
 
 	public static final float GRAVITY_ACCELERATION = -10 * BLOCK_WIDTH;
 

@@ -48,8 +48,11 @@ public class Utils {
 		table.setBackground(ninePatch);
 		//minimize padding
 		table.pad(8, 8, 8, 8);
+		table.defaults().size(getButtonSize());
 		if(game.gameConfig.useBiggerButtons()) {
 			table.defaults().pad(2, 1, 2, 1);
+			table.defaults().expand().fillY();
+			table.setHeight(Reference.GAME_UI_Y_SIZE);
 		}
 		return table;
 	}
@@ -183,6 +186,10 @@ public class Utils {
 		else {
 			return -1 + (4 - 2 * timeProgress) * timeProgress;
 		}
+	}
+
+	public static float getButtonSize() {
+		return PixelEscape.getPixelEscape().gameConfig.useBiggerButtons() ? 48 : 32;
 	}
 
 }

@@ -46,7 +46,7 @@ public class ScoreWidget extends Widget {
 		//Score text
 		game.getFont().setColor(0, 0, 0, 1);
 		setScoreText();
-		game.getFont().draw(batch, fontLayout, getX() + game.getButtonNinePatch().getPadLeft(), getY() + fontLayout.height + game.getButtonNinePatch().getPadTop());
+		game.getFont().draw(batch, fontLayout, getX() + getWidth() / 2 - fontLayout.width / 2, getY() + getHeight() / 2 + fontLayout.height / 2);
 	}
 
 	private void setScoreText() {

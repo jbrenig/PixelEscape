@@ -108,6 +108,8 @@ public class World {
 	public void update(float deltaTick) {
 		player.update(deltaTick, screen.getInput());
 		generateWorld(false);
+		//FIXME: Barricade updates are not working properly
+		//worldGenerator.updateBarricades(this);
 		if(!GameDebugSettings.get("DEBUG_GOD_MODE")) {
 			player.collideWithWorld(this);
 			for (int i = 0; i < obstacles.size(); i++) {
@@ -183,7 +185,7 @@ public class World {
 	 */
 	public int getBottomBlockHeight(int index) {
 		if (terrain.size() < index) {
-			Gdx.app.error("PixelEscape | World", "Requested world Block index is out of Bounds!");
+			Gdx.app.error("PixelEscape | World", "Requested world Block index is out of Bounds! (" + index + ")");
 			return Reference.FALLBACK_TERRAIN_HEIGHT;
 		}
 		TerrainPair pair = getTerrainPairForIndex(index);
@@ -200,7 +202,7 @@ public class World {
 	 */
 	public int getTopBlockHeight(int index) {
 		if (terrain.size() < index) {
-			Gdx.app.error("PixelEscape | World", "Requested world Block index is out of Bounds!");
+			Gdx.app.error("PixelEscape | World", "Requested world Block index is out of Bounds! (" + index + ")");
 			return Reference.FALLBACK_TERRAIN_HEIGHT;
 		}
 		TerrainPair pair = getTerrainPairForIndex(index);
@@ -410,6 +412,14 @@ public class World {
 
 	public float convertScreenYToWorldCoordinate(float screenY) {
 		return screenY - Reference.GAME_UI_Y_SIZE - screen.uiPos;
+	}
+
+	public int convertWorldCoordinateToLocalBlockIndex(float posX) {
+		return convertWorldBlockToLocalBlockIndex(convertToWorldBlockIndex(posX));
+	}
+
+	public boolean isWorldCoordinateVisible(float worldCoord) {
+		return (convertScreenToWorldCoordinate(getWorldWidth()) + Reference.BLOCK_WIDTH) < worldCoord;
 	}
 
 	/**

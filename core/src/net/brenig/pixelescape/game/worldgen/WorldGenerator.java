@@ -21,149 +21,174 @@ import java.util.TreeMap;
 public class WorldGenerator {
 
 
-	private TreeMap<Integer, ITerrainGenerator> terrainGenerators = new TreeMap<Integer, ITerrainGenerator>();
-	private int totalWeight = 0;
+    private TreeMap<Integer, ITerrainGenerator> terrainGenerators = new TreeMap<Integer, ITerrainGenerator>();
+    private int totalWeight = 0;
 
-	/**
-	 * registers a new TerrainGenerator
-	 * @param generator The Generator to register
-	 */
-	public void registerTerrainGenerator(ITerrainGenerator generator) {
-		if (generator.getWeight() <= 0) return;
-		totalWeight += generator.getWeight();
-		terrainGenerators.put(totalWeight, generator);
-	}
+    /**
+     * registers a new TerrainGenerator
+     *
+     * @param generator The Generator to register
+     */
+    public void registerTerrainGenerator(ITerrainGenerator generator) {
+        if (generator.getWeight() <= 0) return;
+        totalWeight += generator.getWeight();
+        terrainGenerators.put(totalWeight, generator);
+    }
 
-	/**
-	 * registers default worldgen
-	 */
-	public void init() {
-		registerTerrainGenerator(new RandomTerrainGenerator(9));
-		registerTerrainGenerator(new FlatCorridor(3));
-		registerTerrainGenerator(new TerrainOpening(1));
-		registerTerrainGenerator(new TerrainClosing(4));
-		registerTerrainGenerator(new DiagonalCorridor(7));
-	}
+    /**
+     * registers default worldgen
+     */
+    public void init() {
+        registerTerrainGenerator(new RandomTerrainGenerator(9));
+        registerTerrainGenerator(new FlatCorridor(3));
+        registerTerrainGenerator(new TerrainOpening(1));
+        registerTerrainGenerator(new TerrainClosing(4));
+        registerTerrainGenerator(new DiagonalCorridor(7));
+    }
 
-	/**
-	 * generates the World
-	 * @param world the world to populate
-	 * @param blockToGenerate amount of blocks that should get generated
-	 * @param generationPasses amount of tries to generate the world
-	 * @param random world random-generator
-	 */
-	public void generateWorld(World world, int blockToGenerate, int generationPasses, Random random) {
-		//Init available terrain gen list
-		TreeMap<Integer, ITerrainGenerator> gens = new TreeMap<Integer, ITerrainGenerator>();
-		gens.putAll(terrainGenerators);
-		int remaingWeight = this.totalWeight;
+    /**
+     * generates the World
+     *
+     * @param world            the world to populate
+     * @param blockToGenerate  amount of blocks that should get generated
+     * @param generationPasses amount of tries to generate the world
+     * @param random           world random-generator
+     */
+    public void generateWorld(World world, int blockToGenerate, int generationPasses, Random random) {
+        //Init available terrain gen list
+        TreeMap<Integer, ITerrainGenerator> gens = new TreeMap<Integer, ITerrainGenerator>();
+        gens.putAll(terrainGenerators);
+        int remaingWeight = this.totalWeight;
 
-		while (generationPasses > 0 && blockToGenerate > 0) {
-			//get last terrain
-			TerrainPair old = world.terrain.getNewest();
-			if (old == null) {
-				old = new TerrainPair(Reference.STARTING_TERRAIN_HEIGHT, Reference.STARTING_TERRAIN_HEIGHT);
-			}
-			//remove invalid generators
-			Iterator<Map.Entry<Integer, ITerrainGenerator>> iterator = gens.entrySet().iterator();
-			while (iterator.hasNext()) {
-				Map.Entry<Integer, ITerrainGenerator> entry = iterator.next();
-				int genLength = entry.getValue().getMinGenerationLength(old);
-				if(genLength <= 0 || genLength > blockToGenerate) {
-					remaingWeight -= entry.getValue().getWeight();
-					iterator.remove();
-				}
-			}
-			if(gens.size() <= 0) {
-				break;
-			}
-			int lastRequested = world.blocksRequested;
-			ITerrainGenerator gen = ceilValue(random.nextInt(remaingWeight), gens);
-			int generated = gen.generate(world, old, blockToGenerate, world.getBlocksGenerated(), random);
-			blockToGenerate -= generated;
-			//noinspection deprecation
-			world.blocksGenerated += generated;
-			generationPasses--;
-			if(blockToGenerate < 0) {
-				LogHelper.error("Invalid World Gen!! Generator ignoring MAX! Generator: " + gen);
-			}
-			if((lastRequested + generated) != world.blocksRequested) {
-				//noinspection deprecation
-				LogHelper.error("Invalid World Gen!! Generator returnvalue invalid! Generator: " + gen + "; generated: " + generated + "; lastGen: " + lastRequested + "; currentGen: " + world.blocksRequested + "; blocksGenerated: " + world.blocksGenerated);
-			}
-		}
-		generateObstacles(world, random);
-	}
+        while (generationPasses > 0 && blockToGenerate > 0) {
+            //get last terrain
+            TerrainPair old = world.terrain.getNewest();
+            if (old == null) {
+                old = new TerrainPair(Reference.STARTING_TERRAIN_HEIGHT, Reference.STARTING_TERRAIN_HEIGHT);
+            }
+            //remove invalid generators
+            Iterator<Map.Entry<Integer, ITerrainGenerator>> iterator = gens.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<Integer, ITerrainGenerator> entry = iterator.next();
+                int genLength = entry.getValue().getMinGenerationLength(old);
+                if (genLength <= 0 || genLength > blockToGenerate) {
+                    remaingWeight -= entry.getValue().getWeight();
+                    iterator.remove();
+                }
+            }
+            if (gens.size() <= 0) {
+                break;
+            }
+            int lastRequested = world.blocksRequested;
+            ITerrainGenerator gen = ceilValue(random.nextInt(remaingWeight), gens);
+            int generated = gen.generate(world, old, blockToGenerate, world.getBlocksGenerated(), random);
+            blockToGenerate -= generated;
+            //noinspection deprecation
+            world.blocksGenerated += generated;
+            generationPasses--;
+            if (blockToGenerate < 0) {
+                LogHelper.error("Invalid World Gen!! Generator ignoring MAX! Generator: " + gen);
+            }
+            if ((lastRequested + generated) != world.blocksRequested) {
+                //noinspection deprecation
+                LogHelper.error("Invalid World Gen!! Generator returnvalue invalid! Generator: " + gen + "; generated: " + generated + "; lastGen: " + lastRequested + "; currentGen: " + world.blocksRequested + "; blocksGenerated: " + world.blocksGenerated);
+            }
+        }
+        generateObstacles(world, random);
+    }
 
-	/**
-	 * Helper-function to emulate {@link TreeMap#ceilingEntry(Object)}, which is not available on all platforms.
-	 */
-	private ITerrainGenerator ceilValue(final int key, TreeMap<Integer, ITerrainGenerator> map) {
+    /**
+     * Helper-function to emulate {@link TreeMap#ceilingEntry(Object)}, which is not available on all platforms.
+     */
+    private ITerrainGenerator ceilValue(final int key, TreeMap<Integer, ITerrainGenerator> map) {
 //			ITerrainGenerator gen = gens.ceilingEntry(random.nextInt(remaingWeight)).getValue();
-		int lastKey = Integer.MAX_VALUE;
-		for(int i : map.keySet()) {
-			if(i >= key && i <= lastKey) {
-				lastKey = i;
-			}
-		}
-		return map.get(lastKey);
-	}
+        int lastKey = Integer.MAX_VALUE;
+        for (int i : map.keySet()) {
+            if (i >= key && i <= lastKey) {
+                lastKey = i;
+            }
+        }
+        return map.get(lastKey);
+    }
 
-	public void generateObstacles(World world, Random rand) {
-		while (world.obstacles.getOldest() == null || world.obstacles.getOldest().posX < world.player.getXPos() - world.getWorldWidth() / 2) {
-			Barricade last = world.obstacles.getNewest();
-			int oldX = 0;
-			if (last != null) {
-				oldX = last.posX;
-			}
-			Barricade b = world.getCreateObstacleForGeneration();
-			b.posX = (int) (oldX + world.getWorldWidth() * 0.7);
-			b.posY = rand.nextInt(world.getWorldHeight() - Reference.OBSTACLE_MIN_HEIGHT * Reference.BLOCK_WIDTH * 2) + Reference.OBSTACLE_MIN_HEIGHT * Reference.BLOCK_WIDTH;
-			//TODO check this behaviour / test
-			int checkRadius = (int) ((world.player.getVelocity() / Reference.MAX_ENTITY_SPEED) * Reference.OBSTACLE_X_CHECK_RADIUS_MAX);
-			if(PixelEscape.rand.nextBoolean()) {
-				LogHelper.debug("Correcting Top Barricade...");
-				b.posY -= getAmountToCorrectTop(world, b, checkRadius);
-			} else {
-				LogHelper.debug("Correcting Bottom Barricade...");
-				b.posY += getAmountToCorrectBot(world, b, checkRadius);
-			}
-		}
-	}
+    public void generateObstacles(World world, Random rand) {
+        while (world.obstacles.getOldest() == null || world.obstacles.getOldest().posX < world.player.getXPos() - world.getWorldWidth() / 2) {
+            Barricade last = world.obstacles.getNewest();
+            int oldX = 0;
+            if (last != null) {
+                oldX = last.posX;
+            }
+            Barricade b = world.getCreateObstacleForGeneration();
+            b.posX = (int) (oldX + world.getWorldWidth() * 0.7);
+            b.posY = rand.nextInt(world.getWorldHeight() - Reference.OBSTACLE_MIN_HEIGHT * Reference.BLOCK_WIDTH * 2) + Reference.OBSTACLE_MIN_HEIGHT * Reference.BLOCK_WIDTH;
+        }
+    }
 
-	private float getAmountToCorrectTop(World world, Barricade b, int checkRadius) {
-		int posXIndex = world.convertScreenCoordToLocalBlockIndex(b.posX);
-		float posYIndex = world.convertScreenYToWorldCoordinate(b.posY);
-		posYIndex += Barricade.getSizeY();
+    private float getAmountToCorrectTop(World world, Barricade b, int checkRadius) {
+        int posXIndex = world.convertWorldCoordinateToLocalBlockIndex(b.posX);
+        float posYIndex = world.convertScreenYToWorldCoordinate(b.posY);
+        posYIndex -= Barricade.getSizeY() / 2;
 
-		float correction = 0;
-		for(int i = (-1) * checkRadius; i <= checkRadius; i++) {
-			if(posXIndex + i < 0) {
-				continue;
-			}
-			int h = world.getWorldHeight() - world.getTopBlockHeight(posXIndex + i);
-			if(h + Reference.OBSTACLE_MIN_SPACE > posYIndex) {
-				correction = h - posYIndex + Reference.OBSTACLE_MIN_SPACE;
-			}
-		}
-		return correction;
-	}
+        float correction = 0;
+        for (int i = (-1) * checkRadius; i <= checkRadius; i++) {
+            if (posXIndex + i < 0) {
+                continue;
+            }
+            int h = world.getTopBlockHeight(posXIndex + i);
+            if (h + Reference.OBSTACLE_MIN_SPACE < posYIndex) {
+                correction = h - posYIndex - Reference.OBSTACLE_MIN_SPACE;
+            }
+        }
+        return correction;
+    }
 
-	private float getAmountToCorrectBot(World world, Barricade b, int checkRadius) {
-		int posXIndex = world.convertScreenCoordToLocalBlockIndex(b.posX);
-		float posYIndex = world.convertScreenYToWorldCoordinate(b.posY);
-		posYIndex -= Barricade.getSizeY();
+    private float getAmountToCorrectBot(World world, Barricade b, int checkRadius) {
+        int posXIndex = world.convertWorldCoordinateToLocalBlockIndex(b.posX);
+        float posYIndex = world.convertScreenYToWorldCoordinate(b.posY);
+        posYIndex += Barricade.getSizeY() / 2;
 
-		float correction = 0;
-		for(int i = (-1) * checkRadius; i <= checkRadius; i++) {
-			if(posXIndex + i < 0) {
-				continue;
-			}
-			int h = world.getBottomBlockHeight(posXIndex + i);
-			if(h + Reference.OBSTACLE_MIN_SPACE > posYIndex) {
-				correction = h - posYIndex + Reference.OBSTACLE_MIN_SPACE;
-			}
-		}
-		return correction;
-	}
+        float correction = 0;
+        for (int i = (-1) * checkRadius; i <= checkRadius; i++) {
+            if (posXIndex + i < 0) {
+                continue;
+            }
+            int blockPos = world.getWorldHeight() - world.getBottomBlockHeight(posXIndex + i);
+            if (blockPos - Reference.OBSTACLE_MIN_SPACE < posYIndex) {
+                correction = blockPos - posYIndex - Reference.OBSTACLE_MIN_SPACE;
+            }
+        }
+        return correction;
+    }
+
+    public void updateBarricades(World world) {
+        for (int i = 0; i < world.obstacles.size(); i++) {
+            if (!world.isWorldCoordinateVisible(world.obstacles.get(i).posX)) {
+                updateBarricade(world, world.obstacles.get(i));
+            }
+        }
+    }
+
+    private void updateBarricade(World world, Barricade b) {
+        int indexX = world.convertWorldCoordinateToLocalBlockIndex(b.posX);
+        //LogHelper.debug("Index convert from: " + b.posX + ", to: " + indexX);
+        if (!(indexX < 0)) {
+            //LogHelper.debug("Index convert from: " + b.posX + ", to: " + indexX);
+            if (b.posY < world.getTopBlockHeight(indexX)) {
+                b.posY += world.getTopBlockHeight(indexX) - b.posY;
+            } else if (b.posY > world.getWorldHeight() - world.getBottomBlockHeight(indexX)) {
+                b.posY -= b.posY - (world.getWorldHeight() - world.getBottomBlockHeight(indexX));
+            }
+            //TODO check this behaviour / test
+            int checkRadius = (int) ((world.player.getVelocity() / Reference.MAX_ENTITY_SPEED) * Reference.OBSTACLE_X_CHECK_RADIUS_MAX);
+            if (PixelEscape.rand.nextBoolean()) {
+                LogHelper.debug("Correcting Top Barricade @ x: " + b.posX + " y: " + b.posY);
+                b.posY -= getAmountToCorrectTop(world, b, checkRadius);
+                LogHelper.debug("Corrected to y: " + b.posY);
+            } else {
+                LogHelper.debug("Correcting Bottom Barricade @ x: " + b.posX + " y: " + b.posY);
+                b.posY += getAmountToCorrectBot(world, b, checkRadius);
+                LogHelper.debug("Corrected to y: " + b.posY);
+            }
+        }
+    }
 }

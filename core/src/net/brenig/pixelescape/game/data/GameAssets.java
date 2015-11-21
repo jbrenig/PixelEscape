@@ -20,6 +20,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.screen.ui.TwoStateImageButton;
 
+import java.util.Random;
+
 /**
  * Holds and loads all game assets
  */
@@ -34,6 +36,7 @@ public class GameAssets {
 	private Music mipIntro;
 	private Music mipMain;
 	private Music snpMusic;
+	private Music sslMusic;
 
 
 	private NinePatch buttonNinePatch;
@@ -86,6 +89,9 @@ public class GameAssets {
 		});
 		snpMusic = Gdx.audio.newMusic(Gdx.files.internal("music/SynthNPiano.ogg"));
 		snpMusic.setLooping(true);
+
+		sslMusic = Gdx.audio.newMusic(Gdx.files.internal("music/SawSquareLoop.ogg"));
+		sslMusic.setLooping(true);
 	}
 
 	public void initFont() {
@@ -289,6 +295,22 @@ public class GameAssets {
 
 	public Music getSnpMusic() {
 		return snpMusic;
+	}
+
+	public Music getSslMusic() {
+		return sslMusic;
+	}
+
+	public Music getRandomGameMusic(Random random) {
+		switch (random.nextInt(3)) {
+			case 0:
+				return getMipComplete();
+			case 1:
+				return getSnpMusic();
+			case 2:
+				return getSslMusic();
+		}
+		return null;
 	}
 
 	public TextureAtlas getGuiAtlas() {

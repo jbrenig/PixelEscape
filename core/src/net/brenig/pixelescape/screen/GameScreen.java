@@ -109,11 +109,13 @@ public class GameScreen extends PixelScreen {
 	}
 
 	public Music getGameMusic() {
+		/*
 		if(PixelEscape.rand.nextBoolean()) {
 			return (game.getGameAssets().getMipComplete());
 		} else {
 			return (game.getGameAssets().getSnpMusic());
-		}
+		}*/
+		return game.getGameAssets().getRandomGameMusic(PixelEscape.rand);
 	}
 
 	@Override

@@ -124,37 +124,43 @@ public class WorldGenerator {
         }
     }
 
-    private float getAmountToCorrectTop(World world, Barricade b, int checkRadius) {
+    private float getAmountToCorrectBottom(World world, Barricade b, int checkRadius) {
         int posXIndex = world.convertWorldCoordinateToLocalBlockIndex(b.posX);
-        float posYIndex = world.convertScreenYToWorldCoordinate(b.posY);
-        posYIndex -= Barricade.getSizeY() / 2;
+//        float posY = world.convertMouseYToWorldCoordinate(b.posY);
+        float posY = b.posY;
+        posY -= Barricade.getSizeY() / 2;
 
         float correction = 0;
         for (int i = (-1) * checkRadius; i <= checkRadius; i++) {
             if (posXIndex + i < 0) {
                 continue;
             }
-            int h = world.getTopBlockHeight(posXIndex + i);
-            if (h + Reference.OBSTACLE_MIN_SPACE < posYIndex) {
-                correction = h - posYIndex - Reference.OBSTACLE_MIN_SPACE;
+            int blockHeight = world.getBotBlockHeight(posXIndex + i) * Reference.BLOCK_WIDTH;
+	        float neededCorrection = (blockHeight + Reference.OBSTACLE_MIN_SPACE) - posY;
+            if (neededCorrection > correction) {
+                correction = neededCorrection;
+	            LogHelper.debug("Correction for: x: " + world.convertWorldIndexToScreenCoordinate(world.convertLocalBlockToWorldBlockIndex(posXIndex + i)) + "(" + (posXIndex + i) + "), y: " + blockHeight + ", amount: " + correction + ", oldY: " + posY);
             }
         }
         return correction;
     }
 
-    private float getAmountToCorrectBot(World world, Barricade b, int checkRadius) {
+    private float getAmountToCorrectTop(World world, Barricade b, int checkRadius) {
         int posXIndex = world.convertWorldCoordinateToLocalBlockIndex(b.posX);
-        float posYIndex = world.convertScreenYToWorldCoordinate(b.posY);
-        posYIndex += Barricade.getSizeY() / 2;
+        float posY = b.posY;
+//        float posY = world.convertMouseYToWorldCoordinate(b.posY);
+        posY += Barricade.getSizeY() / 2;
 
         float correction = 0;
         for (int i = (-1) * checkRadius; i <= checkRadius; i++) {
             if (posXIndex + i < 0) {
                 continue;
             }
-            int blockPos = world.getWorldHeight() - world.getBottomBlockHeight(posXIndex + i);
-            if (blockPos - Reference.OBSTACLE_MIN_SPACE < posYIndex) {
-                correction = blockPos - posYIndex - Reference.OBSTACLE_MIN_SPACE;
+            int blockHeight = world.getWorldHeight() - world.getTopBlockHeight(posXIndex + i) * Reference.BLOCK_WIDTH;
+	        float neededCorrection = (blockHeight - Reference.OBSTACLE_MIN_SPACE) - posY;
+            if (neededCorrection < correction) {
+                correction = neededCorrection;
+	            LogHelper.debug("Correction for: x: " + world.convertWorldIndexToScreenCoordinate(world.convertLocalBlockToWorldBlockIndex(posXIndex + i)) + "(" + (posXIndex + i) + "), y: " + blockHeight + ", amount: " + correction + ", oldY: " + posY);
             }
         }
         return correction;
@@ -162,31 +168,36 @@ public class WorldGenerator {
 
     public void updateBarricades(World world) {
         for (int i = 0; i < world.obstacles.size(); i++) {
-            if (!world.isWorldCoordinateVisible(world.obstacles.get(i).posX)) {
-                updateBarricade(world, world.obstacles.get(i));
+            Barricade b =  world.obstacles.get(i);
+            if (!b.moved && b.posX > world.getCurrentScreenEnd() + Reference.BLOCK_WIDTH && b.posX < world.getCurrentScreenEnd() + Reference.BLOCK_WIDTH * 2) {
+	            b.moved = true;
+                updateBarricade(world, b);
             }
         }
     }
 
     private void updateBarricade(World world, Barricade b) {
-        int indexX = world.convertWorldCoordinateToLocalBlockIndex(b.posX);
-        //LogHelper.debug("Index convert from: " + b.posX + ", to: " + indexX);
-        if (!(indexX < 0)) {
-            //LogHelper.debug("Index convert from: " + b.posX + ", to: " + indexX);
-            if (b.posY < world.getTopBlockHeight(indexX)) {
-                b.posY += world.getTopBlockHeight(indexX) - b.posY;
-            } else if (b.posY > world.getWorldHeight() - world.getBottomBlockHeight(indexX)) {
-                b.posY -= b.posY - (world.getWorldHeight() - world.getBottomBlockHeight(indexX));
+        int localIndex = world.convertWorldCoordinateToLocalBlockIndex(b.posX);
+        //LogHelper.debug("Index convert from: " + b.posX + ", to: " + localIndex);
+        if (!(localIndex < 0)) {
+            //LogHelper.debug("Index convert from: " + b.posX + ", to: " + localIndex);
+
+	        //Move barricade into level
+            if (b.posY < world.getBotBlockHeight(localIndex) * Reference.BLOCK_WIDTH) {
+                b.posY += world.getBotBlockHeight(localIndex) * Reference.BLOCK_WIDTH - b.posY;
+            } else if (b.posY > world.getWorldHeight() - world.getTopBlockHeight(localIndex) * Reference.BLOCK_WIDTH) {
+                b.posY += (world.getWorldHeight() - world.getTopBlockHeight(localIndex) * Reference.BLOCK_WIDTH) - b.posY;
             }
-            //TODO check this behaviour / test
+
+	        //Leave gap for player
             int checkRadius = (int) ((world.player.getVelocity() / Reference.MAX_ENTITY_SPEED) * Reference.OBSTACLE_X_CHECK_RADIUS_MAX);
             if (PixelEscape.rand.nextBoolean()) {
-                LogHelper.debug("Correcting Top Barricade @ x: " + b.posX + " y: " + b.posY);
-                b.posY -= getAmountToCorrectTop(world, b, checkRadius);
+                LogHelper.debug("Correcting Bottom Barricade @ x: " + b.posX + "(" + world.convertWorldCoordinateToLocalBlockIndex(b.posX) + ") y: " + b.posY);
+                b.posY += getAmountToCorrectBottom(world, b, checkRadius);
                 LogHelper.debug("Corrected to y: " + b.posY);
             } else {
-                LogHelper.debug("Correcting Bottom Barricade @ x: " + b.posX + " y: " + b.posY);
-                b.posY += getAmountToCorrectBot(world, b, checkRadius);
+                LogHelper.debug("Correcting Top Barricade @ x: " + b.posX + "(" + world.convertWorldCoordinateToLocalBlockIndex(b.posX) + ") y: " + b.posY);
+                b.posY += getAmountToCorrectTop(world, b, checkRadius);
                 LogHelper.debug("Corrected to y: " + b.posY);
             }
         }

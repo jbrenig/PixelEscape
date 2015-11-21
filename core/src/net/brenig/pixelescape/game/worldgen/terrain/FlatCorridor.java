@@ -26,8 +26,8 @@ public class FlatCorridor implements ITerrainGenerator {
 		int generatedBlocks = Math.min(blocksToGenerate, MIN_GENERATION_LENGTH + random.nextInt(MAX_GENERATION_LENGTH - MIN_GENERATION_LENGTH + 1));
 		for(int i = 0; i < generatedBlocks; i++) {
 			TerrainPair pair = world.getCreateTerrainPairForGeneration();
-			pair.setBottom(lastPair.getBottom());
 			pair.setTop(lastPair.getTop());
+			pair.setBot(lastPair.getBot());
 		}
 		return generatedBlocks;
 	}

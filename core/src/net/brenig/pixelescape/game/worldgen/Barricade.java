@@ -16,6 +16,11 @@ public class Barricade {
 	public static final int sizeX = 20;
 	public static final int sizeY = 80;
 
+	public Barricade() {
+		this.posX = 0;
+		this.posY = 0;
+	}
+
 	public Barricade(int posX, int posY) {
 		this.posX = posX;
 		this.posY = posY;

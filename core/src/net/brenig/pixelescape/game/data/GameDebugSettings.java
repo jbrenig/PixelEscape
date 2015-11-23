@@ -49,6 +49,10 @@ public class GameDebugSettings {
 
 	public boolean getBoolean(String s) {
 		Boolean def = defaults.get(s);
+		if(!PixelEscape.getPixelEscape().gameConfig.debugSettingsAvailable()) {
+			//return default if debug settings are deactivated
+			return def == null ? false : def;
+		}
 		if(def == null) {
 			return prefs.getBoolean(s);
 		}

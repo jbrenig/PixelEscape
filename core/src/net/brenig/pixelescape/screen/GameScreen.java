@@ -177,28 +177,38 @@ public class GameScreen extends PixelScreen {
 		//Overlay
 		overlay.render(delta);
 
+		renderDebugInformation();
+	}
+
+	private void renderDebugInformation() {
 		if(GameDebugSettings.get("DEBUG_MODE_COORDS")) {
 			float x = game.getScaledMouseX();
 			float y = game.getScaledMouseY();
 			float worldY = world.convertMouseYToWorldCoordinate(y);
 			String screenTxt = "Screen: X: " + (int) x + ", Y: " + (int) world.convertMouseYToScreenCoordinate(y) + "(" + (int) y + "), Player speed: " + (int) world.player.getVelocity();
-			String worldTxt = "World: X: " + (int) world.convertScreenToWorldCoordinate(x) + ", Y: " + (int) worldY + ", Block: " + (int) world.convertScreenCoordToWorldBlockIndex(x) + " (" + (int) world.convertWorldBlockToLocalBlockIndex(world.convertScreenCoordToWorldBlockIndex(x)) + ")";
+			String worldTxt = "World: X: " + (int) world.convertScreenToWorldCoordinate(x) + ", Y: " + (int) worldY + ", Block: " + world.convertScreenCoordToWorldBlockIndex(x) + " (" + world.convertWorldBlockToLocalBlockIndex(world.convertScreenCoordToWorldBlockIndex(x)) + ")";
 			TerrainPair terrain = world.getBlockForScreenPosition(x);
 			boolean isTerrain = world.getWorldHeight() - terrain.getBot() * Reference.BLOCK_WIDTH < worldY
 					|| terrain.getTop() * Reference.BLOCK_WIDTH >= worldY;
 			String blockInfoTxt = "Info: IsTerrain: " + isTerrain + ", BlocksGenerated: " + world.getBlocksGenerated();
+
+			//Begin draw
 			game.batch.begin();
 			game.getFont().setColor(Color.LIGHT_GRAY);
 			game.getFont().getData().setScale(0.5F);
+			//Draw
 			fontLayout.setText(game.getFont(), screenTxt);
 			float pos = 5 + fontLayout.height;
 			game.getFont().draw(game.batch, fontLayout, 5, pos);
+
 			pos += fontLayout.height + 5;
 			fontLayout.setText(game.getFont(), worldTxt);
 			game.getFont().draw(game.batch, fontLayout, 5, pos);
+
 			pos += fontLayout.height + 5;
 			fontLayout.setText(game.getFont(), blockInfoTxt);
 			game.getFont().draw(game.batch, fontLayout, 5, pos);
+			//End draw
 			game.getFont().getData().setScale(1F);
 			game.batch.end();
 		} else if(GameDebugSettings.get("DEBUG_MUSIC")) {
@@ -213,25 +223,6 @@ public class GameScreen extends PixelScreen {
 		}
 	}
 
-	private void drawScoreScreen(float delta) {
-		String score = "Score: " + world.player.getScore();
-		game.getFont().getData().setScale(0.8F, 0.9F);
-		game.getFont().setColor(0, 0, 0, 1);
-		fontLayout.setText(game.getFont(), score);
-		if (fontLayout.width > lastScoreScreenWidth || lastScoreScreenWidth - fontLayout.width > Reference.GAME_UI_SCORE_SCREEN_SIZE_BUFFER) {
-			lastScoreScreenWidth = fontLayout.width;
-		}
-		//Score Screen white background
-		game.batch.begin();
-		game.getButtonNinePatch().draw(game.batch, world.getWorldWidth() - 20 - 16 - lastScoreScreenWidth, uiPos + world.getWorldHeight() + 20, 16 + lastScoreScreenWidth, 16 + fontLayout.height);
-		game.batch.end();
-
-		//Score
-		game.batch.begin();
-		game.getFont().draw(game.batch, fontLayout, world.getWorldWidth() - 20 - 8 - lastScoreScreenWidth, uiPos + world.getWorldHeight() + 20 + 8 + fontLayout.height);
-		game.batch.end();
-	}
-
 	@Override
 	public void resize(int width, int height) {
 		//update viewports and world size
@@ -240,7 +231,6 @@ public class GameScreen extends PixelScreen {
 		world.resize(game.gameSizeX);
 		worldRenderer.setPosition(0, uiPos);
 		//Update UI
-//		Utils.updateUIElementsToScreen(this, stage, table, width, height);
 		stage.updateStageToGameBounds(width, height);
 		//update Overlay
 		overlay.onResize(width, height);

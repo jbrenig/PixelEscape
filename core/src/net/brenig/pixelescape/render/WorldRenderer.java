@@ -1,5 +1,6 @@
 package net.brenig.pixelescape.render;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import net.brenig.pixelescape.PixelEscape;
@@ -100,7 +101,7 @@ public class WorldRenderer {
 			index++;
 		}
 		while (isBlockVisible(index) && index < world.getBlockBufferSize()) {
-			world.getTerrainPairForIndex(index).render(game, world, xPos + getBlockPositionFromLocalIndex(index) + screenShakeX, yPos, screenShakeY, 0);
+			world.getTerrainPairForIndex(index).render(game, world, xPos + getBlockPositionFromLocalIndex(index) + screenShakeX, yPos, screenShakeY, Gdx.graphics.getDeltaTime());
 			index++;
 		}
 
@@ -121,7 +122,8 @@ public class WorldRenderer {
 	 * @return returns true if the given block is currently visible
 	 */
 	private boolean isBlockVisible(int index) {
-		return true;
+		//is this needed?
+		return world.isWorldCoordinateVisible(world.convertLocalBlockToWorldBlockCoordinate(index));
 	}
 
 	public void setPosition(int x, int y) {

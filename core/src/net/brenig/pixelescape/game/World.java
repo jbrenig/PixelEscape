@@ -247,7 +247,7 @@ public class World {
 	public Barricade getCreateObstacleForGeneration() {
 		Barricade b = obstacles.getOldest();
 		if (b == null) {
-			b = new Barricade(0, 0);
+			b = new Barricade();
 			obstacles.add(b);
 			return b;
 		} else {
@@ -316,8 +316,8 @@ public class World {
 			float x = (float) Math.sin(i) + (rand.nextFloat() - 0.5F);
 			float y = (float) Math.cos(i) + (rand.nextFloat() - 0.5F);
 			EntityCrashParticle e = new EntityCrashParticle(this, (float) (player.getXPosScreen() - player.getVelocity() * Gdx.graphics.getDeltaTime() + x), player.getYPos() - player.getYVelocity() * Gdx.graphics.getDeltaTime() + y);
-			float xVel = (float) (x * 2 + (rand.nextFloat() - 0.5F)) * 70;
-			float yVel = (float) (y * 2 + (rand.nextFloat() - 0.5F)) * 70;
+			float xVel = (x * 2 + (rand.nextFloat() - 0.5F)) * 70;
+			float yVel = (y * 2 + (rand.nextFloat() - 0.5F)) * 70;
 			e.setVelocity(xVel, yVel);
 			this.spawnEntity(e);
 		}
@@ -372,7 +372,7 @@ public class World {
 	}
 
 	public CollisionType doesAreaCollideWithObstacles(float x1, float y1, float x2, float y2) {
-		float dif = (float) (player.getXPos() - player.getXPosScreen());
+		float dif = player.getXPos() - player.getXPosScreen();
 		x1 += dif;
 		x2 += dif;
 		for (int i = 0; i < obstacles.size(); i++) {
@@ -420,7 +420,6 @@ public class World {
 	}
 
 	public float convertMouseYToWorldCoordinate(float screenY) {
-//		return screenY - Reference.GAME_UI_Y_SIZE - screen.uiPos;
 		return convertMouseYToScreenCoordinate(screenY) - screen.uiPos;
 	}
 
@@ -429,7 +428,11 @@ public class World {
 	}
 
 	public boolean isWorldCoordinateVisible(float worldCoord) {
-		return (getCurrentScreenEnd()) > (worldCoord + Reference.BLOCK_WIDTH);
+		return (getCurrentScreenEnd()) > (worldCoord - Reference.BLOCK_WIDTH) && getCurrentScreenStart() < (worldCoord + Reference.BLOCK_WIDTH);
+	}
+
+	public float getCurrentScreenStart() {
+		return convertScreenToWorldCoordinate(0);
 	}
 
 	public float getCurrentScreenEnd() {
@@ -466,9 +469,18 @@ public class World {
 		return getBlocksGenerated() - i - 1;
 	}
 
+
+
 	public float getXWorldPosition() {
 		return player.getXPos() - player.getXPosScreen();
 	}
 
 
+	public float convertLocalBlockToWorldBlockCoordinate(int index) {
+		return convertWorldIndexToWorldCoordinate(convertLocalBlockToWorldBlockIndex(index));
+	}
+
+	public float convertWorldIndexToWorldCoordinate(int index) {
+		return index * Reference.BLOCK_WIDTH;
+	}
 }

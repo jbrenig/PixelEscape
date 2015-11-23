@@ -35,7 +35,7 @@ public class StageManagerGame extends StageManager {
 
 	/**
 	 * creates a new table that should be used for the main menu bar and adds it to the stage
-	 * @return
+	 * @return the table created
 	 */
 	public Table createHeadUiLayoutTable() {
 		Table table = new Table();

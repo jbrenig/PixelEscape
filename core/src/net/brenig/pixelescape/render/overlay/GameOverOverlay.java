@@ -187,7 +187,7 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		if (animationProgress > TIME_TO_WAIT && screenY > screen.uiPos + screen.getUiSize()) {
+		if (animationProgress > TIME_TO_WAIT && screen.game.convertToScaled(screenY) > screen.getUiSize() + screen.uiPos) {
 			screen.resetToEmptyOverlay();
 			screen.restart();
 			restartMusic();

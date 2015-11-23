@@ -173,7 +173,7 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		if(screenY > screen.uiPos + screen.getUiSize()) {
+		if(screen.game.convertToScaled(screenY) > screen.getUiSize() + screen.uiPos) {
 			screen.setOverlay(new CountDownOverlay(screen));
 			restartMusic();
 			return true;

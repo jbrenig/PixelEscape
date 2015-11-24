@@ -7,7 +7,7 @@ import com.badlogic.gdx.InputProcessor;
 import net.brenig.pixelescape.PixelEscape;
 
 /**
- * Created by Jonas Brenig on 20.08.2015.
+ * Handles Player input for the game
  */
 public class InputManager implements InputProcessor {
 

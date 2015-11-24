@@ -21,7 +21,6 @@ import java.util.Random;
 
 /**
  * Main World class, handling game logic
- * Created by Jonas Brenig on 02.08.2015.
  */
 public class World {
 

@@ -7,7 +7,8 @@ import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.screen.GameScreen;
 
 /**
- * Created by Jonas Brenig on 27.10.2015.
+ * StageManager that manages ui elements for the GameScreen<br></br>
+ * escpecially useful in Overlays
  */
 public class StageManagerGame extends StageManager {
 

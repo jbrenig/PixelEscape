@@ -27,8 +27,6 @@ import java.util.Random;
  */
 public class GameAssets {
 
-//	private AssetManager assetManager;
-
 	private BitmapFont font;
 	private Sound gameOverSound;
 
@@ -63,10 +61,6 @@ public class GameAssets {
 		initSounds();
 		initMusic();
 	}
-
-//	public void initAssetManager() {
-//		assetManager = new AssetManager();
-//	}
 
 	public void initSounds() {
 		//load sounds

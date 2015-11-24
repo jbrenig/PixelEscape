@@ -5,7 +5,7 @@ import net.brenig.pixelescape.game.World;
 import java.util.Random;
 
 /**
- * Created by Jonas Brenig on 15.08.2015.
+ * TerrainGenerator used for generating terrain
  */
 public interface ITerrainGenerator {
 

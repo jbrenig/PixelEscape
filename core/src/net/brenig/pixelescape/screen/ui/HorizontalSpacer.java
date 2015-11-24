@@ -3,7 +3,7 @@ package net.brenig.pixelescape.screen.ui;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 
 /**
- * Simply Horizontal Spacer
+ * Simple Horizontal Spacer
  */
 public class HorizontalSpacer extends Widget {
 

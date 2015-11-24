@@ -9,7 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Scaling;
 
 /**
- * Created by Jonas Brenig on 25.10.2015.
+ * ImageButton that can have two states<br></br>
+ * draws different texture depending on state
  */
 public class TwoStateImageButton extends Button {
 

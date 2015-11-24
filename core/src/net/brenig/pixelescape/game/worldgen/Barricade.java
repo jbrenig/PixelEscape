@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import net.brenig.pixelescape.game.World;
 
 /**
- * Created by Jonas Brenig on 06.08.2015.
+ * obstacles that spawn in the level
  */
 public class Barricade {
 	public int posX;

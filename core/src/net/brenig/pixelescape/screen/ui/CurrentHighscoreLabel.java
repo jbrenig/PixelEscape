@@ -14,7 +14,7 @@ import net.brenig.pixelescape.lib.Utils;
 import java.util.Random;
 
 /**
- * Created by Jonas Brenig on 27.10.2015.
+ * Label that displays current highscore (animated, no frame)
  */
 public class CurrentHighscoreLabel extends Widget {
 	

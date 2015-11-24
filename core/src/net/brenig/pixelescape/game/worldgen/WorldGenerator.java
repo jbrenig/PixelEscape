@@ -16,7 +16,7 @@ import java.util.Random;
 import java.util.TreeMap;
 
 /**
- * Created by Jonas Brenig on 25.09.2015.
+ * Generates terrain and obstacles
  */
 public class WorldGenerator {
 

@@ -4,9 +4,6 @@ import com.badlogic.gdx.Gdx;
 
 import net.brenig.pixelescape.game.data.GameDebugSettings;
 
-/**
- * Created by Jonas Brenig on 11.10.2015.
- */
 public class LogHelper {
 
 	private static final String LOG_TAG_BRACKET_OPEN = "[";

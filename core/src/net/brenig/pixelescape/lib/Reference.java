@@ -1,7 +1,7 @@
 package net.brenig.pixelescape.lib;
 
 /**
- * Created by Jonas Brenig on 02.08.2015.
+ * Provides default values for PixelEscape
  */
 public class Reference {
 

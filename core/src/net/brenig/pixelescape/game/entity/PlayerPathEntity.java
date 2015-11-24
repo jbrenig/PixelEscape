@@ -3,7 +3,7 @@ package net.brenig.pixelescape.game.entity;
 import net.brenig.pixelescape.lib.Reference;
 
 /**
- * Created by Jonas Brenig on 06.08.2015.
+ * Player path entity
  */
 public class PlayerPathEntity implements IMovingEntity {
 	private float yVelocity = 0;

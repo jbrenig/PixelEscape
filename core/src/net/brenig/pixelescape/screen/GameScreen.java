@@ -29,7 +29,8 @@ import net.brenig.pixelescape.screen.ui.StageManagerGame;
 
 
 /**
- * Created by Jonas Brenig on 02.08.2015.
+ * Main Game Screen<br></br>
+ * Displays the game. Provides overlays for GamePaused, GameOver etc.
  */
 public class GameScreen extends PixelScreen {
 

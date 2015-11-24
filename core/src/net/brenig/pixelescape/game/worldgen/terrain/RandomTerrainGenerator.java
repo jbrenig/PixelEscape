@@ -7,7 +7,7 @@ import net.brenig.pixelescape.lib.Reference;
 import java.util.Random;
 
 /**
- * Created by Jonas Brenig on 15.08.2015.
+ * Generator that randomly generates terrain based on last terrain generated
  */
 public class RandomTerrainGenerator extends AbstractTerrainGenerator {
 

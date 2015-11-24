@@ -1,7 +1,8 @@
 package net.brenig.pixelescape.lib;
 
 /**
- * Created by Jonas Brenig on 02.08.2015.
+ * int array that is arranged in a Ring<br></br>
+ * when new elements get added the oldest elements get lost
  */
 public class CycleIntArray {
 

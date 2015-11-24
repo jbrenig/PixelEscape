@@ -10,7 +10,8 @@ import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.screen.GameScreen;
 
 /**
- * Created by Jonas Brenig on 27.10.2015.
+ * Widget that displays current score<br></br>
+ * gets draw on a white backgound texture
  */
 public class ScoreWidget extends Widget {
 

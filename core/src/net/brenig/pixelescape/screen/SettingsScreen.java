@@ -20,7 +20,8 @@ import net.brenig.pixelescape.screen.ui.PixelDialog;
 import net.brenig.pixelescape.screen.ui.StageManager;
 
 /**
- * Created by Jonas Brenig on 26.09.2015.
+ * Screen that provides user settings<br></br>
+ * Currently used for Music/Sound volume
  */
 public class SettingsScreen extends PixelScreen {
 

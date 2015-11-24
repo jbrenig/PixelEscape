@@ -8,7 +8,6 @@ import net.brenig.pixelescape.screen.GameScreen;
 
 /**
  * An Overlay is used to draw UI or similar on top of the main game
- * Created by Jonas Brenig on 06.08.2015.
  */
 public abstract class Overlay {
 	/**

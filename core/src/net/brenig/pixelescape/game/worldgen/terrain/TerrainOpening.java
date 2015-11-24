@@ -8,7 +8,7 @@ import net.brenig.pixelescape.lib.Reference;
 import java.util.Random;
 
 /**
- * Created by Jonas Brenig on 25.09.2015.
+ * Generator that generates a opening corridor
  */
 public class TerrainOpening implements ITerrainGenerator {
 

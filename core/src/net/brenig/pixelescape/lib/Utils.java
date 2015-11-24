@@ -13,7 +13,7 @@ import net.brenig.pixelescape.screen.GameScreen;
 import net.brenig.pixelescape.screen.ui.TwoStateImageButton;
 
 /**
- * Created by Jonas Brenig on 21.08.2015.
+ * general utilities
  */
 public class Utils {
 

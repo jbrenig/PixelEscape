@@ -17,7 +17,7 @@ import net.brenig.pixelescape.screen.ui.ScoreWidget;
 import net.brenig.pixelescape.screen.ui.StageManagerGame;
 
 /**
- * Created by Jonas Brenig on 07.09.2015.
+ * Displays when game gets paused
  */
 public class GamePausedOverlay extends Overlay implements InputProcessor {
 

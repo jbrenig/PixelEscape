@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
 /**
- * Created by Jonas Brenig on 20.10.2015.
+ * Used to store user data, such as highscore
  */
 public class UserData {
 

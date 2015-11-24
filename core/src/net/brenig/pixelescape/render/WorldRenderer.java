@@ -11,7 +11,6 @@ import net.brenig.pixelescape.game.entity.EntityPlayer;
 /**
  * Helper class for rendering a {@link World}
  * Renders with y-Up
- * Created by Jonas Brenig on 02.08.2015.
  */
 public class WorldRenderer {
 

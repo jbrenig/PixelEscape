@@ -5,7 +5,7 @@ import com.badlogic.gdx.Screen;
 import net.brenig.pixelescape.PixelEscape;
 
 /**
- * Created by Jonas Brenig on 31.10.2015.
+ * Abstract GameScreen providing shared functionality for all Screens of PixelEscape
  */
 public abstract class PixelScreen implements Screen {
 	public final PixelEscape game;

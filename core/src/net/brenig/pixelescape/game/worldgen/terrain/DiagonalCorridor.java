@@ -6,7 +6,7 @@ import net.brenig.pixelescape.game.worldgen.TerrainPair;
 import java.util.Random;
 
 /**
- * Created by Jonas Brenig on 25.09.2015.
+ * Generator that generates diagonal corridors
  */
 public class DiagonalCorridor extends AbstractTerrainGenerator {
 

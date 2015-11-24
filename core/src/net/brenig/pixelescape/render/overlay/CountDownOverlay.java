@@ -3,7 +3,8 @@ package net.brenig.pixelescape.render.overlay;
 import net.brenig.pixelescape.screen.GameScreen;
 
 /**
- * Created by Jonas Brenig on 06.08.2015.
+ * Overlay that renders a simple countdown (from 3)<br></br>
+ * pauses the game until countdown is finished
  */
 public class CountDownOverlay extends Overlay {
 

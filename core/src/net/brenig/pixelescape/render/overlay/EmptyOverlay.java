@@ -4,7 +4,7 @@ import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.screen.GameScreen;
 
 /**
- * Created by Jonas Brenig on 15.08.2015.
+ * Empty Overlay used to avoid null in GameScreen
  */
 public final class EmptyOverlay extends Overlay {
 

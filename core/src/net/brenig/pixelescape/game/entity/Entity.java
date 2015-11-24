@@ -4,7 +4,7 @@ import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
 
 /**
- * Created by Jonas Brenig on 07.10.2015.
+ * Entity that can be spawned into the world
  */
 public abstract class Entity {
 

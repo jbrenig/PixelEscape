@@ -20,7 +20,7 @@ import net.brenig.pixelescape.screen.ui.HorizontalSpacer;
 import net.brenig.pixelescape.screen.ui.StageManager;
 
 /**
- * Created by Jonas Brenig on 26.09.2015.
+ * Screen to adjust DEBUG features
  */
 public class DebugSettingsScreen extends PixelScreen {
 

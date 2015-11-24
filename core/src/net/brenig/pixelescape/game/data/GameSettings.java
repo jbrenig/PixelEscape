@@ -5,7 +5,6 @@ import com.badlogic.gdx.Preferences;
 
 /**
  * Contains information about user preferences and handles loading and saving of those
- * Created by Jonas Brenig on 26.09.2015.
  */
 public class GameSettings {
 

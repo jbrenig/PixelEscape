@@ -3,7 +3,7 @@ package net.brenig.pixelescape.game.worldgen.terrain;
 import net.brenig.pixelescape.game.worldgen.ITerrainGenerator;
 
 /**
- * Created by Jonas Brenig on 25.09.2015.
+ * Basic terrian generator functionality
  */
 public abstract class AbstractTerrainGenerator implements ITerrainGenerator {
 

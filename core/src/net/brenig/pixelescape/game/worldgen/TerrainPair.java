@@ -5,7 +5,7 @@ import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.lib.Reference;
 
 /**
- * Created by Jonas Brenig on 03.08.2015.
+ * Used to store terrain
  */
 public class TerrainPair {
 

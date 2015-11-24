@@ -16,7 +16,7 @@ import net.brenig.pixelescape.screen.ui.HorizontalSpacer;
 import net.brenig.pixelescape.screen.ui.StageManagerGame;
 
 /**
- * Created by Jonas Brenig on 06.08.2015.
+ * Displays when Player crashed
  */
 public class GameOverOverlay extends Overlay implements InputProcessor {
 

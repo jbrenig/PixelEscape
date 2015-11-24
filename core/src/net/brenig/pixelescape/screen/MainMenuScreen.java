@@ -19,7 +19,7 @@ import net.brenig.pixelescape.screen.ui.StageManager;
 import net.brenig.pixelescape.screen.ui.TwoStateImageButton;
 
 /**
- * Created by Jonas Brenig on 02.08.2015.
+ * PixelEscape MainMenu
  */
 public class MainMenuScreen extends PixelScreen {
 

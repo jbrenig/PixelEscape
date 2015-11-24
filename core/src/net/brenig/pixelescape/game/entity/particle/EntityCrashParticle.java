@@ -12,7 +12,7 @@ import net.brenig.pixelescape.lib.Reference;
 
 
 /**
- * Created by Jonas Brenig on 07.10.2015.
+ * Particle entity that spawns when the player dies
  */
 public class EntityCrashParticle extends Entity {
 

@@ -1,7 +1,8 @@
 package net.brenig.pixelescape.game.entity;
 
 /**
- * Created by Jonas Brenig on 06.08.2015.
+ * An Entity that has an yPosition<br></br>
+ * currently used for player path
  */
 public interface IMovingEntity {
 	float getYPos();

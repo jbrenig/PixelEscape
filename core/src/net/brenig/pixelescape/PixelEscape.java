@@ -11,7 +11,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
@@ -21,7 +20,6 @@ import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.data.GameMusic;
 import net.brenig.pixelescape.game.data.GameSettings;
 import net.brenig.pixelescape.game.data.UserData;
-import net.brenig.pixelescape.game.entity.EntityPlayer;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.screen.MainMenuScreen;
@@ -66,8 +64,6 @@ public class PixelEscape extends Game {
 	public int gameSizeY = Reference.GAME_RESOLUTION_Y + Reference.GAME_UI_Y_SIZE;
 	private float scale = 1.0F;
 
-	public EntityPlayer thePlayer;
-
 	public PixelEscape() {
 		//set default config
 		this(new GameConfiguration());
@@ -105,9 +101,6 @@ public class PixelEscape extends Game {
 
 		//open main menu
 		showMainMenu();
-
-		//Test
-//		CycleArrayTest.runTest();
 
 		LogHelper.log("Main", "Finished loading!");
 	}
@@ -212,7 +205,6 @@ public class PixelEscape extends Game {
 
 	public void resetFontSize() {
 		getFont().getData().setScale(1.0F);
-//		font.getData().setScale(scale);
 	}
 
 	public void showMainMenu() {
@@ -284,13 +276,6 @@ public class PixelEscape extends Game {
 	 */
 	public NinePatch getButtonNinePatch() {
 		return getGameAssets().getButtonNinePatch();
-	}
-
-	/**
-	 * Gui Texture atlas
-	 */
-	public TextureAtlas getGuiAtlas() {
-		return getGameAssets().getGuiAtlas();
 	}
 
 	/**

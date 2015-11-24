@@ -7,7 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Align;
 
 /**
- * Created by Jonas Brenig on 05.11.2015.
+ * Dialog for PixelEscape<br></br>
+ * Provides a texture and some default settings
  */
 public class PixelDialog extends Dialog {
 

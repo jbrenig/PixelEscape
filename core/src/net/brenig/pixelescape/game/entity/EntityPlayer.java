@@ -12,7 +12,7 @@ import net.brenig.pixelescape.lib.CycleIntArray;
 import net.brenig.pixelescape.lib.Reference;
 
 /**
- * Created by Jonas Brenig on 02.08.2015.
+ * the Player
  */
 public class EntityPlayer extends Entity implements IMovingEntity {
 

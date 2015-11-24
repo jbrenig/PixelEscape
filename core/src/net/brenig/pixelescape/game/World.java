@@ -46,7 +46,6 @@ public class World {
 	 */
 	public final CycleArray<TerrainPair> terrain;
 
-//	private final List<ITerrainGenerator> terrainGenerators = new ArrayList<ITerrainGenerator>();
 
 	public final WorldGenerator worldGenerator;
 	/**
@@ -431,11 +430,11 @@ public class World {
 	}
 
 	public float getCurrentScreenStart() {
-		return convertScreenToWorldCoordinate(0);
+		return convertScreenToWorldCoordinate(0 - screen.worldRenderer.getScreenShakeX());
 	}
 
 	public float getCurrentScreenEnd() {
-		return convertScreenToWorldCoordinate(getWorldWidth());
+		return convertScreenToWorldCoordinate(getWorldWidth() - screen.worldRenderer.getScreenShakeX());
 	}
 
 	/**

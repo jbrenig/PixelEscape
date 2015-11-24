@@ -129,4 +129,12 @@ public class WorldRenderer {
 		this.xPos = x;
 		this.yPos = y;
 	}
+
+	public float getScreenShakeX() {
+		return screenShakeX;
+	}
+
+	public float getScreenShakeY() {
+		return screenShakeY;
+	}
 }

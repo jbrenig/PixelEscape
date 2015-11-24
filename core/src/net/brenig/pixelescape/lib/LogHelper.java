@@ -21,7 +21,7 @@ public class LogHelper {
 	public static final String LOG_LEVEL_WARNING = "Warning";
 	private static final String LOG_LEVEL_DEBUG = "Debug";
 
-	public static void load(String msg) {
+	public static void log(String msg) {
 		log(null, null, msg, null);
 	}
 
@@ -70,5 +70,17 @@ public class LogHelper {
 
 	public static void newLine() {
 		Gdx.app.log("", "");
+	}
+
+	public static void warn(String msg) {
+		log(LOG_LEVEL_WARNING, null, msg, null);
+	}
+
+	public static void warn(String tag, String msg) {
+		log(LOG_LEVEL_WARNING, tag, msg, null);
+	}
+
+	public static void warn(String tag, String msg, Throwable t) {
+		log(LOG_LEVEL_WARNING, tag, msg, t);
 	}
 }

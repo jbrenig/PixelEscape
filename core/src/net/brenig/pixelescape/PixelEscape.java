@@ -35,15 +35,17 @@ public class PixelEscape extends Game {
 
 	public static final Random rand = new Random();
 
+	private boolean assetsLoaded = false;
+
 	/**
 	 * Main ShapeRenderer
 	 */
 	public ShapeRenderer shapeRenderer;
+
 	/**
 	 * Main Sprite Batch
 	 */
 	public SpriteBatch batch;
-//	private BitmapFont font;
 
 
 	/**
@@ -52,13 +54,6 @@ public class PixelEscape extends Game {
 	 */
 	public OrthographicCamera cam;
 
-//	private Sound gameOverSound;
-
-//	private NinePatch buttonNinePatch;
-//
-//	private TextureAtlas guiAtlas;
-//
-//	private Skin skin;
 
 	private GameAssets gameAssets;
 	public GameSettings gameSettings;
@@ -87,26 +82,18 @@ public class PixelEscape extends Game {
 	public void create() {
 		LogHelper.log("Main", "Starting up...");
 		if(instance != null) {
-			throw new IllegalStateException("Critical Error! Game already initialized!");
+			LogHelper.warn("Critical Error! Game already initialized!");
 		}
 		instance = this;
-
-		//initialize drawing area
-		batch = new SpriteBatch();
-
 
 		//initialize viewport
 		cam = new OrthographicCamera();
 		cam.setToOrtho(false);
-		batch.setProjectionMatrix(cam.combined);
 
-		shapeRenderer = new ShapeRenderer();
-		shapeRenderer.setProjectionMatrix(cam.combined);
+		//load everything needed
+		initializeRendering();
 
 		gameMusic = new GameMusic(this);
-
-		updateAssetManager();
-		gameAssets.initAll();
 
 		//load settings
 		gameSettings = new GameSettings();
@@ -175,7 +162,29 @@ public class PixelEscape extends Game {
 		batch.dispose();
 		shapeRenderer.dispose();
 		gameAssets.disposeAll();
+		assetsLoaded = false;
 		super.dispose();
+	}
+
+	@Override
+	public void resume() {
+		if(!assetsLoaded) {
+			initializeRendering();
+		}
+		super.resume();
+	}
+
+	private void initializeRendering() {
+		//initialize drawing area
+		batch = new SpriteBatch();
+		batch.setProjectionMatrix(cam.combined);
+
+		shapeRenderer = new ShapeRenderer();
+		shapeRenderer.setProjectionMatrix(cam.combined);
+
+		updateAssetManager();
+		gameAssets.initAll();
+		assetsLoaded = true;
 	}
 
 	@Override

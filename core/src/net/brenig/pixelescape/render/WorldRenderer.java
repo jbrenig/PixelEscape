@@ -95,13 +95,8 @@ public class WorldRenderer {
 		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		game.shapeRenderer.setColor(0, 0, 0, 1);
 
-		int index = 0;
-		while(!isBlockVisible(index)) {
-			index++;
-		}
-		while (isBlockVisible(index) && index < world.getBlockBufferSize()) {
+		for (int index = 0; index < world.getBlockBufferSize(); index++) {
 			world.getTerrainPairForIndex(index).render(game, world, xPos + getBlockPositionFromLocalIndex(index) + screenShakeX, yPos, screenShakeY, Gdx.graphics.getDeltaTime());
-			index++;
 		}
 
 		game.shapeRenderer.end();

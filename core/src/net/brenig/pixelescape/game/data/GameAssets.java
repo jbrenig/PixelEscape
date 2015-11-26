@@ -62,12 +62,12 @@ public class GameAssets {
 		initMusic();
 	}
 
-	public void initSounds() {
+	private void initSounds() {
 		//load sounds
 		gameOverSound = Gdx.audio.newSound(Gdx.files.internal("sound/explode.ogg"));
 	}
 
-	public void initMusic() {
+	private void initMusic() {
 		mainMenuMusic = Gdx.audio.newMusic(Gdx.files.internal("music/SynthPower.ogg"));
 		mainMenuMusic.setLooping(true);
 		mipIntro = Gdx.audio.newMusic(Gdx.files.internal("music/MIPSynthIntro.ogg"));
@@ -88,23 +88,23 @@ public class GameAssets {
 		sslMusic.setLooping(true);
 	}
 
-	public void initFont() {
+	private void initFont() {
 		//Use custom font
 		font = new BitmapFont(Gdx.files.internal("font/p2p.fnt"), Gdx.files.internal("font/p2p_0.png"), false, true);
 		font.setColor(Color.BLACK);
 	}
 
-	public void initGuiAtlas() {
+	private void initGuiAtlas() {
 		//load ui textures
 		guiAtlas = new TextureAtlas(Gdx.files.internal("drawable/gui/gui_textures.pack"));
 	}
 
-	public void initTextures() {
+	private void initTextures() {
 		//Cache default button texture for other use cases
 		buttonNinePatch = guiAtlas.createPatch("button");
 	}
 
-	public void initSkin() {
+	private void initSkin() {
 		//Setting up skin
 		mainUiSkin = new Skin();
 

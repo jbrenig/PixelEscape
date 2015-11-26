@@ -17,15 +17,15 @@ public class GameSettings {
 	}
 
 	private static final class Defaults {
-		public static final boolean musicEnabled = true;
-		public static final boolean soundEnabled = true;
-		public static final float musicVolume = 0.5F;
-		public static final float soundVolume = 0.5F;
+		private static final boolean musicEnabled = true;
+		private static final boolean soundEnabled = true;
+		private static final float musicVolume = 0.5F;
+		private static final float soundVolume = 0.5F;
 	}
 
-	public static final String PREF_MAIN_SETTINGS = "PixelEscape_User_Preferences";
+	private static final String PREF_MAIN_SETTINGS = "PixelEscape_User_Preferences";
 
-	private Preferences prefs;
+	private final Preferences prefs;
 
 	/**
 	 * fullscreen, setting does not persist atm

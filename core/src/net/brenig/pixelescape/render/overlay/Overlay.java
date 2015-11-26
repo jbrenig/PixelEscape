@@ -13,7 +13,7 @@ public abstract class Overlay {
 	/**
 	 * Parent GameScreen instance
 	 */
-	protected GameScreen screen;
+	protected final GameScreen screen;
 
 	public Overlay(GameScreen screen) {
 		this.screen = screen;
@@ -87,15 +87,6 @@ public abstract class Overlay {
 	}
 
 	/**
-	 * @deprecated has no effect anymore, as score is now displayed in a widget
-	 * @see #shouldHideGameUI()
-	 */
-	@Deprecated
-	public boolean shouldHideScore() {
-		return false;
-	}
-
-	/**
 	 * @return true if GameScreen should hide the cursor after time, (GameScreen InputManager needs focus)
 	 */
 	public boolean canHideCursor() {
@@ -124,11 +115,11 @@ public abstract class Overlay {
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		screen.game.shapeRenderer.setColor(r, g, b, a);
 		screen.game.shapeRenderer.rect(0, 0, screen.game.gameSizeX, screen.game.gameSizeY);
-//		screen.game.shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		screen.game.shapeRenderer.end();
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 	}
 
+	@SuppressWarnings("EmptyMethod")
 	public void updateMusic(boolean play) {}
 
 	public boolean shouldPauseOnEscape() {

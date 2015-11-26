@@ -16,27 +16,23 @@ import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.screen.ui.CurrentHighscoreLabel;
 import net.brenig.pixelescape.screen.ui.StageManager;
-import net.brenig.pixelescape.screen.ui.TwoStateImageButton;
 
 /**
  * PixelEscape MainMenu
  */
 public class MainMenuScreen extends PixelScreen {
 
-	private StageManager uiStage;
+	private final StageManager uiStage;
 
 	/**
 	 * layout used to group main ui elements
 	 */
-	private Table menuLayout;
+	private final Table menuLayout;
 
 	/**
 	 * layout used to group setting buttons
 	 */
-	private Table headLayout;
-
-	private TwoStateImageButton btnSound;
-	private TwoStateImageButton btnMusic;
+	private final Table headLayout;
 
 	public MainMenuScreen(final PixelEscape game) {
 		super(game);

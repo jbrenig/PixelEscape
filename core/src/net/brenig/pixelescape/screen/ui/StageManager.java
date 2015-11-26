@@ -16,8 +16,8 @@ import net.brenig.pixelescape.game.data.GameDebugSettings;
  */
 public class StageManager {
 	
-	protected Stage uiStage;
-	protected Table rootTable;
+	protected final Stage uiStage;
+	protected final Table rootTable;
 	
 	public StageManager(Viewport view) {
 		uiStage = new Stage(view);

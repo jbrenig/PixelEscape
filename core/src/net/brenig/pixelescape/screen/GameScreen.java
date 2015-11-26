@@ -34,28 +34,24 @@ import net.brenig.pixelescape.screen.ui.StageManagerGame;
  */
 public class GameScreen extends PixelScreen {
 
+	/**
+	 * The game world
+	 */
 	public final World world;
+
+	/**
+	 * Game world renderer
+	 */
 	public final WorldRenderer worldRenderer;
-	/**
-	 * position of the ui elements / black bars height
-	 */
-	public int uiPos = 0;
-	/**
-	 * Game-Font
-	 */
-	public GlyphLayout fontLayout = new GlyphLayout();
 
-	private float lastScoreScreenWidth = 0;
 
-	/**
-	 * simulation paused
-	 */
-	private boolean isGamePaused = false;
+	private int uiPos = 0;
+	private final GlyphLayout fontLayout = new GlyphLayout();
+
 	/**
 	 * window paused (by os)
 	 */
 	private boolean isScreenPaused = false;
-	private boolean renderingPaused = false;
 
 	private boolean firstUpdate = true;
 
@@ -72,7 +68,7 @@ public class GameScreen extends PixelScreen {
 		super(game);
 		Gdx.app.log("PixelEscape | GameScreen", "initializing GameScreen...");
 		//init world and renderer
-		this.world = new World(this);
+		this.world = new World(this, game.gameSizeX);
 		this.worldRenderer = new WorldRenderer(game, world);
 		//create default overlay
 		this.emptyOverlay = new EmptyOverlay(this);
@@ -92,7 +88,7 @@ public class GameScreen extends PixelScreen {
 		});
 		table.add(mainMenu);
 		table.add(new HorizontalSpacer());
-		table.add(new ScoreWidget(world.player, fontLayout, game));
+		table.add(new ScoreWidget(world.getPlayer(), fontLayout, game));
 
 		//init input
 		inputManager = new InputManager();
@@ -110,12 +106,6 @@ public class GameScreen extends PixelScreen {
 	}
 
 	public Music getGameMusic() {
-		/*
-		if(PixelEscape.rand.nextBoolean()) {
-			return (game.getGameAssets().getMipComplete());
-		} else {
-			return (game.getGameAssets().getSnpMusic());
-		}*/
 		return game.getGameAssets().getRandomGameMusic(PixelEscape.rand);
 	}
 
@@ -128,18 +118,12 @@ public class GameScreen extends PixelScreen {
 		if(game.gameConfig.canHideCursor()) inputManager.updateMouseVisibility(delta, game.gameSettings.fullscreen && overlay.canHideCursor());
 
 		if (firstUpdate) {
-			//Setup world on first update
-			firstUpdate = false;
-			setOverlay(new CountDownOverlay(this));
-			world.generateWorld(true);
+			init();
 		}
+
 		if (!isGamePaused()) {
 			//update world
 			world.update(delta);
-		}
-		if (renderingPaused) {
-			//skip rendering if necessary
-			return;
 		}
 
 		//Pause on escape
@@ -156,6 +140,7 @@ public class GameScreen extends PixelScreen {
 
 		//black background
 		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
 		if(GameDebugSettings.get("DEBUG_SCREEN_BOUNDS")) {
 			game.shapeRenderer.setColor(1, 0, 0, 0);
 		} else {
@@ -163,6 +148,7 @@ public class GameScreen extends PixelScreen {
 		}
 		game.shapeRenderer.rect(0, 0, world.getWorldWidth(), uiPos);
 		game.shapeRenderer.rect(0, world.getWorldHeight() + uiPos, world.getWorldWidth(), uiPos + Reference.GAME_UI_Y_SIZE);
+
 		game.shapeRenderer.end();
 
 		//Overlay first callback
@@ -181,12 +167,21 @@ public class GameScreen extends PixelScreen {
 		renderDebugInformation();
 	}
 
+	/**
+	 * Setup world on first update
+	 */
+	private void init() {
+		firstUpdate = false;
+		setOverlay(new CountDownOverlay(this));
+		world.generateWorld(true);
+	}
+
 	private void renderDebugInformation() {
 		if(GameDebugSettings.get("DEBUG_MODE_COORDS")) {
 			float x = game.getScaledMouseX();
 			float y = game.getScaledMouseY();
 			float worldY = world.convertMouseYToWorldCoordinate(y);
-			String screenTxt = "Screen: X: " + (int) x + ", Y: " + (int) world.convertMouseYToScreenCoordinate(y) + "(" + (int) y + "), Player speed: " + (int) world.player.getVelocity();
+			String screenTxt = "Screen: X: " + (int) x + ", Y: " + (int) world.convertMouseYToScreenCoordinate(y) + "(" + (int) y + "), Player speed: " + (int) world.getPlayer().getVelocity();
 			String worldTxt = "World: X: " + (int) world.convertScreenToWorldCoordinate(x) + ", Y: " + (int) worldY + ", Block: " + world.convertScreenCoordToWorldBlockIndex(x) + " (" + world.convertWorldBlockToLocalBlockIndex(world.convertScreenCoordToWorldBlockIndex(x)) + ")";
 			TerrainPair terrain = world.getBlockForScreenPosition(x);
 			boolean isTerrain = world.getWorldHeight() - terrain.getBot() * Reference.BLOCK_WIDTH < worldY
@@ -259,7 +254,6 @@ public class GameScreen extends PixelScreen {
 
 	@Override
 	public void hide() {
-		reset();
 		dispose();
 	}
 
@@ -298,11 +292,6 @@ public class GameScreen extends PixelScreen {
 		}
 	}
 
-	public void reset() {
-		firstUpdate = true;
-		resetToEmptyOverlay();
-	}
-
 	/**
 	 * Callback when player died
 	 * Shows GameOver Overlay and registers highscore
@@ -312,11 +301,15 @@ public class GameScreen extends PixelScreen {
 		if (game.gameSettings.isSoundEnabled()) {
 			game.getGameOverSound().play(game.gameSettings.getSoundVolume());
 		}
-		game.userData.updateHighscore(world.player.getScore());
+		game.userData.updateHighscore(world.getPlayer().getScore());
 	}
 
+	/**
+	 * restarts the game
+	 */
 	public void restart() {
-		reset();
+		firstUpdate = true;
+		resetToEmptyOverlay();
 		world.restart();
 	}
 
@@ -325,7 +318,7 @@ public class GameScreen extends PixelScreen {
 	}
 
 	public boolean isGamePaused() {
-		return isGamePaused || overlay.doesPauseGame() || isScreenPaused();
+		return overlay.doesPauseGame() || isScreenPaused();
 	}
 
 	public void showGamePausedOverlay() {
@@ -346,11 +339,27 @@ public class GameScreen extends PixelScreen {
 		stage.getInputProcessor().mouseMoved(Gdx.input.getX(), Gdx.input.getY());
 	}
 
+	@SuppressWarnings("SameReturnValue")
 	public float getUiSize() {
 		return Reference.GAME_UI_Y_SIZE;
 	}
 
+	@SuppressWarnings("SameReturnValue")
 	public float getUiPadding() {
 		return Reference.GAME_UI_Y_PADDING;
+	}
+
+	/**
+	 * position of the ui elements / black bars height
+	 */
+	public int getUiPos() {
+		return uiPos;
+	}
+
+	/**
+	 * Game-Font
+	 */
+	public GlyphLayout getFontLayout() {
+		return fontLayout;
 	}
 }

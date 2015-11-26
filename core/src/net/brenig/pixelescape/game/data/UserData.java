@@ -14,14 +14,14 @@ public class UserData {
 	}
 
 	private static final class Defaults {
-		public static final int highScore = 0;
+		private static final int highScore = 0;
 	}
 
-	public static final String PREF_MAIN_DATA = "PixelEscape_User_Data";
+	private static final String PREF_MAIN_DATA = "PixelEscape_User_Data";
 
-	public int lastHighScore;
+	private int lastHighScore;
 
-	private Preferences prefs;
+	private final Preferences prefs;
 
 	public UserData() {
 		prefs = Gdx.app.getPreferences(PREF_MAIN_DATA);

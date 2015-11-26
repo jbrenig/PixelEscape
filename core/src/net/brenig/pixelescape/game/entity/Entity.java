@@ -16,10 +16,12 @@ public abstract class Entity {
 
 	public abstract void render(PixelEscape game, float delta, float x, float y);
 
+	@SuppressWarnings("EmptyMethod")
 	public void update(float delta) {}
 
 	public abstract boolean isDead();
 
+	@SuppressWarnings("EmptyMethod")
 	public void removeEntityOnDeath() {
 
 	}

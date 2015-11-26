@@ -27,23 +27,21 @@ public class CurrentHighscoreLabel extends Widget {
 
 	private static final float font_scaling_strength = 0.5F;
 
-	private static final Random random = new Random();
-
-	private GlyphLayout fontLayout;
-	private PixelEscape game;
+	private final GlyphLayout fontLayout;
+	private final PixelEscape game;
 
 	private enum Animations {
 		WAIT(2, 8), BLEND(0.4F, 2F), MOVE_X(0.4F, 4F), MOVE_Y(0.4F, 8), SIZE(0.5F, 0.5F);
 
-		private float minDuration;
-		private float maxDuration;
+		private final float minDuration;
+		private final float maxDuration;
 
 		Animations(float minDuration, float maxDuration) {
 			this.minDuration = minDuration;
 			this.maxDuration = maxDuration;
 		}
 
-		public float getDuration(Random random) {
+		private float getDuration(Random random) {
 			return minDuration + random.nextFloat() * (maxDuration - minDuration);
 		}
 	}
@@ -139,21 +137,21 @@ public class CurrentHighscoreLabel extends Widget {
 
 
 	private void updateAnimation() {
-		if(random.nextInt(10) < 4) {
-			state = Animations.values()[random.nextInt(Animations.values().length)];
+		if(PixelEscape.rand.nextInt(10) < 4) {
+			state = Animations.values()[PixelEscape.rand.nextInt(Animations.values().length)];
 		} else {
 			state = Animations.WAIT;
 		}
 		animationTimer = 0;
 		animationData = 0;
-		animationDuration = state.getDuration(random);
+		animationDuration = state.getDuration(PixelEscape.rand);
 
 		switch (state) {
 			case MOVE_X:
-				animationData = 1 + random.nextInt(4);
+				animationData = 1 + PixelEscape.rand.nextInt(4);
 				break;
 			case MOVE_Y:
-				animationData = 1 + random.nextInt(3);
+				animationData = 1 + PixelEscape.rand.nextInt(3);
 				break;
 			case BLEND:
 				Gdx.gl.glDisable(GL20.GL_BLEND);

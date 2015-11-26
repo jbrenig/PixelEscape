@@ -21,7 +21,7 @@ import java.util.TreeMap;
 public class WorldGenerator {
 
 
-    private TreeMap<Integer, ITerrainGenerator> terrainGenerators = new TreeMap<Integer, ITerrainGenerator>();
+    private final TreeMap<Integer, ITerrainGenerator> terrainGenerators = new TreeMap<Integer, ITerrainGenerator>();
     private int totalWeight = 0;
 
     /**
@@ -62,7 +62,7 @@ public class WorldGenerator {
 
         while (generationPasses > 0 && blockToGenerate > 0) {
             //get last terrain
-            TerrainPair old = world.terrain.getNewest();
+            TerrainPair old = world.getTerrain().getNewest();
             if (old == null) {
                 old = new TerrainPair(Reference.STARTING_TERRAIN_HEIGHT, Reference.STARTING_TERRAIN_HEIGHT);
             }
@@ -112,8 +112,8 @@ public class WorldGenerator {
     }
 
     public void generateObstacles(World world, Random rand) {
-        while (world.obstacles.getOldest() == null || world.obstacles.getOldest().posX < world.player.getXPos() - world.getWorldWidth() / 2) {
-            Barricade last = world.obstacles.getNewest();
+        while (world.getObstacles().getOldest() == null || world.getObstacles().getOldest().posX < world.getPlayer().getXPos() - world.getWorldWidth() / 2) {
+            Barricade last = world.getObstacles().getNewest();
             int oldX = 0;
             if (last != null) {
                 oldX = last.posX;
@@ -167,8 +167,8 @@ public class WorldGenerator {
     }
 
     public void updateBarricades(World world) {
-        for (int i = 0; i < world.obstacles.size(); i++) {
-            Barricade b =  world.obstacles.get(i);
+        for (int i = 0; i < world.getObstacles().size(); i++) {
+            Barricade b =  world.getObstacles().get(i);
             if (!b.moved && b.posX > world.getCurrentScreenEnd() + Reference.BLOCK_WIDTH && b.posX < world.getCurrentScreenEnd() + Reference.BLOCK_WIDTH * 2) {
 	            b.moved = true;
                 updateBarricade(world, b);
@@ -190,7 +190,7 @@ public class WorldGenerator {
             }
 
 	        //Leave gap for player
-            int checkRadius = (int) ((world.player.getVelocity() / Reference.MAX_ENTITY_SPEED) * Reference.OBSTACLE_X_CHECK_RADIUS_MAX);
+            int checkRadius = (int) ((world.getPlayer().getVelocity() / Reference.MAX_ENTITY_SPEED) * Reference.OBSTACLE_X_CHECK_RADIUS_MAX);
             if (PixelEscape.rand.nextBoolean()) {
                 LogHelper.debug("Correcting Bottom Barricade @ x: " + b.posX + "(" + world.convertWorldCoordinateToLocalBlockIndex(b.posX) + ") y: " + b.posY);
                 b.posY += getAmountToCorrectBottom(world, b, checkRadius);

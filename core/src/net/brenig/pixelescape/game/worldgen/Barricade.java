@@ -33,10 +33,12 @@ public class Barricade {
 		render.end();
 	}
 
+	@SuppressWarnings("SameReturnValue")
 	public static int getSizeX() {
 		return sizeX;
 	}
 
+	@SuppressWarnings("SameReturnValue")
 	public static int getSizeY() {
 		return sizeY;
 	}

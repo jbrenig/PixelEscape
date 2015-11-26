@@ -15,13 +15,13 @@ import java.util.Map;
 public class GameDebugSettings {
 
 
-	public static final String PREF_DEBUG_SETTINGS = "PixelEscape_Debug_Preferences";
+	private static final String PREF_DEBUG_SETTINGS = "PixelEscape_Debug_Preferences";
 
 	private static final Map<String, Boolean> defaults = createDefaults();
 
 
 
-	private Preferences prefs;
+	private final Preferences prefs;
 
 	public GameDebugSettings() {
 		prefs = Gdx.app.getPreferences(PREF_DEBUG_SETTINGS);

@@ -24,10 +24,10 @@ import net.brenig.pixelescape.screen.ui.StageManager;
  */
 public class DebugSettingsScreen extends PixelScreen {
 
-	private StageManager uiStage;
-	private Table uiLayout;
-	private Table headLayout;
-	private ScrollPane pane;
+	private final StageManager uiStage;
+	private final Table uiLayout;
+	private final Table headLayout;
+	private final ScrollPane pane;
 
 
 	public DebugSettingsScreen(final PixelEscape game) {

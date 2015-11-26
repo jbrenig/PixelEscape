@@ -10,7 +10,6 @@ public class CountDownOverlay extends Overlay {
 
 	private static final int COUNT_FROM = 3;
 	private static final String GO_TEXT = "GO!";
-	private static final float GO_FADE_DURATION = 1;
 
 	private long startedAt = 0;
 
@@ -26,40 +25,40 @@ public class CountDownOverlay extends Overlay {
 
 	@Override
 	public void render(float delta) {
-		if(delta > 0.1) {
+		if (delta > 0.1) {
 			//compensate low frame rate
 			startedAt += delta * 1000;
 		}
-		int timePassed = screen.isScreenPaused() ? 0 : (int) (System.currentTimeMillis() - startedAt);
-		int secondsRemaining = COUNT_FROM - ((timePassed) / 1000);
-		if(secondsRemaining <= -1) {
+		long timePassed = screen.isScreenPaused() ? 0 : System.currentTimeMillis() - startedAt;
+		long secondsRemaining = COUNT_FROM - ((timePassed) / 1000);
+		if (secondsRemaining <= -1) {
 			//end
 			screen.resetToEmptyOverlay();
 			return;
 		}
 		screen.game.batch.begin();
-		float mod = (timePassed % 1000);
-		screen.game.getFont().setColor(0.2F, 0.8F, 0, 1000 / mod);
-		if(mod < 100) {
-			float scaleMod = 1/((mod+1) * 10);
+		int mod = (int) (timePassed % 1000); //fraction of the current second
+		screen.game.getFont().setColor(0.2F, 0.8F, 0, 1000 / (mod + 1));
+		if (mod < 100) {
+			float scaleMod = 1 / ((mod + 1) * 10);
 			screen.game.getFont().getData().setScale(5 + scaleMod * 2);
-		} else if(mod > 900) {
+		} else if (mod > 900) {
 			mod -= 900;
-			float scaleMod = 1/((mod+1) * 10);
+			float scaleMod = 1 / ((mod + 1) * 10);
 			screen.game.getFont().getData().setScale(3 + scaleMod);
 		} else {
 			screen.game.getFont().getData().setScale(5);
 		}
-		if(secondsRemaining <= 0) {
-			screen.fontLayout.setText(screen.game.getFont(), GO_TEXT);
+		if (secondsRemaining <= 0) {
+			screen.getFontLayout().setText(screen.game.getFont(), GO_TEXT);
 		} else {
-			screen.fontLayout.setText(screen.game.getFont(), "" + secondsRemaining);
+			screen.getFontLayout().setText(screen.game.getFont(), "" + secondsRemaining);
 		}
 
-		float xPos = screen.world.getWorldWidth() / 2 - screen.fontLayout.width / 2;
-		float yPos = screen.world.getWorldHeight() / 2 + screen.fontLayout.height / 2 + screen.uiPos;
+		float xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
+		float yPos = screen.world.getWorldHeight() / 2 + screen.getFontLayout().height / 2 + screen.getUiPos();
 
-		screen.game.getFont().draw(screen.game.batch, screen.fontLayout, xPos, yPos);
+		screen.game.getFont().draw(screen.game.batch, screen.getFontLayout(), xPos, yPos);
 		screen.game.batch.end();
 	}
 

@@ -12,13 +12,13 @@ import net.brenig.pixelescape.screen.GameScreen;
  */
 public class StageManagerGame extends StageManager {
 
-	private GameScreen screen;
+	private final GameScreen screen;
 
 	public StageManagerGame(GameScreen screen) {
 		super(new ExtendViewport(Reference.TARGET_RESOLUTION_X, Reference.TARGET_RESOLUTION_Y, screen.game.cam));
 		this.screen = screen;
 		rootTable.setFillParent(false);
-		rootTable.setPosition(0, screen.uiPos);
+		rootTable.setPosition(0, screen.getUiPos());
 		rootTable.setSize(screen.world.getWorldWidth(), screen.world.getWorldHeight() + Reference.GAME_UI_Y_SIZE);
 		rootTable.left().top();
 	}
@@ -29,7 +29,7 @@ public class StageManagerGame extends StageManager {
 
 		updateViewport(width, height, true);
 
-		rootTable.setPosition(0, screen.uiPos);
+		rootTable.setPosition(0, screen.getUiPos());
 		rootTable.setSize(screen.world.getWorldWidth(), screen.world.getWorldHeight() + Reference.GAME_UI_Y_SIZE);
 		rootTable.invalidateHierarchy();
 	}

@@ -18,14 +18,12 @@ public class ScoreWidget extends Widget {
 	private EntityPlayer player;
 	private static final String SCORE_TEXT = "Score: ";
 
-	private PixelEscape game;
-	private GlyphLayout fontLayout;
+	private final PixelEscape game;
+	private final GlyphLayout fontLayout;
 	private float lastScoreScreenWidth = 0;
-	private static final int paddingSide = 0;
-	private static final int paddingHeight = 0;
 
 	public ScoreWidget(GameScreen screen) {
-		this(screen.world.player, screen.fontLayout, screen.game);
+		this(screen.world.getPlayer(), screen.getFontLayout(), screen.game);
 	}
 
 	public ScoreWidget(EntityPlayer player, GlyphLayout fontLayout, PixelEscape game) {

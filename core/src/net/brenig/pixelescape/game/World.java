@@ -24,34 +24,21 @@ import java.util.Random;
  */
 public class World {
 
-	public static final net.brenig.pixelescape.game.worldgen.TerrainPair BACKUP_TERRAIN_PAIR = new net.brenig.pixelescape.game.worldgen.TerrainPair(Reference.FALLBACK_TERRAIN_HEIGHT, Reference.FALLBACK_TERRAIN_HEIGHT);
+	private static final TerrainPair BACKUP_TERRAIN_PAIR = new TerrainPair(Reference.FALLBACK_TERRAIN_HEIGHT, Reference.FALLBACK_TERRAIN_HEIGHT);
 
 	/**
 	 * The width of the world in pixels
 	 */
 	private int worldWidth = Reference.TARGET_RESOLUTION_X;
 
-	/**
-	 * The height of the world in pixels
-	 */
-	private int worldHeight = Reference.GAME_RESOLUTION_Y;
+	private EntityPlayer player;
 
-	/**
-	 * The Main Player Entity
-	 */
-	public EntityPlayer player;
-
-	/**
-	 * The terrain
-	 */
-	public final CycleArray<TerrainPair> terrain;
+	private final CycleArray<TerrainPair> terrain;
 
 
-	public final WorldGenerator worldGenerator;
-	/**
-	 * obstacles
-	 */
-	public final CycleArray<Barricade> obstacles;
+	private final WorldGenerator worldGenerator;
+
+	private final CycleArray<Barricade> obstacles;
 
 	private final List<Entity> entityList;
 
@@ -66,12 +53,12 @@ public class World {
 	 */
 	public int blocksRequested = 0;
 
-	private Random rand = new Random();
+	private final Random rand = new Random();
 
 	/**
 	 * GameScreen instance
 	 */
-	private GameScreen screen;
+	private final GameScreen screen;
 
 	//DEUBG Code
 	private int lastIndex = -1;
@@ -100,6 +87,7 @@ public class World {
 
 	/**
 	 * updates the world
+	 *
 	 * @param deltaTick time passed between two ticks
 	 *                  TODO: cap delta time
 	 */
@@ -108,7 +96,7 @@ public class World {
 		generateWorld(false);
 		//FIXME: Barricade updates are not working properly
 		worldGenerator.updateBarricades(this);
-		if(!GameDebugSettings.get("DEBUG_GOD_MODE")) {
+		if (!GameDebugSettings.get("DEBUG_GOD_MODE")) {
 			player.collideWithWorld(this);
 			for (int i = 0; i < obstacles.size(); i++) {
 				player.collideWithObstacle(obstacles.get(i), this);
@@ -118,7 +106,7 @@ public class World {
 		Iterator<Entity> iterator = entityList.iterator();
 		while (iterator.hasNext()) {
 			Entity e = iterator.next();
-			if(e.isDead()) {
+			if (e.isDead()) {
 				e.removeEntityOnDeath();
 				iterator.remove();
 			} else {
@@ -127,7 +115,7 @@ public class World {
 		}
 
 		//DEBUG Code
-		if(GameDebugSettings.get("DEBUG_WORLD_GEN_VALIDATE")) {
+		if (GameDebugSettings.get("DEBUG_WORLD_GEN_VALIDATE")) {
 			int index = convertScreenCoordToWorldBlockIndex(player.getXPosScreen());
 			if ((index - 5) <= lastIndex && index >= lastIndex) {
 				int local = convertWorldBlockToLocalBlockIndex(lastIndex);
@@ -154,6 +142,7 @@ public class World {
 
 	/**
 	 * resizes the world
+	 *
 	 * @param newWidth the width in pixels
 	 */
 	public void resize(int newWidth) {
@@ -164,6 +153,7 @@ public class World {
 
 	/**
 	 * calculates the world buffer size
+	 *
 	 * @param newWidth new width of the world in pixels (scaled)
 	 * @return new world buffer width
 	 */
@@ -216,15 +206,19 @@ public class World {
 	}
 
 	public int getWorldHeight() {
-		return worldHeight;
+		/*
+	  The height of the world in pixels
+	 */
+		return Reference.GAME_RESOLUTION_Y;
 	}
 
 	/**
 	 * generates the world (including obstacles)
+	 *
 	 * @param fillArray set this flag to true if the whole TerrainBuffer should be filled, used to generate Terrain on Gamestart
 	 */
 	public void generateWorld(boolean fillArray) {
-		int blockToGenerate = fillArray ? getBlockBufferSize() : getBlocksToGenerate();
+		int blockToGenerate = fillArray ? getBlockBufferSize() : calculateBlocksToGenerate();
 		int generationPasses = blockToGenerate + Reference.ADDITIONAL_GENERATION_PASSES;
 		worldGenerator.generateWorld(this, blockToGenerate, generationPasses, rand);
 	}
@@ -256,14 +250,7 @@ public class World {
 	}
 
 	/**
-	 * @return the terrain at the specified index/position in the world
-	 */
-	private TerrainPair getTerrainPairForBlockIndex(int i) {
-		return getTerrainPairForIndex(convertWorldBlockToLocalBlockIndex(i));
-	}
-
-	/**
-	 * @return the Terrain at the specified position in the buffer
+	 * @return the Terrain at the specified position in the buffer (local block index)
 	 */
 	public TerrainPair getTerrainPairForIndex(int i) {
 		if (i < 0) {
@@ -286,12 +273,12 @@ public class World {
 	 * returns how many blocks need to be generated<br>
 	 * returns a negative value if too many blocks already got generated
 	 */
-	public int getBlocksToGenerate() {
+	private int calculateBlocksToGenerate() {
 		//amount of blocks to the right edge of the screen
 		final int lengthToTheRight = worldWidth - player.getXPosScreen();
 		int neededBlocks = (int) ((player.getXPos() + lengthToTheRight) / Reference.BLOCK_WIDTH + Reference.TERRAIN_MIN_BUFFER_RIGHT);
-		int missingBlocks =  neededBlocks - getBlocksGenerated();
-		if(missingBlocks >= 0) {
+		int missingBlocks = neededBlocks - getBlocksGenerated();
+		if (missingBlocks >= 0) {
 			return missingBlocks + Reference.TERRAIN_BUFFER;
 		}
 		return missingBlocks;
@@ -330,7 +317,7 @@ public class World {
 		blocksGenerated = 0;
 		blocksRequested = 0;
 		player.reset();
-		for(Entity e : entityList) {
+		for (Entity e : entityList) {
 			e.removeEntityOnDeath();
 		}
 		entityList.clear();
@@ -347,23 +334,23 @@ public class World {
 
 	public CollisionType doesAreaCollideWithWorld(float x1, float y1, float x2, float y2) {
 		CollisionType col = doesAreaCollideWithTerrain(x1, y1, x2, y2);
-		return  col != CollisionType.NONE ? col : doesAreaCollideWithObstacles(x1, y1, x2, y2);
+		return col != CollisionType.NONE ? col : doesAreaCollideWithObstacles(x1, y1, x2, y2);
 	}
 
 	public CollisionType doesAreaCollideWithTerrain(float x1, float y1, float x2, float y2) {
 		TerrainPair back = this.getBlockForScreenPosition((int) x1);
 		TerrainPair front = this.getBlockForScreenPosition((int) x2);
 		//collide
-		if(y1 < front.getBot() * Reference.BLOCK_WIDTH) {
+		if (y1 < front.getBot() * Reference.BLOCK_WIDTH) {
 			return CollisionType.TERRAIN_BOT_RIGHT;
 		}
-		if(y1 < back.getBot() * Reference.BLOCK_WIDTH) {
+		if (y1 < back.getBot() * Reference.BLOCK_WIDTH) {
 			return CollisionType.TERRAIN_BOT_LEFT;
 		}
-		if(y2 > this.getWorldHeight() - front.getTop() * Reference.BLOCK_WIDTH) {
+		if (y2 > this.getWorldHeight() - front.getTop() * Reference.BLOCK_WIDTH) {
 			return CollisionType.TERRAIN_TOP_RIGHT;
 		}
-		if(y2 > this.getWorldHeight() - back.getTop() * Reference.BLOCK_WIDTH) {
+		if (y2 > this.getWorldHeight() - back.getTop() * Reference.BLOCK_WIDTH) {
 			return CollisionType.TERRAIN_TOP_LEFT;
 		}
 		return CollisionType.NONE;
@@ -374,7 +361,7 @@ public class World {
 		x1 += dif;
 		x2 += dif;
 		for (int i = 0; i < obstacles.size(); i++) {
-			if(doesAreaCollideWithObstacle(obstacles.get(i), x1, y1, x2, y2)) {
+			if (doesAreaCollideWithObstacle(obstacles.get(i), x1, y1, x2, y2)) {
 				return CollisionType.OBSTACLE;
 			}
 		}
@@ -382,8 +369,8 @@ public class World {
 	}
 
 	public boolean doesAreaCollideWithObstacle(Barricade ob, float x1, float y1, float x2, float y2) {
-		if(ob.posX - Barricade.sizeX / 2 < x2 && ob.posX + Barricade.sizeX / 2 > x1) {
-			if(ob.posY - Barricade.sizeY / 2 < y2 && ob.posY + Barricade.sizeY / 2 > y1) {
+		if (ob.posX - Barricade.sizeX / 2 < x2 && ob.posX + Barricade.sizeX / 2 > x1) {
+			if (ob.posY - Barricade.sizeY / 2 < y2 && ob.posY + Barricade.sizeY / 2 > y1) {
 				return true;
 			}
 		}
@@ -407,7 +394,7 @@ public class World {
 	}
 
 	/**
-	 * Converts a world coordinate to a world index (--> index = coord / Block_Width
+	 * Converts a world coordinate to a world index (--> index = coord / Block_Width)
 	 */
 	public int convertToWorldBlockIndex(float posX) {
 		return (int) (posX / Reference.BLOCK_WIDTH);
@@ -418,19 +405,11 @@ public class World {
 	}
 
 	public float convertMouseYToWorldCoordinate(float screenY) {
-		return convertMouseYToScreenCoordinate(screenY) - screen.uiPos;
+		return convertMouseYToScreenCoordinate(screenY) - screen.getUiPos();
 	}
 
 	public int convertWorldCoordinateToLocalBlockIndex(float posX) {
 		return convertWorldBlockToLocalBlockIndex(convertToWorldBlockIndex(posX));
-	}
-
-	public boolean isWorldCoordinateVisible(float worldCoord) {
-		return (getCurrentScreenEnd()) > (worldCoord - Reference.BLOCK_WIDTH) && getCurrentScreenStart() < (worldCoord + Reference.BLOCK_WIDTH);
-	}
-
-	public float getCurrentScreenStart() {
-		return convertScreenToWorldCoordinate(0 - screen.worldRenderer.getScreenShakeX());
 	}
 
 	public float getCurrentScreenEnd() {
@@ -459,6 +438,7 @@ public class World {
 	public int convertWorldBlockToLocalBlockIndex(int i) {
 		return getBlocksGenerated() - i - 1;
 	}
+
 	/**
 	 * Converts a local (or generator) index to a World index
 	 * note: local BlockIndex starts with the newest block --> right to left
@@ -467,18 +447,24 @@ public class World {
 		return getBlocksGenerated() - i - 1;
 	}
 
-
-
-	public float getXWorldPosition() {
-		return player.getXPos() - player.getXPosScreen();
+	/**
+	 * The Main Player Entity
+	 */
+	public EntityPlayer getPlayer() {
+		return player;
 	}
 
-
-	public float convertLocalBlockToWorldBlockCoordinate(int index) {
-		return convertWorldIndexToWorldCoordinate(convertLocalBlockToWorldBlockIndex(index));
+	/**
+	 * The terrain
+	 */
+	public CycleArray<TerrainPair> getTerrain() {
+		return terrain;
 	}
 
-	public float convertWorldIndexToWorldCoordinate(int index) {
-		return index * Reference.BLOCK_WIDTH;
+	/**
+	 * obstacles
+	 */
+	public CycleArray<Barricade> getObstacles() {
+		return obstacles;
 	}
 }

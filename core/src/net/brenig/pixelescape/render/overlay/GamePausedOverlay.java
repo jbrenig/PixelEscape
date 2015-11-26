@@ -22,7 +22,7 @@ import net.brenig.pixelescape.screen.ui.StageManagerGame;
 public class GamePausedOverlay extends Overlay implements InputProcessor {
 
 	private static final float ANIM_TIME_PAUSED = 0.4F;
-	private StageManagerGame stage;
+	private final StageManagerGame stage;
 
 	private float animationProgress = 0;
 
@@ -67,43 +67,43 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 		screen.game.batch.begin();
 		screen.game.getFont().setColor(0, 0, 1, 1);
 		screen.game.getFont().getData().setScale(2, 4);
-		screen.fontLayout.setText(screen.game.getFont(), "Game Paused!");
-		float xPos = screen.world.getWorldWidth() / 2 - screen.fontLayout.width / 2;
-		float txtGameOverHeight = screen.fontLayout.height / 2;
-		float yPos = ((2 * screen.world.getWorldHeight()) / 3) + screen.uiPos + txtGameOverHeight;
-		screen.game.getFont().draw(screen.game.batch, screen.fontLayout, xPos, yPos);
+		screen.getFontLayout().setText(screen.game.getFont(), "Game Paused!");
+		float xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
+		float txtGameOverHeight = screen.getFontLayout().height / 2;
+		float yPos = ((2 * screen.world.getWorldHeight()) / 3) + screen.getUiPos() + txtGameOverHeight;
+		screen.game.getFont().draw(screen.game.batch, screen.getFontLayout(), xPos, yPos);
 		screen.game.batch.end();
 
 		//Score
 		screen.game.batch.begin();
 		screen.game.getFont().setColor(0, 1, 0, 1);
 		screen.game.getFont().getData().setScale(1.2F);
-		screen.fontLayout.setText(screen.game.getFont(), "Your score: " + screen.world.player.getScore());
-		xPos = screen.world.getWorldWidth() / 2 - screen.fontLayout.width / 2;
-		float txtScoreHeight = screen.fontLayout.height / 2;
+		screen.getFontLayout().setText(screen.game.getFont(), "Your score: " + screen.world.getPlayer().getScore());
+		xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
+		float txtScoreHeight = screen.getFontLayout().height / 2;
 		yPos -= txtGameOverHeight + screen.game.getFont().getLineHeight()+ txtScoreHeight;
-		screen.game.getFont().draw(screen.game.batch, screen.fontLayout, xPos, yPos);
+		screen.game.getFont().draw(screen.game.batch, screen.getFontLayout(), xPos, yPos);
 		screen.game.batch.end();
 
 		//Highscore
 		screen.game.batch.begin();
 		screen.game.getFont().setColor(0, 0, 1, 1);
 		screen.game.getFont().getData().setScale(1.0F);
-		screen.fontLayout.setText(screen.game.getFont(), "Highscore: " + screen.game.userData.getHighScore());
-		xPos = screen.world.getWorldWidth() / 2 - screen.fontLayout.width / 2;
-		float txtHighscoreHeight = screen.fontLayout.height / 2;
+		screen.getFontLayout().setText(screen.game.getFont(), "Highscore: " + screen.game.userData.getHighScore());
+		xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
+		float txtHighscoreHeight = screen.getFontLayout().height / 2;
 		yPos -= screen.game.getFont().getLineHeight() + txtScoreHeight + txtHighscoreHeight;
-		screen.game.getFont().draw(screen.game.batch, screen.fontLayout, xPos, yPos);
+		screen.game.getFont().draw(screen.game.batch, screen.getFontLayout(), xPos, yPos);
 		screen.game.batch.end();
 
 		//Info
 		screen.game.batch.begin();
 		screen.game.getFont().setColor(0, 1, 0, 1);
 		screen.game.getFont().getData().setScale(0.8F);
-		screen.fontLayout.setText(screen.game.getFont(), "Tap to continue!");
-		xPos = screen.world.getWorldWidth() / 2 - screen.fontLayout.width / 2;
-		yPos -= screen.game.getFont().getLineHeight() + txtHighscoreHeight + screen.fontLayout.height / 2;
-		screen.game.getFont().draw(screen.game.batch, screen.fontLayout, xPos, yPos);
+		screen.getFontLayout().setText(screen.game.getFont(), "Tap to continue!");
+		xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
+		yPos -= screen.game.getFont().getLineHeight() + txtHighscoreHeight + screen.getFontLayout().height / 2;
+		screen.game.getFont().draw(screen.game.batch, screen.getFontLayout(), xPos, yPos);
 		screen.game.batch.end();
 
 
@@ -173,7 +173,7 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		if(screen.game.convertToScaled(screenY) > screen.getUiSize() + screen.uiPos) {
+		if(screen.game.convertToScaled(screenY) > screen.getUiSize() + screen.getUiPos()) {
 			screen.setOverlay(new CountDownOverlay(screen));
 			restartMusic();
 			return true;

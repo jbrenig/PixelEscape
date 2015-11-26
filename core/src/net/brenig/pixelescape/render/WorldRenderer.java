@@ -76,7 +76,7 @@ public class WorldRenderer {
 		if(game.gameDebugSettings.getBoolean("SCREEN_SHAKE")) {
 			shakeScreen(delta);
 		}
-		renderPlayerEntity(world.player, delta);
+		renderPlayerEntity(world.getPlayer(), delta);
 		renderWorld();
 		renderEntities(delta);
 	}
@@ -101,8 +101,8 @@ public class WorldRenderer {
 
 		game.shapeRenderer.end();
 
-		for(int i = 0; i < world.obstacles.size(); i++) {
-			world.obstacles.get(i).render(world, xPos + screenShakeX, yPos + screenShakeY, game.shapeRenderer);
+		for(int i = 0; i < world.getObstacles().size(); i++) {
+			world.getObstacles().get(i).render(world, xPos + screenShakeX, yPos + screenShakeY, game.shapeRenderer);
 		}
 
 	}
@@ -110,14 +110,6 @@ public class WorldRenderer {
 
 	private float getBlockPositionFromLocalIndex(int index) {
 		return world.convertWorldIndexToScreenCoordinate(world.convertLocalBlockToWorldBlockIndex(index));
-	}
-
-	/**
-	 * @return returns true if the given block is currently visible
-	 */
-	private boolean isBlockVisible(int index) {
-		//is this needed?
-		return world.isWorldCoordinateVisible(world.convertLocalBlockToWorldBlockCoordinate(index));
 	}
 
 	public void setPosition(int x, int y) {

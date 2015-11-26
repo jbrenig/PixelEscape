@@ -57,7 +57,7 @@ public class PixelEscape extends Game {
 	public GameSettings gameSettings;
 	public GameDebugSettings gameDebugSettings;
 	public UserData userData;
-	public GameConfiguration gameConfig;
+	public final GameConfiguration gameConfig;
 	public GameMusic gameMusic;
 
 	public int gameSizeX = Reference.TARGET_RESOLUTION_X;
@@ -109,7 +109,7 @@ public class PixelEscape extends Game {
 		return instance;
 	}
 
-	public void updateAssetManager() {
+	private void updateAssetManager() {
 		if(gameAssets == null) {
 			gameAssets = new GameAssets();
 		}
@@ -140,7 +140,7 @@ public class PixelEscape extends Game {
 		}
 	}
 
-	public void prepareRender() {
+	private void prepareRender() {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 

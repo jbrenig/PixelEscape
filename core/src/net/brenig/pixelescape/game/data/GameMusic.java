@@ -10,7 +10,7 @@ import net.brenig.pixelescape.lib.Utils;
  */
 public class GameMusic {
 
-	public enum MusicState {
+	private enum MusicState {
 		PLAYING, PAUSED, STOPPED, FADE_IN, FADE_OUT_STOP, FADE_OUT_PAUSE, FADE_OUT_INTO
 	}
 
@@ -20,7 +20,7 @@ public class GameMusic {
 	private Music fadeInMusic;
 
 
-	private PixelEscape game;
+	private final PixelEscape game;
 	private float fadingProgress = 0;
 	private float fadingTime = 0;
 	private static final float defaultFadingTime = 1;

@@ -24,13 +24,12 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	private float yPos;
 	private float xPos;
 
-	private PlayerPathEntity[] pathEntities = new PlayerPathEntity[4];
+	private final PlayerPathEntity[] pathEntities = new PlayerPathEntity[4];
 
 	private boolean lastTouched = false;
 
-	private CycleIntArray lastYPositions;
+	private final CycleIntArray lastYPositions;
 	private int lastXPosition = 0;
-	private float YVelocity;
 
 	private boolean isDead = false;
 
@@ -95,11 +94,6 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		}
 		lastYPositions.fill((int) yPos);
 		isDead = false;
-	}
-
-	@Deprecated
-	public double getProgress() {
-		return xPos;
 	}
 
 	/**
@@ -167,7 +161,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	}
 
 	public float getYVelocity() {
-		return YVelocity;
+		return yVelocity;
 	}
 
 	public void setIsDead(boolean isDead) {

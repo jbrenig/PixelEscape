@@ -76,7 +76,6 @@ public class World {
 		obstacles = new CycleArray<Barricade>(3);
 		this.worldWidth = worldWidth;
 		entityList = new ArrayList<Entity>();
-		//TODO proper support for player screen positioning
 		player.setXPosScreen(worldWidth / 4);
 		player.reset();
 
@@ -89,7 +88,6 @@ public class World {
 	 * updates the world
 	 *
 	 * @param deltaTick time passed between two ticks
-	 *                  TODO: cap delta time
 	 */
 	public void update(float deltaTick) {
 		generateWorld(false);
@@ -288,20 +286,21 @@ public class World {
 		return getTerrainPairForIndex(convertScreenCoordToLocalBlockIndex(x));
 	}
 
-	public void onPlayerCollide(boolean barricade) { //TODO: support collision types
+	public void onPlayerCollide(CollisionType col) {
 		player.setIsDead(true);
 		for (int i = 0; i < 60; i++) {
-			float x = (float) Math.sin(i) + (rand.nextFloat() - 0.5F);
-			float y = (float) Math.cos(i) + (rand.nextFloat() - 0.5F);
+			final float x = (float) Math.sin(i) + (rand.nextFloat() - 0.5F);
+			final float y = (float) Math.cos(i) + (rand.nextFloat() - 0.5F);
 			EntityCrashParticle e = new EntityCrashParticle(this, (float) (player.getXPosScreen() - player.getVelocity() * Gdx.graphics.getDeltaTime() + x), player.getYPos() - player.getYVelocity() * Gdx.graphics.getDeltaTime() + y);
-			float xVel = (x * 2 + (rand.nextFloat() - 0.5F)) * 70;
-			float yVel = (y * 2 + (rand.nextFloat() - 0.5F)) * 70;
+			final float xVel = (x * 2 + (rand.nextFloat() - 0.5F)) * 70;
+			final float yVel = (y * 2 + (rand.nextFloat() - 0.5F)) * 70;
 			e.setVelocity(xVel, yVel);
 			this.spawnEntity(e);
 		}
-		float scoreModifier = 1 - 1 / (player.getScore() * 0.001F);
-		float force = 0.5F + rand.nextFloat() * 0.5F * scoreModifier;
-		screen.worldRenderer.applyForceToScreen(barricade ? force : 0, barricade ? 0 : force);
+		final float scoreModifier = 1 - 1 / (player.getScore() * 0.001F);
+		final float force = 0.5F + rand.nextFloat() * 0.5F * scoreModifier;
+		final boolean horizontal = col == CollisionType.OBSTACLE;
+		screen.worldRenderer.applyForceToScreen(horizontal ? force : 0, horizontal ? 0 : force);
 		screen.onGameOver();
 	}
 

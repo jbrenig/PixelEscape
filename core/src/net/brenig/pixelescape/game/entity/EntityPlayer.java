@@ -131,7 +131,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	private void collide() {
 		CollisionType col = worldObj.doesAreaCollideWithWorld(xPosScreen - getPlayerSizeRadius(), yPos - getPlayerSizeRadius(), xPosScreen + getPlayerSizeRadius(), yPos + getPlayerSizeRadius());
 		if(col != CollisionType.NONE) {
-			worldObj.onPlayerCollide(col == CollisionType.OBSTACLE);
+			worldObj.onPlayerCollide(col);
 		}
 	}
 

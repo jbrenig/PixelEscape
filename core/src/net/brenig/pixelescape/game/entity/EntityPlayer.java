@@ -3,11 +3,10 @@ package net.brenig.pixelescape.game.entity;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import net.brenig.pixelescape.PixelEscape;
+import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameDebugSettings;
-import net.brenig.pixelescape.game.worldgen.Barricade;
-import net.brenig.pixelescape.game.worldgen.TerrainPair;
 import net.brenig.pixelescape.lib.CycleIntArray;
 import net.brenig.pixelescape.lib.Reference;
 
@@ -78,6 +77,8 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 			lastYPositions.add((int) yPos);
 			lastXPosition = (int) getXPos();
 		}
+
+		collide();
 	}
 
 	/**
@@ -127,23 +128,10 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		}
 	}
 
-	public void collideWithWorld(World world) {
-		TerrainPair back = world.getBlockForScreenPosition(xPosScreen - getPlayerSizeRadius());
-		TerrainPair front = world.getBlockForScreenPosition(xPosScreen + getPlayerSizeRadius());
-		if (yPos - getPlayerSizeRadius() < back.getBot() * Reference.BLOCK_WIDTH || yPos - getPlayerSizeRadius() < front.getBot() * Reference.BLOCK_WIDTH) {
-			//collide
-			world.onPlayerCollide(false);
-		} else if (yPos + getPlayerSizeRadius() > world.getWorldHeight() - back.getTop() * Reference.BLOCK_WIDTH || yPos + getPlayerSizeRadius() > world.getWorldHeight() - front.getTop() * Reference.BLOCK_WIDTH) {
-			//collide
-			world.onPlayerCollide(false);
-		}
-	}
-
-	public void collideWithObstacle(net.brenig.pixelescape.game.worldgen.Barricade ob, World world) {
-		if(ob.posX - Barricade.sizeX / 2 < getXPos() + getPlayerSizeRadius() && ob.posX + Barricade.sizeX / getPlayerSizeRadius() > getXPos() - getPlayerSizeRadius()) {
-			if(ob.posY - Barricade.sizeY / 2 < getYPos() + getPlayerSizeRadius() && ob.posY + Barricade.sizeY / 2 > getYPos() - getPlayerSizeRadius()) {
-				world.onPlayerCollide(true);
-			}
+	private void collide() {
+		CollisionType col = worldObj.doesAreaCollideWithWorld(xPosScreen - getPlayerSizeRadius(), yPos - getPlayerSizeRadius(), xPosScreen + getPlayerSizeRadius(), yPos + getPlayerSizeRadius());
+		if(col != CollisionType.NONE) {
+			worldObj.onPlayerCollide(col == CollisionType.OBSTACLE);
 		}
 	}
 

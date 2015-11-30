@@ -105,12 +105,12 @@ public class MainMenuScreen extends PixelScreen {
 
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(uiStage.getInputProcessor());
 		game.resetFontSize();
 		uiStage.updateViewportToScreen();
 		menuLayout.invalidateHierarchy();
 		headLayout.invalidateHierarchy();
 		game.gameMusic.playOrFadeInto(game.getGameAssets().getMainMenuMusic());
+		Gdx.input.setInputProcessor(uiStage.getInputProcessor());
 	}
 
 	@Override

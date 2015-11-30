@@ -92,16 +92,9 @@ public class World {
 	 *                  TODO: cap delta time
 	 */
 	public void update(float deltaTick) {
-		player.update(deltaTick, screen.getInput());
 		generateWorld(false);
-		//FIXME: Barricade updates are not working properly
 		worldGenerator.updateBarricades(this);
-		if (!GameDebugSettings.get("DEBUG_GOD_MODE")) {
-			player.collideWithWorld(this);
-			for (int i = 0; i < obstacles.size(); i++) {
-				player.collideWithObstacle(obstacles.get(i), this);
-			}
-		}
+		player.update(deltaTick, screen.getInput());
 		//remove invalid entities
 		Iterator<Entity> iterator = entityList.iterator();
 		while (iterator.hasNext()) {
@@ -332,11 +325,19 @@ public class World {
 	}
 
 
+	/**
+	 * checks collision with world<br></br>
+	 * parmetters are screen coordinates
+	 */
 	public CollisionType doesAreaCollideWithWorld(float x1, float y1, float x2, float y2) {
 		CollisionType col = doesAreaCollideWithTerrain(x1, y1, x2, y2);
 		return col != CollisionType.NONE ? col : doesAreaCollideWithObstacles(x1, y1, x2, y2);
 	}
 
+	/**
+	 * checks collision with terrain<br></br>
+	 * parmetters are screen coordinates
+	 */
 	public CollisionType doesAreaCollideWithTerrain(float x1, float y1, float x2, float y2) {
 		TerrainPair back = this.getBlockForScreenPosition((int) x1);
 		TerrainPair front = this.getBlockForScreenPosition((int) x2);
@@ -356,10 +357,13 @@ public class World {
 		return CollisionType.NONE;
 	}
 
+	/**
+	 * checks collision with barricades<br></br>
+	 * parmetters are screen coordinates
+	 */
 	public CollisionType doesAreaCollideWithObstacles(float x1, float y1, float x2, float y2) {
-		float dif = player.getXPos() - player.getXPosScreen();
-		x1 += dif;
-		x2 += dif;
+		x1 = convertScreenToWorldCoordinate(x1);
+		x2 = convertScreenToWorldCoordinate(x2);
 		for (int i = 0; i < obstacles.size(); i++) {
 			if (doesAreaCollideWithObstacle(obstacles.get(i), x1, y1, x2, y2)) {
 				return CollisionType.OBSTACLE;
@@ -368,6 +372,10 @@ public class World {
 		return CollisionType.NONE;
 	}
 
+	/**
+	 * checks collision with single barricade<br></br>
+	 * parmetters are screen coordinates
+	 */
 	public boolean doesAreaCollideWithObstacle(Barricade ob, float x1, float y1, float x2, float y2) {
 		if (ob.posX - Barricade.sizeX / 2 < x2 && ob.posX + Barricade.sizeX / 2 > x1) {
 			if (ob.posY - Barricade.sizeY / 2 < y2 && ob.posY + Barricade.sizeY / 2 > y1) {

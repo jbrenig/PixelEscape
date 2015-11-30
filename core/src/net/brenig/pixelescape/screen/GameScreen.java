@@ -2,6 +2,7 @@ package net.brenig.pixelescape.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -16,6 +17,7 @@ import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.worldgen.TerrainPair;
+import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.WorldRenderer;
 import net.brenig.pixelescape.render.overlay.CountDownOverlay;
@@ -55,6 +57,8 @@ public class GameScreen extends PixelScreen {
 
 	private boolean firstUpdate = true;
 
+	private volatile boolean valid = false;
+
 	//Game UI
 	private final EmptyOverlay emptyOverlay;
 	private final StageManagerGame stage;
@@ -66,7 +70,7 @@ public class GameScreen extends PixelScreen {
 
 	public GameScreen(final PixelEscape game) {
 		super(game);
-		Gdx.app.log("PixelEscape | GameScreen", "initializing GameScreen...");
+		LogHelper.log("GameScreen", "initializing GameScreen...");
 		//init world and renderer
 		this.world = new World(this, game.gameSizeX);
 		this.worldRenderer = new WorldRenderer(game, world);
@@ -93,7 +97,6 @@ public class GameScreen extends PixelScreen {
 		//init input
 		inputManager = new InputManager();
 		inputMultiplexer = new InputMultiplexer(stage.getInputProcessor(), inputManager);
-		Gdx.input.setInputProcessor(inputMultiplexer);
 
 		//set default overlay
 		overlay = emptyOverlay;
@@ -102,7 +105,9 @@ public class GameScreen extends PixelScreen {
 	@Override
 	public void show() {
 		firstUpdate = true;
+		valid = true;
 		game.gameMusic.playOrFadeInto(getGameMusic());
+		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 
 	public Music getGameMusic() {
@@ -139,17 +144,7 @@ public class GameScreen extends PixelScreen {
 		//draw ui
 
 		//black background
-		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-
-		if(GameDebugSettings.get("DEBUG_SCREEN_BOUNDS")) {
-			game.shapeRenderer.setColor(1, 0, 0, 0);
-		} else {
-			game.shapeRenderer.setColor(0, 0, 0, 1);
-		}
-		game.shapeRenderer.rect(0, 0, world.getWorldWidth(), uiPos);
-		game.shapeRenderer.rect(0, world.getWorldHeight() + uiPos, world.getWorldWidth(), uiPos + Reference.GAME_UI_Y_SIZE);
-
-		game.shapeRenderer.end();
+		renderBackground();
 
 		//Overlay first callback
 		overlay.renderFirst(delta);
@@ -165,6 +160,20 @@ public class GameScreen extends PixelScreen {
 		overlay.render(delta);
 
 		renderDebugInformation();
+	}
+
+	private void renderBackground() {
+		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+
+		if(GameDebugSettings.get("DEBUG_SCREEN_BOUNDS")) {
+			game.shapeRenderer.setColor(1, 0, 0, 0);
+		} else {
+			game.shapeRenderer.setColor(0, 0, 0, 1);
+		}
+		game.shapeRenderer.rect(0, 0, world.getWorldWidth(), uiPos);
+		game.shapeRenderer.rect(0, world.getWorldHeight() + uiPos, world.getWorldWidth(), uiPos + Reference.GAME_UI_Y_SIZE);
+
+		game.shapeRenderer.end();
 	}
 
 	/**
@@ -259,8 +268,15 @@ public class GameScreen extends PixelScreen {
 
 	@Override
 	public void dispose() {
-		overlay.dispose();
+		valid = false;
 		inputManager.resetMouseVisibility();
+		resetToEmptyOverlay();
+	}
+
+	public void setOverlayInputProcessor(InputProcessor processor) {
+		if(valid) {
+			Gdx.input.setInputProcessor(processor);
+		}
 	}
 
 	/**
@@ -334,9 +350,11 @@ public class GameScreen extends PixelScreen {
 	}
 
 	public void resetInputManager() {
-		Gdx.input.setInputProcessor(inputMultiplexer);
-		inputManager.refreshButtonState();
-		stage.getInputProcessor().mouseMoved(Gdx.input.getX(), Gdx.input.getY());
+		if(valid) {
+			Gdx.input.setInputProcessor(inputMultiplexer);
+			inputManager.refreshButtonState();
+			stage.getInputProcessor().mouseMoved(Gdx.input.getX(), Gdx.input.getY());
+		}
 	}
 
 	@SuppressWarnings("SameReturnValue")

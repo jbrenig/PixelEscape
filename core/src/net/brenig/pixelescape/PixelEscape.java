@@ -182,7 +182,7 @@ public class PixelEscape extends Game {
 
 	@Override
 	public void resize(int width, int height) {
-		Gdx.app.log("PixelEscape | Main", "resizing...");
+		LogHelper.log("Main", "resizing...");
 
 		final float targetHeight = Reference.GAME_RESOLUTION_Y + Reference.GAME_UI_Y_SIZE;
 		final float targetWidth = Reference.TARGET_RESOLUTION_X;

@@ -1,6 +1,5 @@
 package net.brenig.pixelescape.render.overlay;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
@@ -124,7 +123,7 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 
 	@Override
 	public void show() {
-		Gdx.input.setInputProcessor(new InputMultiplexer(stage.getInputProcessor(), this));
+		screen.setOverlayInputProcessor(new InputMultiplexer(stage.getInputProcessor(), this));
 		screen.game.gameMusic.fadeOutToStop(0.6F);
 	}
 

@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
-import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.screen.ui.TwoStateImageButton;
 
 import java.util.Random;
@@ -31,8 +30,6 @@ public class GameAssets {
 	private Sound gameOverSound;
 
 	private Music mainMenuMusic;
-	private Music mipIntro;
-	private Music mipMain;
 	private Music snpMusic;
 	private Music sslMusic;
 
@@ -46,8 +43,6 @@ public class GameAssets {
 		font.dispose();
 		gameOverSound.dispose();
 		mainMenuMusic.dispose();
-		mipIntro.dispose();
-		mipMain.dispose();
 		snpMusic.dispose();
 		guiAtlas.dispose();
 		mainUiSkin.dispose();
@@ -70,17 +65,7 @@ public class GameAssets {
 	private void initMusic() {
 		mainMenuMusic = Gdx.audio.newMusic(Gdx.files.internal("music/SynthPower.ogg"));
 		mainMenuMusic.setLooping(true);
-		mipIntro = Gdx.audio.newMusic(Gdx.files.internal("music/MIPSynthIntro.ogg"));
-		mipIntro.setLooping(false);
-		mipMain = Gdx.audio.newMusic(Gdx.files.internal("music/MIPSynth.ogg"));
-		mipMain.setLooping(true);
-		mipIntro.setOnCompletionListener(new Music.OnCompletionListener() {
-			@Override
-			public void onCompletion(Music music) {
-				PixelEscape.getPixelEscape().gameMusic.setCurrentMusic(mipMain);
-				PixelEscape.getPixelEscape().gameMusic.play();
-			}
-		});
+
 		snpMusic = Gdx.audio.newMusic(Gdx.files.internal("music/SynthNPiano.ogg"));
 		snpMusic.setLooping(true);
 
@@ -298,8 +283,6 @@ public class GameAssets {
 	public Music getRandomGameMusic(Random random) {
 		switch (random.nextInt(3)) {
 			case 0:
-				return getMipComplete();
-			case 1:
 				return getSnpMusic();
 			case 2:
 				return getSslMusic();
@@ -309,9 +292,5 @@ public class GameAssets {
 
 	public TextureAtlas getGuiAtlas() {
 		return guiAtlas;
-	}
-
-	public Music getMipComplete() {
-		return mipIntro;
 	}
 }

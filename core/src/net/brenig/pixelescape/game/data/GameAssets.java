@@ -281,10 +281,10 @@ public class GameAssets {
 	}
 
 	public Music getRandomGameMusic(Random random) {
-		switch (random.nextInt(3)) {
+		switch (random.nextInt(2)) {
 			case 0:
 				return getSnpMusic();
-			case 2:
+			case 1:
 				return getSslMusic();
 		}
 		return null;

@@ -16,6 +16,7 @@ import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameDebugSettings;
+import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.game.worldgen.TerrainPair;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
@@ -35,6 +36,11 @@ import net.brenig.pixelescape.screen.ui.StageManagerGame;
  * Displays the game. Provides overlays for GamePaused, GameOver etc.
  */
 public class GameScreen extends PixelScreen {
+
+	/**
+	 * current gamemode
+	 */
+	private final GameMode gameMode;
 
 	/**
 	 * The game world
@@ -68,9 +74,11 @@ public class GameScreen extends PixelScreen {
 
 	private Overlay overlay;
 
-	public GameScreen(final PixelEscape game) {
+	public GameScreen(final PixelEscape game, GameMode gameMode) {
 		super(game);
 		LogHelper.log("GameScreen", "initializing GameScreen...");
+
+		this.gameMode = gameMode;
 		//init world and renderer
 		this.world = new World(this, game.gameSizeX);
 		this.worldRenderer = new WorldRenderer(game, world);
@@ -314,9 +322,6 @@ public class GameScreen extends PixelScreen {
 	 */
 	public void onGameOver() {
 		setOverlay(new GameOverOverlay(this));
-		if (game.gameSettings.isSoundEnabled()) {
-			game.getGameOverSound().play(game.gameSettings.getSoundVolume());
-		}
 		game.userData.updateHighscore(world.getPlayer().getScore());
 	}
 
@@ -379,5 +384,9 @@ public class GameScreen extends PixelScreen {
 	 */
 	public GlyphLayout getFontLayout() {
 		return fontLayout;
+	}
+
+	public GameMode getGameMode() {
+		return gameMode;
 	}
 }

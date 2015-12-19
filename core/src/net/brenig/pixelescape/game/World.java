@@ -71,17 +71,16 @@ public class World {
 
 	public World(GameScreen screen, int worldWidth) {
 		this.screen = screen;
-		player = new EntityPlayer(this);
+		player = new EntityPlayer(this, screen.getGameMode());
 		terrain = new CycleArray<TerrainPair>(calculateWorldBufferSize(worldWidth));
 		obstacles = new CycleArray<Barricade>(3);
 		this.worldWidth = worldWidth;
 		entityList = new ArrayList<Entity>();
 		player.setXPosScreen(worldWidth / 4);
-		player.reset();
+		player.reset(screen.getGameMode());
 
 		//load world generators
-		worldGenerator = new WorldGenerator();
-		worldGenerator.init();
+		worldGenerator = screen.getGameMode().createWorldGenerator();
 	}
 
 	/**
@@ -287,11 +286,11 @@ public class World {
 	}
 
 	public void onPlayerCollide(CollisionType col) {
-		player.setIsDead(true);
+
 		for (int i = 0; i < 60; i++) {
 			final float x = (float) Math.sin(i) + (rand.nextFloat() - 0.5F);
 			final float y = (float) Math.cos(i) + (rand.nextFloat() - 0.5F);
-			EntityCrashParticle e = new EntityCrashParticle(this, (float) (player.getXPosScreen() - player.getVelocity() * Gdx.graphics.getDeltaTime() + x), player.getYPos() - player.getYVelocity() * Gdx.graphics.getDeltaTime() + y);
+			EntityCrashParticle e = new EntityCrashParticle(this, (float) (player.getXPos() - player.getVelocity() * Gdx.graphics.getDeltaTime() + x), player.getYPos() - player.getYVelocity() * Gdx.graphics.getDeltaTime() + y);
 			final float xVel = (x * 2 + (rand.nextFloat() - 0.5F)) * 70;
 			final float yVel = (y * 2 + (rand.nextFloat() - 0.5F)) * 70;
 			e.setVelocity(xVel, yVel);
@@ -301,14 +300,26 @@ public class World {
 		final float force = 0.5F + rand.nextFloat() * 0.5F * scoreModifier;
 		final boolean horizontal = col == CollisionType.OBSTACLE;
 		screen.worldRenderer.applyForceToScreen(horizontal ? force : 0, horizontal ? 0 : force);
-		screen.onGameOver();
+
+		if (screen.game.gameSettings.isSoundEnabled()) {
+			screen.game.getGameAssets().getPlayerChrashedSound().play(screen.game.gameSettings.getSoundVolume());
+		}
+
+		if(player.extraLives > 0) {
+			player.extraLives--;
+			player.setImmortal(3);
+			player.reviveAfterCrash();
+		} else {
+			player.setIsDead(true);
+			screen.onGameOver();
+		}
 	}
 
 	public void restart() {
 		//noinspection deprecation
 		blocksGenerated = 0;
 		blocksRequested = 0;
-		player.reset();
+		player.reset(screen.getGameMode());
 		for (Entity e : entityList) {
 			e.removeEntityOnDeath();
 		}

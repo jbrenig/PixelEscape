@@ -264,7 +264,7 @@ public class GameAssets {
 		return buttonNinePatch;
 	}
 
-	public Sound getGameOverSound() {
+	public Sound getPlayerChrashedSound() {
 		return gameOverSound;
 	}
 

@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import net.brenig.pixelescape.PixelEscape;
+import net.brenig.pixelescape.game.gamemode.GameModeClassic;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.screen.ui.CurrentHighscoreLabel;
@@ -73,7 +74,7 @@ public class MainMenuScreen extends PixelScreen {
 		btnStart.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(new GameScreen(game));
+				game.setScreen(new GameScreen(game, new GameModeClassic()));
 			}
 		});
 

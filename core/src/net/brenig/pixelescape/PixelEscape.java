@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -262,13 +261,6 @@ public class PixelEscape extends Game {
 	 */
 	public BitmapFont getFont() {
 		return getGameAssets().getFont();
-	}
-
-	/**
-	 * GameOverSound
-	 */
-	public Sound getGameOverSound() {
-		return getGameAssets().getGameOverSound();
 	}
 
 	/**

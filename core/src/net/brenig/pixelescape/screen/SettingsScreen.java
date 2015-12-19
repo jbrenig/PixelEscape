@@ -68,7 +68,7 @@ public class SettingsScreen extends PixelScreen {
 				public void changed(ChangeEvent event, Actor actor) {
 					game.gameSettings.setSoundVolume(((Slider) actor).getValue());
 					if (!((Slider) actor).isDragging()) {
-						game.getGameOverSound().play(game.gameSettings.getSoundVolume());
+						game.getGameAssets().getPlayerChrashedSound().play(game.gameSettings.getSoundVolume());
 					}
 				}
 			});

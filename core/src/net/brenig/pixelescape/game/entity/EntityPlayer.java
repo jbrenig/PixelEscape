@@ -1,5 +1,6 @@
 package net.brenig.pixelescape.game.entity;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import net.brenig.pixelescape.PixelEscape;
@@ -7,6 +8,7 @@ import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameDebugSettings;
+import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.lib.CycleIntArray;
 import net.brenig.pixelescape.lib.Reference;
 
@@ -23,6 +25,10 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	private float yPos;
 	private float xPos;
 
+	public int extraLives;
+
+	private float immortal = 0;
+
 	private final PlayerPathEntity[] pathEntities = new PlayerPathEntity[4];
 
 	private boolean lastTouched = false;
@@ -32,13 +38,13 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	private boolean isDead = false;
 
-	public EntityPlayer(World world) {
+	public EntityPlayer(World world, GameMode gameMode) {
 		super(world);
 		lastYPositions = new CycleIntArray(20, (int) yPos);
 		for (int i = 0; i < pathEntities.length; i++) {
 			pathEntities[i] = new PlayerPathEntity(yPos, xPosScreen);
 		}
-		reset();
+		reset(gameMode);
 	}
 
 	public void update(float deltaTick, InputManager inputManager) {
@@ -77,24 +83,37 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 			lastYPositions.add((int) yPos);
 			lastXPosition = (int) getXPos();
 		}
-
-		collide();
+		if(immortal <= 0 && !GameDebugSettings.get("DEBUG_GOD_MODE")) {
+			collide();
+		} else {
+			immortal -= deltaTick;
+		}
 	}
 
 	/**
 	 * resets this player entity to starting position
 	 */
-	public void reset() {
+	public void reset(GameMode gameMode) {
 //		xPos = getXPosScreen();
+		reviveAfterCrash();
+
 		xPos = 0;
+		velocity = gameMode.getStartingSpeed();
+		isDead = false;
+		extraLives = gameMode.getExtraLives();
+	}
+
+	/**
+	 * resets player to start in the y-center of the screen<br></br>
+	 * used for reviving player after crashing (when he still has a life left)
+	 */
+	public void reviveAfterCrash() {
 		yPos = Reference.GAME_RESOLUTION_Y / 2;
-		velocity = Reference.STARTING_SPEED;
 		yVelocity = 0;
 		for (int i = 0; i < pathEntities.length; i++) {
 			pathEntities[i].reset(yPos, xPosScreen - Reference.PATH_ENTITY_OFFSET * (i + 1));
 		}
 		lastYPositions.fill((int) yPos);
-		isDead = false;
 	}
 
 	/**
@@ -164,7 +183,11 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
 		// Draw Background color
-		game.shapeRenderer.setColor(0, 0, 0, 1);
+		if(immortal % 1F < 0.5F) {
+			game.shapeRenderer.setColor(0, 0, 0, 1);
+		} else {
+			game.shapeRenderer.setColor(Color.LIGHT_GRAY);
+		}
 		game.shapeRenderer.rect(xPos + this.getXPosScreen() - this.getPlayerSize() / 2, this.getYPos() - this.getPlayerSize() / 2 + yPos, this.getPlayerSize(), this.getPlayerSize());
 
 		for (PlayerPathEntity e : this.getPathEntities()) {
@@ -178,5 +201,13 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	@Override
 	public boolean isDead() {
 		return isDead;
+	}
+
+	/**
+	 * makes player immortal
+	 * @param time time in seconds to remain immortal
+	 */
+	public void setImmortal(float time) {
+		immortal = time;
 	}
 }

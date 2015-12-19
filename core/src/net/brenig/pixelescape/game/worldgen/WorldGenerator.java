@@ -2,6 +2,7 @@ package net.brenig.pixelescape.game.worldgen;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
+import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.game.worldgen.terrain.DiagonalCorridor;
 import net.brenig.pixelescape.game.worldgen.terrain.FlatCorridor;
 import net.brenig.pixelescape.game.worldgen.terrain.RandomTerrainGenerator;
@@ -20,9 +21,14 @@ import java.util.TreeMap;
  */
 public class WorldGenerator {
 
+    private final GameMode gameMode;
 
     private final TreeMap<Integer, ITerrainGenerator> terrainGenerators = new TreeMap<Integer, ITerrainGenerator>();
     private int totalWeight = 0;
+
+	public WorldGenerator(GameMode gameMode) {
+		this.gameMode = gameMode;
+	}
 
     /**
      * registers a new TerrainGenerator
@@ -94,7 +100,9 @@ public class WorldGenerator {
                 LogHelper.error("Invalid World Gen!! Generator returnvalue invalid! Generator: " + gen + "; generated: " + generated + "; lastGen: " + lastRequested + "; currentGen: " + world.blocksRequested + "; blocksGenerated: " + world.blocksGenerated);
             }
         }
-        generateObstacles(world, random);
+	    if(gameMode.shouldGenerateBarricades(world)) {
+		    generateObstacles(world, random);
+	    }
     }
 
     /**

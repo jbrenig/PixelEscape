@@ -85,19 +85,23 @@ public class EntityCrashParticle extends Entity {
 		xVel = Math.min(Reference.MAX_ENTITY_SPEED, xVel);
 		yVel = Math.min(Reference.MAX_ENTITY_SPEED, yVel);
 
+		float renderX = worldObj.convertWorldCoordToScreenCoord(xPos);
+
 		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		game.shapeRenderer.setColor(GameDebugSettings.get("PLAYER_EXPLOSION_RED") ? Color.RED : Color.BLACK);
-		game.shapeRenderer.rect(x + xPos - radius, y + yPos - radius, size, size);
+		game.shapeRenderer.rect(x + renderX - radius, y + yPos - radius, size, size);
 		game.shapeRenderer.end();
 
 	}
 
 	@Override
 	public boolean isDead() {
-		return yPos - radius >= worldObj.getWorldHeight() || yPos + radius <= 0 || xPos - radius >= worldObj.getWorldWidth() || xPos + radius <= 0;
+		float renderX = worldObj.convertWorldCoordToScreenCoord(xPos);
+		return yPos - radius >= worldObj.getWorldHeight() || yPos + radius <= 0 || renderX - radius >= worldObj.getWorldWidth() || renderX + radius <= 0;
 	}
 
 	private CollisionType doesCollide() {
-		return worldObj.doesAreaCollideWithWorld(xPos - radius, yPos - radius, xPos + radius, yPos + radius);
+		float renderX = worldObj.convertWorldCoordToScreenCoord(xPos);
+		return worldObj.doesAreaCollideWithWorld(renderX - radius, yPos - radius, renderX + radius, yPos + radius);
 	}
 }

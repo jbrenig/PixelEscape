@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 
 import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.entity.Entity;
-import net.brenig.pixelescape.game.entity.EntityPlayer;
+import net.brenig.pixelescape.game.entity.player.EntityPlayer;
 import net.brenig.pixelescape.game.entity.particle.EntityCrashParticle;
 import net.brenig.pixelescape.game.worldgen.Barricade;
 import net.brenig.pixelescape.game.worldgen.TerrainPair;

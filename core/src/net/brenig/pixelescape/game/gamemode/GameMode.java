@@ -36,4 +36,8 @@ public abstract class GameMode {
 	public int getExtraLives() {
 		return 0;
 	}
+
+	public boolean abilitiesEnabled() {
+		return false;
+	}
 }

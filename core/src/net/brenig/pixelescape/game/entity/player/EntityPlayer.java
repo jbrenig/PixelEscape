@@ -1,4 +1,4 @@
-package net.brenig.pixelescape.game.entity;
+package net.brenig.pixelescape.game.entity.player;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -8,6 +8,8 @@ import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameDebugSettings;
+import net.brenig.pixelescape.game.entity.Entity;
+import net.brenig.pixelescape.game.entity.IMovingEntity;
 import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.lib.CycleIntArray;
 import net.brenig.pixelescape.lib.Reference;

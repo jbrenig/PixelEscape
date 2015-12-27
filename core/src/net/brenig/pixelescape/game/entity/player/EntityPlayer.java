@@ -49,7 +49,8 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		reset(gameMode);
 	}
 
-	public void update(float deltaTick, InputManager inputManager) {
+	@Override
+	public boolean update(float deltaTick, InputManager inputManager) {
 		xPos += deltaTick * velocity;
 		if(!GameDebugSettings.get("DEBUG_GOD_MODE")) {
 			yPos += deltaTick * yVelocity;
@@ -86,10 +87,13 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 			lastXPosition = (int) getXPos();
 		}
 		if(immortal <= 0 && !GameDebugSettings.get("DEBUG_GOD_MODE")) {
-			collide();
+			if(collide()) {
+				return true;
+			}
 		} else {
 			immortal -= deltaTick;
 		}
+		return false;
 	}
 
 	/**
@@ -149,11 +153,12 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		}
 	}
 
-	private void collide() {
+	private boolean collide() {
 		CollisionType col = worldObj.doesAreaCollideWithWorld(xPosScreen - getPlayerSizeRadius(), yPos - getPlayerSizeRadius(), xPosScreen + getPlayerSizeRadius(), yPos + getPlayerSizeRadius());
 		if(col != CollisionType.NONE) {
-			worldObj.onPlayerCollide(col);
+			return worldObj.onPlayerCollide(col);
 		}
+		return false;
 	}
 
 	public PlayerPathEntity[] getPathEntities() {

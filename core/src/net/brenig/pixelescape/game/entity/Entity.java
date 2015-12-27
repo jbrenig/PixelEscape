@@ -2,6 +2,7 @@ package net.brenig.pixelescape.game.entity;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.CollisionType;
+import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
 
 /**
@@ -17,8 +18,13 @@ public abstract class Entity {
 
 	public abstract void render(PixelEscape game, float delta, float x, float y);
 
+	/**
+	 * update the entity, gets called every frame
+	 *
+	 * @return true if game update should be cancelled (eg. gameover)
+	 */
 	@SuppressWarnings("EmptyMethod")
-	public void update(float delta) {}
+	public boolean update(float delta, InputManager inputManager) {return false;}
 
 	public abstract boolean isDead();
 

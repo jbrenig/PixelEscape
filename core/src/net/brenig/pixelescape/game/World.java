@@ -74,10 +74,13 @@ public class World {
 		this.worldWidth = worldWidth;
 		entityList = new ArrayList<Entity>();
 		player.setXPosScreen(worldWidth / 4);
-		player.reset(screen.getGameMode());
+//		player.reset(screen.getGameMode());
+//		spawnEntity(player);
 
 		//load world generators
 		worldGenerator = screen.getGameMode().createWorldGenerator();
+
+		restart();
 	}
 
 	/**
@@ -87,7 +90,7 @@ public class World {
 	 */
 	public void update(float deltaTick) {
 		generateWorld(false);
-		player.update(deltaTick, screen.getInput());
+//		player.update(deltaTick, screen.getInput());
 		//remove invalid entities
 		Iterator<Entity> iterator = entityList.iterator();
 		while (iterator.hasNext()) {
@@ -96,7 +99,9 @@ public class World {
 				e.removeEntityOnDeath();
 				iterator.remove();
 			} else {
-				e.update(deltaTick);
+				if(e.update(deltaTick, screen.getInput())) {
+					break;
+				}
 			}
 		}
 		debugValidateWorldGen();
@@ -284,7 +289,7 @@ public class World {
 	 * Gets called when player collides<br></br>
 	 * used to spawn explosion and other effects as well as reducing lives/schowing gameover screen
 	 */
-	public void onPlayerCollide(CollisionType col) {
+	public boolean onPlayerCollide(CollisionType col) {
 
 		for (int i = 0; i < 60; i++) {
 			final float x = (float) Math.sin(i) + (rand.nextFloat() - 0.5F);
@@ -308,9 +313,11 @@ public class World {
 			player.extraLives--;
 			player.setImmortal(3);
 			player.reviveAfterCrash();
+			return false;
 		} else {
 			player.setIsDead(true);
 			screen.onGameOver();
+			return true;
 		}
 	}
 
@@ -326,6 +333,9 @@ public class World {
 			e.removeEntityOnDeath();
 		}
 		entityList.clear();
+
+		//respawn player entity
+		spawnEntity(player);
 
 		//Reset world gen
 		worldGenerator.reset();

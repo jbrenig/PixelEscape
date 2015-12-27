@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.entity.Entity;
-import net.brenig.pixelescape.game.entity.player.EntityPlayer;
 
 /**
  * Helper class for rendering a {@link World}
@@ -76,7 +75,7 @@ public class WorldRenderer {
 		if(game.gameDebugSettings.getBoolean("SCREEN_SHAKE")) {
 			shakeScreen(delta);
 		}
-		renderPlayerEntity(world.getPlayer(), delta);
+//		renderPlayerEntity(world.getPlayer(), delta);
 		renderWorld();
 		renderEntities(delta);
 	}
@@ -87,9 +86,9 @@ public class WorldRenderer {
 		}
 	}
 
-	private void renderPlayerEntity(EntityPlayer player, float delta) {
-		player.render(game, delta, xPos + screenShakeX, yPos + screenShakeY);
-	}
+//	private void renderPlayerEntity(EntityPlayer player, float delta) {
+//		player.render(game, delta, xPos + screenShakeX, yPos + screenShakeY);
+//	}
 
 	/**
 	 * renders terrain

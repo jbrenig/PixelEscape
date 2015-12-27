@@ -78,6 +78,7 @@ public class EntityCrashParticle extends Entity {
 				break;
 			case NONE:
 			default:
+				xVel -= xVel * 0.5F * delta;
 				yVel += Reference.GRAVITY_ACCELERATION * delta;
 				break;
 		}

@@ -1,8 +1,10 @@
 package net.brenig.pixelescape.game.worldgen;
 
-import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.gamemode.GameMode;
+import net.brenig.pixelescape.game.worldgen.predefined.IScoreWorldFeature;
+import net.brenig.pixelescape.game.worldgen.special.BarricadeGenerator;
+import net.brenig.pixelescape.game.worldgen.special.ISpecialWorldGenerator;
 import net.brenig.pixelescape.game.worldgen.terrain.DiagonalCorridor;
 import net.brenig.pixelescape.game.worldgen.terrain.FlatCorridor;
 import net.brenig.pixelescape.game.worldgen.terrain.RandomTerrainGenerator;
@@ -11,7 +13,9 @@ import net.brenig.pixelescape.game.worldgen.terrain.TerrainOpening;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.TreeMap;
@@ -26,7 +30,10 @@ public class WorldGenerator {
     private final TreeMap<Integer, ITerrainGenerator> terrainGenerators = new TreeMap<Integer, ITerrainGenerator>();
     private int totalWeight = 0;
 
-	public WorldGenerator(GameMode gameMode) {
+    private List<ISpecialWorldGenerator> specialGenerators = new ArrayList<ISpecialWorldGenerator>();
+    private List<IScoreWorldFeature> specialPredefinedGenerators = new ArrayList<IScoreWorldFeature>();
+
+    public WorldGenerator(GameMode gameMode) {
 		this.gameMode = gameMode;
 	}
 
@@ -50,6 +57,7 @@ public class WorldGenerator {
         registerTerrainGenerator(new TerrainOpening(1));
         registerTerrainGenerator(new TerrainClosing(4));
         registerTerrainGenerator(new DiagonalCorridor(7));
+	    addSpecialGenerator(new BarricadeGenerator());
     }
 
     /**
@@ -100,8 +108,8 @@ public class WorldGenerator {
                 LogHelper.error("Invalid World Gen!! Generator returnvalue invalid! Generator: " + gen + "; generated: " + generated + "; lastGen: " + lastRequested + "; currentGen: " + world.blocksRequested + "; blocksGenerated: " + world.blocksGenerated);
             }
         }
-	    if(gameMode.shouldGenerateBarricades(world)) {
-		    generateObstacles(world, random);
+	    for(ISpecialWorldGenerator gen : specialGenerators) {
+		    gen.generate(world, random, gameMode);
 	    }
     }
 
@@ -119,95 +127,16 @@ public class WorldGenerator {
         return map.get(lastKey);
     }
 
-    public void generateObstacles(World world, Random rand) {
-        while (world.getObstacles().getOldest() == null || world.getObstacles().getOldest().posX < world.getPlayer().getXPos() - world.getWorldWidth() / 2) {
-            Barricade last = world.getObstacles().getNewest();
-            int oldX = 0;
-            if (last != null) {
-                oldX = last.posX;
-            }
-            Barricade b = world.getCreateObstacleForGeneration();
-            b.posX = (int) (oldX + world.getWorldWidth() * 0.7);
-            b.posY = rand.nextInt(world.getWorldHeight() - Reference.OBSTACLE_MIN_HEIGHT * Reference.BLOCK_WIDTH * 2) + Reference.OBSTACLE_MIN_HEIGHT * Reference.BLOCK_WIDTH;
-        }
+    public void addSpecialGenerator(ISpecialWorldGenerator gen) {
+        specialGenerators.add(gen);
     }
 
-    private float getAmountToCorrectBottom(World world, Barricade b, int checkRadius) {
-        int posXIndex = world.convertWorldCoordinateToLocalBlockIndex(b.posX);
-//        float posY = world.convertMouseYToWorldCoordinate(b.posY);
-        float posY = b.posY;
-        posY -= Barricade.getSizeY() / 2;
-
-        float correction = 0;
-        for (int i = (-1) * checkRadius; i <= checkRadius; i++) {
-            if (posXIndex + i < 0) {
-                continue;
-            }
-            int blockHeight = world.getBotBlockHeight(posXIndex + i) * Reference.BLOCK_WIDTH;
-	        float neededCorrection = (blockHeight + Reference.OBSTACLE_MIN_SPACE) - posY;
-            if (neededCorrection > correction) {
-                correction = neededCorrection;
-	            LogHelper.debug("Correction for: x: " + world.convertWorldIndexToScreenCoordinate(world.convertLocalBlockToWorldBlockIndex(posXIndex + i)) + "(" + (posXIndex + i) + "), y: " + blockHeight + ", amount: " + correction + ", oldY: " + posY);
-            }
-        }
-        return correction;
-    }
-
-    private float getAmountToCorrectTop(World world, Barricade b, int checkRadius) {
-        int posXIndex = world.convertWorldCoordinateToLocalBlockIndex(b.posX);
-        float posY = b.posY;
-//        float posY = world.convertMouseYToWorldCoordinate(b.posY);
-        posY += Barricade.getSizeY() / 2;
-
-        float correction = 0;
-        for (int i = (-1) * checkRadius; i <= checkRadius; i++) {
-            if (posXIndex + i < 0) {
-                continue;
-            }
-            int blockHeight = world.getWorldHeight() - world.getTopBlockHeight(posXIndex + i) * Reference.BLOCK_WIDTH;
-	        float neededCorrection = (blockHeight - Reference.OBSTACLE_MIN_SPACE) - posY;
-            if (neededCorrection < correction) {
-                correction = neededCorrection;
-	            LogHelper.debug("Correction for: x: " + world.convertWorldIndexToScreenCoordinate(world.convertLocalBlockToWorldBlockIndex(posXIndex + i)) + "(" + (posXIndex + i) + "), y: " + blockHeight + ", amount: " + correction + ", oldY: " + posY);
-            }
-        }
-        return correction;
-    }
-
-    public void updateBarricades(World world) {
-        for (int i = 0; i < world.getObstacles().size(); i++) {
-            Barricade b =  world.getObstacles().get(i);
-            if (!b.moved && b.posX > world.getCurrentScreenEnd() + Reference.BLOCK_WIDTH && b.posX < world.getCurrentScreenEnd() + Reference.BLOCK_WIDTH * 2) {
-	            b.moved = true;
-                updateBarricade(world, b);
-            }
-        }
-    }
-
-    private void updateBarricade(World world, Barricade b) {
-        int localIndex = world.convertWorldCoordinateToLocalBlockIndex(b.posX);
-        //LogHelper.debug("Index convert from: " + b.posX + ", to: " + localIndex);
-        if (!(localIndex < 0)) {
-            //LogHelper.debug("Index convert from: " + b.posX + ", to: " + localIndex);
-
-	        //Move barricade into level
-            if (b.posY < world.getBotBlockHeight(localIndex) * Reference.BLOCK_WIDTH) {
-                b.posY += world.getBotBlockHeight(localIndex) * Reference.BLOCK_WIDTH - b.posY;
-            } else if (b.posY > world.getWorldHeight() - world.getTopBlockHeight(localIndex) * Reference.BLOCK_WIDTH) {
-                b.posY += (world.getWorldHeight() - world.getTopBlockHeight(localIndex) * Reference.BLOCK_WIDTH) - b.posY;
-            }
-
-	        //Leave gap for player
-            int checkRadius = (int) ((world.getPlayer().getVelocity() / Reference.MAX_ENTITY_SPEED) * Reference.OBSTACLE_X_CHECK_RADIUS_MAX);
-            if (PixelEscape.rand.nextBoolean()) {
-                LogHelper.debug("Correcting Bottom Barricade @ x: " + b.posX + "(" + world.convertWorldCoordinateToLocalBlockIndex(b.posX) + ") y: " + b.posY);
-                b.posY += getAmountToCorrectBottom(world, b, checkRadius);
-                LogHelper.debug("Corrected to y: " + b.posY);
-            } else {
-                LogHelper.debug("Correcting Top Barricade @ x: " + b.posX + "(" + world.convertWorldCoordinateToLocalBlockIndex(b.posX) + ") y: " + b.posY);
-                b.posY += getAmountToCorrectTop(world, b, checkRadius);
-                LogHelper.debug("Corrected to y: " + b.posY);
-            }
-        }
-    }
+	public void reset() {
+		for(ISpecialWorldGenerator generator : specialGenerators) {
+			generator.reset();
+		}
+		for(IScoreWorldFeature gen : specialPredefinedGenerators) {
+			gen.reset();
+		}
+	}
 }

@@ -1,5 +1,9 @@
 package net.brenig.pixelescape.lib;
 
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 /**
  * Array that is arranged in a Ring<br></br>
  * when new elements get added the oldest elements get lost
@@ -11,6 +15,7 @@ public class CycleArray<T> {
 	 * index of the last added object
 	 */
 	private int index;
+	private int modCount = 0;
 
 
 	public CycleArray(int size) {
@@ -41,14 +46,17 @@ public class CycleArray<T> {
 		return (T) data[convertToLocalIndex(index)];
 	}
 
+
 	public void add(T element) {
 		index++;
 		updateIndexBounds();
 		data[index] = element;
+		modCount++;
 	}
 
 	public void set(int index, T element) {
 		data[convertToLocalIndex(index)] = element;
+		modCount++;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -59,7 +67,6 @@ public class CycleArray<T> {
 	@SuppressWarnings("unchecked")
 	public T getOldest() {
 		return get(0);
-//		return (T) data[(index + 1) % data.length];
 	}
 
 	@SuppressWarnings("unchecked")
@@ -114,6 +121,7 @@ public class CycleArray<T> {
 				System.arraycopy(oldData, oldData.length - dif, data, 0, dif);
 			}
 		}
+		modCount++;
 	}
 
 	/**
@@ -123,6 +131,7 @@ public class CycleArray<T> {
 	public void cycleForward(int amount) {
 		index += amount;
 		updateIndexBounds();
+		modCount++;
 	}
 
 	/**
@@ -131,6 +140,7 @@ public class CycleArray<T> {
 	public void cycleForward() {
 		index ++;
 		updateIndexBounds();
+		modCount++;
 	}
 
 	public int size() {
@@ -140,6 +150,61 @@ public class CycleArray<T> {
 	public void clear() {
 		for(int i = 0; i < data.length; i++) {
 			data[i] = null;
+		}
+	}
+
+	public void remove(int i) {
+		set(i, null);
+	}
+
+	public Iterator iterator() {
+		return new Itr();
+	}
+
+	/**
+	 * An optimized version of AbstractList.Itr
+	 */
+	private class Itr implements Iterator<T> {
+		int cursor;       // index of next element to return (unshifted / relative)
+		int lastRet = -1; // index of last element returned; -1 if no such
+		int expectedModCount = modCount;
+
+		public boolean hasNext() {
+			return cursor != data.length;
+		}
+
+		@SuppressWarnings("unchecked")
+		public T next() {
+			checkForComodification();
+			int i = cursor;
+			if (i >= data.length)
+				throw new NoSuchElementException();
+			Object[] elementData = data;
+			if (i >= elementData.length)
+				throw new ConcurrentModificationException();
+			cursor = i + 1;
+			lastRet = i;
+			return (T) elementData[convertToLocalIndex(i)];
+		}
+
+		public void remove() {
+			if (lastRet < 0)
+				throw new IllegalStateException();
+			checkForComodification();
+
+			try {
+				CycleArray.this.remove(lastRet);
+				cursor = lastRet;
+				lastRet = -1;
+				expectedModCount = modCount;
+			} catch (IndexOutOfBoundsException ex) {
+				throw new ConcurrentModificationException();
+			}
+		}
+
+		final void checkForComodification() {
+			if (modCount != expectedModCount)
+				throw new ConcurrentModificationException();
 		}
 	}
 }

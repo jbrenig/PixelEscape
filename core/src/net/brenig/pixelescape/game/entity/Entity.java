@@ -1,6 +1,7 @@
 package net.brenig.pixelescape.game.entity;
 
 import net.brenig.pixelescape.PixelEscape;
+import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.World;
 
 /**
@@ -24,5 +25,9 @@ public abstract class Entity {
 	@SuppressWarnings("EmptyMethod")
 	public void removeEntityOnDeath() {
 
+	}
+
+	public CollisionType doesAreaCollideWithEntity(float x1, float y1, float x2, float y2) {
+		return CollisionType.NONE;
 	}
 }

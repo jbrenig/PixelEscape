@@ -52,7 +52,7 @@ public class EntityCrashParticle extends Entity {
 				yVel = 0;
 				xVel = 0;
 				break;
-			case OBSTACLE:
+			case ENTITY:
 				yVel = collisionSpeed * delta;
 				xVel = 0;
 				break;

@@ -2,12 +2,16 @@ package net.brenig.pixelescape.game.worldgen;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
+import net.brenig.pixelescape.PixelEscape;
+import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.World;
+import net.brenig.pixelescape.game.entity.Entity;
 
 /**
  * obstacles that spawn in the level
  */
-public class Barricade {
+public class Barricade extends Entity {
+
 	public int posX;
 	public int posY;
 
@@ -16,20 +20,22 @@ public class Barricade {
 	public static final int sizeX = 20;
 	public static final int sizeY = 80;
 
-	public Barricade() {
+	public Barricade(World world) {
+		super(world);
 		this.posX = 0;
 		this.posY = 0;
 	}
 
-	public Barricade(int posX, int posY) {
+	public Barricade(World world, int posX, int posY) {
+		super(world);
 		this.posX = posX;
 		this.posY = posY;
 	}
 
-	public void render(World world, float x, float y, ShapeRenderer render) {
+	public void render(float x, float y, ShapeRenderer render) {
 		render.begin(ShapeRenderer.ShapeType.Filled);
 		render.setColor(0, 0, 0, 1);
-		render.rect(x + world.convertWorldCoordToScreenCoord(posX) - sizeX / 2, y + posY - sizeY / 2, sizeX, sizeY);
+		render.rect(x + worldObj.convertWorldCoordToScreenCoord(posX) - sizeX / 2, y + posY - sizeY / 2, sizeX, sizeY);
 		render.end();
 	}
 
@@ -41,5 +47,25 @@ public class Barricade {
 	@SuppressWarnings("SameReturnValue")
 	public static int getSizeY() {
 		return sizeY;
+	}
+
+	@Override
+	public void render(PixelEscape game, float delta, float x, float y) {
+		render(x, y, game.shapeRenderer);
+	}
+
+	@Override
+	public boolean isDead() {
+		return false;
+	}
+
+	@Override
+	public CollisionType doesAreaCollideWithEntity(float x1, float y1, float x2, float y2) {
+		if (this.posX - Barricade.sizeX / 2 < x2 && this.posX + Barricade.sizeX / 2 > x1) {
+			if (this.posY - Barricade.sizeY / 2 < y2 && this.posY + Barricade.sizeY / 2 > y1) {
+				return CollisionType.ENTITY;
+			}
+		}
+		return CollisionType.NONE;
 	}
 }

@@ -91,6 +91,9 @@ public class WorldRenderer {
 		player.render(game, delta, xPos + screenShakeX, yPos + screenShakeY);
 	}
 
+	/**
+	 * renders terrain
+	 */
 	private void renderWorld() {
 		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 		game.shapeRenderer.setColor(0, 0, 0, 1);
@@ -100,11 +103,6 @@ public class WorldRenderer {
 		}
 
 		game.shapeRenderer.end();
-
-		for(int i = 0; i < world.getObstacles().size(); i++) {
-			world.getObstacles().get(i).render(world, xPos + screenShakeX, yPos + screenShakeY, game.shapeRenderer);
-		}
-
 	}
 
 

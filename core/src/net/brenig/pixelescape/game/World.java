@@ -4,9 +4,8 @@ import com.badlogic.gdx.Gdx;
 
 import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.entity.Entity;
-import net.brenig.pixelescape.game.entity.player.EntityPlayer;
 import net.brenig.pixelescape.game.entity.particle.EntityCrashParticle;
-import net.brenig.pixelescape.game.worldgen.Barricade;
+import net.brenig.pixelescape.game.entity.player.EntityPlayer;
 import net.brenig.pixelescape.game.worldgen.TerrainPair;
 import net.brenig.pixelescape.game.worldgen.WorldGenerator;
 import net.brenig.pixelescape.lib.CycleArray;
@@ -38,8 +37,6 @@ public class World {
 
 	private final WorldGenerator worldGenerator;
 
-	private final CycleArray<Barricade> obstacles;
-
 	private final List<Entity> entityList;
 
 	/**
@@ -61,6 +58,7 @@ public class World {
 	private final GameScreen screen;
 
 	//DEUBG Code
+	//TODO remove
 	private int lastIndex = -1;
 	private int lastTop = -1;
 	private int lastBot = -1;
@@ -73,7 +71,6 @@ public class World {
 		this.screen = screen;
 		player = new EntityPlayer(this, screen.getGameMode());
 		terrain = new CycleArray<TerrainPair>(calculateWorldBufferSize(worldWidth));
-		obstacles = new CycleArray<Barricade>(3);
 		this.worldWidth = worldWidth;
 		entityList = new ArrayList<Entity>();
 		player.setXPosScreen(worldWidth / 4);
@@ -90,7 +87,6 @@ public class World {
 	 */
 	public void update(float deltaTick) {
 		generateWorld(false);
-		worldGenerator.updateBarricades(this);
 		player.update(deltaTick, screen.getInput());
 		//remove invalid entities
 		Iterator<Entity> iterator = entityList.iterator();
@@ -103,7 +99,12 @@ public class World {
 				e.update(deltaTick);
 			}
 		}
+		debugValidateWorldGen();
+	}
 
+	@Deprecated
+	private void debugValidateWorldGen() {
+		//TODO: remove legacy debug options
 		//DEBUG Code
 		if (GameDebugSettings.get("DEBUG_WORLD_GEN_VALIDATE")) {
 			int index = convertScreenCoordToWorldBlockIndex(player.getXPosScreen());
@@ -126,6 +127,9 @@ public class World {
 		}
 	}
 
+	/**
+	 * spawns the given Entity
+	 */
 	public void spawnEntity(Entity e) {
 		entityList.add(e);
 	}
@@ -203,7 +207,7 @@ public class World {
 	}
 
 	/**
-	 * generates the world (including obstacles)
+	 * generates the world (including special world gen)
 	 *
 	 * @param fillArray set this flag to true if the whole TerrainBuffer should be filled, used to generate Terrain on Gamestart
 	 */
@@ -213,6 +217,10 @@ public class World {
 		worldGenerator.generateWorld(this, blockToGenerate, generationPasses, rand);
 	}
 
+	/**
+	 * reuse an available {@link TerrainPair} if possible, creates and register a new one otherwise<br></br>
+	 * the returned {@link TerrainPair} will be added to end of the currently generated terrain and can be modified direcly
+	 */
 	public TerrainPair getCreateTerrainPairForGeneration() {
 		blocksRequested++;
 		TerrainPair pair = terrain.getOldest();
@@ -223,19 +231,6 @@ public class World {
 		} else {
 			terrain.cycleForward();
 			return pair;
-		}
-	}
-
-	public Barricade getCreateObstacleForGeneration() {
-		Barricade b = obstacles.getOldest();
-		if (b == null) {
-			b = new Barricade();
-			obstacles.add(b);
-			return b;
-		} else {
-			obstacles.cycleForward();
-			b.moved = false;
-			return b;
 		}
 	}
 
@@ -285,6 +280,10 @@ public class World {
 		return getTerrainPairForIndex(convertScreenCoordToLocalBlockIndex(x));
 	}
 
+	/**
+	 * Gets called when player collides<br></br>
+	 * used to spawn explosion and other effects as well as reducing lives/schowing gameover screen
+	 */
 	public void onPlayerCollide(CollisionType col) {
 
 		for (int i = 0; i < 60; i++) {
@@ -298,7 +297,7 @@ public class World {
 		}
 		final float scoreModifier = 1 - 1 / (player.getScore() * 0.001F);
 		final float force = 0.5F + rand.nextFloat() * 0.5F * scoreModifier;
-		final boolean horizontal = col == CollisionType.OBSTACLE;
+		final boolean horizontal = col == CollisionType.ENTITY;
 		screen.worldRenderer.applyForceToScreen(horizontal ? force : 0, horizontal ? 0 : force);
 
 		if (screen.game.gameSettings.isSoundEnabled()) {
@@ -315,6 +314,9 @@ public class World {
 		}
 	}
 
+	/**
+	 * restart the world, player and all world gen get reset to start a new game
+	 */
 	public void restart() {
 		//noinspection deprecation
 		blocksGenerated = 0;
@@ -325,11 +327,15 @@ public class World {
 		}
 		entityList.clear();
 
-		//regenerate obstacles
-		obstacles.clear();
-		worldGenerator.generateObstacles(this, rand);
+		//Reset world gen
+		worldGenerator.reset();
 	}
 
+	/**
+	 * Getter for Entity List<br></br>
+	 * currently only used for rendering<br></br>
+	 * note: use {@link World#spawnEntity(Entity)} to spawn entities
+	 */
 	public List<Entity> getEntityList() {
 		return entityList;
 	}
@@ -337,11 +343,26 @@ public class World {
 
 	/**
 	 * checks collision with world<br></br>
-	 * parmetters are screen coordinates
+	 * parameters are screen coordinates
 	 */
 	public CollisionType doesAreaCollideWithWorld(float x1, float y1, float x2, float y2) {
 		CollisionType col = doesAreaCollideWithTerrain(x1, y1, x2, y2);
-		return col != CollisionType.NONE ? col : doesAreaCollideWithObstacles(x1, y1, x2, y2);
+		return col != CollisionType.NONE ? col : doesAreaCollideWithEntities(x1, y1, x2, y2);
+	}
+
+	/**
+	 * checks collision with entities<br></br>
+	 * parameters are screen coordinates
+	 */
+	private CollisionType doesAreaCollideWithEntities(float x1, float y1, float x2, float y2) {
+		final float screenPos = getCurrentSceenStart();
+		for(Entity entity : entityList) {
+			CollisionType col = entity.doesAreaCollideWithEntity(screenPos + x1, y1, screenPos + x2, y2);
+			if(col != CollisionType.NONE) {
+				return col;
+			}
+		}
+		return CollisionType.NONE;
 	}
 
 	/**
@@ -367,33 +388,6 @@ public class World {
 		return CollisionType.NONE;
 	}
 
-	/**
-	 * checks collision with barricades<br></br>
-	 * parmetters are screen coordinates
-	 */
-	public CollisionType doesAreaCollideWithObstacles(float x1, float y1, float x2, float y2) {
-		x1 = convertScreenToWorldCoordinate(x1);
-		x2 = convertScreenToWorldCoordinate(x2);
-		for (int i = 0; i < obstacles.size(); i++) {
-			if (doesAreaCollideWithObstacle(obstacles.get(i), x1, y1, x2, y2)) {
-				return CollisionType.OBSTACLE;
-			}
-		}
-		return CollisionType.NONE;
-	}
-
-	/**
-	 * checks collision with single barricade<br></br>
-	 * parmetters are screen coordinates
-	 */
-	public boolean doesAreaCollideWithObstacle(Barricade ob, float x1, float y1, float x2, float y2) {
-		if (ob.posX - Barricade.sizeX / 2 < x2 && ob.posX + Barricade.sizeX / 2 > x1) {
-			if (ob.posY - Barricade.sizeY / 2 < y2 && ob.posY + Barricade.sizeY / 2 > y1) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	////////////////////////////////////////////////
 	// Conversion of different coordinate systems //
@@ -428,6 +422,10 @@ public class World {
 
 	public int convertWorldCoordinateToLocalBlockIndex(float posX) {
 		return convertWorldBlockToLocalBlockIndex(convertToWorldBlockIndex(posX));
+	}
+
+	public float getCurrentSceenStart() {
+		return player.getXPos() - player.getXPosScreen();
 	}
 
 	public float getCurrentScreenEnd() {
@@ -479,10 +477,4 @@ public class World {
 		return terrain;
 	}
 
-	/**
-	 * obstacles
-	 */
-	public CycleArray<Barricade> getObstacles() {
-		return obstacles;
-	}
 }

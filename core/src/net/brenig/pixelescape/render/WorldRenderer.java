@@ -75,7 +75,6 @@ public class WorldRenderer {
 		if(game.gameDebugSettings.getBoolean("SCREEN_SHAKE")) {
 			shakeScreen(delta);
 		}
-//		renderPlayerEntity(world.getPlayer(), delta);
 		renderWorld();
 		renderEntities(delta);
 	}
@@ -85,10 +84,6 @@ public class WorldRenderer {
 			e.render(game, delta, xPos + screenShakeX, yPos + screenShakeY);
 		}
 	}
-
-//	private void renderPlayerEntity(EntityPlayer player, float delta) {
-//		player.render(game, delta, xPos + screenShakeX, yPos + screenShakeY);
-//	}
 
 	/**
 	 * renders terrain

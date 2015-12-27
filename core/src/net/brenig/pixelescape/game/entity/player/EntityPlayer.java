@@ -100,7 +100,6 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	 * resets this player entity to starting position
 	 */
 	public void reset(GameMode gameMode) {
-//		xPos = getXPosScreen();
 		reviveAfterCrash();
 
 		xPos = 0;

@@ -55,7 +55,6 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		if(!GameDebugSettings.get("DEBUG_GOD_MODE")) {
 			yPos += deltaTick * yVelocity;
 		}
-
 		//speed update
 		if (inputManager.isTouched() || inputManager.isSpaceDown()) {
 			if(!lastTouched) {

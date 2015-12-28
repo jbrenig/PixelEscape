@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -35,7 +36,12 @@ public class GameAssets {
 
 
 	private NinePatch buttonNinePatch;
-	private TextureAtlas guiAtlas;
+	private TextureAtlas textureAtlas;
+
+	private TextureRegion heart;
+
+	private TextureRegion item_frame;
+	private TextureRegion item_blink;
 
 	private Skin mainUiSkin;
 
@@ -44,7 +50,7 @@ public class GameAssets {
 		gameOverSound.dispose();
 		mainMenuMusic.dispose();
 		snpMusic.dispose();
-		guiAtlas.dispose();
+		textureAtlas.dispose();
 		mainUiSkin.dispose();
 	}
 
@@ -81,12 +87,13 @@ public class GameAssets {
 
 	private void initGuiAtlas() {
 		//load ui textures
-		guiAtlas = new TextureAtlas(Gdx.files.internal("drawable/gui/gui_textures.pack"));
+		textureAtlas = new TextureAtlas(Gdx.files.internal("drawable/gui/gui_textures.pack"));
 	}
 
 	private void initTextures() {
 		//Cache default button texture for other use cases
-		buttonNinePatch = guiAtlas.createPatch("button");
+		buttonNinePatch = textureAtlas.createPatch("button");
+		heart = textureAtlas.findRegion("heart");
 	}
 
 	private void initSkin() {
@@ -95,39 +102,39 @@ public class GameAssets {
 
 		//Button textures
 		mainUiSkin.add("up", getButtonNinePatch());
-		mainUiSkin.add("down", guiAtlas.createPatch("button_clicked"));
-		mainUiSkin.add("hover", guiAtlas.createPatch("button_hover"));
-		mainUiSkin.add("disabled", guiAtlas.createPatch("button_disabled"));
+		mainUiSkin.add("down", textureAtlas.createPatch("button_clicked"));
+		mainUiSkin.add("hover", textureAtlas.createPatch("button_hover"));
+		mainUiSkin.add("disabled", textureAtlas.createPatch("button_disabled"));
 
-		mainUiSkin.add("button_settings", guiAtlas.createSprite("gear_settings"));
-		mainUiSkin.add("button_settings_white", guiAtlas.createSprite("gear_settings_white"));
+		mainUiSkin.add("button_settings", textureAtlas.createSprite("gear_settings"));
+		mainUiSkin.add("button_settings_white", textureAtlas.createSprite("gear_settings_white"));
 
-		mainUiSkin.add("button_music_enabled", guiAtlas.createSprite("music_enabled"));
-		mainUiSkin.add("button_music_disabled", guiAtlas.createSprite("music_disabled"));
-		mainUiSkin.add("button_music_enabled_hover", guiAtlas.createSprite("music_enabled_hover"));
-		mainUiSkin.add("button_music_disabled_hover", guiAtlas.createSprite("music_disabled_hover"));
+		mainUiSkin.add("button_music_enabled", textureAtlas.createSprite("music_enabled"));
+		mainUiSkin.add("button_music_disabled", textureAtlas.createSprite("music_disabled"));
+		mainUiSkin.add("button_music_enabled_hover", textureAtlas.createSprite("music_enabled_hover"));
+		mainUiSkin.add("button_music_disabled_hover", textureAtlas.createSprite("music_disabled_hover"));
 
-		mainUiSkin.add("button_sound_enabled", guiAtlas.createSprite("sound_enabled"));
-		mainUiSkin.add("button_sound_disabled", guiAtlas.createSprite("sound_disabled"));
-		mainUiSkin.add("button_sound_enabled_hover", guiAtlas.createSprite("sound_enabled_hover"));
-		mainUiSkin.add("button_sound_disabled_hover", guiAtlas.createSprite("sound_disabled_hover"));
+		mainUiSkin.add("button_sound_enabled", textureAtlas.createSprite("sound_enabled"));
+		mainUiSkin.add("button_sound_disabled", textureAtlas.createSprite("sound_disabled"));
+		mainUiSkin.add("button_sound_enabled_hover", textureAtlas.createSprite("sound_enabled_hover"));
+		mainUiSkin.add("button_sound_disabled_hover", textureAtlas.createSprite("sound_disabled_hover"));
 
-		mainUiSkin.add("button_pause", guiAtlas.createSprite("button_pause"));
+		mainUiSkin.add("button_pause", textureAtlas.createSprite("button_pause"));
 
-		mainUiSkin.add("button_fullscreen", guiAtlas.createSprite("fullscreen"));
-		mainUiSkin.add("button_fullscreen_hover", guiAtlas.createSprite("fullscreen_hover"));
-		mainUiSkin.add("button_restore_window", guiAtlas.createSprite("fullscreen_restore"));
-		mainUiSkin.add("button_restore_window_hover", guiAtlas.createSprite("fullscreen_restore_hover"));
+		mainUiSkin.add("button_fullscreen", textureAtlas.createSprite("fullscreen"));
+		mainUiSkin.add("button_fullscreen_hover", textureAtlas.createSprite("fullscreen_hover"));
+		mainUiSkin.add("button_restore_window", textureAtlas.createSprite("fullscreen_restore"));
+		mainUiSkin.add("button_restore_window_hover", textureAtlas.createSprite("fullscreen_restore_hover"));
 
-		mainUiSkin.add("slider_background", guiAtlas.createSprite("slider_background"));
-		mainUiSkin.add("slider_knob", guiAtlas.createSprite("slider_knop"));
+		mainUiSkin.add("slider_background", textureAtlas.createSprite("slider_background"));
+		mainUiSkin.add("slider_knob", textureAtlas.createSprite("slider_knop"));
 
-		mainUiSkin.add("chbx_unchecked", guiAtlas.createSprite("checkbox"));
-		mainUiSkin.add("chbx_checked", guiAtlas.createSprite("checkbox_checked"));
-		mainUiSkin.add("chbx_hover", guiAtlas.createSprite("checkbox_hover"));
+		mainUiSkin.add("chbx_unchecked", textureAtlas.createSprite("checkbox"));
+		mainUiSkin.add("chbx_checked", textureAtlas.createSprite("checkbox_checked"));
+		mainUiSkin.add("chbx_hover", textureAtlas.createSprite("checkbox_hover"));
 
-		mainUiSkin.add("scroll_background", guiAtlas.createPatch("scroll_background"));
-		mainUiSkin.add("scrollbar", guiAtlas.createSprite("scrollbar"));
+		mainUiSkin.add("scroll_background", textureAtlas.createPatch("scroll_background"));
+		mainUiSkin.add("scrollbar", textureAtlas.createSprite("scrollbar"));
 
 		//Button style: Settings
 		{
@@ -290,7 +297,11 @@ public class GameAssets {
 		return null;
 	}
 
-	public TextureAtlas getGuiAtlas() {
-		return guiAtlas;
+	public TextureAtlas getTextureAtlas() {
+		return textureAtlas;
+	}
+
+	public TextureRegion getHeart() {
+		return heart;
 	}
 }

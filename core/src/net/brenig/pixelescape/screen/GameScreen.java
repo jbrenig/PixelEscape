@@ -157,6 +157,11 @@ public class GameScreen extends PixelScreen {
 		//Overlay first callback
 		overlay.renderFirst(delta);
 
+		//Draw lives
+		renderLives();
+		//Draw Item/Ability
+//		renderAbility();
+
 		//UI
 		if(!overlay.shouldHideGameUI()) {
 			this.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
@@ -184,6 +189,24 @@ public class GameScreen extends PixelScreen {
 		game.shapeRenderer.end();
 	}
 
+	private void renderLives() {
+		if(world.getPlayer().extraLives > 0) {
+			game.batch.begin();
+			for (int index = 1; index <= world.getPlayer().extraLives; index++) {
+				game.renderTextureRegion(game.getGameAssets().getHeart(), game.gameSizeX - 36 * index, uiPos + world.getWorldHeight() - 28);
+			}
+			game.batch.end();
+		}
+	}
+
+	private void renderAbility() {
+		if(gameMode.abilitiesEnabled()) {
+			game.batch.begin();
+
+			game.batch.end();
+		}
+	}
+
 	/**
 	 * Setup world on first update
 	 */
@@ -191,6 +214,7 @@ public class GameScreen extends PixelScreen {
 		firstUpdate = false;
 		setOverlay(new CountDownOverlay(this));
 		world.generateWorld(true);
+		world.spawnEntities();
 	}
 
 	private void renderDebugInformation() {

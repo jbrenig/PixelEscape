@@ -126,93 +126,114 @@ gear_settings_white
   orig: 32, 32
   offset: 0, 0
   index: -1
-music_disabled
+heart
   rotate: false
   xy: 397, 95
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-music_disabled_hover
+item_frame
   rotate: false
   xy: 431, 95
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-music_enabled
+music_disabled
   rotate: false
   xy: 465, 95
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-music_enabled_hover
+music_disabled_hover
   rotate: false
   xy: 233, 47
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-sound_disabled
+music_enabled
   rotate: false
   xy: 131, 13
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-sound_disabled_hover
+music_enabled_hover
   rotate: false
   xy: 165, 13
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-sound_enabled
+sound_disabled
   rotate: false
   xy: 199, 13
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-sound_enabled_hover
+sound_disabled_hover
   rotate: false
   xy: 233, 13
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-scrollbar
+sound_enabled
   rotate: false
   xy: 267, 61
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+sound_enabled_hover
+  rotate: false
+  xy: 267, 27
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+scrollbar
+  rotate: false
+  xy: 301, 61
   size: 16, 32
   orig: 16, 32
   offset: 0, 0
   index: -1
+item_blink
+  rotate: false
+  xy: 27, 7
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
 checkbox
   rotate: false
-  xy: 27, 9
+  xy: 301, 43
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 checkbox_checked
   rotate: false
-  xy: 267, 43
+  xy: 319, 77
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 checkbox_hover
   rotate: false
-  xy: 285, 77
+  xy: 47, 9
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 scroll_background
   rotate: false
-  xy: 45, 10
+  xy: 319, 60
   size: 15, 15
   split: 4, 4, 4, 4
   orig: 15, 15

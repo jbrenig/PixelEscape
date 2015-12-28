@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.World;
-import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.lib.Reference;
 
@@ -25,11 +24,16 @@ public class EntityCrashParticle extends Entity {
 	private float xVel = 0;
 	private float yVel = 0;
 
+	private final Color color;
 
-	public EntityCrashParticle(World world, float xPos, float yPos) {
+	private boolean collideTop = true;
+
+
+	public EntityCrashParticle(World world, float xPos, float yPos, Color color) {
 		super(world);
 		this.xPos = xPos;
 		this.yPos = yPos;
+		this.color = color;
 	}
 
 	public void setVelocity(float xVel, float yVel) {
@@ -57,25 +61,29 @@ public class EntityCrashParticle extends Entity {
 				xVel = 0;
 				break;
 			case TERRAIN_TOP_RIGHT:
-				if(xVel > 0) {
-					xVel = 0;
+				if(collideTop) {
+					if (xVel > 0) {
+						xVel = 0;
+					}
+					if (yVel > 0) {
+						yVel = 0;
+					} else {
+						yVel += Reference.GRAVITY_ACCELERATION * delta;
+					}
+					break;
 				}
-				if(yVel > 0) {
-					yVel = 0;
-				} else {
-					yVel += Reference.GRAVITY_ACCELERATION * delta;
-				}
-				break;
 			case TERRAIN_TOP_LEFT:
-				if(xVel < 0) {
-					xVel = 0;
+				if(collideTop) {
+					if (xVel < 0) {
+						xVel = 0;
+					}
+					if (yVel > 0) {
+						yVel = 0;
+					} else {
+						yVel += Reference.GRAVITY_ACCELERATION * delta;
+					}
+					break;
 				}
-				if(yVel > 0) {
-					yVel = 0;
-				} else {
-					yVel += Reference.GRAVITY_ACCELERATION * delta;
-				}
-				break;
 			case NONE:
 			default:
 				xVel -= xVel * 0.5F * delta;
@@ -89,7 +97,7 @@ public class EntityCrashParticle extends Entity {
 		float renderX = worldObj.convertWorldCoordToScreenCoord(xPos);
 
 		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-		game.shapeRenderer.setColor(GameDebugSettings.get("PLAYER_EXPLOSION_RED") ? Color.RED : Color.BLACK);
+		game.shapeRenderer.setColor(color);
 		game.shapeRenderer.rect(x + renderX - radius, y + yPos - radius, size, size);
 		game.shapeRenderer.end();
 
@@ -104,5 +112,13 @@ public class EntityCrashParticle extends Entity {
 	private CollisionType doesCollide() {
 		float renderX = worldObj.convertWorldCoordToScreenCoord(xPos);
 		return worldObj.doesAreaCollideWithWorld(renderX - radius, yPos - radius, renderX + radius, yPos + radius);
+	}
+
+	/**
+	 * set whether the particle should collide with the top terrain<br></br>
+	 * true is default
+	 */
+	public void setCollideTop(boolean collideTop) {
+		this.collideTop = collideTop;
 	}
 }

@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import net.brenig.pixelescape.PixelEscape;
+import net.brenig.pixelescape.game.gamemode.GameModeArcade;
 import net.brenig.pixelescape.game.gamemode.GameModeClassic;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
@@ -29,6 +30,8 @@ public class MainMenuScreen extends PixelScreen {
 	 * layout used to group main ui elements
 	 */
 	private final Table menuLayout;
+
+	private final Table buttonLayout;
 
 	/**
 	 * layout used to group setting buttons
@@ -67,6 +70,8 @@ public class MainMenuScreen extends PixelScreen {
 		menuLayout.setPosition(0, 0);
 		menuLayout.center();
 
+		buttonLayout = new Table();
+
 		Label header = new Label("PixelEscape", game.getSkin());
 		header.setHeight(150);
 
@@ -78,6 +83,14 @@ public class MainMenuScreen extends PixelScreen {
 			}
 		});
 
+		TextButton btnArcade = new TextButton("Arcade game", game.getSkin());
+		btnArcade.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				game.setScreen(new GameScreen(game, new GameModeArcade()));
+			}
+		});
+
 
 
 		menuLayout.padTop(30);
@@ -85,7 +98,11 @@ public class MainMenuScreen extends PixelScreen {
 		menuLayout.row();
 		menuLayout.add(new CurrentHighscoreLabel()).padBottom(40);
 		menuLayout.row();
-		menuLayout.add(btnStart).padBottom(40);
+
+		menuLayout.add(buttonLayout);
+		buttonLayout.add(btnStart).padBottom(16).fillX();
+		buttonLayout.row();
+		buttonLayout.add(btnArcade).padBottom(40).fillX();
 
 		if(game.gameConfig.canQuitGame()) {
 			TextButton btnQuit = new TextButton("Quit game", game.getSkin());
@@ -95,8 +112,8 @@ public class MainMenuScreen extends PixelScreen {
 					Gdx.app.exit();
 				}
 			});
-			menuLayout.row();
-			menuLayout.add(btnQuit);
+			buttonLayout.row();
+			buttonLayout.add(btnQuit).fillX();
 		}
 
 		uiStage.getRootTable().top().right().pad(4);

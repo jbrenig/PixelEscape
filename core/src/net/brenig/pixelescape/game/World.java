@@ -1,6 +1,7 @@
 package net.brenig.pixelescape.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 
 import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.entity.Entity;
@@ -14,9 +15,11 @@ import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.screen.GameScreen;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Main World class, handling game logic
@@ -38,6 +41,7 @@ public class World {
 	private final WorldGenerator worldGenerator;
 
 	private final List<Entity> entityList;
+	private final Set<Entity> entitySpawnQueue;
 
 	/**
 	 * tracks how many block got generated
@@ -73,9 +77,8 @@ public class World {
 		terrain = new CycleArray<TerrainPair>(calculateWorldBufferSize(worldWidth));
 		this.worldWidth = worldWidth;
 		entityList = new ArrayList<Entity>();
+		entitySpawnQueue = new HashSet<Entity>();
 		player.setXPosScreen(worldWidth / 4);
-//		player.reset(screen.getGameMode());
-//		spawnEntity(player);
 
 		//load world generators
 		worldGenerator = screen.getGameMode().createWorldGenerator();
@@ -90,7 +93,6 @@ public class World {
 	 */
 	public void update(float deltaTick) {
 		generateWorld(false);
-//		player.update(deltaTick, screen.getInput());
 		//remove invalid entities
 		Iterator<Entity> iterator = entityList.iterator();
 		while (iterator.hasNext()) {
@@ -104,7 +106,21 @@ public class World {
 				}
 			}
 		}
+		spawnEntities();
+
 		debugValidateWorldGen();
+	}
+
+	public void spawnEntities() {
+		//Spawn Entities
+		for(Entity e : entitySpawnQueue) {
+			spawnEntityDo(e);
+		}
+		entitySpawnQueue.clear();
+	}
+
+	public void spawnEntityDo(Entity e) {
+		entityList.add(e);
 	}
 
 	@Deprecated
@@ -136,7 +152,7 @@ public class World {
 	 * spawns the given Entity
 	 */
 	public void spawnEntity(Entity e) {
-		entityList.add(e);
+		entitySpawnQueue.add(e);
 	}
 
 	/**
@@ -294,7 +310,7 @@ public class World {
 		for (int i = 0; i < 60; i++) {
 			final float x = (float) Math.sin(i) + (rand.nextFloat() - 0.5F);
 			final float y = (float) Math.cos(i) + (rand.nextFloat() - 0.5F);
-			EntityCrashParticle e = new EntityCrashParticle(this, (float) (player.getXPos() - player.getVelocity() * Gdx.graphics.getDeltaTime() + x), player.getYPos() - player.getYVelocity() * Gdx.graphics.getDeltaTime() + y);
+			EntityCrashParticle e = new EntityCrashParticle(this, (float) (player.getXPos() - player.getVelocity() * Gdx.graphics.getDeltaTime() + x), player.getYPos() - player.getYVelocity() * Gdx.graphics.getDeltaTime() + y, screen.game.gameDebugSettings.getBoolean("PLAYER_EXPLOSION_RED") ? Color.RED : Color.BLACK);
 			final float xVel = (x * 2 + (rand.nextFloat() - 0.5F)) * 70;
 			final float yVel = (y * 2 + (rand.nextFloat() - 0.5F)) * 70;
 			e.setVelocity(xVel, yVel);
@@ -310,6 +326,19 @@ public class World {
 		}
 
 		if(player.extraLives > 0) {
+			final float lifeX = convertScreenToWorldCoordinate(screen.game.gameSizeX - 36 * player.extraLives + 16);
+			final float lifeY = getWorldHeight() - 28 + 16;
+			//Spawn crash particles
+			for (int i = 0; i < 60; i++) {
+				final float x = (float) Math.sin(i) + (rand.nextFloat() - 0.5F);
+				final float y = (float) Math.cos(i) + (rand.nextFloat() - 0.5F);
+				EntityCrashParticle e = new EntityCrashParticle(this, lifeX + x, lifeY + y, Color.RED);
+				e.setCollideTop(false);
+				final float xVel = (x * 2 + (rand.nextFloat() - 0.5F)) * 70;
+				final float yVel = (y * 2 + (rand.nextFloat() - 0.5F)) * 70;
+				e.setVelocity(xVel, yVel);
+				this.spawnEntity(e);
+			}
 			player.extraLives--;
 			player.setImmortal(3);
 			player.reviveAfterCrash();
@@ -335,7 +364,7 @@ public class World {
 		entityList.clear();
 
 		//respawn player entity
-		spawnEntity(player);
+		spawnEntityDo(player);
 
 		//Reset world gen
 		worldGenerator.reset();

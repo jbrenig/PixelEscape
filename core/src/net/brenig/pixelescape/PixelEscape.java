@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
@@ -106,6 +107,10 @@ public class PixelEscape extends Game {
 
 	public static PixelEscape getPixelEscape() {
 		return instance;
+	}
+
+	public void renderTextureRegion(TextureRegion region, float x, float y) {
+		batch.draw(region, x, y);
 	}
 
 	private void updateAssetManager() {

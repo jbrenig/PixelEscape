@@ -30,7 +30,7 @@ public class Reference {
 	public static final int PATH_ENTITY_OFFSET = 16;
 
 	//SIMULATION LIMITS
-	public static final float MAX_FRAME_TIME = 1;
+	public static final float MAX_FRAME_TIME = 0.4F;
 	public static final float MAX_ENTITY_SPEED = 420;
 
 	/**

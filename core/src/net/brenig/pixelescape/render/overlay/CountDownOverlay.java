@@ -37,14 +37,14 @@ public class CountDownOverlay extends Overlay {
 			return;
 		}
 		screen.game.batch.begin();
-		int mod = (int) (timePassed % 1000); //fraction of the current second
-		screen.game.getFont().setColor(0.2F, 0.8F, 0, 1000 / (mod + 1));
+		int mod = (int) (timePassed % 1000) + 1; //fraction of the current second
+		screen.game.getFont().setColor(0.2F, 0.8F, 0, 1000 / (mod));
 		if (mod < 100) {
-			float scaleMod = 1 / ((mod + 1) * 10);
+			float scaleMod = 1 / ((mod) * 10);
 			screen.game.getFont().getData().setScale(5 + scaleMod * 2);
 		} else if (mod > 900) {
 			mod -= 900;
-			float scaleMod = 1 / ((mod + 1) * 10);
+			float scaleMod = 1 / ((mod) * 10);
 			screen.game.getFont().getData().setScale(3 + scaleMod);
 		} else {
 			screen.game.getFont().getData().setScale(5);

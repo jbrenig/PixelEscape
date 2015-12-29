@@ -1,4 +1,4 @@
-package net.brenig.pixelescape.screen.ui;
+package net.brenig.pixelescape.screen.ui.general;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;

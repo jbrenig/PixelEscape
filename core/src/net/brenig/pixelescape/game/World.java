@@ -350,6 +350,10 @@ public class World {
 		}
 	}
 
+	public GameScreen getScreen() {
+		return screen;
+	}
+
 	/**
 	 * restart the world, player and all world gen get reset to start a new game
 	 */

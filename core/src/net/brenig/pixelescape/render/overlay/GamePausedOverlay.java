@@ -11,9 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.screen.GameScreen;
-import net.brenig.pixelescape.screen.ui.HorizontalSpacer;
-import net.brenig.pixelescape.screen.ui.ScoreWidget;
-import net.brenig.pixelescape.screen.ui.StageManagerGame;
+import net.brenig.pixelescape.screen.ui.general.HorizontalSpacer;
+import net.brenig.pixelescape.screen.ui.ingame.ScoreWidget;
+import net.brenig.pixelescape.screen.ui.ingame.StageManagerGame;
 
 /**
  * Displays when game gets paused

@@ -26,9 +26,9 @@ import net.brenig.pixelescape.render.overlay.EmptyOverlay;
 import net.brenig.pixelescape.render.overlay.GameOverOverlay;
 import net.brenig.pixelescape.render.overlay.GamePausedOverlay;
 import net.brenig.pixelescape.render.overlay.Overlay;
-import net.brenig.pixelescape.screen.ui.HorizontalSpacer;
-import net.brenig.pixelescape.screen.ui.ScoreWidget;
-import net.brenig.pixelescape.screen.ui.StageManagerGame;
+import net.brenig.pixelescape.screen.ui.general.HorizontalSpacer;
+import net.brenig.pixelescape.screen.ui.ingame.ScoreWidget;
+import net.brenig.pixelescape.screen.ui.ingame.StageManagerGame;
 
 
 /**
@@ -157,13 +157,14 @@ public class GameScreen extends PixelScreen {
 		//Overlay first callback
 		overlay.renderFirst(delta);
 
-		//Draw lives
-		renderLives();
-		//Draw Item/Ability
-//		renderAbility();
-
 		//UI
 		if(!overlay.shouldHideGameUI()) {
+
+			//Draw lives
+			renderLives();
+			//Draw Item/Ability
+			renderAbility();
+
 			this.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 			stage.draw();
 			stage.act(delta);
@@ -202,7 +203,10 @@ public class GameScreen extends PixelScreen {
 	private void renderAbility() {
 		if(gameMode.abilitiesEnabled()) {
 			game.batch.begin();
-
+			game.renderTextureRegion(game.getGameAssets().getItemFrame(), game.gameSizeX - 160, uiPos + 32, 128, 128);
+			if(world.getPlayer().hasAbility()) {
+				//TODO render ability
+			}
 			game.batch.end();
 		}
 	}
@@ -266,7 +270,7 @@ public class GameScreen extends PixelScreen {
 		final int targetHeight = Reference.GAME_RESOLUTION_Y + Reference.GAME_UI_Y_SIZE;
 		uiPos = (int) Math.ceil((game.gameSizeY - targetHeight) / 2);
 		world.resize(game.gameSizeX);
-		worldRenderer.setPosition(0, uiPos);
+		worldRenderer.setPositionAbsolute(0, uiPos);
 		//Update UI
 		stage.updateStageToGameBounds(width, height);
 		//update Overlay

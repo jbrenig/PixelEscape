@@ -16,8 +16,8 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
-import net.brenig.pixelescape.screen.ui.PixelDialog;
-import net.brenig.pixelescape.screen.ui.StageManager;
+import net.brenig.pixelescape.screen.ui.general.PixelDialog;
+import net.brenig.pixelescape.screen.ui.general.StageManager;
 
 /**
  * Screen that provides user settings<br></br>

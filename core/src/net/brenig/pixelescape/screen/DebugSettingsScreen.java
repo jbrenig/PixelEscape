@@ -16,8 +16,8 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
-import net.brenig.pixelescape.screen.ui.HorizontalSpacer;
-import net.brenig.pixelescape.screen.ui.StageManager;
+import net.brenig.pixelescape.screen.ui.general.HorizontalSpacer;
+import net.brenig.pixelescape.screen.ui.general.StageManager;
 
 /**
  * Screen to adjust DEBUG features

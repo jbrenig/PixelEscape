@@ -1,10 +1,11 @@
-package net.brenig.pixelescape.screen.ui;
+package net.brenig.pixelescape.screen.ui.ingame;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.screen.GameScreen;
+import net.brenig.pixelescape.screen.ui.general.StageManager;
 
 /**
  * StageManager that manages ui elements for the GameScreen<br></br>

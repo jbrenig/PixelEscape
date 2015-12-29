@@ -1,4 +1,4 @@
-package net.brenig.pixelescape.screen.ui;
+package net.brenig.pixelescape.screen.ui.ingame;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;

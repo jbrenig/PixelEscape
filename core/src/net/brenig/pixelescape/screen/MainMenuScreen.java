@@ -17,7 +17,7 @@ import net.brenig.pixelescape.game.gamemode.GameModeClassic;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.screen.ui.CurrentHighscoreLabel;
-import net.brenig.pixelescape.screen.ui.StageManager;
+import net.brenig.pixelescape.screen.ui.general.StageManager;
 
 /**
  * PixelEscape MainMenu

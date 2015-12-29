@@ -1,5 +1,7 @@
 package net.brenig.pixelescape.game.entity.player;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -13,6 +15,7 @@ import net.brenig.pixelescape.game.entity.IMovingEntity;
 import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.lib.CycleIntArray;
 import net.brenig.pixelescape.lib.Reference;
+import net.brenig.pixelescape.game.entity.player.abliity.IAbility;
 
 /**
  * the Player
@@ -40,6 +43,8 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	private boolean isDead = false;
 
+	private IAbility currentAbility;
+
 	public EntityPlayer(World world, GameMode gameMode) {
 		super(world);
 		lastYPositions = new CycleIntArray(20, (int) yPos);
@@ -55,6 +60,17 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		if(!GameDebugSettings.get("DEBUG_GOD_MODE")) {
 			yPos += deltaTick * yVelocity;
 		}
+
+		//trigger ability by key press
+		if(hasAbility()) {
+			if(currentAbility.cooldownRemaining() == 0)  {
+				if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
+					currentAbility.onActivate(worldObj.getScreen(), worldObj, this);
+				}
+			}
+			currentAbility.update(worldObj, this, deltaTick);
+		}
+
 		//speed update
 		if (inputManager.isTouched() || inputManager.isSpaceDown()) {
 			if(!lastTouched) {
@@ -105,6 +121,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		velocity = gameMode.getStartingSpeed();
 		isDead = false;
 		extraLives = gameMode.getExtraLives();
+		currentAbility = gameMode.getStartingAbility();
 	}
 
 	/**
@@ -214,5 +231,25 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	 */
 	public void setImmortal(float time) {
 		immortal = time;
+	}
+
+	public void setCurrentAbility(net.brenig.pixelescape.game.entity.player.abliity.IAbility currentAbility) {
+		this.currentAbility = currentAbility;
+	}
+
+	public net.brenig.pixelescape.game.entity.player.abliity.IAbility getCurrentAbility() {
+		return currentAbility;
+	}
+
+	public boolean hasAbility() {
+		return currentAbility != null;
+	}
+
+	public void setXPos(float xPos) {
+		this.xPos = xPos;
+	}
+
+	public void increaseXPos(float x) {
+		xPos += x;
 	}
 }

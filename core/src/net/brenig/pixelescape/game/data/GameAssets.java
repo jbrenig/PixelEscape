@@ -18,7 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 
-import net.brenig.pixelescape.screen.ui.TwoStateImageButton;
+import net.brenig.pixelescape.screen.ui.general.TwoStateImageButton;
 
 import java.util.Random;
 
@@ -94,6 +94,7 @@ public class GameAssets {
 		//Cache default button texture for other use cases
 		buttonNinePatch = textureAtlas.createPatch("button");
 		heart = textureAtlas.findRegion("heart");
+		item_frame = textureAtlas.findRegion("item_frame");
 	}
 
 	private void initSkin() {
@@ -303,5 +304,9 @@ public class GameAssets {
 
 	public TextureRegion getHeart() {
 		return heart;
+	}
+
+	public TextureRegion getItemFrame() {
+		return item_frame;
 	}
 }

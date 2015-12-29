@@ -19,6 +19,12 @@ public class WorldRenderer {
 	private float xPos = 0;
 	private float yPos = 0;
 
+	private float targetX = 0;
+	private float targetY = 0;
+
+	private float movementSpeedX = 0;
+	private float movementSpeedY = 0;
+
 	private float screenShakeX = 0;
 	private float screenShakeY = 0;
 
@@ -59,6 +65,11 @@ public class WorldRenderer {
 		}
 	}
 
+	/**
+	 * initiates a screen shake effect
+	 * @param x force on x axis
+	 * @param y force on y axis
+	 */
 	public void applyForceToScreen(float x, float y) {
 		if(x * Math.PI > screenShakeForceX) {
 			screenShakeForceX = (float) (x * Math.PI);
@@ -69,14 +80,53 @@ public class WorldRenderer {
 	}
 
 	/**
+	 * move the camera to the specified world coordinate (at the specified speed)
+	 */
+	public void moveScreenTo(float x, float y, float movementSpeedX, float movementSpeedY) {
+		targetX = x;
+		targetY = y;
+		this.movementSpeedX = Math.abs(movementSpeedX);
+		this.movementSpeedY = Math.abs(movementSpeedY);
+	}
+
+	public float getXPos() {
+		return xPos;
+	}
+
+	public float getYPos() {
+		return yPos;
+	}
+
+	private void moveScreen(float delta) {
+		if(movementSpeedX != 0 && xPos != targetX) {
+			if(targetX < xPos) {
+				xPos -= Math.min(xPos - targetX, movementSpeedX * delta);
+			} else {
+				xPos += Math.min(targetX - xPos, movementSpeedX * delta);
+			}
+		}
+		if(movementSpeedY != 0 && yPos != targetY) {
+			if(targetY < yPos) {
+				yPos -= Math.min(yPos - targetY, -movementSpeedY * delta);
+			} else {
+				yPos += Math.min(targetY - yPos, movementSpeedY * delta);
+			}
+		}
+	}
+
+	/**
 	 * Renders the World
 	 */
 	public void render(float delta) {
 		if(game.gameDebugSettings.getBoolean("SCREEN_SHAKE")) {
 			shakeScreen(delta);
 		}
+		moveScreen(delta);
 		renderWorld();
 		renderEntities(delta);
+		if(world.getPlayer().hasAbility()) {
+			world.getPlayer().getCurrentAbility().render(this, world, world.getPlayer(), delta);
+		}
 	}
 
 	private void renderEntities(float delta) {
@@ -104,7 +154,7 @@ public class WorldRenderer {
 		return world.convertWorldIndexToScreenCoordinate(world.convertLocalBlockToWorldBlockIndex(index));
 	}
 
-	public void setPosition(int x, int y) {
+	public void setPosition(float x, float y) {
 		this.xPos = x;
 		this.yPos = y;
 	}
@@ -115,5 +165,21 @@ public class WorldRenderer {
 
 	public float getScreenShakeY() {
 		return screenShakeY;
+	}
+
+	public float getTargetX() {
+		return targetX;
+	}
+
+	public float getTargetY() {
+		return targetY;
+	}
+
+	public void setPositionAbsolute(int x, int y) {
+		setPosition(x, y);
+		targetX = x;
+		targetY = y;
+		movementSpeedX = 0;
+		movementSpeedY = 0;
 	}
 }

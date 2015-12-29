@@ -1,8 +1,8 @@
 package net.brenig.pixelescape.game.gamemode;
 
 import net.brenig.pixelescape.game.World;
+import net.brenig.pixelescape.game.entity.player.abliity.IAbility;
 import net.brenig.pixelescape.game.worldgen.WorldGenerator;
-import net.brenig.pixelescape.game.worldgen.special.BarricadeGenerator;
 import net.brenig.pixelescape.lib.Reference;
 
 public abstract class GameMode {
@@ -40,5 +40,9 @@ public abstract class GameMode {
 
 	public boolean abilitiesEnabled() {
 		return false;
+	}
+
+	public IAbility getStartingAbility() {
+		return null;
 	}
 }

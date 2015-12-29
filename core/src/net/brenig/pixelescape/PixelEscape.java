@@ -113,6 +113,10 @@ public class PixelEscape extends Game {
 		batch.draw(region, x, y);
 	}
 
+	public void renderTextureRegion(TextureRegion region, float x, float y, float width, float height) {
+		batch.draw(region, x, y, width, height);
+	}
+
 	private void updateAssetManager() {
 		if(gameAssets == null) {
 			gameAssets = new GameAssets();

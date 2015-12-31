@@ -59,6 +59,11 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		xPos += deltaTick * velocity;
 		if(!GameDebugSettings.get("DEBUG_GOD_MODE")) {
 			yPos += deltaTick * yVelocity;
+			if(yPos < getPlayerSizeRadius()) {
+				yPos = getPlayerSizeRadius();
+			} else if(yPos > worldObj.getWorldHeight() - getPlayerSizeRadius()) {
+				yPos = worldObj.getWorldHeight() - getPlayerSizeRadius();
+			}
 		}
 
 		//trigger ability by key press

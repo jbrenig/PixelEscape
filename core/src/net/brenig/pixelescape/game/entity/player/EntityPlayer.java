@@ -69,7 +69,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		//trigger ability by key press
 		if(hasAbility()) {
 			if(currentAbility.cooldownRemaining() == 0)  {
-				if (Gdx.input.isKeyJustPressed(Input.Keys.A)) {
+				if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
 					currentAbility.onActivate(worldObj.getScreen(), worldObj, this);
 				}
 			}
@@ -248,10 +248,6 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	public boolean hasAbility() {
 		return currentAbility != null;
-	}
-
-	public void setXPos(float xPos) {
-		this.xPos = xPos;
 	}
 
 	public void increaseXPos(float x) {

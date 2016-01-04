@@ -3,6 +3,7 @@ package net.brenig.pixelescape.game.entity.player.abliity;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import net.brenig.pixelescape.game.World;
+import net.brenig.pixelescape.game.data.GameAssets;
 import net.brenig.pixelescape.game.entity.player.EntityPlayer;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.WorldRenderer;
@@ -44,7 +45,7 @@ public class AbilityBlink implements IAbility {
 		return cooldown / maxCooldown;
 	}
 
-	public Drawable getDrawable() {
-		return null;
+	public Drawable getDrawable(GameAssets assets) {
+		return assets.getItemBlink();
 	}
 }

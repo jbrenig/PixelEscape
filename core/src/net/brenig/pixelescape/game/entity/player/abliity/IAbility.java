@@ -3,6 +3,7 @@ package net.brenig.pixelescape.game.entity.player.abliity;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import net.brenig.pixelescape.game.World;
+import net.brenig.pixelescape.game.data.GameAssets;
 import net.brenig.pixelescape.game.entity.player.EntityPlayer;
 import net.brenig.pixelescape.render.WorldRenderer;
 import net.brenig.pixelescape.screen.GameScreen;
@@ -42,6 +43,7 @@ public interface IAbility {
 
 	/**
 	 * @return ability icon
+	 * @param assets
 	 */
-	Drawable getDrawable();
+	Drawable getDrawable(GameAssets assets);
 }

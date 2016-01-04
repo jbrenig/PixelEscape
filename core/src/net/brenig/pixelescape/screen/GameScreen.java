@@ -27,6 +27,8 @@ import net.brenig.pixelescape.render.overlay.GameOverOverlay;
 import net.brenig.pixelescape.render.overlay.GamePausedOverlay;
 import net.brenig.pixelescape.render.overlay.Overlay;
 import net.brenig.pixelescape.screen.ui.general.HorizontalSpacer;
+import net.brenig.pixelescape.screen.ui.general.VerticalSpacer;
+import net.brenig.pixelescape.screen.ui.ingame.AbilityWidget;
 import net.brenig.pixelescape.screen.ui.ingame.ScoreWidget;
 import net.brenig.pixelescape.screen.ui.ingame.StageManagerGame;
 
@@ -101,6 +103,12 @@ public class GameScreen extends PixelScreen {
 		table.add(mainMenu);
 		table.add(new HorizontalSpacer());
 		table.add(new ScoreWidget(world.getPlayer(), fontLayout, game));
+		if(gameMode.abilitiesEnabled()) {
+			stage.row();
+			stage.add(new VerticalSpacer());
+			stage.row();
+			stage.add(new AbilityWidget(game.getSkin(), world.getPlayer(), this)).bottom().right().size(128F).pad(0, 0, 32, uiPos + 32);
+		}
 
 		//init input
 		inputManager = new InputManager();
@@ -163,7 +171,7 @@ public class GameScreen extends PixelScreen {
 			//Draw lives
 			renderLives();
 			//Draw Item/Ability
-			renderAbility();
+//			renderAbility();
 
 			this.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 			stage.draw();
@@ -195,17 +203,6 @@ public class GameScreen extends PixelScreen {
 			game.batch.begin();
 			for (int index = 1; index <= world.getPlayer().extraLives; index++) {
 				game.renderTextureRegion(game.getGameAssets().getHeart(), game.gameSizeX - 36 * index, uiPos + world.getWorldHeight() - 28);
-			}
-			game.batch.end();
-		}
-	}
-
-	private void renderAbility() {
-		if(gameMode.abilitiesEnabled()) {
-			game.batch.begin();
-			game.renderTextureRegion(game.getGameAssets().getItemFrame(), game.gameSizeX - 160, uiPos + 32, 128, 128);
-			if(world.getPlayer().hasAbility()) {
-				//TODO render ability
 			}
 			game.batch.end();
 		}

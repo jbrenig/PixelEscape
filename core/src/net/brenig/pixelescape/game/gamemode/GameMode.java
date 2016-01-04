@@ -38,10 +38,16 @@ public abstract class GameMode {
 		return 0;
 	}
 
+	/**
+	 * whether abilities are enabled (note: this value must not change!)
+	 */
 	public boolean abilitiesEnabled() {
 		return false;
 	}
 
+	/**
+	 * @return the ability that is available when the game begins (returns null if abilities are disabled)
+	 */
 	public IAbility getStartingAbility() {
 		return null;
 	}

@@ -16,9 +16,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import net.brenig.pixelescape.screen.ui.general.TwoStateImageButton;
+import net.brenig.pixelescape.screen.ui.ingame.AbilityWidget;
 
 import java.util.Random;
 
@@ -41,7 +44,7 @@ public class GameAssets {
 	private TextureRegion heart;
 
 	private TextureRegion item_frame;
-	private TextureRegion item_blink;
+	private Drawable item_blink;
 
 	private Skin mainUiSkin;
 
@@ -95,6 +98,7 @@ public class GameAssets {
 		buttonNinePatch = textureAtlas.createPatch("button");
 		heart = textureAtlas.findRegion("heart");
 		item_frame = textureAtlas.findRegion("item_frame");
+		item_blink = new TextureRegionDrawable(textureAtlas.findRegion("item_blink"));
 	}
 
 	private void initSkin() {
@@ -126,6 +130,8 @@ public class GameAssets {
 		mainUiSkin.add("button_fullscreen_hover", textureAtlas.createSprite("fullscreen_hover"));
 		mainUiSkin.add("button_restore_window", textureAtlas.createSprite("fullscreen_restore"));
 		mainUiSkin.add("button_restore_window_hover", textureAtlas.createSprite("fullscreen_restore_hover"));
+
+		mainUiSkin.add("item_frame", textureAtlas.createSprite("item_frame"));
 
 		mainUiSkin.add("slider_background", textureAtlas.createSprite("slider_background"));
 		mainUiSkin.add("slider_knob", textureAtlas.createSprite("slider_knop"));
@@ -214,6 +220,17 @@ public class GameAssets {
 			textButtonStyle.disabledFontColor = Color.GRAY;
 
 			mainUiSkin.add("default", textButtonStyle);
+		}
+
+		//Button style: Ability
+		{
+			AbilityWidget.AbilityButtonStyle abilityButtonStyle = new AbilityWidget.AbilityButtonStyle();
+			abilityButtonStyle.up = mainUiSkin.getDrawable("item_frame");
+			abilityButtonStyle.down = mainUiSkin.getDrawable("item_frame");
+			abilityButtonStyle.over = mainUiSkin.getDrawable("item_frame");
+			abilityButtonStyle.disabled = mainUiSkin.getDrawable("item_frame");
+
+			mainUiSkin.add("default", abilityButtonStyle);
 		}
 
 		//Label style: default
@@ -308,5 +325,9 @@ public class GameAssets {
 
 	public TextureRegion getItemFrame() {
 		return item_frame;
+	}
+
+	public Drawable getItemBlink() {
+		return item_blink;
 	}
 }

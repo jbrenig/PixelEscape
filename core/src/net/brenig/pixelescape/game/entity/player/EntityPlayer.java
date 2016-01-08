@@ -61,8 +61,10 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 			yPos += deltaTick * yVelocity;
 			if(yPos < getPlayerSizeRadius()) {
 				yPos = getPlayerSizeRadius();
+				yVelocity = 0;
 			} else if(yPos > worldObj.getWorldHeight() - getPlayerSizeRadius()) {
 				yPos = worldObj.getWorldHeight() - getPlayerSizeRadius();
+				yVelocity = 0;
 			}
 		}
 

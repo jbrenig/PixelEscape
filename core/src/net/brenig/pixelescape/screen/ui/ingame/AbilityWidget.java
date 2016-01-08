@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import net.brenig.pixelescape.game.entity.player.EntityPlayer;
 import net.brenig.pixelescape.game.entity.player.abliity.IAbility;
 import net.brenig.pixelescape.lib.LogHelper;
+import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.screen.GameScreen;
 
 public class AbilityWidget extends Button {
@@ -23,6 +24,9 @@ public class AbilityWidget extends Button {
 	private IAbility currentAbility;
 
 	private Drawable abilityIcon;
+
+	private float animCounter = 0;
+	private final static float ANIM_DURATION = 0.5F;
 
 	private final static float item_frame_border = 0.21875F;
 
@@ -74,11 +78,22 @@ public class AbilityWidget extends Button {
 				abilityIcon.draw(batch, getX() + itemFrame, getY() + itemFrame, getWidth() - itemFrame * 2, getHeight() - itemFrame * 2);
 			}
 			if(currentAbility.cooldownRemaining() != 0) {
+				animCounter = ANIM_DURATION;
 				batch.end();
 				gameScreen.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 				Gdx.gl.glEnable(GL20.GL_BLEND);
-				gameScreen.game.shapeRenderer.setColor(0, 0, 1, 0.5F);
+				gameScreen.game.shapeRenderer.setColor(0.7F, 0.7F, 1, 0.4F);
 				gameScreen.game.shapeRenderer.rect(getX() + itemFrame, getY() + itemFrame, getWidth() - itemFrame * 2, (getHeight() - itemFrame * 2) * currentAbility.cooldownRemaining());
+				gameScreen.game.shapeRenderer.end();
+				batch.begin();
+			} else if(animCounter > 0) {
+				animCounter -= Gdx.graphics.getDeltaTime();
+				final float alpha = Utils.easeInAndOut(animCounter, ANIM_DURATION) * 0.7F;
+				batch.end();
+				gameScreen.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+				Gdx.gl.glEnable(GL20.GL_BLEND);
+				gameScreen.game.shapeRenderer.setColor(1, 1, 1, alpha);
+				gameScreen.game.shapeRenderer.rect(getX() + itemFrame, getY() + itemFrame, getWidth() - itemFrame * 2, getHeight() - itemFrame * 2);
 				gameScreen.game.shapeRenderer.end();
 				batch.begin();
 			}

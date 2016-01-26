@@ -46,10 +46,11 @@ public class EntityCrashParticle extends Entity {
 		if(isDead()) {
 			return;
 		}
-		//Accelerate
+		//Move
 		xPos += xVel * delta;
 		yPos += yVel * delta;
 
+		//Accelerate and collide
 		switch (doesCollide()) {
 			case TERRAIN_BOT_RIGHT:
 			case TERRAIN_BOT_LEFT:

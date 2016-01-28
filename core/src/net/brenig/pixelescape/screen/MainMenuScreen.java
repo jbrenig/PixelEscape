@@ -96,7 +96,8 @@ public class MainMenuScreen extends PixelScreen {
 		menuLayout.padTop(30);
 		menuLayout.add(header).padBottom(60);
 		menuLayout.row();
-		menuLayout.add(new CurrentHighscoreLabel()).padBottom(40);
+		//TODO: proper GameMode detection
+		menuLayout.add(new CurrentHighscoreLabel(new GameModeClassic())).padBottom(40);
 		menuLayout.row();
 
 		menuLayout.add(buttonLayout);

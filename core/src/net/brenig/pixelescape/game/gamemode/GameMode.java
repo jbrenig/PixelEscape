@@ -51,4 +51,9 @@ public abstract class GameMode {
 	public IAbility getStartingAbility() {
 		return null;
 	}
+
+	/**
+	 * @return the name of the scoreboard that should be used
+	 */
+	public abstract String getScoreboardName();
 }

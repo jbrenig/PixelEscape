@@ -98,6 +98,8 @@ public class PixelEscape extends Game {
 		//load userdata
 		//currently only highscore
 		userData = new UserData();
+		//convert legacy savedata
+		userData.updateSaveGames();
 
 		//open main menu
 		showMainMenu();

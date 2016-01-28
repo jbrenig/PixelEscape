@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.utils.Align;
 
 import net.brenig.pixelescape.PixelEscape;
+import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Utils;
 
@@ -54,10 +55,10 @@ public class CurrentHighscoreLabel extends Widget {
 
 	private final String text;
 
-	public CurrentHighscoreLabel() {
+	public CurrentHighscoreLabel(GameMode gameMode) {
 		super();
 		game = PixelEscape.getPixelEscape();
-		text = SCORE_TEXT + game.userData.getHighScore();
+		text = SCORE_TEXT + game.userData.getHighScore(gameMode);
 		fontLayout = new GlyphLayout(game.getFont(), text);
 		state = Animations.WAIT;
 	}

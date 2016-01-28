@@ -347,7 +347,7 @@ public class GameScreen extends PixelScreen {
 	 */
 	public void onGameOver() {
 		setOverlay(new GameOverOverlay(this));
-		game.userData.updateHighscore(world.getPlayer().getScore());
+		game.userData.updateHighscore(gameMode, world.getPlayer().getScore());
 	}
 
 	/**

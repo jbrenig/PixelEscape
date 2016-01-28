@@ -72,5 +72,11 @@ public class Reference {
 
 	public static final boolean DEBUG_SETTINGS_AVAILABLE    = true;
 
+	/**
+	 * current version of saved data<br></br>
+	 * changes every time a breaking change happens to the way data is saved on disk
+	 */
+	public static final int PREFS_REVISION = 1;
+
 
 }

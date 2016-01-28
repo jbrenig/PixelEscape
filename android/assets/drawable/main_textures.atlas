@@ -1,26 +1,12 @@
 
-gui_textures.png
+main_textures.png
+size: 512,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 button
   rotate: false
-  xy: 1, 95
-  size: 128, 32
-  split: 10, 10, 10, 10
-  orig: 128, 32
-  offset: 0, 0
-  index: -1
-button
-  rotate: false
-  xy: 1, 95
-  size: 128, 32
-  orig: 128, 32
-  offset: 0, 0
-  index: -1
-button_clicked
-  rotate: false
-  xy: 1, 61
+  xy: 2, 90
   size: 128, 32
   split: 10, 10, 10, 10
   orig: 128, 32
@@ -28,214 +14,202 @@ button_clicked
   index: -1
 button_clicked
   rotate: false
-  xy: 1, 61
+  xy: 2, 56
   size: 128, 32
+  split: 10, 10, 10, 10
   orig: 128, 32
   offset: 0, 0
   index: -1
 button_disabled
   rotate: false
-  xy: 131, 95
+  xy: 132, 90
   size: 128, 32
   split: 9, 10, 10, 10
-  orig: 128, 32
-  offset: 0, 0
-  index: -1
-button_disabled
-  rotate: false
-  xy: 131, 95
-  size: 128, 32
+  pad: 10, 10, 10, 10
   orig: 128, 32
   offset: 0, 0
   index: -1
 button_hover
   rotate: false
-  xy: 1, 27
+  xy: 2, 22
   size: 128, 32
   split: 10, 10, 10, 10
   orig: 128, 32
-  offset: 0, 0
-  index: -1
-button_hover
-  rotate: false
-  xy: 1, 27
-  size: 128, 32
-  orig: 128, 32
-  offset: 0, 0
-  index: -1
-slider_background
-  rotate: false
-  xy: 131, 81
-  size: 128, 12
-  orig: 128, 12
-  offset: 0, 0
-  index: -1
-slider_knop
-  rotate: false
-  xy: 1, 1
-  size: 24, 24
-  orig: 24, 24
   offset: 0, 0
   index: -1
 button_pause
   rotate: false
-  xy: 261, 95
+  xy: 262, 90
   size: 32, 32
   orig: 32, 32
-  offset: 0, 0
-  index: -1
-fullscreen
-  rotate: false
-  xy: 131, 47
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-fullscreen_hover
-  rotate: false
-  xy: 295, 95
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-fullscreen_restore
-  rotate: false
-  xy: 165, 47
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-fullscreen_restore_hover
-  rotate: false
-  xy: 329, 95
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-gear_settings
-  rotate: false
-  xy: 199, 47
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-gear_settings_white
-  rotate: false
-  xy: 363, 95
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-heart
-  rotate: false
-  xy: 397, 95
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-item_frame
-  rotate: false
-  xy: 431, 95
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-music_disabled
-  rotate: false
-  xy: 465, 95
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-music_disabled_hover
-  rotate: false
-  xy: 233, 47
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-music_enabled
-  rotate: false
-  xy: 131, 13
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-music_enabled_hover
-  rotate: false
-  xy: 165, 13
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-sound_disabled
-  rotate: false
-  xy: 199, 13
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-sound_disabled_hover
-  rotate: false
-  xy: 233, 13
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-sound_enabled
-  rotate: false
-  xy: 267, 61
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-sound_enabled_hover
-  rotate: false
-  xy: 267, 27
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
-scrollbar
-  rotate: false
-  xy: 301, 61
-  size: 16, 32
-  orig: 16, 32
-  offset: 0, 0
-  index: -1
-item_blink
-  rotate: false
-  xy: 27, 7
-  size: 18, 18
-  orig: 18, 18
   offset: 0, 0
   index: -1
 checkbox
   rotate: false
-  xy: 301, 43
+  xy: 302, 38
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 checkbox_checked
   rotate: false
-  xy: 319, 77
+  xy: 320, 46
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 checkbox_hover
   rotate: false
-  xy: 47, 9
+  xy: 346, 72
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
+fullscreen
+  rotate: false
+  xy: 132, 42
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+fullscreen_hover
+  rotate: false
+  xy: 296, 90
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+fullscreen_restore
+  rotate: false
+  xy: 166, 42
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+fullscreen_restore_hover
+  rotate: false
+  xy: 330, 90
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+gear_settings
+  rotate: false
+  xy: 200, 42
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+gear_settings_white
+  rotate: false
+  xy: 364, 90
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+heart
+  rotate: false
+  xy: 398, 90
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+item_blink
+  rotate: false
+  xy: 2, 2
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
+item_frame
+  rotate: false
+  xy: 432, 90
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+music_disabled
+  rotate: false
+  xy: 466, 90
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+music_disabled_hover
+  rotate: false
+  xy: 234, 42
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+music_enabled
+  rotate: false
+  xy: 132, 8
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+music_enabled_hover
+  rotate: false
+  xy: 166, 8
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 scroll_background
   rotate: false
-  xy: 319, 60
+  xy: 22, 5
   size: 15, 15
   split: 4, 4, 4, 4
   orig: 15, 15
+  offset: 0, 0
+  index: -1
+scrollbar
+  rotate: false
+  xy: 302, 56
+  size: 16, 32
+  orig: 16, 32
+  offset: 0, 0
+  index: -1
+slider_background
+  rotate: false
+  xy: 132, 76
+  size: 128, 12
+  orig: 128, 12
+  offset: 0, 0
+  index: -1
+slider_knop
+  rotate: false
+  xy: 320, 64
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+sound_disabled
+  rotate: false
+  xy: 200, 8
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+sound_disabled_hover
+  rotate: false
+  xy: 234, 8
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+sound_enabled
+  rotate: false
+  xy: 268, 56
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+sound_enabled_hover
+  rotate: false
+  xy: 268, 22
+  size: 32, 32
+  orig: 32, 32
   offset: 0, 0
   index: -1

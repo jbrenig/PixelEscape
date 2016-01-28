@@ -5,6 +5,7 @@ sourceSets.main.java.srcDirs = [ "src/" ]
 
 project.ext.mainClassName = "net.brenig.pixelescape.desktop.DesktopLauncher"
 project.ext.assetsDir = new File("../android/assets");
+project.ext.texturePacker  = ["assets/texturepacker", "android/assets/drawable", "main_textures"]
 
 task run(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName
@@ -43,4 +44,12 @@ task afterEclipseImport(description: "Post processing after project generation",
     printer.setPreserveWhitespace(true)
     printer.print(classpath)
   }
+}
+
+import com.badlogic.gdx.tools.texturepacker.TexturePacker
+task texturePacker << {
+    if (project.ext.has('texturePacker')) {
+        logger.info "Calling TexturePacker: " + texturePacker
+        TexturePacker.process(texturePacker[0], texturePacker[1], texturePacker[2])
+    }
 }

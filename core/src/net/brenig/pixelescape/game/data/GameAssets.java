@@ -90,7 +90,7 @@ public class GameAssets {
 
 	private void initGuiAtlas() {
 		//load ui textures
-		textureAtlas = new TextureAtlas(Gdx.files.internal("drawable/gui/gui_textures.pack"));
+		textureAtlas = new TextureAtlas(Gdx.files.internal("drawable/main_textures.atlas"));
 	}
 
 	private void initTextures() {

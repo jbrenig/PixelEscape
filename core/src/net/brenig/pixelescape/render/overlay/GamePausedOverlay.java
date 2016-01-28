@@ -23,11 +23,14 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 	private static final float ANIM_TIME_PAUSED = 0.4F;
 	private final StageManagerGame stage;
 
+	private final int highscore;
+
 	private float animationProgress = 0;
 
 	public GamePausedOverlay(final GameScreen screen) {
 		super(screen);
 		stage = new StageManagerGame(screen);
+		highscore = screen.game.userData.getHighScore(screen.getGameMode());
 
 		Table table = stage.createHeadUiLayoutTable();
 
@@ -88,7 +91,7 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 		screen.game.batch.begin();
 		screen.game.getFont().setColor(0, 0, 1, 1);
 		screen.game.getFont().getData().setScale(1.0F);
-		screen.getFontLayout().setText(screen.game.getFont(), "Highscore: " + screen.game.userData.getHighScore(screen.getGameMode()));
+		screen.getFontLayout().setText(screen.game.getFont(), "Highscore: " + highscore);
 		xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
 		float txtHighscoreHeight = screen.getFontLayout().height / 2;
 		yPos -= screen.game.getFont().getLineHeight() + txtScoreHeight + txtHighscoreHeight;

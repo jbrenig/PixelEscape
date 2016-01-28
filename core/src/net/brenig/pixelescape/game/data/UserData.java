@@ -44,11 +44,10 @@ public class UserData {
 	 * @return true if the score got updated (--> new highscore)
 	 */
 	public boolean updateHighscore(GameMode gameMode, int score) {
-		int highScore = getHighScore(gameMode);
-		if(score >= highScore) {
-			int lastHighScore = highScore;
+		int lastHighScore = getHighScore(gameMode);
+		if(score > lastHighScore) {
 			setHighScore(gameMode, score);
-			return highScore > lastHighScore;
+			return true;
 		}
 		return false;
 	}

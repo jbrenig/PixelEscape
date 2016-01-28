@@ -55,7 +55,7 @@ public class Reference {
 	/**
 	 * the world will be rendered this high if the terrain generator fails
 	 */
-	public static final int FALLBACK_TERRAIN_HEIGHT = 2;
+	public static final int FALLBACK_TERRAIN_HEIGHT = 4;
 	public static final int STARTING_TERRAIN_HEIGHT = 4;
 
 	public static final int OBSTACLE_MIN_HEIGHT = 3;

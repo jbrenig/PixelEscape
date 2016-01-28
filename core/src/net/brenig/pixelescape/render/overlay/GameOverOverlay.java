@@ -27,10 +27,14 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 	private final StageManagerGame stage;
 	private final TextButton mainMenu;
 
+	private final int highscore;
+
 
 	public GameOverOverlay(final GameScreen screen) {
 		super(screen);
 		stage = new StageManagerGame(screen);
+		highscore = screen.game.userData.getHighScore(screen.getGameMode());
+
 
 		Table table = stage.createHeadUiLayoutTable();
 
@@ -84,14 +88,14 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 
 		//Highscore
 		screen.game.batch.begin();
-		if (screen.game.userData.getHighScore(screen.getGameMode()) == screen.world.getPlayer().getScore()) {
+		if (highscore < screen.world.getPlayer().getScore()) {
 			screen.game.getFont().setColor(0, 1, 0, 1);
 			screen.game.getFont().getData().setScale(1.2F);
 			screen.getFontLayout().setText(screen.game.getFont(), "New Highscore!");
 		} else {
 			screen.game.getFont().setColor(0, 0, 1, 1);
 			screen.game.getFont().getData().setScale(1.0F);
-			screen.getFontLayout().setText(screen.game.getFont(), "Highscore: " + screen.game.userData.getHighScore(screen.getGameMode()));
+			screen.getFontLayout().setText(screen.game.getFont(), "Highscore: " + highscore);
 		}
 		xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
 		float txtHighscoreHeight = screen.getFontLayout().height / 2;

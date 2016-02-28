@@ -19,7 +19,7 @@ import java.util.Random;
  */
 public class CurrentHighscoreLabel extends Widget {
 	
-	private static final String SCORE_TEXT = "Current Highscore: ";
+	private static final String SCORE_TEXT = "Highscore: ";
 	private static final float padding_side = 4;
 	private static final float padding_height = 4;
 

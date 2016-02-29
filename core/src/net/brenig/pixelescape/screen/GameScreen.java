@@ -173,8 +173,6 @@ public class GameScreen extends PixelScreen {
 
 			//Draw lives
 			renderLives();
-			//Draw Item/Ability
-//			renderAbility();
 
 			this.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 			stage.draw();

@@ -2,8 +2,9 @@ package net.brenig.pixelescape.screen;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -12,12 +13,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import net.brenig.pixelescape.PixelEscape;
-import net.brenig.pixelescape.game.gamemode.GameModeArcade;
-import net.brenig.pixelescape.game.gamemode.GameModeClassic;
+import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.screen.ui.CurrentHighscoreLabel;
+import net.brenig.pixelescape.screen.ui.general.HorizontalSpacer;
 import net.brenig.pixelescape.screen.ui.general.StageManager;
+import net.brenig.pixelescape.screen.ui.general.TabbedStack;
 
 /**
  * PixelEscape MainMenu
@@ -29,14 +31,14 @@ public class MainMenuScreen extends PixelScreen {
 	/**
 	 * layout used to group main ui elements
 	 */
-	private final Table menuLayout;
-
-	private final Table buttonLayout;
+	private final Table mainUiLayout;
 
 	/**
 	 * layout used to group setting buttons
 	 */
-	private final Table headLayout;
+	private final Table buttonPanelLayout;
+	private final CurrentHighscoreLabel highscoreLabel;
+	private final TabbedStack gmImageStack;
 
 	public MainMenuScreen(final PixelEscape game) {
 		super(game);
@@ -45,10 +47,11 @@ public class MainMenuScreen extends PixelScreen {
 
 		game.resetFontSize();
 
-		headLayout = Utils.createUIHeadLayout(game);
-
-		Utils.addSoundAndMusicControllerToLayout(game, headLayout);
-
+		//Settings Button Panel
+		buttonPanelLayout = Utils.createUIHeadLayout(game);
+		//music and sound
+		Utils.addSoundAndMusicControllerToLayout(game, buttonPanelLayout);
+		//settings
 		ImageButton btnSettings = new ImageButton(game.getSkin(), "settings");
 		btnSettings.addListener(new ClickListener() {
 			@Override
@@ -57,54 +60,61 @@ public class MainMenuScreen extends PixelScreen {
 			}
 		});
 		btnSettings.getImageCell().fill().expand();
-		headLayout.add(btnSettings);
+		buttonPanelLayout.add(btnSettings);
+		buttonPanelLayout.invalidateHierarchy();
+		//fullscreen
+		Utils.addFullScreenButtonToTable(game, buttonPanelLayout);
 
-		headLayout.invalidateHierarchy();
+		//Main UI Table
+		mainUiLayout = new Table();
+		mainUiLayout.setFillParent(true);
+		mainUiLayout.setPosition(0, 0);
+		mainUiLayout.center();
 
-		Utils.addFullScreenButtonToTable(game, headLayout);
+		//Center UI Table
+		Table centerTable = new Table();
 
-
-
-		menuLayout = new Table();
-		menuLayout.setFillParent(true);
-		menuLayout.setPosition(0, 0);
-		menuLayout.center();
-
-		buttonLayout = new Table();
-
+		//PixelEscape Heading
 		Label header = new Label("PixelEscape", game.getSkin());
 		header.setHeight(150);
 
+		centerTable.padTop(0);
+		centerTable.add(header);
+		centerTable.row();
+
+		//GameMode Image
+		gmImageStack = new TabbedStack();
+
+		//init gamemodes
+		for(GameMode mode : PixelEscape.gameModes) {
+			Image gameModeImageArcade = new Image(mode.getIcon(game.getGameAssets()));
+			gameModeImageArcade.setRotation(5);
+			gmImageStack.add(gameModeImageArcade);
+		}
+
+		gmImageStack.setCurrentElement(game.userData.getLastGameMode());
+		centerTable.add(gmImageStack).pad(20, 0, 10, 0).size(144, 48);
+		centerTable.row();
+
+		//Highscore Label
+		highscoreLabel = new CurrentHighscoreLabel(getGameMode());
+		centerTable.add(highscoreLabel).padBottom(40);
+		centerTable.row();
+
+		//Buttons
+		Table centerButtons = new Table();
+
+		//Start Button
 		TextButton btnStart = new TextButton("Start game", game.getSkin());
 		btnStart.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(new GameScreen(game, new GameModeClassic()));
+				game.setScreen(new GameScreen(game, getGameMode()));
 			}
 		});
+		centerButtons.add(btnStart).padBottom(40).fillX();
 
-		TextButton btnArcade = new TextButton("Arcade game", game.getSkin());
-		btnArcade.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				game.setScreen(new GameScreen(game, new GameModeArcade()));
-			}
-		});
-
-
-
-		menuLayout.padTop(30);
-		menuLayout.add(header).padBottom(60);
-		menuLayout.row();
-		//TODO: proper GameMode detection
-		menuLayout.add(new CurrentHighscoreLabel(new GameModeClassic())).padBottom(40);
-		menuLayout.row();
-
-		menuLayout.add(buttonLayout);
-		buttonLayout.add(btnStart).padBottom(16).fillX();
-		buttonLayout.row();
-		buttonLayout.add(btnArcade).padBottom(40).fillX();
-
+		//Quit Button
 		if(game.gameConfig.canQuitGame()) {
 			TextButton btnQuit = new TextButton("Quit game", game.getSkin());
 			btnQuit.addListener(new ClickListener() {
@@ -113,28 +123,71 @@ public class MainMenuScreen extends PixelScreen {
 					Gdx.app.exit();
 				}
 			});
-			buttonLayout.row();
-			buttonLayout.add(btnQuit).fillX();
+			centerButtons.row();
+			centerButtons.add(btnQuit).fillX();
 		}
+		centerTable.add(centerButtons);
 
+		//Left spacer
+		mainUiLayout.add(new HorizontalSpacer());
+
+		//Left Arrow
+		Button arrow_left = new Button(game.getSkin(), "arrow_left");
+		arrow_left.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				gmImageStack.last();
+				highscoreLabel.setGameMode(getGameMode());
+			}
+		});
+		mainUiLayout.add(arrow_left).size(96, 256);
+
+		//Main UI
+		mainUiLayout.add(centerTable);
+
+		//Right Arrow
+		Button arrow_right = new Button(game.getSkin(), "arrow_right");
+		arrow_right.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				gmImageStack.next();
+				highscoreLabel.setGameMode(getGameMode());
+			}
+		});
+		mainUiLayout.add(arrow_right).size(96, 256);
+
+		//Right spacer
+		mainUiLayout.add(new HorizontalSpacer());
+
+		//Move Arrows to front
+		arrow_left.toFront();
+		arrow_right.toFront();
+
+		//Add ui elements to stage
 		uiStage.getRootTable().top().right().pad(4);
-		uiStage.add(headLayout);
-		uiStage.addActorToStage(menuLayout);
+		uiStage.add(buttonPanelLayout);
+		uiStage.addActorToStage(mainUiLayout);
+	}
+
+	private GameMode getGameMode() {
+		if(gmImageStack == null) {
+			return null;
+		}
+		return PixelEscape.gameModes[gmImageStack.getCurrentElement()];
 	}
 
 	@Override
 	public void show() {
 		game.resetFontSize();
 		uiStage.updateViewportToScreen();
-		menuLayout.invalidateHierarchy();
-		headLayout.invalidateHierarchy();
+		mainUiLayout.invalidateHierarchy();
+		buttonPanelLayout.invalidateHierarchy();
 		game.gameMusic.playOrFadeInto(game.getGameAssets().getMainMenuMusic());
 		Gdx.input.setInputProcessor(uiStage.getInputProcessor());
 	}
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		uiStage.act(delta);
 		uiStage.draw();
 	}
@@ -142,7 +195,7 @@ public class MainMenuScreen extends PixelScreen {
 	@Override
 	public void resize(int width, int height) {
 		uiStage.updateViewport(width, height, true);
-		menuLayout.invalidateHierarchy();
+		mainUiLayout.invalidateHierarchy();
 	}
 
 	@Override
@@ -162,6 +215,7 @@ public class MainMenuScreen extends PixelScreen {
 
 	@Override
 	public void dispose() {
+		game.userData.setLastGameMode(gmImageStack.getCurrentElement());
 		uiStage.dispose();
 	}
 }

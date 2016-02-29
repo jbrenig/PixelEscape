@@ -119,9 +119,16 @@ public abstract class Overlay {
 		Gdx.gl.glDisable(GL20.GL_BLEND);
 	}
 
+	/**
+	 * called whenever the music status gets updated (might get called without anything changed)
+	 * @param play whether the music is playing or not
+	 */
 	@SuppressWarnings("EmptyMethod")
 	public void updateMusic(boolean play) {}
 
+	/**
+	 * @return whether the game should open the game paused overlay when the escape key is pressed
+	 */
 	public boolean shouldPauseOnEscape() {
 		return false;
 	}

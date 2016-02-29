@@ -13,15 +13,16 @@ import net.brenig.pixelescape.lib.Reference;
  */
 public class UserData {
 
-
 	private static final class Keys {
 		public static final String savesRevision = "data_version";
 
 		public static final String highScore = "highscore";
+		public static final String gameMode = "gamemode";
 	}
 
 	private static final class Defaults {
 		private static final int highScore = 0;
+		public static final int gameMode = 0;
 	}
 
 	private static final String PREF_MAIN_DATA = "PixelEscape_User_Data";
@@ -35,6 +36,7 @@ public class UserData {
 
 	public void saveToDisk() {
 		prefs.flush();
+		LogHelper.log("UserData", "User progress saved!");
 	}
 
 	/**
@@ -65,6 +67,19 @@ public class UserData {
 	 */
 	public void setHighScore(GameMode gameMode, int highScore) {
 		prefs.putInteger(Keys.highScore + gameMode.getScoreboardName(), highScore);
+		saveToDisk();
+	}
+
+
+	/**
+	 * @return the latest selected gamemode
+	 */
+	public int getLastGameMode() {
+		return prefs.getInteger(Keys.gameMode, Defaults.gameMode);
+	}
+
+	public void setLastGameMode(int id) {
+		prefs.putInteger(Keys.gameMode, id);
 		saveToDisk();
 	}
 

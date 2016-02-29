@@ -20,6 +20,9 @@ import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.data.GameMusic;
 import net.brenig.pixelescape.game.data.GameSettings;
 import net.brenig.pixelescape.game.data.UserData;
+import net.brenig.pixelescape.game.gamemode.GameMode;
+import net.brenig.pixelescape.game.gamemode.GameModeArcade;
+import net.brenig.pixelescape.game.gamemode.GameModeClassic;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.screen.MainMenuScreen;
@@ -64,6 +67,9 @@ public class PixelEscape extends Game {
 	public int gameSizeY = Reference.GAME_RESOLUTION_Y + Reference.GAME_UI_Y_SIZE;
 	private float scale = 1.0F;
 
+
+	public static final GameMode[] gameModes = {new GameModeClassic(), new GameModeArcade()};
+
 	public PixelEscape() {
 		//set default config
 		this(new GameConfiguration());
@@ -78,6 +84,7 @@ public class PixelEscape extends Game {
 	public void create() {
 		LogHelper.log("Main", "Starting up...");
 		if(instance != null) {
+			instance.dispose(); //needed?
 			LogHelper.warn("Critical Error! Game already initialized!");
 		}
 		instance = this;
@@ -192,12 +199,12 @@ public class PixelEscape extends Game {
 
 	@Override
 	public void resize(int width, int height) {
-		LogHelper.log("Main", "resizing...");
+		LogHelper.log("Main", "Resizing...");
 
 		final float targetHeight = Reference.GAME_RESOLUTION_Y + Reference.GAME_UI_Y_SIZE;
 		final float targetWidth = Reference.TARGET_RESOLUTION_X;
 		final float targetRatio = targetHeight / targetWidth;
-		float sourceRatio = (float) height / (float) width;
+		final float sourceRatio = (float) height / (float) width;
 		this.scale = sourceRatio > targetRatio ? targetWidth / width : targetHeight / height;
 		gameSizeX = (int) Math.ceil(width * scale);
 		gameSizeY = (int) Math.ceil(height * scale);
@@ -205,6 +212,8 @@ public class PixelEscape extends Game {
 		batch.setProjectionMatrix(cam.combined);
 		shapeRenderer.setProjectionMatrix(cam.combined);
 		cam.update();
+
+		LogHelper.log("Main", "new width: " + gameSizeX + ", new height: " + gameSizeY);
 
 		super.resize(width, height);
 	}

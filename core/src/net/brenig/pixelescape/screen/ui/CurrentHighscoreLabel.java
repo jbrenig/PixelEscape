@@ -18,7 +18,7 @@ import java.util.Random;
  * Label that displays current highscore (animated, no frame)
  */
 public class CurrentHighscoreLabel extends Widget {
-	
+
 	private static final String SCORE_TEXT = "Highscore: ";
 	private static final float padding_side = 4;
 	private static final float padding_height = 4;
@@ -32,7 +32,7 @@ public class CurrentHighscoreLabel extends Widget {
 	private final PixelEscape game;
 
 	private enum Animations {
-		WAIT(2, 8), BLEND(0.4F, 2F), MOVE_X(0.4F, 4F), MOVE_Y(0.4F, 8), SIZE(0.5F, 0.5F);
+		WAIT(2, 8), BLEND(0.4F, 2F), MOVE_X(0.4F, 4F), MOVE_Y(0.4F, 8), SIZE(0.5F, 0.5F), GM_BLEND_OUT(0.5F, 0.5F), GM_BLEND_IN(0.5F, 0.5F);
 
 		private final float minDuration;
 		private final float maxDuration;
@@ -45,6 +45,10 @@ public class CurrentHighscoreLabel extends Widget {
 		private float getDuration(Random random) {
 			return minDuration + random.nextFloat() * (maxDuration - minDuration);
 		}
+
+		public float getMinDuration() {
+			return minDuration;
+		}
 	}
 
 	private Animations state;
@@ -53,14 +57,17 @@ public class CurrentHighscoreLabel extends Widget {
 	private float animationDuration = 0;
 	private int animationData = 0;
 
-	private final String text;
+	private String text;
+
+	private GameMode gameMode;
 
 	public CurrentHighscoreLabel(GameMode gameMode) {
 		super();
 		game = PixelEscape.getPixelEscape();
-		text = SCORE_TEXT + game.userData.getHighScore(gameMode);
-		fontLayout = new GlyphLayout(game.getFont(), text);
 		state = Animations.WAIT;
+		this.gameMode = gameMode;
+		updateText();
+		fontLayout = new GlyphLayout(game.getFont(), text);
 	}
 
 	@Override
@@ -68,12 +75,12 @@ public class CurrentHighscoreLabel extends Widget {
 		//validate layout
 		super.draw(batch, parentAlpha);
 
-		if(animationTimer >= animationDuration) {
+		if (animationTimer >= animationDuration) {
 			updateAnimation();
 		}
 
-		float oldFontSizeX = game.getFont().getScaleX();
-		float oldFontSizeY = game.getFont().getScaleY();
+		final float oldFontSizeX = game.getFont().getScaleX();
+		final float oldFontSizeY = game.getFont().getScaleY();
 		float fontSizeX = font_size_x;
 		float fontSizeY = font_size_y;
 		float offsetX = 0;
@@ -91,18 +98,18 @@ public class CurrentHighscoreLabel extends Widget {
 				}
 				Gdx.gl.glEnable(GL20.GL_BLEND);
 			}
-				break;
+			break;
 			case MOVE_X:
-				offsetX = (float) (Math.sin((animationTimer / animationDuration) * animationData * Math.PI) * 10F);
+				offsetX = (float) (Math.sin((animationTimer / animationDuration) * animationData * Math.PI * 2) * 10F);
 				break;
 			case MOVE_Y:
-				offsetY = (float) (Math.sin((animationTimer / animationDuration) * animationData * Math.PI) * 10F);
+				offsetY = (float) (Math.sin((animationTimer / animationDuration) * animationData * Math.PI * 2) * 10F);
 				break;
 			case WAIT:
 				break;
 			case SIZE: {
 				float part = animationTimer / animationDuration;
-				if(part < 0.5) {
+				if (part < 0.5) {
 					float ease = Utils.easeInAndOut(part, 0.5F) * font_scaling_strength;
 					fontSizeX = font_size_x - ease * font_size_x;
 					fontSizeY = font_size_y - ease * font_size_y;
@@ -112,16 +119,27 @@ public class CurrentHighscoreLabel extends Widget {
 					fontSizeY = font_size_y - font_scaling_strength * font_size_y + ease * font_size_y;
 				}
 			}
+			break;
+			case GM_BLEND_IN:
+				if(animationTimer == 0) {
+					updateText();
+				}
+				alpha = animationTimer / animationDuration;
+				Gdx.gl.glEnable(GL20.GL_BLEND);
+				break;
+			case GM_BLEND_OUT:
+				alpha = 1 - animationTimer / animationDuration;
+				Gdx.gl.glEnable(GL20.GL_BLEND);
 				break;
 
 		}
 		//Score text
 		setColor(0, 0, 0, alpha);
-		if(fontSizeX <= 0) {
+		if (fontSizeX <= 0) {
 			LogHelper.error("Invalid text scale in score widget animation");
 			fontSizeX = font_size_x;
 		}
-		if(fontSizeY <= 0) {
+		if (fontSizeY <= 0) {
 			LogHelper.error("Invalid text scale in score widget animation");
 			fontSizeY = font_size_y;
 		}
@@ -136,9 +154,26 @@ public class CurrentHighscoreLabel extends Widget {
 
 	}
 
+	public void setGameMode(GameMode mode) {
+		gameMode = mode;
+		if (state == Animations.GM_BLEND_IN) {
+			state = Animations.GM_BLEND_OUT;
+		} else if (state != Animations.GM_BLEND_OUT) {
+			state = Animations.GM_BLEND_OUT;
+			animationTimer = 0;
+			animationData = 0;
+			animationDuration = state.getMinDuration();
+		}
+	}
+
+	private void updateText() {
+		text = SCORE_TEXT + game.userData.getHighScore(gameMode);
+	}
 
 	private void updateAnimation() {
-		if(PixelEscape.rand.nextInt(10) < 4) {
+		if (state == Animations.GM_BLEND_OUT) {
+			state = Animations.GM_BLEND_IN;
+		} else if (PixelEscape.rand.nextInt(10) < 4) {
 			state = Animations.values()[PixelEscape.rand.nextInt(Animations.values().length)];
 		} else {
 			state = Animations.WAIT;
@@ -155,7 +190,7 @@ public class CurrentHighscoreLabel extends Widget {
 				animationData = 1 + PixelEscape.rand.nextInt(3);
 				break;
 			case BLEND:
-				Gdx.gl.glDisable(GL20.GL_BLEND);
+//				Gdx.gl.glDisable(GL20.GL_BLEND);
 				break;
 		}
 	}

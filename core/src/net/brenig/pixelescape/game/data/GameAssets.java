@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -53,13 +54,16 @@ public class GameAssets {
 		gameOverSound.dispose();
 		mainMenuMusic.dispose();
 		snpMusic.dispose();
+		sslMusic.dispose();
+
 		textureAtlas.dispose();
+
 		mainUiSkin.dispose();
 	}
 
 	public void initAll() {
 		initFont();
-		initGuiAtlas();
+		initTextureAtlas();
 		initTextures();
 		initSkin();
 		initSounds();
@@ -88,7 +92,7 @@ public class GameAssets {
 		font.setColor(Color.BLACK);
 	}
 
-	private void initGuiAtlas() {
+	private void initTextureAtlas() {
 		//load ui textures
 		textureAtlas = new TextureAtlas(Gdx.files.internal("drawable/main_textures.atlas"));
 	}
@@ -130,6 +134,9 @@ public class GameAssets {
 		mainUiSkin.add("button_fullscreen_hover", textureAtlas.createSprite("fullscreen_hover"));
 		mainUiSkin.add("button_restore_window", textureAtlas.createSprite("fullscreen_restore"));
 		mainUiSkin.add("button_restore_window_hover", textureAtlas.createSprite("fullscreen_restore_hover"));
+
+		mainUiSkin.add("button_right", textureAtlas.createSprite("arrow_right"));
+		mainUiSkin.add("button_left", textureAtlas.createSprite("arrow_left"));
 
 		mainUiSkin.add("item_frame", textureAtlas.createSprite("item_frame"));
 
@@ -205,6 +212,28 @@ public class GameAssets {
 			imageButtonStyle.imageUp = mainUiSkin.newDrawable("button_pause", Color.BLACK);
 
 			mainUiSkin.add("pause", imageButtonStyle);
+		}
+
+		//Button style: Arrow Right
+		{
+			Button.ButtonStyle buttonStyle = new Button.ButtonStyle();
+			buttonStyle.up = mainUiSkin.getDrawable("button_right");
+			buttonStyle.down = mainUiSkin.newDrawable("button_right", Color.BLACK);
+			buttonStyle.over = mainUiSkin.newDrawable("button_right", Color.LIGHT_GRAY);
+			buttonStyle.disabled = mainUiSkin.newDrawable("button_right", Color.DARK_GRAY);
+
+			mainUiSkin.add("arrow_right", buttonStyle);
+		}
+
+		//Button style: Arrow Left
+		{
+			Button.ButtonStyle buttonStyle = new Button.ButtonStyle();
+			buttonStyle.up = mainUiSkin.getDrawable("button_left");
+			buttonStyle.down = mainUiSkin.newDrawable("button_left", Color.BLACK);
+			buttonStyle.over = mainUiSkin.newDrawable("button_left", Color.LIGHT_GRAY);
+			buttonStyle.disabled = mainUiSkin.newDrawable("button_left", Color.DARK_GRAY);
+
+			mainUiSkin.add("arrow_left", buttonStyle);
 		}
 
 		//Button style: Text (default)

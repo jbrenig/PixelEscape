@@ -78,7 +78,7 @@ public class GameScreen extends PixelScreen {
 
 	public GameScreen(final PixelEscape game, GameMode gameMode) {
 		super(game);
-		LogHelper.log("GameScreen", "initializing GameScreen...");
+		LogHelper.log("GameScreen", "Initializing game. GameMode: " + gameMode.getGameModeName());
 
 		this.gameMode = gameMode;
 		//init world and renderer
@@ -116,6 +116,9 @@ public class GameScreen extends PixelScreen {
 
 		//set default overlay
 		overlay = emptyOverlay;
+
+		LogHelper.log("GameScreen", "Game initialized.");
+
 	}
 
 	@Override
@@ -303,7 +306,8 @@ public class GameScreen extends PixelScreen {
 	public void dispose() {
 		valid = false;
 		inputManager.resetMouseVisibility();
-		resetToEmptyOverlay();
+
+		overlay.dispose();
 	}
 
 	public void setOverlayInputProcessor(InputProcessor processor) {

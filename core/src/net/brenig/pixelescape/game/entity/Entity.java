@@ -1,5 +1,7 @@
 package net.brenig.pixelescape.game.entity;
 
+import com.badlogic.gdx.utils.Pool;
+
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.InputManager;
@@ -8,7 +10,7 @@ import net.brenig.pixelescape.game.World;
 /**
  * Entity that can be spawned into the world
  */
-public abstract class Entity {
+public abstract class Entity implements Pool.Poolable {
 
 	protected World worldObj;
 
@@ -30,6 +32,11 @@ public abstract class Entity {
 
 	@SuppressWarnings("EmptyMethod")
 	public void removeEntityOnDeath() {
+
+	}
+
+	@Override
+	public void reset() {
 
 	}
 

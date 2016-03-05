@@ -10,11 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.gamemode.GameMode;
-import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.screen.ui.CurrentHighscoreLabel;
 import net.brenig.pixelescape.screen.ui.general.HorizontalSpacer;
@@ -43,9 +41,9 @@ public class MainMenuScreen extends PixelScreen {
 	public MainMenuScreen(final PixelEscape game) {
 		super(game);
 		//Setting up stage
-		uiStage = new StageManager(new ExtendViewport(Reference.TARGET_RESOLUTION_X, Reference.TARGET_RESOLUTION_Y, game.cam));
+		uiStage = new StageManager(game.getRenderManager());
 
-		game.resetFontSize();
+		game.getRenderManager().resetFontSize();
 
 		//Settings Button Panel
 		buttonPanelLayout = Utils.createUIHeadLayout(game);
@@ -178,7 +176,7 @@ public class MainMenuScreen extends PixelScreen {
 
 	@Override
 	public void show() {
-		game.resetFontSize();
+		game.getRenderManager().resetFontSize();
 		uiStage.updateViewportToScreen();
 		mainUiLayout.invalidateHierarchy();
 		buttonPanelLayout.invalidateHierarchy();
@@ -189,7 +187,7 @@ public class MainMenuScreen extends PixelScreen {
 	@Override
 	public void render(float delta) {
 		uiStage.act(delta);
-		uiStage.draw();
+		uiStage.draw(game.getRenderManager());
 	}
 
 	@Override

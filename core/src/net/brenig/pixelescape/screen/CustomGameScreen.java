@@ -1,7 +1,6 @@
 package net.brenig.pixelescape.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
@@ -11,10 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import net.brenig.pixelescape.PixelEscape;
-import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.screen.ui.general.HorizontalSpacer;
 import net.brenig.pixelescape.screen.ui.general.StageManager;
@@ -32,9 +29,9 @@ public class CustomGameScreen extends PixelScreen {
 	public CustomGameScreen(final PixelEscape game) {
 		super(game);
 		//Setting up stage
-		uiStage = new StageManager(new ExtendViewport(Reference.TARGET_RESOLUTION_X, Reference.TARGET_RESOLUTION_Y, game.cam));
+		uiStage = new StageManager(game.getRenderManager());
 
-		game.resetFontSize();
+		game.getRenderManager().resetFontSize();
 
 		//configure main layout
 		uiLayout = new Table();
@@ -109,7 +106,7 @@ public class CustomGameScreen extends PixelScreen {
 	@Override
 	public void show() {
 		Gdx.input.setInputProcessor(uiStage.getInputProcessor());
-		game.resetFontSize();
+		game.getRenderManager().resetFontSize();
 		uiStage.updateViewportToScreen();
 		pane.invalidateHierarchy();
 		headLayout.invalidateHierarchy();
@@ -117,9 +114,8 @@ public class CustomGameScreen extends PixelScreen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		uiStage.act(delta);
-		uiStage.draw();
+		uiStage.draw(game.getRenderManager());
 	}
 
 	@Override

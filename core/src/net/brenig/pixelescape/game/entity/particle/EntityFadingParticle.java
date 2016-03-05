@@ -3,7 +3,6 @@ package net.brenig.pixelescape.game.entity.particle;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
@@ -16,7 +15,8 @@ public class EntityFadingParticle extends Entity {
 	private static final int size = 4;
 	private static final int radius = size / 2;
 
-	private float xPos, yPos;
+	private float xPos = 0;
+	private float yPos = 0;
 
 	private float xVel = 0;
 	private float yVel = 0;
@@ -27,22 +27,31 @@ public class EntityFadingParticle extends Entity {
 	private float xAccelerationFactor = 1F;
 	private float yAccelerationFactor = 1F;
 
-	private final float color_r;
-	private final float color_g;
-	private final float color_b;
+	private float color_r = 0;
+	private float color_g = 0;
+	private float color_b = 0;
 
-	public EntityFadingParticle(World world, float xPos, float yPos, Color color, float fadeDuration) {
-		this(world, xPos, yPos, color.r, color.g, color.b, fadeDuration);
+	public EntityFadingParticle(World world) {
+		super(world);
 	}
 
-	public EntityFadingParticle(World world, float xPos, float yPos, float color_r, float color_g, float color_b, float fadeDuration) {
-		super(world);
-		this.xPos = xPos;
-		this.yPos = yPos;
+	public void setColor(float color_r, float color_g, float color_b) {
 		this.color_r = color_r;
 		this.color_g = color_g;
 		this.color_b = color_b;
+	}
+
+	public void setColor(Color color) {
+		setColor(color.r, color.g, color.b);
+	}
+
+	public void setFadeDuration(float fadeDuration) {
 		this.fadeDuration = fadeDuration;
+	}
+
+	public void setPosition(float xPos, float yPos) {
+		this.xPos = xPos;
+		this.yPos = yPos;
 	}
 
 	public void setAccelerationFactor(float xAcc, float yAcc) {
@@ -73,11 +82,10 @@ public class EntityFadingParticle extends Entity {
 
 		float renderX = worldObj.convertWorldCoordToScreenCoord(xPos);
 
-		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		game.getRenderManager().beginFilledShape();
 		Gdx.gl.glEnable(GL20.GL_BLEND);
-		game.shapeRenderer.setColor(color_r, color_g, color_b, currentAlpha);
-		game.shapeRenderer.rect(x + renderX - radius, y + yPos - radius, size, size);
-		game.shapeRenderer.end();
+		game.getShapeRenderer().setColor(color_r, color_g, color_b, currentAlpha);
+		game.getShapeRenderer().rect(x + renderX - radius, y + yPos - radius, size, size);
 	}
 
 	@Override
@@ -91,5 +99,21 @@ public class EntityFadingParticle extends Entity {
 
 	public float getX() {
 		return xPos;
+	}
+
+	@Override
+	public void reset() {
+		super.reset();
+		color_r = 0;
+		color_g = 0;
+		color_b = 0;
+		xPos = 0;
+		yPos = 0;
+		xVel = 0;
+		yVel = 0;
+		fadeDuration = 0.5F;
+		fadeTimePassed = 0;
+		xAccelerationFactor = 1F;
+		yAccelerationFactor = 1F;
 	}
 }

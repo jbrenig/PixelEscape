@@ -63,7 +63,7 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 	public void render(float delta) {
 
 		//Game Over
-		screen.game.batch.begin();
+		screen.game.getRenderManager().begin();
 		screen.game.getFont().setColor(1, 0, 0, 1);
 		screen.game.getFont().getData().setScale(2, 4);
 		screen.getFontLayout().setText(screen.game.getFont(), "Game Over!");
@@ -72,22 +72,18 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 		float xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
 		float txtGameOverHeight = screen.getFontLayout().height / 2;
 		float yPos = ((2 * screen.world.getWorldHeight()) / 3) + txtGameOverHeight + screen.getUiPos() + gameOverAnim;
-		screen.game.getFont().draw(screen.game.batch, screen.getFontLayout(), xPos, yPos);
-		screen.game.batch.end();
+		screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
 
 		//Score
-		screen.game.batch.begin();
 		screen.game.getFont().setColor(0, 1, 0, 1);
 		screen.game.getFont().getData().setScale(1.2F);
 		screen.getFontLayout().setText(screen.game.getFont(), "Your score: " + screen.world.getPlayer().getScore());
 		xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
 		float txtScoreHeight = screen.getFontLayout().height / 2;
 		yPos -= txtGameOverHeight + screen.game.getFont().getLineHeight() + txtScoreHeight;
-		screen.game.getFont().draw(screen.game.batch, screen.getFontLayout(), xPos, yPos);
-		screen.game.batch.end();
+		screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
 
 		//Highscore
-		screen.game.batch.begin();
 		if (highscore < screen.world.getPlayer().getScore()) {
 			screen.game.getFont().setColor(0, 1, 0, 1);
 			screen.game.getFont().getData().setScale(1.2F);
@@ -100,28 +96,25 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 		xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
 		float txtHighscoreHeight = screen.getFontLayout().height / 2;
 		yPos -= screen.game.getFont().getLineHeight() + txtHighscoreHeight;
-		screen.game.getFont().draw(screen.game.batch, screen.getFontLayout(), xPos, yPos);
-		screen.game.batch.end();
+		screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
 
 		//Info
 		if (animationProgress > TIME_TO_WAIT) {
 			mainMenu.setVisible(true);
 			mainMenu.invalidateHierarchy();
 			if ((animationProgress - TIME_TO_WAIT) % 2 < 1.2F) {
-				screen.game.batch.begin();
 				screen.game.getFont().setColor(0, 1, 0, 1);
 				screen.game.getFont().getData().setScale(0.8F);
 				screen.getFontLayout().setText(screen.game.getFont(), "Tap to continue!");
 				xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
 				yPos -= txtGameOverHeight + screen.game.getFont().getLineHeight() + txtScoreHeight + screen.getFontLayout().height / 2;
-				screen.game.getFont().draw(screen.game.batch, screen.getFontLayout(), xPos, yPos);
-				screen.game.batch.end();
+				screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
 			}
 		}
 
 		animationProgress += delta;
 		screen.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
-		stage.draw();
+		stage.draw(screen.game.getRenderManager());
 		stage.act(delta);
 	}
 

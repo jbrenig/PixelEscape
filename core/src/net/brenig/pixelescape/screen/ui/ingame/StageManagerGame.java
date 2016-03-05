@@ -1,7 +1,6 @@
 package net.brenig.pixelescape.screen.ui.ingame;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
 
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.screen.GameScreen;
@@ -16,7 +15,7 @@ public class StageManagerGame extends StageManager {
 	private final GameScreen screen;
 
 	public StageManagerGame(GameScreen screen) {
-		super(new ExtendViewport(Reference.TARGET_RESOLUTION_X, Reference.TARGET_RESOLUTION_Y, screen.game.cam));
+		super(screen.game.getRenderManager());
 		this.screen = screen;
 		rootTable.setFillParent(false);
 		rootTable.setPosition(0, screen.getUiPos());
@@ -26,7 +25,7 @@ public class StageManagerGame extends StageManager {
 
 	public void updateStageToGameBounds(int width, int height) {
 		//reset font size for measuring
-		screen.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
+		screen.game.getRenderManager().resetFontSizeToDefaultGuiSize();
 
 		updateViewport(width, height, true);
 

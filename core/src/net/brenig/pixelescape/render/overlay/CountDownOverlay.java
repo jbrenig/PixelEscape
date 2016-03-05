@@ -46,7 +46,7 @@ public class CountDownOverlay extends Overlay {
 			fontScale = (1 / ((fractionOfCurrentSecond - 900) * 10)) + 3;
 		}
 
-		screen.game.batch.begin();
+		screen.game.getRenderManager().begin();
 		screen.game.getFont().setColor(0.2F, 0.8F, 0, 1000 / (fractionOfCurrentSecond));
 		screen.game.getFont().getData().setScale(fontScale);
 
@@ -59,8 +59,7 @@ public class CountDownOverlay extends Overlay {
 		final float xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
 		final float yPos = screen.world.getWorldHeight() / 2 + screen.getFontLayout().height / 2 + screen.getUiPos();
 
-		screen.game.getFont().draw(screen.game.batch, screen.getFontLayout(), xPos, yPos);
-		screen.game.batch.end();
+		screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
 	}
 
 	@Override

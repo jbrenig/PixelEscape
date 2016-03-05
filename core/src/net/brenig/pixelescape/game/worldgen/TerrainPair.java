@@ -34,10 +34,11 @@ public class TerrainPair {
 	}
 
 	public void render(PixelEscape game, World world, float x, float y, float yTranslation, float delta) {
+		game.getRenderManager().beginFilledShape();
 		//Draw Bottom (y=0) blocks
-		game.shapeRenderer.rect(x, y, Reference.BLOCK_WIDTH, getBot() * Reference.BLOCK_WIDTH + yTranslation);
+		game.getShapeRenderer().rect(x, y, Reference.BLOCK_WIDTH, getBot() * Reference.BLOCK_WIDTH + yTranslation);
 		//Draw Top (y=worldHeight) blocks
-		game.shapeRenderer.rect(x, y + world.getWorldHeight(), Reference.BLOCK_WIDTH, (getTop() * Reference.BLOCK_WIDTH - yTranslation) * -1);
+		game.getShapeRenderer().rect(x, y + world.getWorldHeight(), Reference.BLOCK_WIDTH, (getTop() * Reference.BLOCK_WIDTH - yTranslation) * -1);
 
 	}
 }

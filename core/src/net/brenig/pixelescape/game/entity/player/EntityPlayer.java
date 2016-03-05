@@ -3,7 +3,6 @@ package net.brenig.pixelescape.game.entity.player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.CollisionType;
@@ -12,10 +11,10 @@ import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.game.entity.IMovingEntity;
+import net.brenig.pixelescape.game.entity.player.abliity.IAbility;
 import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.lib.CycleIntArray;
 import net.brenig.pixelescape.lib.Reference;
-import net.brenig.pixelescape.game.entity.player.abliity.IAbility;
 
 /**
  * the Player
@@ -145,7 +144,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	}
 
 	/**
-	 * player progress in pixels
+	 * @return player global x coordinate
 	 */
 	public float getXPos() {
 		return xPos + getXPosScreen();
@@ -153,6 +152,13 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	public int getScore() {
 		return (int) xPos;
+	}
+
+	/**
+	 * @return progress the player made (distance travelled)
+	 */
+	public float getProgress() {
+		return xPos;
 	}
 
 	public double getVelocity() {
@@ -209,22 +215,19 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		if(this.isDead()) {
 			return;
 		}
-		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		game.getRenderManager().beginFilledShape();
 
 		// Draw Background color
 		if(immortal % 1F < 0.5F) {
-			game.shapeRenderer.setColor(0, 0, 0, 1);
+			game.getShapeRenderer().setColor(0, 0, 0, 1);
 		} else {
-			game.shapeRenderer.setColor(Color.LIGHT_GRAY);
+			game.getShapeRenderer().setColor(Color.LIGHT_GRAY);
 		}
-		game.shapeRenderer.rect(xPos + this.getXPosScreen() - this.getPlayerSize() / 2, this.getYPos() - this.getPlayerSize() / 2 + yPos, this.getPlayerSize(), this.getPlayerSize());
+		game.getShapeRenderer().rect(xPos + this.getXPosScreen() - this.getPlayerSize() / 2, this.getYPos() - this.getPlayerSize() / 2 + yPos, this.getPlayerSize(), this.getPlayerSize());
 
 		for (PlayerPathEntity e : this.getPathEntities()) {
-			game.shapeRenderer.rect(xPos + e.getXPosScreen() - e.getSizeRadius(), yPos + e.getYPos() - e.getSizeRadius(), e.getSize(), e.getSize());
+			game.getShapeRenderer().rect(xPos + e.getXPosScreen() - e.getSizeRadius(), yPos + e.getYPos() - e.getSizeRadius(), e.getSize(), e.getSize());
 		}
-
-		// End ShapeRenderer
-		game.shapeRenderer.end();
 	}
 
 	@Override

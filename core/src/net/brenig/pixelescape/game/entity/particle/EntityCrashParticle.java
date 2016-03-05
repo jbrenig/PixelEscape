@@ -1,7 +1,6 @@
 package net.brenig.pixelescape.game.entity.particle;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.CollisionType;
@@ -19,26 +18,33 @@ public class EntityCrashParticle extends Entity {
 	private static final int radius = size / 2;
 	private static final float collisionSpeed = -0.4F;
 
-	private float xPos, yPos;
+	private float xPos = 0;
+	private float yPos = 0;
 
 	private float xVel = 0;
 	private float yVel = 0;
 
-	private final Color color;
+	private Color color = Color.BLACK;
 
 	private boolean collideTop = true;
 
 
-	public EntityCrashParticle(World world, float xPos, float yPos, Color color) {
+	public EntityCrashParticle(World world) {
 		super(world);
-		this.xPos = xPos;
-		this.yPos = yPos;
-		this.color = color;
 	}
 
 	public void setVelocity(float xVel, float yVel) {
 		this.xVel = xVel;
 		this.yVel = yVel;
+	}
+
+	public void setPosition(float xPos, float yPos) {
+		this.xPos = xPos;
+		this.yPos = yPos;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
 	@Override
@@ -97,11 +103,9 @@ public class EntityCrashParticle extends Entity {
 
 		float renderX = worldObj.convertWorldCoordToScreenCoord(xPos);
 
-		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-		game.shapeRenderer.setColor(color);
-		game.shapeRenderer.rect(x + renderX - radius, y + yPos - radius, size, size);
-		game.shapeRenderer.end();
-
+		game.getRenderManager().beginFilledShape();
+		game.getShapeRenderer().setColor(color);
+		game.getShapeRenderer().rect(x + renderX - radius, y + yPos - radius, size, size);
 	}
 
 	@Override
@@ -121,5 +125,16 @@ public class EntityCrashParticle extends Entity {
 	 */
 	public void setCollideTop(boolean collideTop) {
 		this.collideTop = collideTop;
+	}
+
+	@Override
+	public void reset() {
+		super.reset();
+		xPos = 0;
+		yPos = 0;
+		xVel = 0;
+		yVel = 0;
+		color = Color.BLACK;
+		collideTop = true;
 	}
 }

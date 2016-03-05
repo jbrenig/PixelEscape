@@ -22,7 +22,11 @@ public class AbilityBlink implements IAbility {
 	@Override
 	public boolean onActivate(GameScreen screen, World world, EntityPlayer player) {
 		for(int i = 0; i < 60; i++) {
-			EntityFadingParticle e = new EntityFadingParticle(world, player.getXPos() + PixelEscape.rand.nextFloat() * 20 - 10, player.getYPos() + PixelEscape.rand.nextFloat() * 40 - 20, Color.BLUE, 0.4F);
+//			EntityFadingParticle e = new EntityFadingParticle(world, player.getXPos() + PixelEscape.rand.nextFloat() * 20 - 10, player.getYPos() + PixelEscape.rand.nextFloat() * 40 - 20, Color.BLUE, 0.4F);
+			EntityFadingParticle e = world.createEntity(EntityFadingParticle.class);
+			e.setPosition(player.getXPos() + PixelEscape.rand.nextFloat() * 20 - 10, player.getYPos() + PixelEscape.rand.nextFloat() * 40 - 20);
+			e.setColor(Color.BLUE);
+			e.setFadeDuration(0.4F);
 			e.setAccelerationFactor(0.99F, 0.99F);
 			e.setVelocity(PixelEscape.rand.nextFloat() * 10 - 0.5F, (PixelEscape.rand.nextFloat() * 20 + 20) * (e.getY() > player.getYPos() ? 1 : -1));
 			world.spawnEntity(e);

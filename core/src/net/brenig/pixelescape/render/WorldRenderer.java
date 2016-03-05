@@ -1,7 +1,6 @@
 package net.brenig.pixelescape.render;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
@@ -129,6 +128,9 @@ public class WorldRenderer {
 		}
 	}
 
+	/**
+	 * renders entities
+	 */
 	private void renderEntities(float delta) {
 		for(Entity e : world.getEntityList()) {
 			e.render(game, delta, xPos + screenShakeX, yPos + screenShakeY);
@@ -139,21 +141,35 @@ public class WorldRenderer {
 	 * renders terrain
 	 */
 	private void renderWorld() {
-		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-		game.shapeRenderer.setColor(0, 0, 0, 1);
+		game.getRenderManager().beginFilledShape();
+		game.getRenderManager().getShapeRenderer().setColor(0, 0, 0, 1);
 
 		for (int index = 0; index < world.getBlockBufferSize(); index++) {
 			world.getTerrainPairForIndex(index).render(game, world, xPos + getBlockPositionFromLocalIndex(index) + screenShakeX, yPos, screenShakeY, Gdx.graphics.getDeltaTime());
 		}
-
-		game.shapeRenderer.end();
 	}
 
+	/**
+	 * renders a rectangel using {@link com.badlogic.gdx.graphics.glutils.ShapeRenderer} and {@link GameRenderManager}
+	 */
+	public void renderRect(float x, float y, float width, float height) {
+		game.getRenderManager().getShapeRenderer().rect(xPos + screenShakeX + x, yPos + screenShakeY + y, width, height);
+	}
+
+	/**
+	 * @return global coordinate of this worldrenderer (left screen edge)
+	 */
+	public float getRenderXPos() {
+		return xPos + screenShakeX + world.getPlayer().getProgress();
+	}
 
 	private float getBlockPositionFromLocalIndex(int index) {
 		return world.convertWorldIndexToScreenCoordinate(world.convertLocalBlockToWorldBlockIndex(index));
 	}
 
+	/**
+	 * sets current position of the world renderer (world view)
+	 */
 	public void setPosition(float x, float y) {
 		this.xPos = x;
 		this.yPos = y;
@@ -167,14 +183,23 @@ public class WorldRenderer {
 		return screenShakeY;
 	}
 
+	/**
+	 * @return the target x position of the worldrenderer
+	 */
 	public float getTargetX() {
 		return targetX;
 	}
 
+	/**
+	 * @return the target y position of the worldrenderer
+	 */
 	public float getTargetY() {
 		return targetY;
 	}
 
+	/**
+	 * sets the position of the world renderer (also gets set as target position)
+	 */
 	public void setPositionAbsolute(int x, int y) {
 		setPosition(x, y);
 		targetX = x;

@@ -5,8 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,6 +23,7 @@ import net.brenig.pixelescape.game.gamemode.GameModeArcade;
 import net.brenig.pixelescape.game.gamemode.GameModeClassic;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
+import net.brenig.pixelescape.render.GameRenderManager;
 import net.brenig.pixelescape.screen.MainMenuScreen;
 import net.brenig.pixelescape.screen.PixelScreen;
 
@@ -38,22 +37,7 @@ public class PixelEscape extends Game {
 
 	private boolean assetsLoaded = false;
 
-	/**
-	 * Main ShapeRenderer
-	 */
-	public ShapeRenderer shapeRenderer;
-
-	/**
-	 * Main Sprite Batch
-	 */
-	public SpriteBatch batch;
-
-
-	/**
-	 * Main Camera
-	 * y-Up
-	 */
-	public OrthographicCamera cam;
+	private GameRenderManager renderManager;
 
 
 	private GameAssets gameAssets;
@@ -84,14 +68,15 @@ public class PixelEscape extends Game {
 	public void create() {
 		LogHelper.log("Main", "Starting up...");
 		if(instance != null) {
-			instance.dispose(); //needed?
+			if(instance.assetsLoaded) {
+				instance.dispose(); //needed?
+			}
 			LogHelper.warn("Critical Error! Game already initialized!");
 		}
 		instance = this;
 
-		//initialize viewport
-		cam = new OrthographicCamera();
-		cam.setToOrtho(false);
+		//initialize renderer
+		renderManager = new GameRenderManager();
 
 		//load everything needed
 		initializeRendering();
@@ -118,18 +103,14 @@ public class PixelEscape extends Game {
 		return instance;
 	}
 
+	@Deprecated
 	public void renderTextureRegion(TextureRegion region, float x, float y) {
-		batch.draw(region, x, y);
+		getBatch().draw(region, x, y);
 	}
 
+	@Deprecated
 	public void renderTextureRegion(TextureRegion region, float x, float y, float width, float height) {
-		batch.draw(region, x, y, width, height);
-	}
-
-	private void updateAssetManager() {
-		if(gameAssets == null) {
-			gameAssets = new GameAssets();
-		}
+		getBatch().draw(region, x, y, width, height);
 	}
 
 	public GameAssets getGameAssets() {
@@ -139,38 +120,39 @@ public class PixelEscape extends Game {
 	@Override
 	public void setScreen(Screen screen) {
 		//reset font
-		resetFontSize();
+		getRenderManager().resetFontSize();
 		super.setScreen(screen);
 	}
 
 	@Override
 	public void render() {
 		gameMusic.update(Gdx.graphics.getDeltaTime());
-		prepareRender();
+		renderManager.prepareRender();
 		super.render();
 		if(GameDebugSettings.get("SHOW_FPS")) {
-			batch.begin();
+			renderManager.begin();
 			getFont().setColor(Color.RED);
-			resetFontSize();
-			getFont().draw(batch, "FPS " + Gdx.graphics.getFramesPerSecond(), 10, gameSizeY - 10);
-			batch.end();
+			getRenderManager().resetFontSize();
+			getFont().draw(getBatch(), "FPS " + Gdx.graphics.getFramesPerSecond(), 10, gameSizeY - 10);
 		}
+		renderManager.end();
 	}
 
-	private void prepareRender() {
-		Gdx.gl.glClearColor(1, 1, 1, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		// tell the camera to update its matrices.
-		cam.update();
-	}
+//	private void prepareRender() {
+//		Gdx.gl.glClearColor(1, 1, 1, 1);
+//		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+//
+//		// tell the camera to update its matrices.
+//		cam.update();
+//	}
 
 	@Override
 	public void dispose() {
 		gameSettings.saveToDisk();
 		userData.saveToDisk();
-		batch.dispose();
-		shapeRenderer.dispose();
+//		batch.dispose();
+//		shapeRenderer.dispose();
+		renderManager.dispose();
 		gameAssets.disposeAll();
 		assetsLoaded = false;
 		super.dispose();
@@ -185,15 +167,17 @@ public class PixelEscape extends Game {
 	}
 
 	private void initializeRendering() {
-		//initialize drawing area
-		batch = new SpriteBatch();
-		batch.setProjectionMatrix(cam.combined);
 
-		shapeRenderer = new ShapeRenderer();
-		shapeRenderer.setProjectionMatrix(cam.combined);
+		renderManager.initializeRendering();
 
-		updateAssetManager();
+		if(gameAssets == null) {
+			gameAssets = new GameAssets();
+		}
+
 		gameAssets.initAll();
+
+		renderManager.setGameAssets(gameAssets);
+
 		assetsLoaded = true;
 	}
 
@@ -208,22 +192,12 @@ public class PixelEscape extends Game {
 		this.scale = sourceRatio > targetRatio ? targetWidth / width : targetHeight / height;
 		gameSizeX = (int) Math.ceil(width * scale);
 		gameSizeY = (int) Math.ceil(height * scale);
-		cam.setToOrtho(false, gameSizeX, gameSizeY);
-		batch.setProjectionMatrix(cam.combined);
-		shapeRenderer.setProjectionMatrix(cam.combined);
-		cam.update();
+
+		renderManager.onResize(gameSizeX, gameSizeY);
 
 		LogHelper.log("Main", "new width: " + gameSizeX + ", new height: " + gameSizeY);
 
 		super.resize(width, height);
-	}
-
-	public void setFontSizeToDefaultGuiSize() {
-		getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
-	}
-
-	public void resetFontSize() {
-		getFont().getData().setScale(1.0F);
 	}
 
 	public void showMainMenu() {
@@ -295,5 +269,23 @@ public class PixelEscape extends Game {
 	 */
 	public Skin getSkin() {
 		return getGameAssets().getMainUiSkin();
+	}
+
+	/**
+	 * Main ShapeRenderer
+	 */
+	public ShapeRenderer getShapeRenderer() {
+		return renderManager.getShapeRenderer();
+	}
+
+	/**
+	 * Main Sprite Batch
+	 */
+	public SpriteBatch getBatch() {
+		return renderManager.getBatch();
+	}
+
+	public GameRenderManager getRenderManager() {
+		return renderManager;
 	}
 }

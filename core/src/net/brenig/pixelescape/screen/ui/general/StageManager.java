@@ -6,9 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import net.brenig.pixelescape.game.data.GameDebugSettings;
+import net.brenig.pixelescape.lib.Reference;
+import net.brenig.pixelescape.render.GameRenderManager;
 
 /**
  * Manager that includes a rootTable to arrange ui Elements conveniently<br></br>
@@ -18,6 +21,14 @@ public class StageManager {
 	
 	protected final Stage uiStage;
 	protected final Table rootTable;
+
+	/**
+	 * default stagemanager using a {@link com.badlogic.gdx.utils.viewport.ExtendViewport}
+	 * @param renderManager game rendermanager
+	 */
+	public StageManager(GameRenderManager renderManager) {
+		this(new ExtendViewport(Reference.TARGET_RESOLUTION_X, Reference.TARGET_RESOLUTION_Y, renderManager.getCamera()));
+	}
 	
 	public StageManager(Viewport view) {
 		uiStage = new Stage(view);
@@ -51,7 +62,8 @@ public class StageManager {
 	 * draw the ui
 	 * @see Stage#draw()
 	 */
-	public void draw() {
+	public void draw(GameRenderManager renderManager) {
+		renderManager.end();
 		uiStage.draw();
 	}
 

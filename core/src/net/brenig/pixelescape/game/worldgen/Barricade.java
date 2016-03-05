@@ -1,7 +1,5 @@
 package net.brenig.pixelescape.game.worldgen;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.World;
@@ -26,19 +24,6 @@ public class Barricade extends Entity {
 		this.posY = 0;
 	}
 
-	public Barricade(World world, int posX, int posY) {
-		super(world);
-		this.posX = posX;
-		this.posY = posY;
-	}
-
-	public void render(float x, float y, ShapeRenderer render) {
-		render.begin(ShapeRenderer.ShapeType.Filled);
-		render.setColor(0, 0, 0, 1);
-		render.rect(x + worldObj.convertWorldCoordToScreenCoord(posX) - sizeX / 2, y + posY - sizeY / 2, sizeX, sizeY);
-		render.end();
-	}
-
 	@SuppressWarnings("SameReturnValue")
 	public static int getSizeX() {
 		return sizeX;
@@ -51,7 +36,9 @@ public class Barricade extends Entity {
 
 	@Override
 	public void render(PixelEscape game, float delta, float x, float y) {
-		render(x, y, game.shapeRenderer);
+		game.getRenderManager().beginFilledShape();
+		game.getRenderManager().getShapeRenderer().setColor(0, 0, 0, 1);
+		game.getRenderManager().getShapeRenderer().rect(x + worldObj.convertWorldCoordToScreenCoord(posX) - sizeX / 2, y + posY - sizeY / 2, sizeX, sizeY);
 	}
 
 	@Override

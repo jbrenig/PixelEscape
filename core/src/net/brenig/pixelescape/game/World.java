@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 
 import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.entity.Entity;
+import net.brenig.pixelescape.game.entity.EntityPoolManager;
 import net.brenig.pixelescape.game.entity.particle.EntityCrashParticle;
 import net.brenig.pixelescape.game.entity.player.EntityPlayer;
 import net.brenig.pixelescape.game.worldgen.TerrainPair;
@@ -39,6 +40,8 @@ public class World {
 
 
 	private final WorldGenerator worldGenerator;
+
+	private final EntityPoolManager entityPoolManager;
 
 	private final List<Entity> entityList;
 	private final Set<Entity> entitySpawnQueue;
@@ -83,6 +86,10 @@ public class World {
 		//load world generators
 		worldGenerator = screen.getGameMode().createWorldGenerator();
 
+		//load entity pool manager
+		entityPoolManager = new EntityPoolManager(this);
+		entityPoolManager.allocateObjects(EntityCrashParticle.class, 100);
+
 		restart();
 	}
 
@@ -100,6 +107,7 @@ public class World {
 			if (e.isDead()) {
 				e.removeEntityOnDeath();
 				iterator.remove();
+				entityPoolManager.free(e);
 			} else {
 				if(e.update(deltaTick, screen.getInput())) {
 					break;
@@ -153,6 +161,10 @@ public class World {
 	 */
 	public void spawnEntity(Entity e) {
 		entitySpawnQueue.add(e);
+	}
+
+	public <T extends Entity> T createEntity(Class<T> entity) {
+		return entityPoolManager.obtain(entity);
 	}
 
 	/**
@@ -310,7 +322,10 @@ public class World {
 		for (int i = 0; i < 60; i++) {
 			final float x = (float) Math.sin(i) + (rand.nextFloat() - 0.5F);
 			final float y = (float) Math.cos(i) + (rand.nextFloat() - 0.5F);
-			EntityCrashParticle e = new EntityCrashParticle(this, (float) (player.getXPos() - player.getVelocity() * Gdx.graphics.getDeltaTime() + x), player.getYPos() - player.getYVelocity() * Gdx.graphics.getDeltaTime() + y, screen.game.gameDebugSettings.getBoolean("PLAYER_EXPLOSION_RED") ? Color.RED : Color.BLACK);
+//			EntityCrashParticle e = new EntityCrashParticle(this, (float) (player.getXPos() - player.getVelocity() * Gdx.graphics.getDeltaTime() + x), player.getYPos() - player.getYVelocity() * Gdx.graphics.getDeltaTime() + y, screen.game.gameDebugSettings.getBoolean("PLAYER_EXPLOSION_RED") ? Color.RED : Color.BLACK);
+			EntityCrashParticle e = createEntity(EntityCrashParticle.class);
+			e.setPosition((float) (player.getXPos() - player.getVelocity() * Gdx.graphics.getDeltaTime() + x), player.getYPos() - player.getYVelocity() * Gdx.graphics.getDeltaTime() + y);
+			e.setColor(screen.game.gameDebugSettings.getBoolean("PLAYER_EXPLOSION_RED") ? Color.RED : Color.BLACK);
 			final float xVel = (x * 2 + (rand.nextFloat() - 0.5F)) * 70;
 			final float yVel = (y * 2 + (rand.nextFloat() - 0.5F)) * 70;
 			e.setVelocity(xVel, yVel);
@@ -332,7 +347,10 @@ public class World {
 			for (int i = 0; i < 60; i++) {
 				final float x = (float) Math.sin(i) + (rand.nextFloat() - 0.5F);
 				final float y = (float) Math.cos(i) + (rand.nextFloat() - 0.5F);
-				EntityCrashParticle e = new EntityCrashParticle(this, lifeX + x, lifeY + y, Color.RED);
+//				EntityCrashParticle e = new EntityCrashParticle(this, lifeX + x, lifeY + y, Color.RED);
+				EntityCrashParticle e = createEntity(EntityCrashParticle.class);
+				e.setPosition(lifeX + x, lifeY + y);
+				e.setColor(Color.RED);
 				e.setCollideTop(false);
 				final float xVel = (x * 2 + (rand.nextFloat() - 0.5F)) * 70;
 				final float yVel = (y * 2 + (rand.nextFloat() - 0.5F)) * 70;
@@ -364,6 +382,7 @@ public class World {
 		player.reset(screen.getGameMode());
 		for (Entity e : entityList) {
 			e.removeEntityOnDeath();
+			entityPoolManager.free(e);
 		}
 		entityList.clear();
 
@@ -437,11 +456,11 @@ public class World {
 	////////////////////////////////////////////////
 
 	public float convertScreenToWorldCoordinate(float screenX) {
-		return player.getXPos() + screenX - player.getXPosScreen();
+		return screenX + player.getProgress();
 	}
 
 	public float convertWorldCoordToScreenCoord(float x) {
-		return x - player.getXPos() + player.getXPosScreen();
+		return x - player.getProgress();
 	}
 
 	public int convertScreenCoordToWorldBlockIndex(float screenX) {

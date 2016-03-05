@@ -6,7 +6,6 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -72,6 +71,7 @@ public class GameScreen extends PixelScreen {
 	private final StageManagerGame stage;
 	private final InputManager inputManager;
 	private final InputMultiplexer inputMultiplexer;
+
 
 
 	private Overlay overlay;
@@ -175,7 +175,7 @@ public class GameScreen extends PixelScreen {
 			renderLives();
 
 			this.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
-			stage.draw();
+			stage.draw(game.getRenderManager());
 			stage.act(delta);
 		}
 
@@ -186,26 +186,23 @@ public class GameScreen extends PixelScreen {
 	}
 
 	private void renderBackground() {
-		game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		game.getRenderManager().beginFilledShape();
 
 		if(GameDebugSettings.get("DEBUG_SCREEN_BOUNDS")) {
-			game.shapeRenderer.setColor(1, 0, 0, 0);
+			game.getShapeRenderer().setColor(1, 0, 0, 0);
 		} else {
-			game.shapeRenderer.setColor(0, 0, 0, 1);
+			game.getShapeRenderer().setColor(0, 0, 0, 1);
 		}
-		game.shapeRenderer.rect(0, 0, world.getWorldWidth(), uiPos);
-		game.shapeRenderer.rect(0, world.getWorldHeight() + uiPos, world.getWorldWidth(), uiPos + Reference.GAME_UI_Y_SIZE);
-
-		game.shapeRenderer.end();
+		game.getShapeRenderer().rect(0, 0, world.getWorldWidth(), uiPos);
+		game.getShapeRenderer().rect(0, world.getWorldHeight() + uiPos, world.getWorldWidth(), uiPos + Reference.GAME_UI_Y_SIZE);
 	}
 
 	private void renderLives() {
 		if(world.getPlayer().extraLives > 0) {
-			game.batch.begin();
+			game.getRenderManager().begin();
 			for (int index = 1; index <= world.getPlayer().extraLives; index++) {
 				game.renderTextureRegion(game.getGameAssets().getHeart(), game.gameSizeX - 36 * index, uiPos + world.getWorldHeight() - 28);
 			}
-			game.batch.end();
 		}
 	}
 
@@ -232,33 +229,31 @@ public class GameScreen extends PixelScreen {
 			String blockInfoTxt = "Info: IsTerrain: " + isTerrain + ", BlocksGenerated: " + world.getBlocksGenerated();
 
 			//Begin draw
-			game.batch.begin();
+			game.getRenderManager().begin();
 			game.getFont().setColor(Color.LIGHT_GRAY);
 			game.getFont().getData().setScale(0.5F);
 			//Draw
 			fontLayout.setText(game.getFont(), screenTxt);
 			float pos = 5 + fontLayout.height;
-			game.getFont().draw(game.batch, fontLayout, 5, pos);
+			game.getFont().draw(game.getBatch(), fontLayout, 5, pos);
 
 			pos += fontLayout.height + 5;
 			fontLayout.setText(game.getFont(), worldTxt);
-			game.getFont().draw(game.batch, fontLayout, 5, pos);
+			game.getFont().draw(game.getBatch(), fontLayout, 5, pos);
 
 			pos += fontLayout.height + 5;
 			fontLayout.setText(game.getFont(), blockInfoTxt);
-			game.getFont().draw(game.batch, fontLayout, 5, pos);
+			game.getFont().draw(game.getBatch(), fontLayout, 5, pos);
 			//End draw
 			game.getFont().getData().setScale(1F);
-			game.batch.end();
 		} else if(GameDebugSettings.get("DEBUG_MUSIC")) {
-			game.batch.begin();
+			game.getRenderManager().begin();
 			game.getFont().setColor(Color.LIGHT_GRAY);
 			game.getFont().getData().setScale(0.5F);
 			fontLayout.setText(game.getFont(), "Music state: " + game.gameMusic.getState());
 			float pos = 5 + fontLayout.height;
-			game.getFont().draw(game.batch, fontLayout, 5, pos);
+			game.getFont().draw(game.getBatch(), fontLayout, 5, pos);
 			game.getFont().getData().setScale(1F);
-			game.batch.end();
 		}
 	}
 
@@ -268,7 +263,7 @@ public class GameScreen extends PixelScreen {
 		final int targetHeight = Reference.GAME_RESOLUTION_Y + Reference.GAME_UI_Y_SIZE;
 		uiPos = (int) Math.ceil((game.gameSizeY - targetHeight) / 2);
 		world.resize(game.gameSizeX);
-		worldRenderer.setPositionAbsolute(0, uiPos);
+		worldRenderer.setPositionAbsolute(/*-world.getWorldWidth() / 4*/ 0, uiPos);
 		//Update UI
 		stage.updateStageToGameBounds(width, height);
 		//update Overlay

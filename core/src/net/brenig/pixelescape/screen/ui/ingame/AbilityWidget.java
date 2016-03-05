@@ -80,21 +80,21 @@ public class AbilityWidget extends Button {
 			if(currentAbility.cooldownRemaining() != 0) {
 				animCounter = ANIM_DURATION;
 				batch.end();
-				gameScreen.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+				gameScreen.game.getShapeRenderer().begin(ShapeRenderer.ShapeType.Filled);
 				Gdx.gl.glEnable(GL20.GL_BLEND);
-				gameScreen.game.shapeRenderer.setColor(0.7F, 0.7F, 1, 0.4F);
-				gameScreen.game.shapeRenderer.rect(getX() + itemFrame, getY() + itemFrame, getWidth() - itemFrame * 2, (getHeight() - itemFrame * 2) * currentAbility.cooldownRemaining());
-				gameScreen.game.shapeRenderer.end();
+				gameScreen.game.getShapeRenderer().setColor(0.7F, 0.7F, 1, 0.4F);
+				gameScreen.game.getShapeRenderer().rect(getX() + itemFrame, getY() + itemFrame, getWidth() - itemFrame * 2, (getHeight() - itemFrame * 2) * currentAbility.cooldownRemaining());
+				gameScreen.game.getShapeRenderer().end();
 				batch.begin();
 			} else if(animCounter > 0) {
 				animCounter -= Gdx.graphics.getDeltaTime();
 				final float alpha = Utils.easeInAndOut(animCounter, ANIM_DURATION) * 0.7F;
 				batch.end();
-				gameScreen.game.shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+				gameScreen.game.getShapeRenderer().begin(ShapeRenderer.ShapeType.Filled);
 				Gdx.gl.glEnable(GL20.GL_BLEND);
-				gameScreen.game.shapeRenderer.setColor(1, 1, 1, alpha);
-				gameScreen.game.shapeRenderer.rect(getX() + itemFrame, getY() + itemFrame, getWidth() - itemFrame * 2, getHeight() - itemFrame * 2);
-				gameScreen.game.shapeRenderer.end();
+				gameScreen.game.getShapeRenderer().setColor(1, 1, 1, alpha);
+				gameScreen.game.getShapeRenderer().rect(getX() + itemFrame, getY() + itemFrame, getWidth() - itemFrame * 2, getHeight() - itemFrame * 2);
+				gameScreen.game.getShapeRenderer().end();
 				batch.begin();
 			}
 		}

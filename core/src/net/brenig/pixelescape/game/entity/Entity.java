@@ -6,6 +6,7 @@ import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
+import net.brenig.pixelescape.render.WorldRenderer;
 
 /**
  * Entity that can be spawned into the world
@@ -18,7 +19,15 @@ public abstract class Entity implements Pool.Poolable {
 		worldObj = world;
 	}
 
-	public abstract void render(PixelEscape game, float delta, float x, float y);
+	/**
+	 * renders the entity
+	 * @param game game instance
+	 * @param renderer renderer instance
+	 * @param x xoffset of the renderer
+	 * @param y yoffset of the renderer
+	 * @param delta time passed since last frame
+	 */
+	public abstract void render(PixelEscape game, WorldRenderer renderer, float x, float y, float delta);
 
 	/**
 	 * update the entity, gets called every frame

@@ -15,14 +15,11 @@ public class WorldRenderer {
 	private World world;
 	private final PixelEscape game;
 
+	private float rendererYOffset = 0;
+
 	private float xPos = 0;
-	private float yPos = 0;
-
 	private float targetX = 0;
-	private float targetY = 0;
-
 	private float movementSpeedX = 0;
-	private float movementSpeedY = 0;
 
 	private float screenShakeX = 0;
 	private float screenShakeY = 0;
@@ -43,6 +40,10 @@ public class WorldRenderer {
 		this.game = game;
 	}
 
+	/**
+	 * calculate screen shake effect
+	 * @param delta time since last tick
+	 */
 	private void shakeScreen(float delta) {
 		if(screenShakeForceX > 0) {
 			screenShakeTimerX += delta * (screenShakeLengthMod + PixelEscape.rand.nextFloat());
@@ -81,19 +82,17 @@ public class WorldRenderer {
 	/**
 	 * move the camera to the specified world coordinate (at the specified speed)
 	 */
-	public void moveScreenTo(float x, float y, float movementSpeedX, float movementSpeedY) {
-		targetX = x;
-		targetY = y;
-		this.movementSpeedX = Math.abs(movementSpeedX);
-		this.movementSpeedY = Math.abs(movementSpeedY);
+	public void moveScreenTo(float x, float movementSpeedX) {
+		this.targetX = x;
+		this.movementSpeedX = movementSpeedX;
 	}
 
 	public float getXPos() {
 		return xPos;
 	}
 
-	public float getYPos() {
-		return yPos;
+	public float getRendererYOffset() {
+		return rendererYOffset;
 	}
 
 	private void moveScreen(float delta) {
@@ -102,13 +101,6 @@ public class WorldRenderer {
 				xPos -= Math.min(xPos - targetX, movementSpeedX * delta);
 			} else {
 				xPos += Math.min(targetX - xPos, movementSpeedX * delta);
-			}
-		}
-		if(movementSpeedY != 0 && yPos != targetY) {
-			if(targetY < yPos) {
-				yPos -= Math.min(yPos - targetY, -movementSpeedY * delta);
-			} else {
-				yPos += Math.min(targetY - yPos, movementSpeedY * delta);
 			}
 		}
 	}
@@ -133,7 +125,7 @@ public class WorldRenderer {
 	 */
 	private void renderEntities(float delta) {
 		for(Entity e : world.getEntityList()) {
-			e.render(game, delta, xPos + screenShakeX, yPos + screenShakeY);
+			e.render(game, this, xPos + screenShakeX, rendererYOffset + screenShakeY, delta);
 		}
 	}
 
@@ -145,7 +137,7 @@ public class WorldRenderer {
 		game.getRenderManager().getShapeRenderer().setColor(0, 0, 0, 1);
 
 		for (int index = 0; index < world.getBlockBufferSize(); index++) {
-			world.getTerrainPairForIndex(index).render(game, world, xPos + getBlockPositionFromLocalIndex(index) + screenShakeX, yPos, screenShakeY, Gdx.graphics.getDeltaTime());
+			world.getTerrainPairForIndex(index).render(game, world, xPos + getBlockPositionFromLocalIndex(index) + screenShakeX, rendererYOffset, screenShakeY, Gdx.graphics.getDeltaTime());
 		}
 	}
 
@@ -153,13 +145,20 @@ public class WorldRenderer {
 	 * renders a rectangel using {@link com.badlogic.gdx.graphics.glutils.ShapeRenderer} and {@link GameRenderManager}
 	 */
 	public void renderRect(float x, float y, float width, float height) {
-		game.getRenderManager().getShapeRenderer().rect(xPos + screenShakeX + x, yPos + screenShakeY + y, width, height);
+		game.getRenderManager().getShapeRenderer().rect(xPos + screenShakeX + x, rendererYOffset + screenShakeY + y, width, height);
+	}
+
+	/**
+	 * same as {@link #renderRect(float, float, float, float)}, but using global coordinates
+	 */
+	public void renderRectAbsolute(float x, float y, float width, float height) {
+		renderRect(world.convertWorldCoordToScreenCoord(x), y, width, height);
 	}
 
 	/**
 	 * @return global coordinate of this worldrenderer (left screen edge)
 	 */
-	public float getRenderXPos() {
+	public float getWorldCameraXPos() {
 		return xPos + screenShakeX + world.getPlayer().getProgress();
 	}
 
@@ -170,9 +169,8 @@ public class WorldRenderer {
 	/**
 	 * sets current position of the world renderer (world view)
 	 */
-	public void setPosition(float x, float y) {
+	public void setCameraXPosition(float x) {
 		this.xPos = x;
-		this.yPos = y;
 	}
 
 	public float getScreenShakeX() {
@@ -191,20 +189,18 @@ public class WorldRenderer {
 	}
 
 	/**
-	 * @return the target y position of the worldrenderer
+	 * sets the camera position of the world renderer (also gets set as target position)
 	 */
-	public float getTargetY() {
-		return targetY;
+	public void setXCameraOffsetAbsolute(float x) {
+		setCameraXPosition(x);
+		targetX = x;
+		movementSpeedX = 0;
 	}
 
 	/**
-	 * sets the position of the world renderer (also gets set as target position)
+	 * sets the y offset of the world renderer (x offset is not supported)
 	 */
-	public void setPositionAbsolute(int x, int y) {
-		setPosition(x, y);
-		targetX = x;
-		targetY = y;
-		movementSpeedX = 0;
-		movementSpeedY = 0;
+	public void setWorldRendererYOffset(float yOffset) {
+		rendererYOffset = yOffset;
 	}
 }

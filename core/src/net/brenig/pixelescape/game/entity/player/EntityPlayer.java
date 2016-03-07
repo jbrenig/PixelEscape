@@ -15,6 +15,7 @@ import net.brenig.pixelescape.game.entity.player.abliity.IAbility;
 import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.lib.CycleIntArray;
 import net.brenig.pixelescape.lib.Reference;
+import net.brenig.pixelescape.render.WorldRenderer;
 
 /**
  * the Player
@@ -211,7 +212,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	}
 
 	@Override
-	public void render(PixelEscape game, float delta, float xPos, float yPos) {
+	public void render(PixelEscape game, WorldRenderer renderer, float xPos, float yPos, float delta) {
 		if(this.isDead()) {
 			return;
 		}

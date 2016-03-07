@@ -157,13 +157,16 @@ public class GameScreen extends PixelScreen {
 			}
 		}
 
+		//black background
+		renderBackground();
+
+		//flush before rendering the world
+		game.getRenderManager().end();
+
 		//render world
 		worldRenderer.render(delta);
 
 		//draw ui
-
-		//black background
-		renderBackground();
 
 		//Overlay first callback
 		overlay.renderFirst(delta);
@@ -263,7 +266,8 @@ public class GameScreen extends PixelScreen {
 		final int targetHeight = Reference.GAME_RESOLUTION_Y + Reference.GAME_UI_Y_SIZE;
 		uiPos = (int) Math.ceil((game.gameSizeY - targetHeight) / 2);
 		world.resize(game.gameSizeX);
-		worldRenderer.setPositionAbsolute(/*-world.getWorldWidth() / 4*/ 0, uiPos);
+//		worldRenderer.setPositionAbsolute(/*-world.getWorldWidth() / 4*/ 0, uiPos);
+		worldRenderer.setWorldRendererYOffset(uiPos);
 		//Update UI
 		stage.updateStageToGameBounds(width, height);
 		//update Overlay

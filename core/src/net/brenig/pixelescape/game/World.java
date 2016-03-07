@@ -272,11 +272,11 @@ public class World {
 	 */
 	public TerrainPair getTerrainPairForIndex(int i) {
 		if (i < 0) {
-			Gdx.app.error("PixelEscape | World", "Invalid World index! Must be greater than 0!");
+			LogHelper.error("World", "Invalid World index ( " + i + " )! Must be greater than 0!");
 			return BACKUP_TERRAIN_PAIR;
 		}
 		if (i >= terrain.size()) {
-			Gdx.app.error("PixelEscape | World", "Invalid World index! Out of Bounds! (index: " + i + "; array size: " + terrain.size() + ")");
+			LogHelper.error("World", "Invalid World index ( " + i + " )! Out of Bounds! (array size: " + terrain.size() + ")");
 			return BACKUP_TERRAIN_PAIR;
 		}
 		TerrainPair pair = terrain.get(terrain.size() - 1 - i);

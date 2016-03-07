@@ -9,6 +9,7 @@ import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
+import net.brenig.pixelescape.render.WorldRenderer;
 
 public class EntityFadingParticle extends Entity {
 
@@ -65,7 +66,7 @@ public class EntityFadingParticle extends Entity {
 	}
 
 	@Override
-	public void render(PixelEscape game, float delta, float x, float y) {
+	public void render(PixelEscape game, WorldRenderer renderer, float x, float y, float delta) {
 		if(isDead()) {
 			return;
 		}

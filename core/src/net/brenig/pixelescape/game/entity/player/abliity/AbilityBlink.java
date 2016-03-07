@@ -22,7 +22,6 @@ public class AbilityBlink implements IAbility {
 	@Override
 	public boolean onActivate(GameScreen screen, World world, EntityPlayer player) {
 		for(int i = 0; i < 60; i++) {
-//			EntityFadingParticle e = new EntityFadingParticle(world, player.getXPos() + PixelEscape.rand.nextFloat() * 20 - 10, player.getYPos() + PixelEscape.rand.nextFloat() * 40 - 20, Color.BLUE, 0.4F);
 			EntityFadingParticle e = world.createEntity(EntityFadingParticle.class);
 			e.setPosition(player.getXPos() + PixelEscape.rand.nextFloat() * 20 - 10, player.getYPos() + PixelEscape.rand.nextFloat() * 40 - 20);
 			e.setColor(Color.BLUE);
@@ -34,10 +33,10 @@ public class AbilityBlink implements IAbility {
 
 		cooldown = maxCooldown;
 		player.increaseXPos(range);
-		float oldX = screen.worldRenderer.getTargetX();
-		float oldY = screen.worldRenderer.getTargetY();
-		screen.worldRenderer.setPosition(screen.worldRenderer.getXPos() + range, screen.worldRenderer.getYPos());
-		screen.worldRenderer.moveScreenTo(oldX, oldY, Reference.BLOCK_WIDTH * 4, 0);
+
+		final float oldX = screen.worldRenderer.getTargetX();
+		screen.worldRenderer.setCameraXPosition(screen.worldRenderer.getXPos() + range);
+		screen.worldRenderer.moveScreenTo(oldX, Reference.BLOCK_WIDTH * 4);
 		return true;
 	}
 

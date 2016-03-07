@@ -65,6 +65,14 @@ public class LogHelper {
 		log(LOG_LEVEL_ERROR, null, msg, null);
 	}
 
+	public static void error(String tag, String msg) {
+		log(LOG_LEVEL_ERROR, tag, msg, null);
+	}
+
+	public static void error(String tag, String msg, Throwable t) {
+		log(LOG_LEVEL_ERROR, tag, msg, t);
+	}
+
 	public static void warn(String msg) {
 		log(LOG_LEVEL_WARNING, null, msg, null);
 	}

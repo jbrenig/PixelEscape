@@ -4,6 +4,7 @@ import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.entity.Entity;
+import net.brenig.pixelescape.render.WorldRenderer;
 
 /**
  * obstacles that spawn in the level
@@ -35,7 +36,7 @@ public class Barricade extends Entity {
 	}
 
 	@Override
-	public void render(PixelEscape game, float delta, float x, float y) {
+	public void render(PixelEscape game, WorldRenderer renderer, float x, float y, float delta) {
 		game.getRenderManager().beginFilledShape();
 		game.getRenderManager().getShapeRenderer().setColor(0, 0, 0, 1);
 		game.getRenderManager().getShapeRenderer().rect(x + worldObj.convertWorldCoordToScreenCoord(posX) - sizeX / 2, y + posY - sizeY / 2, sizeX, sizeY);

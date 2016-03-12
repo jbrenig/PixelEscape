@@ -201,10 +201,10 @@ public class GameScreen extends PixelScreen {
 	}
 
 	private void renderLives() {
-		if(world.getPlayer().extraLives > 0) {
+		if(gameMode.getExtraLives() > 0) {
 			game.getRenderManager().begin();
-			for (int index = 1; index <= world.getPlayer().extraLives; index++) {
-				game.renderTextureRegion(game.getGameAssets().getHeart(), game.gameSizeX - 36 * index, uiPos + world.getWorldHeight() - 28);
+			for (int index = 1; index <= world.getPlayer().extraLives + 1; index++) {
+				game.getRenderManager().getBatch().draw(game.getGameAssets().getHeart(), game.gameSizeX - 36 * index, uiPos + world.getWorldHeight() - 28);
 			}
 		}
 	}

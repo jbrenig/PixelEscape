@@ -2,7 +2,6 @@ package net.brenig.pixelescape.game.gamemode;
 
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import net.brenig.pixelescape.game.data.GameAssets;
 import net.brenig.pixelescape.game.entity.player.abliity.AbilityBlink;
@@ -12,7 +11,7 @@ import net.brenig.pixelescape.lib.Names;
 public class GameModeArcade extends GameMode {
 	@Override
 	public int getExtraLives() {
-		return 3;
+		return 2;
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package net.brenig.pixelescape.render.overlay;
 
+import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.screen.GameScreen;
 
 /**
@@ -39,9 +40,17 @@ public class CountDownOverlay extends Overlay {
 		}
 
 		int fractionOfCurrentSecond = ((int) (timePassed % 1000L)) + 1; //fraction of the current second
+		if(fractionOfCurrentSecond == 0) {
+			LogHelper.error("Unknown error, / by zero");
+			LogHelper.error("timePassed: " + timePassed);
+			LogHelper.error("secondsPassed: " + secondsPassed);
+			LogHelper.error("secondsRemaining: " + secondsRemaining);
+			LogHelper.error("fractionOfCurrentSecond: " + fractionOfCurrentSecond);
+			throw new RuntimeException("Unknown Error when calculating time passed!! Division by Zero!!");
+		}
 		float fontScale = 5F;
 		if (fractionOfCurrentSecond < 100) {
-			fontScale = (2 / ((fractionOfCurrentSecond) * 10)) + 5;
+			fontScale = (2 / (fractionOfCurrentSecond * 10)) + 5;
 		} else if (fractionOfCurrentSecond > 900) {
 			fontScale = (1 / ((fractionOfCurrentSecond - 900) * 10)) + 3;
 		}

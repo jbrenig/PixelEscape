@@ -16,9 +16,6 @@ public class EntityFadingParticle extends Entity {
 	private static final int size = 4;
 	private static final int radius = size / 2;
 
-	private float xPos = 0;
-	private float yPos = 0;
-
 	private float xVel = 0;
 	private float yVel = 0;
 
@@ -50,11 +47,6 @@ public class EntityFadingParticle extends Entity {
 		this.fadeDuration = fadeDuration;
 	}
 
-	public void setPosition(float xPos, float yPos) {
-		this.xPos = xPos;
-		this.yPos = yPos;
-	}
-
 	public void setAccelerationFactor(float xAcc, float yAcc) {
 		this.xAccelerationFactor = xAcc;
 		this.yAccelerationFactor = yAcc;
@@ -81,7 +73,7 @@ public class EntityFadingParticle extends Entity {
 
 		float currentAlpha = 1 - Utils.easeInAndOut(fadeTimePassed, fadeDuration);
 
-		float renderX = worldObj.convertWorldCoordToScreenCoord(xPos);
+		float renderX = world.convertWorldCoordToScreenCoord(xPos);
 
 		game.getRenderManager().beginFilledShape();
 		Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -94,13 +86,6 @@ public class EntityFadingParticle extends Entity {
 		return fadeTimePassed >= fadeDuration;
 	}
 
-	public float getY() {
-		return yPos;
-	}
-
-	public float getX() {
-		return xPos;
-	}
 
 	@Override
 	public void reset() {
@@ -108,8 +93,6 @@ public class EntityFadingParticle extends Entity {
 		color_r = 0;
 		color_g = 0;
 		color_b = 0;
-		xPos = 0;
-		yPos = 0;
 		xVel = 0;
 		yVel = 0;
 		fadeDuration = 0.5F;

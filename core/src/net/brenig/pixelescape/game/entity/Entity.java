@@ -13,10 +13,59 @@ import net.brenig.pixelescape.render.WorldRenderer;
  */
 public abstract class Entity implements Pool.Poolable {
 
-	protected World worldObj;
+	protected World world;
+	protected float xPos;
+	protected float yPos;
 
 	public Entity(World world) {
-		worldObj = world;
+		this.world = world;
+	}
+
+	/**
+	 * sets the position of this entity
+	 */
+	public void setPosition(float xPos, float yPos) {
+		this.xPos = xPos;
+		this.yPos = yPos;
+	}
+
+	/**
+	 * @return the xCoordinate of the left corner of this entity
+	 */
+	public float getMinX() {
+		return xPos;
+	}
+
+
+	/**
+	 * @return the xCoordinate of the right corner of this entity
+	 */
+	public float getMaxX() {
+		return xPos;
+	}
+
+
+	/**
+	 * @return the yCoordinate of the upper corner of this entity
+	 */
+	public float getMinY() {
+		return yPos;
+	}
+
+
+	/**
+	 * @return the yCoordinate of the bottom corner of this entity
+	 */
+	public float getMaxY() {
+		return yPos;
+	}
+
+	public float getXPos() {
+		return xPos;
+	}
+
+	public float getYPos() {
+		return yPos;
 	}
 
 	/**
@@ -46,10 +95,38 @@ public abstract class Entity implements Pool.Poolable {
 
 	@Override
 	public void reset() {
-
+		xPos = 0;
+		yPos = 0;
 	}
 
+	/**
+	 * checks whether the given area collides with this entity
+	 *
+	 * used to check for collision (with world or rigid objects)
+	 * @param x1 left x coordinate
+	 * @param y1 upper y coordinate
+	 * @param x2 right x coorinate
+	 * @param y2 bottom y coordinate
+	 * @return whether the area collides with this entity
+	 */
 	public CollisionType doesAreaCollideWithEntity(float x1, float y1, float x2, float y2) {
 		return CollisionType.NONE;
+	}
+
+	/**
+	 * returns whether this entity intersects with the given area
+	 * @param x1 left x coordinate
+	 * @param y1 upper y coordinate
+	 * @param x2 right x coorinate
+	 * @param y2 bottom y coordinate
+	 * @return whether the area intersects with this entity
+	 */
+	public boolean doesAreaIntersectWithEntity(float x1, float y1, float x2, float y2) {
+		if (getMinX() < x2 && getMaxX() > x1) {
+			if (getMinY() < y2 && getMaxY() > y1) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

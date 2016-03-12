@@ -27,9 +27,6 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	private int xPosScreen;
 
-	private float yPos;
-	private float xPos;
-
 	public int extraLives;
 
 	private float immortal = 0;
@@ -62,8 +59,8 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 			if(yPos < getPlayerSizeRadius()) {
 				yPos = getPlayerSizeRadius();
 				yVelocity = 0;
-			} else if(yPos > worldObj.getWorldHeight() - getPlayerSizeRadius()) {
-				yPos = worldObj.getWorldHeight() - getPlayerSizeRadius();
+			} else if(yPos > world.getWorldHeight() - getPlayerSizeRadius()) {
+				yPos = world.getWorldHeight() - getPlayerSizeRadius();
 				yVelocity = 0;
 			}
 		}
@@ -72,10 +69,10 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		if(hasAbility()) {
 			if(currentAbility.cooldownRemaining() == 0)  {
 				if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-					currentAbility.onActivate(worldObj.getScreen(), worldObj, this);
+					currentAbility.onActivate(world.getScreen(), world, this);
 				}
 			}
-			currentAbility.update(worldObj, this, deltaTick);
+			currentAbility.update(world, this, deltaTick);
 		}
 
 		//speed update
@@ -96,6 +93,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		yVelocity = Math.min(Reference.MAX_ENTITY_SPEED, yVelocity);
 		velocity = Math.min(Reference.MAX_ENTITY_SPEED, velocity);
 
+		//update trail
 		for (int i = 0; i < pathEntities.length; i++) {
 			if (i == 0) {
 				pathEntities[i].update(this, deltaTick, this, lastYPositions.getFromNewest(4));
@@ -166,11 +164,6 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		return velocity;
 	}
 
-	@Override
-	public float getYPos() {
-		return yPos;
-	}
-
 	public int getXPosScreen() {
 		return xPosScreen;
 	}
@@ -183,9 +176,9 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	}
 
 	private boolean collide() {
-		CollisionType col = worldObj.doesAreaCollideWithWorld(xPosScreen - getPlayerSizeRadius(), yPos - getPlayerSizeRadius(), xPosScreen + getPlayerSizeRadius(), yPos + getPlayerSizeRadius());
+		CollisionType col = world.doesAreaCollideWithWorld(xPosScreen - getPlayerSizeRadius(), yPos - getPlayerSizeRadius(), xPosScreen + getPlayerSizeRadius(), yPos + getPlayerSizeRadius());
 		if(col != CollisionType.NONE) {
-			return worldObj.onPlayerCollide(col);
+			return world.onPlayerCollide(col);
 		}
 		return false;
 	}

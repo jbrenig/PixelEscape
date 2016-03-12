@@ -19,9 +19,6 @@ public class EntityCrashParticle extends Entity {
 	private static final int radius = size / 2;
 	private static final float collisionSpeed = -0.4F;
 
-	private float xPos = 0;
-	private float yPos = 0;
-
 	private float xVel = 0;
 	private float yVel = 0;
 
@@ -37,11 +34,6 @@ public class EntityCrashParticle extends Entity {
 	public void setVelocity(float xVel, float yVel) {
 		this.xVel = xVel;
 		this.yVel = yVel;
-	}
-
-	public void setPosition(float xPos, float yPos) {
-		this.xPos = xPos;
-		this.yPos = yPos;
 	}
 
 	public void setColor(Color color) {
@@ -102,7 +94,7 @@ public class EntityCrashParticle extends Entity {
 		xVel = Math.min(Reference.MAX_ENTITY_SPEED, xVel);
 		yVel = Math.min(Reference.MAX_ENTITY_SPEED, yVel);
 
-		float renderX = worldObj.convertWorldCoordToScreenCoord(xPos);
+		float renderX = world.convertWorldCoordToScreenCoord(xPos);
 
 		game.getRenderManager().beginFilledShape();
 		game.getShapeRenderer().setColor(color);
@@ -111,13 +103,13 @@ public class EntityCrashParticle extends Entity {
 
 	@Override
 	public boolean isDead() {
-		float renderX = worldObj.convertWorldCoordToScreenCoord(xPos);
-		return yPos - radius >= worldObj.getWorldHeight() || yPos + radius <= 0 || renderX - radius >= worldObj.getWorldWidth() || renderX + radius <= 0;
+		float renderX = world.convertWorldCoordToScreenCoord(xPos);
+		return yPos - radius >= world.getWorldHeight() || yPos + radius <= 0 || renderX - radius >= world.getWorldWidth() || renderX + radius <= 0;
 	}
 
 	private CollisionType doesCollide() {
-		float renderX = worldObj.convertWorldCoordToScreenCoord(xPos);
-		return worldObj.doesAreaCollideWithWorld(renderX - radius, yPos - radius, renderX + radius, yPos + radius);
+		float renderX = world.convertWorldCoordToScreenCoord(xPos);
+		return world.doesAreaCollideWithWorld(renderX - radius, yPos - radius, renderX + radius, yPos + radius);
 	}
 
 	/**

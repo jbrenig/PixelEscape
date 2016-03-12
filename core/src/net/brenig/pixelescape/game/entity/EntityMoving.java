@@ -20,4 +20,22 @@ public abstract class EntityMoving extends Entity {
 		this.xVel = xVel;
 		this.yVel = yVel;
 	}
+
+	/**
+	 * mvoes the entity
+	 *
+	 * note: does note check velocity limits
+	 * @param delta time passed
+	 */
+	protected void move(float delta) {
+		xPos += xVel * delta;
+		yPos += yVel * delta;
+	}
+
+	@Override
+	public void reset() {
+		super.reset();
+		xVel = 0;
+		yVel = 0;
+	}
 }

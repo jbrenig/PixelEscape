@@ -30,7 +30,7 @@ public class CountDownOverlay extends Overlay {
 			//compensate low frame rate
 			startedAt += (long) (delta * 1000F);
 		}
-		final long timePassed = screen.isScreenPaused() ? 0 : System.currentTimeMillis() - startedAt;
+		final long timePassed = screen.isScreenPaused() ? 0 : (System.currentTimeMillis() - startedAt);
 		final long secondsPassed = (timePassed / 1000L);
 		final long secondsRemaining = COUNT_FROM - secondsPassed;
 		if (secondsRemaining <= -1L) {
@@ -40,13 +40,15 @@ public class CountDownOverlay extends Overlay {
 		}
 
 		int fractionOfCurrentSecond = ((int) (timePassed % 1000L)) + 1; //fraction of the current second
-		if(fractionOfCurrentSecond == 0) {
-			LogHelper.error("Unknown error, / by zero");
+		if(fractionOfCurrentSecond <= 0) {
+			LogHelper.error("Unknown error when calculating passed time!!, / by zero");
 			LogHelper.error("timePassed: " + timePassed);
 			LogHelper.error("secondsPassed: " + secondsPassed);
 			LogHelper.error("secondsRemaining: " + secondsRemaining);
 			LogHelper.error("fractionOfCurrentSecond: " + fractionOfCurrentSecond);
-			throw new RuntimeException("Unknown Error when calculating time passed!! Division by Zero!!");
+			//restore time
+			startedAt = System.currentTimeMillis();
+			fractionOfCurrentSecond = 1;
 		}
 		float fontScale = 5F;
 		if (fractionOfCurrentSecond < 100) {

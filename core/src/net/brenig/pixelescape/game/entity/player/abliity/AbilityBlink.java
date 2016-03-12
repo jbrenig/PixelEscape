@@ -27,7 +27,7 @@ public class AbilityBlink implements IAbility {
 			e.setColor(Color.BLUE);
 			e.setFadeDuration(0.4F);
 			e.setAccelerationFactor(0.99F, 0.99F);
-			e.setVelocity(PixelEscape.rand.nextFloat() * 10 - 0.5F, (PixelEscape.rand.nextFloat() * 20 + 20) * (e.getY() > player.getYPos() ? 1 : -1));
+			e.setVelocity(PixelEscape.rand.nextFloat() * 10 - 0.5F, (PixelEscape.rand.nextFloat() * 20 + 20) * (e.getYPos() > player.getYPos() ? 1 : -1));
 			world.spawnEntity(e);
 		}
 

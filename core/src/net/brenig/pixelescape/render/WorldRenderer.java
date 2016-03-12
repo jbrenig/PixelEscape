@@ -1,6 +1,8 @@
 package net.brenig.pixelescape.render;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
@@ -143,6 +145,8 @@ public class WorldRenderer {
 
 	/**
 	 * renders a rectangel using {@link com.badlogic.gdx.graphics.glutils.ShapeRenderer} and {@link GameRenderManager}
+	 *
+	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderRect(float x, float y, float width, float height) {
 		game.getRenderManager().getShapeRenderer().rect(xPos + screenShakeX + x, rendererYOffset + screenShakeY + y, width, height);
@@ -150,9 +154,48 @@ public class WorldRenderer {
 
 	/**
 	 * same as {@link #renderRect(float, float, float, float)}, but using global coordinates
+	 *
+	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderRectAbsolute(float x, float y, float width, float height) {
 		renderRect(world.convertWorldCoordToScreenCoord(x), y, width, height);
+	}
+
+
+	/**
+	 * renders a {@link Drawable} using {@link GameRenderManager}
+	 *
+	 * note: Renderer has to be initialized and in the right state
+	 */
+	public void renderDrawable(Drawable drawable, float x, float y, float width, float height) {
+		drawable.draw(game.getRenderManager().getBatch(), xPos + screenShakeX + x, rendererYOffset + screenShakeY + y, width, height);
+	}
+
+	/**
+	 * same as {@link #renderDrawable(Drawable, float, float, float, float)}, but using global coordinates
+	 *
+	 * note: Renderer has to be initialized and in the right state
+	 */
+	public void renderDrawableAbsolute(Drawable drawable, float x, float y, float width, float height) {
+		renderDrawable(drawable, world.convertWorldCoordToScreenCoord(x), y, width, height);
+	}
+
+	/**
+	 * renders a {@link TextureRegion} using {@link GameRenderManager}
+	 *
+	 * note: Renderer has to be initialized and in the right state
+	 */
+	public void renderTextureRegion(TextureRegion region, float x, float y, float width, float height) {
+		game.getRenderManager().getBatch().draw(region, xPos + screenShakeX + x, rendererYOffset + screenShakeY + y, width, height);
+	}
+
+	/**
+	 * same as {@link #renderTextureRegion(TextureRegion, float, float, float, float)}, but using global coordinates
+	 *
+	 * note: Renderer has to be initialized and in the right state
+	 */
+	public void renderTextureRegionAbsolute(TextureRegion region, float x, float y, float width, float height) {
+		renderTextureRegion(region, world.convertWorldCoordToScreenCoord(x), y, width, height);
 	}
 
 	/**

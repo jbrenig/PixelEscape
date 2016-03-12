@@ -4,8 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Disposable;
 
 import net.brenig.pixelescape.game.data.GameAssets;
@@ -188,6 +191,51 @@ public class GameRenderManager implements Disposable {
 				break;
 		}
 		state = State.READY;
+	}
+
+	/**
+	 * draws the drawable at the given position and size
+	 *
+	 * note: the renderer has to be initialized and in the correct state
+	 */
+	public void draw(Drawable drawable, float x, float y, float width, float height) {
+		drawable.draw(batch, x, y, width, height);
+	}
+
+	/**
+	 * draws the TextureRegion at the given position and size
+	 *
+	 * note: the renderer has to be initialized and in the correct state
+	 */
+	public void draw(TextureRegion drawable, float x, float y, float width, float height) {
+		batch.draw(drawable, x, y, width, height);
+	}
+
+	/**
+	 * draws the TextureRegion at the given position
+	 *
+	 * note: the renderer has to be initialized and in the correct state
+	 */
+	public void draw(TextureRegion drawable, float x, float y) {
+		batch.draw(drawable, x, y);
+	}
+
+	/**
+	 * draws the Sprite at its position and size
+	 *
+	 * note: the renderer has to be initialized and in the correct state
+	 */
+	public void draw(Sprite sprite) {
+		sprite.draw(batch);
+	}
+
+	/**
+	 * draws a Rectangle at the given position and size
+	 *
+	 * note: the renderer has to be initialized and in the correct state
+	 */
+	public void rect(float x, float y, float width, float height) {
+		shapeRenderer.rect(x, y, width, height);
 	}
 
 	public enum State {

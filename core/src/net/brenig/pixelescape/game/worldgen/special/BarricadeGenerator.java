@@ -131,7 +131,7 @@ public class BarricadeGenerator implements ISpecialWorldGenerator {
 	}
 
 	@Override
-	public void reset() {
+	public void reset(World world) {
 		obstacles.clear();
 	}
 }

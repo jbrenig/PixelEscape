@@ -26,15 +26,6 @@ public abstract class GameMode {
 	}
 
 	/**
-	 * Create and initialize the WorldGenerator for this GameMode
-	 */
-	public WorldGenerator createWorldGenerator() {
-		WorldGenerator gen = new WorldGenerator(this);
-		gen.init();
-		return gen;
-	}
-
-	/**
 	 * @return the amount of extra lives the player has when the game starts
 	 */
 	public int getExtraLives() {
@@ -53,6 +44,13 @@ public abstract class GameMode {
 	 */
 	public IAbility getStartingAbility() {
 		return null;
+	}
+
+	/**
+	 * add WorldFeatures to the given worldGenerator
+	 */
+	public void registerWorldGenerators(WorldGenerator worldGenerator) {
+		worldGenerator.registerDefaultWorldGenerators();
 	}
 
 	/**

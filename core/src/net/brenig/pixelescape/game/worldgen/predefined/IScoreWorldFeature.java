@@ -1,5 +1,6 @@
 package net.brenig.pixelescape.game.worldgen.predefined;
 
+import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.entity.Entity;
 
 public interface IScoreWorldFeature {
@@ -14,6 +15,6 @@ public interface IScoreWorldFeature {
 	 */
 	float getSpawnX();
 
-	void reset();
+	void reset(World world);
 
 }

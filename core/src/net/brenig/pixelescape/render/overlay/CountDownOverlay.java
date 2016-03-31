@@ -26,10 +26,10 @@ public class CountDownOverlay extends Overlay {
 
 	@Override
 	public void render(float delta) {
-		if (delta > 0.1) {
-			//compensate low frame rate
-			startedAt += (long) (delta * 1000F);
-		}
+//		if (delta > 0.1) {
+//			//compensate low frame rate
+//			startedAt += (long) (delta * 1000F);
+//		}
 		final long timePassed = screen.isScreenPaused() ? 0 : (System.currentTimeMillis() - startedAt);
 		final long secondsPassed = (timePassed / 1000L);
 		final long secondsRemaining = COUNT_FROM - secondsPassed;

@@ -57,7 +57,7 @@ public class World {
 	 */
 	public int blocksRequested = 0;
 
-	private final Random rand = new Random();
+	private final Random random = new Random();
 
 	/**
 	 * GameScreen instance
@@ -84,7 +84,12 @@ public class World {
 		player.setXPosScreen(worldWidth / 4);
 
 		//load world generators
-		worldGenerator = screen.getGameMode().createWorldGenerator();
+		//Creating the worldgenerator instance inside GameMode is probably unnecessary
+//		worldGenerator = screen.getGameMode().createWorldGenerator();
+		//Create world gen and let the GameMode register its WorldFeatureGenerators
+		worldGenerator = new WorldGenerator(this, screen.getGameMode());
+		screen.getGameMode().registerWorldGenerators(worldGenerator);
+
 
 		//load entity pool manager
 		entityPoolManager = new EntityPoolManager(this);
@@ -247,7 +252,7 @@ public class World {
 	public void generateWorld(boolean fillArray) {
 		int blockToGenerate = fillArray ? getBlockBufferSize() : calculateBlocksToGenerate();
 		int generationPasses = blockToGenerate + Reference.ADDITIONAL_GENERATION_PASSES;
-		worldGenerator.generateWorld(this, blockToGenerate, generationPasses, rand);
+		worldGenerator.generateWorld(blockToGenerate, generationPasses, random);
 	}
 
 	/**
@@ -320,19 +325,19 @@ public class World {
 	public boolean onPlayerCollide(CollisionType col) {
 
 		for (int i = 0; i < 60; i++) {
-			final float x = (float) Math.sin(i) + (rand.nextFloat() - 0.5F);
-			final float y = (float) Math.cos(i) + (rand.nextFloat() - 0.5F);
+			final float x = (float) Math.sin(i) + (random.nextFloat() - 0.5F);
+			final float y = (float) Math.cos(i) + (random.nextFloat() - 0.5F);
 //			EntityCrashParticle e = new EntityCrashParticle(this, (float) (player.getXPos() - player.getVelocity() * Gdx.graphics.getDeltaTime() + x), player.getYPos() - player.getYVelocity() * Gdx.graphics.getDeltaTime() + y, screen.game.gameDebugSettings.getBoolean("PLAYER_EXPLOSION_RED") ? Color.RED : Color.BLACK);
 			EntityCrashParticle e = createEntity(EntityCrashParticle.class);
 			e.setPosition((float) (player.getXPos() - player.getVelocity() * Gdx.graphics.getDeltaTime() + x), player.getYPos() - player.getYVelocity() * Gdx.graphics.getDeltaTime() + y);
 			e.setColor(screen.game.gameDebugSettings.getBoolean("PLAYER_EXPLOSION_RED") ? Color.RED : Color.BLACK);
-			final float xVel = (x * 2 + (rand.nextFloat() - 0.5F)) * 70;
-			final float yVel = (y * 2 + (rand.nextFloat() - 0.5F)) * 70;
+			final float xVel = (x * 2 + (random.nextFloat() - 0.5F)) * 70;
+			final float yVel = (y * 2 + (random.nextFloat() - 0.5F)) * 70;
 			e.setVelocity(xVel, yVel);
 			this.spawnEntity(e);
 		}
 		final float scoreModifier = 1 - 1 / (player.getScore() * 0.001F);
-		final float force = 0.5F + rand.nextFloat() * 0.5F * scoreModifier;
+		final float force = 0.5F + random.nextFloat() * 0.5F * scoreModifier;
 		final boolean horizontal = col == CollisionType.ENTITY;
 		screen.worldRenderer.applyForceToScreen(horizontal ? force : 0, horizontal ? 0 : force);
 
@@ -345,15 +350,15 @@ public class World {
 			final float lifeY = getWorldHeight() - 28 + 16;
 			//Spawn crash particles
 			for (int i = 0; i < 60; i++) {
-				final float x = (float) Math.sin(i) + (rand.nextFloat() - 0.5F);
-				final float y = (float) Math.cos(i) + (rand.nextFloat() - 0.5F);
+				final float x = (float) Math.sin(i) + (random.nextFloat() - 0.5F);
+				final float y = (float) Math.cos(i) + (random.nextFloat() - 0.5F);
 //				EntityCrashParticle e = new EntityCrashParticle(this, lifeX + x, lifeY + y, Color.RED);
 				EntityCrashParticle e = createEntity(EntityCrashParticle.class);
 				e.setPosition(lifeX + x, lifeY + y);
 				e.setColor(Color.RED);
 				e.setCollideTop(false);
-				final float xVel = (x * 2 + (rand.nextFloat() - 0.5F)) * 70;
-				final float yVel = (y * 2 + (rand.nextFloat() - 0.5F)) * 70;
+				final float xVel = (x * 2 + (random.nextFloat() - 0.5F)) * 70;
+				final float yVel = (y * 2 + (random.nextFloat() - 0.5F)) * 70;
 				e.setVelocity(xVel, yVel);
 				this.spawnEntity(e);
 			}
@@ -541,4 +546,25 @@ public class World {
 		return terrain;
 	}
 
+	public int getTerrainBotHeightRealForCoord(int xPos) {
+		final int index = convertWorldCoordinateToLocalBlockIndex(xPos);
+		return getTerrainBotHeightReal(index);
+	}
+
+	public int getTerrainTopHeightRealForCoord(int xPos) {
+		final int index = convertWorldCoordinateToLocalBlockIndex(xPos);
+		return getTerrainTopHeightReal(index);
+	}
+
+	public int getTerrainBotHeightReal(int localIndex) {
+		return getBotBlockHeight(localIndex) * Reference.BLOCK_WIDTH;
+	}
+
+	public int getTerrainTopHeightReal(int localIndex) {
+		return getTopBlockHeight(localIndex) * Reference.BLOCK_WIDTH;
+	}
+
+	public Random getRandom() {
+		return random;
+	}
 }

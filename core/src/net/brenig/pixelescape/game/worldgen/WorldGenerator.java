@@ -14,27 +14,25 @@ import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
-import java.util.TreeMap;
 
 /**
  * Generates terrain and obstacles
  */
 public class WorldGenerator {
 
-    private final GameMode gameMode;
+	private final World world;
+	private final GameMode gameMode;
 
-    private final TreeMap<Integer, ITerrainGenerator> terrainGenerators = new TreeMap<Integer, ITerrainGenerator>();
-    private int totalWeight = 0;
+    private final WeightedList<ITerrainGenerator> terrainGenerators = new WeightedList<ITerrainGenerator>();
 
     private List<ISpecialWorldGenerator> specialGenerators = new ArrayList<ISpecialWorldGenerator>();
     private List<IScoreWorldFeature> specialPredefinedGenerators = new ArrayList<IScoreWorldFeature>();
 
-    public WorldGenerator(GameMode gameMode) {
-		this.gameMode = gameMode;
+    public WorldGenerator(World world, GameMode gameMode) {
+	    this.world = world;
+	    this.gameMode = gameMode;
 	}
 
     /**
@@ -44,35 +42,19 @@ public class WorldGenerator {
      */
     public void registerTerrainGenerator(ITerrainGenerator generator) {
         if (generator.getWeight() <= 0) return;
-        totalWeight += generator.getWeight();
-        terrainGenerators.put(totalWeight, generator);
-    }
-
-    /**
-     * registers default worldgen
-     */
-    public void init() {
-        registerTerrainGenerator(new RandomTerrainGenerator(9));
-        registerTerrainGenerator(new FlatCorridor(3));
-        registerTerrainGenerator(new TerrainOpening(1));
-        registerTerrainGenerator(new TerrainClosing(4));
-        registerTerrainGenerator(new DiagonalCorridor(7));
-	    addSpecialGenerator(new BarricadeGenerator());
+        terrainGenerators.add(generator.getWeight(), generator);
     }
 
     /**
      * generates the World
      *
-     * @param world            the world to populate
      * @param blockToGenerate  amount of blocks that should get generated
      * @param generationPasses amount of tries to generate the world
      * @param random           world random-generator
      */
-    public void generateWorld(World world, int blockToGenerate, int generationPasses, Random random) {
+    public void generateWorld(int blockToGenerate, int generationPasses, Random random) {
         //Init available terrain gen list
-        TreeMap<Integer, ITerrainGenerator> gens = new TreeMap<Integer, ITerrainGenerator>();
-        gens.putAll(terrainGenerators);
-        int remaingWeight = this.totalWeight;
+        WeightedList<ITerrainGenerator> gens = terrainGenerators.createCopy();
 
         while (generationPasses > 0 && blockToGenerate > 0) {
             //get last terrain
@@ -80,21 +62,12 @@ public class WorldGenerator {
             if (old == null) {
                 old = new TerrainPair(Reference.STARTING_TERRAIN_HEIGHT, Reference.STARTING_TERRAIN_HEIGHT);
             }
-            //remove invalid generators
-            Iterator<Map.Entry<Integer, ITerrainGenerator>> iterator = gens.entrySet().iterator();
-            while (iterator.hasNext()) {
-                Map.Entry<Integer, ITerrainGenerator> entry = iterator.next();
-                int genLength = entry.getValue().getMinGenerationLength(old);
-                if (genLength <= 0 || genLength > blockToGenerate) {
-                    remaingWeight -= entry.getValue().getWeight();
-                    iterator.remove();
-                }
-            }
-            if (gens.size() <= 0) {
-                break;
-            }
+
             int lastRequested = world.blocksRequested;
-            ITerrainGenerator gen = ceilValue(random.nextInt(remaingWeight), gens);
+	        ITerrainGenerator gen = gens.getRandomValueWithFilter(random, new WorldGenFilter(old, blockToGenerate));
+	        if(gen == null) {
+		        break;
+	        }
             int generated = gen.generate(world, old, blockToGenerate, world.getBlocksGenerated(), random);
             blockToGenerate -= generated;
             //noinspection deprecation
@@ -113,30 +86,61 @@ public class WorldGenerator {
 	    }
     }
 
-    /**
-     * Helper-function to emulate {@link TreeMap#ceilingEntry(Object)}, which is not available on all platforms.
-     */
-    private ITerrainGenerator ceilValue(final int key, TreeMap<Integer, ITerrainGenerator> map) {
-//			ITerrainGenerator gen = gens.ceilingEntry(random.nextInt(remaingWeight)).getValue();
-        int lastKey = Integer.MAX_VALUE;
-        for (int i : map.keySet()) {
-            if (i >= key && i <= lastKey) {
-                lastKey = i;
-            }
-        }
-        return map.get(lastKey);
-    }
-
     public void addSpecialGenerator(ISpecialWorldGenerator gen) {
         specialGenerators.add(gen);
     }
 
 	public void reset() {
 		for(ISpecialWorldGenerator generator : specialGenerators) {
-			generator.reset();
+			generator.reset(world);
 		}
 		for(IScoreWorldFeature gen : specialPredefinedGenerators) {
-			gen.reset();
+			gen.reset(world);
+		}
+	}
+
+
+	/**
+	 * registers the default World-generators
+	 */
+	public void registerDefaultWorldGenerators() {
+		registerDefaultTerrainGenerators();
+		registerDefaultBarricadeGenerator();
+	}
+
+	/**
+	 * registers the default terrain generators with default weights
+	 */
+	public void registerDefaultTerrainGenerators() {
+		registerTerrainGenerator(new RandomTerrainGenerator(9));
+		registerTerrainGenerator(new FlatCorridor(3));
+		registerTerrainGenerator(new TerrainOpening(1));
+		registerTerrainGenerator(new TerrainClosing(4));
+		registerTerrainGenerator(new DiagonalCorridor(7));
+	}
+
+
+	/**
+	 * registers the default Barricade generator
+	 */
+	public void registerDefaultBarricadeGenerator() {
+		addSpecialGenerator(new BarricadeGenerator());
+	}
+
+	private class WorldGenFilter implements WeightedList.Filter<ITerrainGenerator> {
+
+		private final TerrainPair old;
+		private final int blockToGenerate;
+
+		private WorldGenFilter(TerrainPair old, int blockToGenerate) {
+			this.old = old;
+			this.blockToGenerate = blockToGenerate;
+		}
+
+		@Override
+		public boolean isValid(ITerrainGenerator value) {
+			int genLength = value.getMinGenerationLength(old);
+			return !(genLength <= 0 || genLength > blockToGenerate);
 		}
 	}
 }

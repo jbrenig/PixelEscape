@@ -77,7 +77,7 @@ public class BarricadeGenerator implements ISpecialWorldGenerator {
 			}
 
 			//Leave gap for player
-			int checkRadius = (int) ((world.getPlayer().getVelocity() / Reference.MAX_ENTITY_SPEED) * Reference.OBSTACLE_X_CHECK_RADIUS_MAX);
+			int checkRadius = (int) ((world.getPlayer().getXVelocity() / Reference.MAX_ENTITY_SPEED) * Reference.OBSTACLE_X_CHECK_RADIUS_MAX);
 			if (PixelEscape.rand.nextBoolean()) {
 				LogHelper.debug("Correcting Barricade leaving bottom gap @ x: " + b.getXPos() + "(" + world.convertWorldCoordinateToLocalBlockIndex(b.getXPos()) + ") y: " + b.getYPos());
 				b.setYPos(b.getYPos() + getAmountToCorrectBottom(world, b, checkRadius));

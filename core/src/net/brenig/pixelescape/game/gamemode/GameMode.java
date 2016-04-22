@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameAssets;
-import net.brenig.pixelescape.game.entity.player.abliity.IAbility;
+import net.brenig.pixelescape.game.entity.player.abliity.Ability;
 import net.brenig.pixelescape.game.worldgen.WorldGenerator;
 import net.brenig.pixelescape.lib.Reference;
 
@@ -21,7 +21,7 @@ public abstract class GameMode {
 	/**
 	 * @return the speed the player has when the game starts
 	 */
-	public double getStartingSpeed() {
+	public float getStartingSpeed() {
 		return Reference.STARTING_SPEED;
 	}
 
@@ -42,8 +42,15 @@ public abstract class GameMode {
 	/**
 	 * @return the ability that is available when the game begins (returns null if abilities are disabled)
 	 */
-	public IAbility getStartingAbility() {
+	public Ability getStartingAbility() {
 		return null;
+	}
+
+	/**
+	 * @return the uses the starting ability has left (default -1)
+	 */
+	public int getStartingAbilityUses() {
+		return -1;
 	}
 
 	/**

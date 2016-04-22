@@ -36,6 +36,10 @@ public class CycleIntArray {
 		return data[convertToLocalIndex(index)];
 	}
 
+	/**
+	 * @see #get(int)
+	 * @return the object at the given index reversed (--> index of 0 returns the newest object, an index of size-1 the oldest)
+	 */
 	public int getFromNewest(int index) {
 		return get(data.length - index - 1);
 	}

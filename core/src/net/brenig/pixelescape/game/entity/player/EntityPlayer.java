@@ -11,40 +11,55 @@ import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.game.entity.IMovingEntity;
-import net.brenig.pixelescape.game.entity.player.abliity.IAbility;
+import net.brenig.pixelescape.game.entity.particle.EntityCrashParticle;
+import net.brenig.pixelescape.game.entity.player.abliity.Ability;
+import net.brenig.pixelescape.game.entity.player.effects.StatusEffect;
 import net.brenig.pixelescape.game.gamemode.GameMode;
-import net.brenig.pixelescape.lib.CycleIntArray;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.WorldRenderer;
+
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * the Player
  */
 public class EntityPlayer extends Entity implements IMovingEntity {
 
-	private double velocity;
+	private int SIZE = Reference.PLAYER_ENTITY_SIZE;
+	private int RADIUS = SIZE / 2;
+
+	private float xVelocity;
 	private float yVelocity;
+
+	private float xVelocityModifier = 0;
 
 	private int xPosScreen;
 
-	public int extraLives;
+	private int extraLives;
 
 	private float immortal = 0;
 
 	private final PlayerPathEntity[] pathEntities = new PlayerPathEntity[4];
 
+	/**
+	 * used to allow for better acceleration of clicks
+	 */
 	private boolean lastTouched = false;
-
-	private final CycleIntArray lastYPositions;
-	private int lastXPosition = 0;
 
 	private boolean isDead = false;
 
-	private IAbility currentAbility;
+	private Ability currentAbility;
+	private int remaingAbilityUses;
+
+	private float cooldownRemaining = 0;
+
+	private Set<StatusEffect> effects = new HashSet<StatusEffect>();
 
 	public EntityPlayer(World world, GameMode gameMode) {
 		super(world);
-		lastYPositions = new CycleIntArray(20, (int) yPos);
 		for (int i = 0; i < pathEntities.length; i++) {
 			pathEntities[i] = new PlayerPathEntity(yPos, xPosScreen);
 		}
@@ -53,7 +68,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	@Override
 	public boolean update(float deltaTick, InputManager inputManager) {
-		xPos += deltaTick * velocity;
+		xPos += deltaTick *(xVelocity + xVelocityModifier);
 		if(!GameDebugSettings.get("DEBUG_GOD_MODE")) {
 			yPos += deltaTick * yVelocity;
 			if(yPos < getPlayerSizeRadius()) {
@@ -67,12 +82,13 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 		//trigger ability by key press
 		if(hasAbility()) {
-			if(currentAbility.cooldownRemaining() == 0)  {
+			if(cooldownRemaining == 0)  {
 				if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-					currentAbility.onActivate(world.getScreen(), world, this);
+					useAbility();
 				}
+			} else {
+				cooldownRemaining = Math.max(0, cooldownRemaining - deltaTick);
 			}
-			currentAbility.update(world, this, deltaTick);
 		}
 
 		//speed update
@@ -88,26 +104,31 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 			yVelocity += Reference.GRAVITY_ACCELERATION * deltaTick;
 			lastTouched = false;
 		}
-		velocity += Reference.SPEED_MODIFIER * deltaTick;
+		xVelocity += Reference.SPEED_MODIFIER * deltaTick;
 
 		yVelocity = Math.min(Reference.MAX_ENTITY_SPEED, yVelocity);
-		velocity = Math.min(Reference.MAX_ENTITY_SPEED, velocity);
+		xVelocity = Math.min(Reference.MAX_ENTITY_SPEED, xVelocity);
 
 		//update trail
 		for (int i = 0; i < pathEntities.length; i++) {
 			if (i == 0) {
-				pathEntities[i].update(this, deltaTick, this, lastYPositions.getFromNewest(4));
+				pathEntities[i].update(this, deltaTick, this);
 			} else {
-				pathEntities[i].update(pathEntities[i - 1], deltaTick, this, lastYPositions.getFromNewest(4 + i * 5));
+				pathEntities[i].update(pathEntities[i - 1], deltaTick, this);
 			}
 		}
-
-		if(getXPos() - lastXPosition > Reference.PATH_ENTITY_OFFSET / 5) {
-			lastYPositions.add((int) yPos);
-			lastXPosition = (int) getXPos();
+		//update effects
+		final Iterator<StatusEffect> iterEffect = effects.iterator();
+		while (iterEffect.hasNext()) {
+			final StatusEffect effect = iterEffect.next();
+			effect.update(deltaTick);
+			if(!effect.effectActive()) {
+				effect.onEffectRemove(this);
+				iterEffect.remove();
+			}
 		}
-		if(immortal <= 0 && !GameDebugSettings.get("DEBUG_GOD_MODE")) {
-			if(collide()) {
+		if(immortal <= 0) {
+			if(!GameDebugSettings.get("DEBUG_GOD_MODE") && collide()) {
 				return true;
 			}
 		} else {
@@ -117,16 +138,32 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	}
 
 	/**
+	 * use the current ability of the player
+	 */
+	public void useAbility() {
+		if(currentAbility.onActivate(world.getScreen(), world, this)) {
+			remaingAbilityUses--;
+			if(remaingAbilityUses == 0) {
+				currentAbility = null;
+				cooldownRemaining = 0;
+			} else {
+				cooldownRemaining = currentAbility.getCooldown();
+			}
+		}
+	}
+
+	/**
 	 * resets this player entity to starting position
 	 */
 	public void reset(GameMode gameMode) {
 		reviveAfterCrash();
 
 		xPos = 0;
-		velocity = gameMode.getStartingSpeed();
+		xVelocity = gameMode.getStartingSpeed();
 		isDead = false;
 		extraLives = gameMode.getExtraLives();
 		currentAbility = gameMode.getStartingAbility();
+		remaingAbilityUses = gameMode.getStartingAbilityUses();
 	}
 
 	/**
@@ -139,14 +176,40 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		for (int i = 0; i < pathEntities.length; i++) {
 			pathEntities[i].reset(yPos, xPosScreen - Reference.PATH_ENTITY_OFFSET * (i + 1));
 		}
-		lastYPositions.fill((int) yPos);
+		for(StatusEffect effect : effects) {
+			effect.onEffectRemove(this);
+		}
+		effects.clear();
+		xVelocityModifier = 0;
+		cooldownRemaining = 0;
 	}
 
 	/**
 	 * @return player global x coordinate
 	 */
+	@Override
 	public float getXPos() {
 		return xPos + getXPosScreen();
+	}
+
+	@Override
+	public float getMinX() {
+		return xPos + getXPosScreen() - RADIUS;
+	}
+
+	@Override
+	public float getMaxX() {
+		return xPos + getXPosScreen() + RADIUS;
+	}
+
+	@Override
+	public float getMinY() {
+		return yPos - RADIUS;
+	}
+
+	@Override
+	public float getMaxY() {
+		return yPos + RADIUS;
 	}
 
 	public int getScore() {
@@ -160,8 +223,8 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		return xPos;
 	}
 
-	public double getVelocity() {
-		return velocity;
+	public float getXVelocity() {
+		return xVelocity;
 	}
 
 	public int getXPosScreen() {
@@ -175,10 +238,26 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		}
 	}
 
+	/**
+	 * adds the given value to the xVelocity ignoring maximum speed limit
+	 * <p>
+	 *     a negative value will decrease player speed
+	 * </p>
+	 */
+	public void addXVelocityModifier(float xVelocityModifier) {
+		this.xVelocityModifier += xVelocityModifier;
+	}
+
 	private boolean collide() {
 		CollisionType col = world.doesAreaCollideWithWorld(xPosScreen - getPlayerSizeRadius(), yPos - getPlayerSizeRadius(), xPosScreen + getPlayerSizeRadius(), yPos + getPlayerSizeRadius());
 		if(col != CollisionType.NONE) {
-			return world.onPlayerCollide(col);
+			boolean collide = true;
+			for (StatusEffect effect : effects) {
+				if (!effect.onPlayerCollide(this)) {
+					collide = false;
+				}
+			}
+			return collide && onPlayerCollide(col, world);
 		}
 		return false;
 	}
@@ -222,6 +301,10 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		for (PlayerPathEntity e : this.getPathEntities()) {
 			game.getShapeRenderer().rect(xPos + e.getXPosScreen() - e.getSizeRadius(), yPos + e.getYPos() - e.getSizeRadius(), e.getSize(), e.getSize());
 		}
+
+		for (StatusEffect effect : effects) {
+			effect.render(game, renderer, xPos, yPos, delta);
+		}
 	}
 
 	@Override
@@ -237,19 +320,125 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		immortal = time;
 	}
 
-	public void setCurrentAbility(net.brenig.pixelescape.game.entity.player.abliity.IAbility currentAbility) {
-		this.currentAbility = currentAbility;
+	/**
+	 * sets the currently available ability
+	 * @param ability new ability
+	 * @param uses amount of times the player can use this ability (-1 for unlimited uses)
+	 */
+	public void setCurrentAbility(Ability ability, int uses) {
+		if(ability != null && this.currentAbility != ability) {
+			this.cooldownRemaining = 0;
+		}
+		this.currentAbility = ability;
+		this.remaingAbilityUses = uses;
 	}
 
-	public net.brenig.pixelescape.game.entity.player.abliity.IAbility getCurrentAbility() {
+	public Ability getCurrentAbility() {
 		return currentAbility;
 	}
 
 	public boolean hasAbility() {
-		return currentAbility != null;
+		return currentAbility != null && remaingAbilityUses != 0;
 	}
 
 	public void increaseXPos(float x) {
 		xPos += x;
+	}
+
+	public float getCooldownRemaining() {
+		return cooldownRemaining;
+	}
+
+	public float getCooldownRemainingScaled() {
+		if(currentAbility != null) {
+			return cooldownRemaining / currentAbility.getCooldown();
+		}
+		return 0;
+	}
+
+	public int getExtraLives() {
+		return extraLives;
+	}
+
+	public void setExtraLives(int extraLives) {
+		this.extraLives = extraLives;
+	}
+
+	/**
+	 * Gets called when player collides<br></br>
+	 * used to spawn explosion and other effects as well as reducing lives/schowing gameover screen
+	 * @param col type of collision
+	 * @param world the world instance
+	 */
+	public boolean onPlayerCollide(CollisionType col, World world) {
+		//Spawn particles
+		final Random random = world.getRandom();
+		for (int i = 0; i < 60; i++) {
+			final float x = (float) Math.sin(i) + (random.nextFloat() - 0.5F);
+			final float y = (float) Math.cos(i) + (random.nextFloat() - 0.5F);
+			EntityCrashParticle e = world.createEntity(EntityCrashParticle.class);
+			e.setPosition(getXPos() - getXVelocity() * Gdx.graphics.getDeltaTime() + x, getYPos() - getYVelocity() * Gdx.graphics.getDeltaTime() + y);
+			e.setColor(world.getScreen().game.gameDebugSettings.getBoolean("PLAYER_EXPLOSION_RED") ? Color.RED : Color.BLACK);
+			final float xVel = (x * 2 + (random.nextFloat() - 0.5F)) * 70;
+			final float yVel = (y * 2 + (random.nextFloat() - 0.5F)) * 70;
+			e.setVelocity(xVel, yVel);
+			world.spawnEntity(e);
+		}
+		//apply screenshake
+		//increase effect with higher score
+		final float scoreModifier = 1 - 1 / (getScore() * 0.001F);
+		final float force = 0.5F + random.nextFloat() * 0.5F * scoreModifier;
+		//when colliding with Barricades, shake horizontally
+		final boolean horizontal = col == CollisionType.ENTITY;
+		world.getScreen().worldRenderer.applyForceToScreen(horizontal ? force : 0, horizontal ? 0 : force);
+
+		//play sound
+		if (world.getScreen().game.gameSettings.isSoundEnabled()) {
+			world.getScreen().game.getGameAssets().getPlayerChrashedSound().play(world.getScreen().game.gameSettings.getSoundVolume());
+		}
+
+		//explode live icon
+		if(world.getScreen().getGameMode().getExtraLives() > 0) {
+			//We have a live system (and therefor have a lives icon)
+			final float lifeX = world.convertScreenToWorldCoordinate(world.getScreen().game.gameSizeX - 36 * getExtraLives() + 16);
+			final float lifeY = world.getWorldHeight() - 28 + 16;
+			//Spawn crash particles
+			for (int i = 0; i < 60; i++) {
+				final float x = (float) Math.sin(i) + (random.nextFloat() - 0.5F);
+				final float y = (float) Math.cos(i) + (random.nextFloat() - 0.5F);
+				EntityCrashParticle e = world.createEntity(EntityCrashParticle.class);
+				e.setPosition(lifeX + x, lifeY + y);
+				e.setColor(Color.RED);
+				e.setCollideTop(false);
+				final float xVel = (x * 2 + (random.nextFloat() - 0.5F)) * 70;
+				final float yVel = (y * 2 + (random.nextFloat() - 0.5F)) * 70;
+				e.setVelocity(xVel, yVel);
+				world.spawnEntity(e);
+			}
+		}
+		//use lives
+		if(getExtraLives() > 0) {
+			extraLives--;
+			setImmortal(3);
+			reviveAfterCrash();
+			return false;
+		} else {
+			setIsDead(true);
+			world.getScreen().onGameOver();
+			return true;
+		}
+	}
+
+	/**
+	 * adds a statuseffect to this player
+	 * <p>
+	 *     DO NOT CALL THIS WITHIN A {@link StatusEffect}!!!
+	 * </p>
+	 * @param effect
+	 *
+	 * @throws java.util.ConcurrentModificationException when access while player is updating status effects
+	 */
+	public void addEffect(StatusEffect effect) {
+		effects.add(effect);
 	}
 }

@@ -104,9 +104,9 @@ public abstract class Entity implements Pool.Poolable {
 	 *
 	 * used to check for collision (with world or rigid objects)
 	 * @param x1 left x coordinate
-	 * @param y1 upper y coordinate
+	 * @param y1 bottom y coordinate
 	 * @param x2 right x coorinate
-	 * @param y2 bottom y coordinate
+	 * @param y2 upper y coordinate
 	 * @return whether the area collides with this entity
 	 */
 	public CollisionType doesAreaCollideWithEntity(float x1, float y1, float x2, float y2) {
@@ -116,9 +116,9 @@ public abstract class Entity implements Pool.Poolable {
 	/**
 	 * returns whether this entity intersects with the given area
 	 * @param x1 left x coordinate
-	 * @param y1 upper y coordinate
+	 * @param y1 bottom y coordinate
 	 * @param x2 right x coorinate
-	 * @param y2 bottom y coordinate
+	 * @param y2 upper y coordinate
 	 * @return whether the area intersects with this entity
 	 */
 	public boolean doesAreaIntersectWithEntity(float x1, float y1, float x2, float y2) {
@@ -128,5 +128,23 @@ public abstract class Entity implements Pool.Poolable {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * returns whether this entity intersects with the given entity
+	 * @param other the entity to intersect with
+	 * @return whether the area intersects with this entity
+	 */
+	public boolean doesEntityIntersectWithEntity(Entity other) {
+		return other.doesAreaIntersectWithEntity(getMinX(), getMinY(), getMaxX(), getMaxY());
+	}
+
+	/**
+	 * returns whether this entity intersects with the given entity
+	 * @param other the entity to intersect with
+	 * @return whether the area intersects with this entity
+	 */
+	public CollisionType doesEntityCollideWithEntity(Entity other) {
+		return other.doesAreaCollideWithEntity(getMinX(), getMinY(), getMaxX(), getMaxY());
 	}
 }

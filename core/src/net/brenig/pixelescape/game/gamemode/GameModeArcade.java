@@ -4,8 +4,9 @@ package net.brenig.pixelescape.game.gamemode;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import net.brenig.pixelescape.game.data.GameAssets;
-import net.brenig.pixelescape.game.entity.player.abliity.AbilityBlink;
-import net.brenig.pixelescape.game.entity.player.abliity.IAbility;
+import net.brenig.pixelescape.game.entity.player.abliity.Ability;
+import net.brenig.pixelescape.game.worldgen.WorldGenerator;
+import net.brenig.pixelescape.game.worldgen.special.ItemGenerator;
 import net.brenig.pixelescape.lib.Names;
 
 public class GameModeArcade extends GameMode {
@@ -20,8 +21,15 @@ public class GameModeArcade extends GameMode {
 	}
 
 	@Override
-	public IAbility getStartingAbility() {
-		return new AbilityBlink();
+	public Ability getStartingAbility() {
+		return null;
+	}
+
+	@Override
+	public void registerWorldGenerators(WorldGenerator worldGenerator) {
+		super.registerWorldGenerators(worldGenerator);
+//		worldGenerator.addSpecialGenerator(new ItemGenerator(3000, 5000, 4000, 6000, ItemGenerator.createDefaultItemList()));
+		worldGenerator.addSpecialGenerator(new ItemGenerator(300, 500, 400, 600, ItemGenerator.createDefaultItemList()));
 	}
 
 	@Override

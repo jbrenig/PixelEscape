@@ -117,9 +117,6 @@ public class WorldRenderer {
 		moveScreen(delta);
 		renderWorld();
 		renderEntities(delta);
-		if(world.getPlayer().hasAbility()) {
-			world.getPlayer().getCurrentAbility().render(this, world, world.getPlayer(), delta);
-		}
 	}
 
 	/**
@@ -176,7 +173,7 @@ public class WorldRenderer {
 	 *
 	 * note: Renderer has to be initialized and in the right state
 	 */
-	public void renderDrawableAbsolute(Drawable drawable, float x, float y, float width, float height) {
+	public void renderDrawableWorld(Drawable drawable, float x, float y, float width, float height) {
 		renderDrawable(drawable, world.convertWorldCoordToScreenCoord(x), y, width, height);
 	}
 
@@ -196,6 +193,10 @@ public class WorldRenderer {
 	 */
 	public void renderTextureRegionAbsolute(TextureRegion region, float x, float y, float width, float height) {
 		renderTextureRegion(region, world.convertWorldCoordToScreenCoord(x), y, width, height);
+	}
+
+	public GameRenderManager getRenderManager() {
+		return game.getRenderManager();
 	}
 
 	/**

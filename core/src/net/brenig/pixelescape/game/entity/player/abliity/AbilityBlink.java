@@ -9,15 +9,16 @@ import net.brenig.pixelescape.game.data.GameAssets;
 import net.brenig.pixelescape.game.entity.particle.EntityFadingParticle;
 import net.brenig.pixelescape.game.entity.player.EntityPlayer;
 import net.brenig.pixelescape.lib.Reference;
-import net.brenig.pixelescape.render.WorldRenderer;
 import net.brenig.pixelescape.screen.GameScreen;
 
-public class AbilityBlink implements IAbility {
+public class AbilityBlink extends Ability {
 
 	private final static float maxCooldown = 10;
 	private final static float range = Reference.BLOCK_WIDTH * 4;
 
-	private float cooldown = 0;
+	public AbilityBlink() {
+		super(maxCooldown);
+	}
 
 	@Override
 	public boolean onActivate(GameScreen screen, World world, EntityPlayer player) {
@@ -30,32 +31,12 @@ public class AbilityBlink implements IAbility {
 			e.setVelocity(PixelEscape.rand.nextFloat() * 10 - 0.5F, (PixelEscape.rand.nextFloat() * 20 + 20) * (e.getYPos() > player.getYPos() ? 1 : -1));
 			world.spawnEntity(e);
 		}
-
-		cooldown = maxCooldown;
 		player.increaseXPos(range);
 
 		final float oldX = screen.worldRenderer.getTargetX();
 		screen.worldRenderer.setCameraXPosition(screen.worldRenderer.getXPos() + range);
 		screen.worldRenderer.moveScreenTo(oldX, Reference.BLOCK_WIDTH * 4);
 		return true;
-	}
-
-	@Override
-	public void update(World world, EntityPlayer player, float delta) {
-		cooldown -= delta;
-		if(cooldown < 0) {
-			cooldown = 0;
-		}
-	}
-
-	@Override
-	public void render(WorldRenderer render, World world, EntityPlayer player, float delta) {
-
-	}
-
-	@Override
-	public float cooldownRemaining() {
-		return cooldown / maxCooldown;
 	}
 
 	public Drawable getDrawable(GameAssets assets) {

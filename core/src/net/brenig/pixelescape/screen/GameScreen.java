@@ -203,7 +203,7 @@ public class GameScreen extends PixelScreen {
 	private void renderLives() {
 		if(gameMode.getExtraLives() > 0) {
 			game.getRenderManager().begin();
-			for (int index = 1; index <= world.getPlayer().extraLives + 1; index++) {
+			for (int index = 1; index <= world.getPlayer().getExtraLives() + 1; index++) {
 				game.getRenderManager().getBatch().draw(game.getGameAssets().getHeart(), game.gameSizeX - 36 * index, uiPos + world.getWorldHeight() - 28);
 			}
 		}
@@ -224,7 +224,7 @@ public class GameScreen extends PixelScreen {
 			float x = game.getScaledMouseX();
 			float y = game.getScaledMouseY();
 			float worldY = world.convertMouseYToWorldCoordinate(y);
-			String screenTxt = "Screen: X: " + (int) x + ", Y: " + (int) world.convertMouseYToScreenCoordinate(y) + "(" + (int) y + "), Player speed: " + (int) world.getPlayer().getVelocity();
+			String screenTxt = "Screen: X: " + (int) x + ", Y: " + (int) world.convertMouseYToScreenCoordinate(y) + "(" + (int) y + "), Player speed: " + (int) world.getPlayer().getXVelocity();
 			String worldTxt = "World: X: " + (int) world.convertScreenToWorldCoordinate(x) + ", Y: " + (int) worldY + ", Block: " + world.convertScreenCoordToWorldBlockIndex(x) + " (" + world.convertWorldBlockToLocalBlockIndex(world.convertScreenCoordToWorldBlockIndex(x)) + ")";
 			TerrainPair terrain = world.getBlockForScreenPosition(x);
 			boolean isTerrain = world.getWorldHeight() - terrain.getBot() * Reference.BLOCK_WIDTH < worldY

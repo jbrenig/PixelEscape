@@ -20,7 +20,7 @@ public class Reference {
 	public static final int GAME_UI_SCORE_SCREEN_SIZE_BUFFER = 20;
 	public static final float GAME_UI_MAIN_MENU_FONT_SIZE = 0.8F;
 
-	public static final double STARTING_SPEED = 100D;
+	public static final float STARTING_SPEED = 100F;
 	public static final float SPEED_MODIFIER = 3F;
 
 	//PATH ENTITIES

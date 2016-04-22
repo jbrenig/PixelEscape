@@ -11,19 +11,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import net.brenig.pixelescape.game.entity.player.EntityPlayer;
-import net.brenig.pixelescape.game.entity.player.abliity.IAbility;
-import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.screen.GameScreen;
 
+/**
+ * Gui Button that triggers use of the current player Ability
+ */
 public class AbilityWidget extends Button {
 
 
 	private final GameScreen gameScreen;
 	private EntityPlayer player;
-	private IAbility currentAbility;
-
-	private Drawable abilityIcon;
 
 	private float animCounter = 0;
 	private final static float ANIM_DURATION = 0.5F;
@@ -52,41 +50,46 @@ public class AbilityWidget extends Button {
 		initialize();
 	}
 
+	/**
+	 * initialized click listener etc.
+	 */
 	private void initialize() {
 		addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if (!gameScreen.isGamePaused() && hasAbility() && currentAbility.cooldownRemaining() == 0) {
-					currentAbility.onActivate(gameScreen, gameScreen.world, player);
+				if (!gameScreen.isGamePaused() && player.hasAbility()) {
+					player.useAbility();
 				}
 			}
 		});
 	}
 
+	/**
+	 * sets the player that has the ability
+	 */
 	public void setPlayer(EntityPlayer player) {
 		this.player = player;
-		updateAbilityIcon();
 	}
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		super.draw(batch, parentAlpha);
-		final float itemFrame = getWidth() * item_frame_border;
-		updateAbilityIcon();
-		if(hasAbility()) {
+		if (player.hasAbility()) {
+			final float itemFrame = getWidth() * item_frame_border;
+			final Drawable abilityIcon = player.getCurrentAbility().getDrawable(gameScreen.game.getGameAssets());
 			if (abilityIcon != null) {
 				abilityIcon.draw(batch, getX() + itemFrame, getY() + itemFrame, getWidth() - itemFrame * 2, getHeight() - itemFrame * 2);
 			}
-			if(currentAbility.cooldownRemaining() != 0) {
+			if (player.getCooldownRemaining() != 0) {
 				animCounter = ANIM_DURATION;
 				batch.end();
 				gameScreen.game.getShapeRenderer().begin(ShapeRenderer.ShapeType.Filled);
 				Gdx.gl.glEnable(GL20.GL_BLEND);
 				gameScreen.game.getShapeRenderer().setColor(0.7F, 0.7F, 1, 0.4F);
-				gameScreen.game.getShapeRenderer().rect(getX() + itemFrame, getY() + itemFrame, getWidth() - itemFrame * 2, (getHeight() - itemFrame * 2) * currentAbility.cooldownRemaining());
+				gameScreen.game.getShapeRenderer().rect(getX() + itemFrame, getY() + itemFrame, getWidth() - itemFrame * 2, (getHeight() - itemFrame * 2) * player.getCooldownRemainingScaled());
 				gameScreen.game.getShapeRenderer().end();
 				batch.begin();
-			} else if(animCounter > 0) {
+			} else if (animCounter > 0) {
 				animCounter -= Gdx.graphics.getDeltaTime();
 				final float alpha = Utils.easeInAndOut(animCounter, ANIM_DURATION) * 0.7F;
 				batch.end();
@@ -100,38 +103,17 @@ public class AbilityWidget extends Button {
 		}
 	}
 
-	/**
-	 * updates current ability and ability icon to the current ability of the player (if changed)
-	 */
-	public void updateAbilityIcon() {
-		if(player.getCurrentAbility() != currentAbility) {
-			currentAbility = player.getCurrentAbility();
-			if(currentAbility == null) {
-				abilityIcon = null;
-			} else {
-				abilityIcon = currentAbility.getDrawable(gameScreen.game.getGameAssets());
-				if(abilityIcon == null) {
-					LogHelper.warn("Ability " + currentAbility + " has no ability icon!!!");
-				}
-			}
-		}
-	}
-
-	public boolean hasAbility() {
-		return currentAbility != null;
-	}
-
 	public static class AbilityButtonStyle extends Button.ButtonStyle {
 
-		public AbilityButtonStyle () {
+		public AbilityButtonStyle() {
 
 		}
 
-		public AbilityButtonStyle (Drawable up, Drawable down, Drawable checked) {
+		public AbilityButtonStyle(Drawable up, Drawable down, Drawable checked) {
 			super(up, down, checked);
 		}
 
-		public AbilityButtonStyle (AbilityButtonStyle style) {
+		public AbilityButtonStyle(AbilityButtonStyle style) {
 			super(style);
 		}
 	}

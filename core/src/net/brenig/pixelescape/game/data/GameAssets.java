@@ -47,6 +47,8 @@ public class GameAssets {
 	private TextureRegion item_frame;
 	private Drawable item_blink;
 
+	private Drawable missingTexture;
+
 	private Skin mainUiSkin;
 
 	public void disposeAll() {
@@ -103,6 +105,7 @@ public class GameAssets {
 		heart = textureAtlas.findRegion("heart");
 		item_frame = textureAtlas.findRegion("item_frame");
 		item_blink = new TextureRegionDrawable(textureAtlas.findRegion("item_blink"));
+		missingTexture = new TextureRegionDrawable(textureAtlas.findRegion("fullscreen_hover"));
 	}
 
 	private void initSkin() {
@@ -358,5 +361,9 @@ public class GameAssets {
 
 	public Drawable getItemBlink() {
 		return item_blink;
+	}
+
+	public Drawable getMissingTexture() {
+		return missingTexture;
 	}
 }

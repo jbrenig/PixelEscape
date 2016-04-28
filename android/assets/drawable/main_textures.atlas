@@ -1,26 +1,26 @@
 
 main_textures.png
-size: 512,128
+size: 1024,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 arrow_left
   rotate: false
-  xy: 264, 24
+  xy: 230, 28
   size: 24, 64
   orig: 24, 64
   offset: 0, 0
   index: -1
 arrow_right
   rotate: false
-  xy: 290, 24
+  xy: 256, 14
   size: 24, 64
   orig: 24, 64
   offset: 0, 0
   index: -1
 button
   rotate: false
-  xy: 2, 90
+  xy: 2, 94
   size: 128, 32
   split: 10, 10, 10, 10
   orig: 128, 32
@@ -28,7 +28,7 @@ button
   index: -1
 button_clicked
   rotate: false
-  xy: 2, 56
+  xy: 2, 60
   size: 128, 32
   split: 10, 10, 10, 10
   orig: 128, 32
@@ -36,7 +36,7 @@ button_clicked
   index: -1
 button_disabled
   rotate: false
-  xy: 132, 90
+  xy: 132, 94
   size: 128, 32
   split: 9, 10, 10, 10
   pad: 10, 10, 10, 10
@@ -45,7 +45,7 @@ button_disabled
   index: -1
 button_hover
   rotate: false
-  xy: 2, 22
+  xy: 2, 26
   size: 128, 32
   split: 10, 10, 10, 10
   orig: 128, 32
@@ -53,140 +53,168 @@ button_hover
   index: -1
 button_pause
   rotate: false
-  xy: 360, 90
+  xy: 490, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 checkbox
   rotate: false
-  xy: 200, 24
+  xy: 2, 8
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 checkbox_checked
   rotate: false
-  xy: 22, 4
+  xy: 158, 10
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 checkbox_hover
   rotate: false
-  xy: 218, 24
+  xy: 302, 28
+  size: 16, 16
+  orig: 16, 16
+  offset: 0, 0
+  index: -1
+effect_item_shield
+  rotate: false
+  xy: 20, 8
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 fullscreen
   rotate: false
-  xy: 394, 90
+  xy: 282, 46
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 fullscreen_hover
   rotate: false
-  xy: 428, 90
+  xy: 524, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 fullscreen_restore
   rotate: false
-  xy: 462, 90
+  xy: 316, 46
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 fullscreen_restore_hover
   rotate: false
-  xy: 230, 42
+  xy: 558, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 gamemode_arcade
   rotate: false
-  xy: 262, 90
+  xy: 262, 80
   size: 96, 32
   orig: 96, 32
   offset: 0, 0
   index: -1
 gamemode_classic
   rotate: false
-  xy: 132, 42
+  xy: 392, 94
   size: 96, 32
   orig: 96, 32
   offset: 0, 0
   index: -1
 gear_settings
   rotate: false
-  xy: 316, 56
+  xy: 592, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 gear_settings_white
   rotate: false
-  xy: 350, 56
+  xy: 626, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 heart
   rotate: false
-  xy: 384, 56
+  xy: 660, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 item_blink
   rotate: false
-  xy: 2, 2
+  xy: 282, 26
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
+item_blob_filled
+  rotate: false
+  xy: 132, 28
+  size: 96, 64
+  orig: 96, 64
+  offset: 0, 0
+  index: -1
 item_frame
   rotate: false
-  xy: 418, 56
+  xy: 694, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
+item_shield
+  rotate: false
+  xy: 350, 60
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
+item_slow
+  rotate: false
+  xy: 1000, 108
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
 music_disabled
   rotate: false
-  xy: 452, 56
+  xy: 728, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 music_disabled_hover
   rotate: false
-  xy: 316, 22
+  xy: 762, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 music_enabled
   rotate: false
-  xy: 350, 22
+  xy: 796, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 music_enabled_hover
   rotate: false
-  xy: 384, 22
+  xy: 830, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 scroll_background
   rotate: false
-  xy: 40, 5
+  xy: 176, 11
   size: 15, 15
   split: 4, 4, 4, 4
   orig: 15, 15
@@ -194,49 +222,49 @@ scroll_background
   index: -1
 scrollbar
   rotate: false
-  xy: 486, 30
+  xy: 360, 80
   size: 16, 32
   orig: 16, 32
   offset: 0, 0
   index: -1
 slider_background
   rotate: false
-  xy: 132, 76
+  xy: 262, 114
   size: 128, 12
   orig: 128, 12
   offset: 0, 0
   index: -1
 slider_knop
   rotate: false
-  xy: 486, 64
+  xy: 132, 2
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
   index: -1
 sound_disabled
   rotate: false
-  xy: 418, 22
+  xy: 864, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 sound_disabled_hover
   rotate: false
-  xy: 452, 22
+  xy: 898, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 sound_enabled
   rotate: false
-  xy: 132, 8
+  xy: 932, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 sound_enabled_hover
   rotate: false
-  xy: 166, 8
+  xy: 966, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

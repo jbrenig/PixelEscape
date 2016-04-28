@@ -13,8 +13,7 @@ public class EffectSlow extends StatusEffect {
 	public static final Item ITEM = new Item() {
 		@Override
 		public Drawable getItemDrawable(GameAssets assets) {
-			//TODO proper textures
-			return assets.getMissingTexture();
+			return assets.getItemSlow();
 		}
 
 		@Override
@@ -27,7 +26,7 @@ public class EffectSlow extends StatusEffect {
 	private float timeRemaining = 10;
 	private float velocityAmount;
 
-	private final static float xVelocityFactor = 0.1F;
+	private final static float xVelocityFactor = 0.2F;
 	private final static float maximumVelocityDecrease = 100F;
 
 	public EffectSlow(EntityPlayer player) {
@@ -37,7 +36,7 @@ public class EffectSlow extends StatusEffect {
 	}
 
 	@Override
-	public void render(PixelEscape game, WorldRenderer renderer, float xPos, float yPos, float delta) {
+	public void render(PixelEscape game, WorldRenderer renderer, EntityPlayer player, float xPos, float yPos, float delta) {
 		//TODO slow effect??
 	}
 

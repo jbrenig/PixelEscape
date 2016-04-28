@@ -1,5 +1,8 @@
 package net.brenig.pixelescape.game.entity;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
@@ -15,8 +18,11 @@ import net.brenig.pixelescape.render.WorldRenderer;
  */
 public class EntityItem extends Entity {
 
-	private final static int SIZE = 48;
+	private final static int SIZE = 18 * 2;
 	private final static int RADIUS = SIZE / 2;
+
+	private final static int BACKGROUND_SIZE_MOD = 14 * 2;
+	private final static int BACKGROUND_OFFSET = BACKGROUND_SIZE_MOD / 2;
 
 	private Item item;
 
@@ -56,6 +62,8 @@ public class EntityItem extends Entity {
 			return;
 		}
 		game.getRenderManager().begin();
+		Gdx.gl.glEnable(GL20.GL_BLEND);
+		renderer.renderSimpleAnimationWorld(game.getGameAssets().getItemAnimatedBackground(), getMinX() - BACKGROUND_OFFSET, getMinY() - BACKGROUND_OFFSET, SIZE + BACKGROUND_SIZE_MOD, SIZE + BACKGROUND_SIZE_MOD, delta);
 		renderer.renderDrawableWorld(item.getItemDrawable(game.getGameAssets()), getMinX(), getMinY(), SIZE, SIZE);
 	}
 

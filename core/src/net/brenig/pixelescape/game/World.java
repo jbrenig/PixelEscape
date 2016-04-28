@@ -119,8 +119,6 @@ public class World {
 			}
 		}
 		spawnEntities();
-
-		debugValidateWorldGen();
 	}
 
 	public void spawnEntities() {

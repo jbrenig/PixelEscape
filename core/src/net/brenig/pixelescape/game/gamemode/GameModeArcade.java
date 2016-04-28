@@ -29,7 +29,7 @@ public class GameModeArcade extends GameMode {
 	public void registerWorldGenerators(WorldGenerator worldGenerator) {
 		super.registerWorldGenerators(worldGenerator);
 //		worldGenerator.addSpecialGenerator(new ItemGenerator(3000, 5000, 4000, 6000, ItemGenerator.createDefaultItemList()));
-		worldGenerator.addSpecialGenerator(new ItemGenerator(300, 500, 400, 600, ItemGenerator.createDefaultItemList()));
+		worldGenerator.addSpecialGenerator(new ItemGenerator(600, 1000, 800, 1200, ItemGenerator.createDefaultItemList()));
 	}
 
 	@Override

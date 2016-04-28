@@ -18,7 +18,7 @@ public class PlayerPathEntity implements IMovingEntity {
 
 	public void update(IMovingEntity e, float delta, EntityPlayer playerEntity) {
 		this.yPos += yVelocity * delta;
-		this.yVelocity = (float) ((e.getYPos() - this.getYPos()) * Reference.PATH_ENTITY_ACCELERATION_MOD * playerEntity.getXVelocity());
+		this.yVelocity = (e.getYPos() - this.getYPos()) * Reference.PATH_ENTITY_ACCELERATION_MOD * playerEntity.getXVelocity();
 	}
 
 	public float getYPos() {

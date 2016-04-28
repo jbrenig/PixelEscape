@@ -191,8 +191,15 @@ public class WorldRenderer {
 	 *
 	 * note: Renderer has to be initialized and in the right state
 	 */
-	public void renderTextureRegionAbsolute(TextureRegion region, float x, float y, float width, float height) {
+	public void renderTextureRegionWorld(TextureRegion region, float x, float y, float width, float height) {
 		renderTextureRegion(region, world.convertWorldCoordToScreenCoord(x), y, width, height);
+	}
+
+	/**
+	 * renders an animation in world
+	 */
+	public void renderSimpleAnimationWorld(SimpleAnimation animation, float x, float y, float width, float height, float delta) {
+		renderTextureRegionWorld(animation.getFrameAfterTimePassed(delta), x, y, width, height);
 	}
 
 	public GameRenderManager getRenderManager() {

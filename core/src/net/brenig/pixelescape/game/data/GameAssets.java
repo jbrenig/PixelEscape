@@ -21,6 +21,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
+import net.brenig.pixelescape.render.SimpleAnimation;
 import net.brenig.pixelescape.screen.ui.general.TwoStateImageButton;
 import net.brenig.pixelescape.screen.ui.ingame.AbilityWidget;
 
@@ -46,10 +47,16 @@ public class GameAssets {
 
 	private TextureRegion item_frame;
 	private Drawable item_blink;
+	private Drawable item_slow;
+	private Drawable item_shield;
+
+	private TextureRegion effect_item_shield;
 
 	private Drawable missingTexture;
 
 	private Skin mainUiSkin;
+
+	private SimpleAnimation itemAnimatedBackground;
 
 	public void disposeAll() {
 		font.dispose();
@@ -103,8 +110,17 @@ public class GameAssets {
 		//Cache default button texture for other use cases
 		buttonNinePatch = textureAtlas.createPatch("button");
 		heart = textureAtlas.findRegion("heart");
-		item_frame = textureAtlas.findRegion("item_frame");
+
+		//ITEMS
 		item_blink = new TextureRegionDrawable(textureAtlas.findRegion("item_blink"));
+		item_slow = new TextureRegionDrawable(textureAtlas.findRegion("item_slow"));
+		item_shield = new TextureRegionDrawable(textureAtlas.findRegion("item_shield"));
+
+		effect_item_shield = textureAtlas.findRegion("effect_item_shield");
+
+		item_frame = textureAtlas.findRegion("item_frame");
+		itemAnimatedBackground = new SimpleAnimation(3, 2, textureAtlas.findRegion("item_blob_filled"), 0.5F);
+
 		missingTexture = new TextureRegionDrawable(textureAtlas.findRegion("fullscreen_hover"));
 	}
 
@@ -365,5 +381,21 @@ public class GameAssets {
 
 	public Drawable getMissingTexture() {
 		return missingTexture;
+	}
+
+	public SimpleAnimation getItemAnimatedBackground() {
+		return itemAnimatedBackground;
+	}
+
+	public Drawable getItemShield() {
+		return item_shield;
+	}
+
+	public Drawable getItemSlow() {
+		return item_slow;
+	}
+
+	public TextureRegion getEffectItemShield() {
+		return effect_item_shield;
 	}
 }

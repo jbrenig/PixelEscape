@@ -12,7 +12,7 @@ public abstract class StatusEffect {
 		this.player = player;
 	}
 
-	public abstract void render(PixelEscape game, WorldRenderer renderer, float xPos, float yPos, float delta);
+	public abstract void render(PixelEscape game, WorldRenderer renderer, EntityPlayer player, float xPos, float yPos, float delta);
 
 	public abstract void update(float delta);
 
@@ -27,7 +27,7 @@ public abstract class StatusEffect {
 	 * will get called when player collides
 	 * @return false when player doesn't collide due to this statuseffect
 	 */
-	public boolean onPlayerCollide(EntityPlayer player) {
+	public boolean onPlayerCollide() {
 		return true;
 	}
 }

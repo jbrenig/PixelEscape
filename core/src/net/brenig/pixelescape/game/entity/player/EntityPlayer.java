@@ -253,7 +253,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		if(col != CollisionType.NONE) {
 			boolean collide = true;
 			for (StatusEffect effect : effects) {
-				if (!effect.onPlayerCollide(this)) {
+				if (!effect.onPlayerCollide()) {
 					collide = false;
 				}
 			}
@@ -296,14 +296,14 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		} else {
 			game.getShapeRenderer().setColor(Color.LIGHT_GRAY);
 		}
-		game.getShapeRenderer().rect(xPos + this.getXPosScreen() - this.getPlayerSize() / 2, this.getYPos() - this.getPlayerSize() / 2 + yPos, this.getPlayerSize(), this.getPlayerSize());
+		renderer.renderRect(this.getXPosScreen() - this.getPlayerSize() / 2, this.getYPos() - this.getPlayerSize() / 2, this.getPlayerSize(), this.getPlayerSize());
 
 		for (PlayerPathEntity e : this.getPathEntities()) {
-			game.getShapeRenderer().rect(xPos + e.getXPosScreen() - e.getSizeRadius(), yPos + e.getYPos() - e.getSizeRadius(), e.getSize(), e.getSize());
+			renderer.renderRect(e.getXPosScreen() - e.getSizeRadius(), e.getYPos() - e.getSizeRadius(), e.getSize(), e.getSize());
 		}
 
 		for (StatusEffect effect : effects) {
-			effect.render(game, renderer, xPos, yPos, delta);
+			effect.render(game, renderer, this, xPos, yPos, delta);
 		}
 	}
 
@@ -326,11 +326,16 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	 * @param uses amount of times the player can use this ability (-1 for unlimited uses)
 	 */
 	public void setCurrentAbility(Ability ability, int uses) {
-		if(ability != null && this.currentAbility != ability) {
+		if (this.currentAbility == ability) {
+			if(uses > 0) {
+				this.remaingAbilityUses += uses;
+			} else {
+				this.remaingAbilityUses = uses;
+			}
+		} else {
 			this.cooldownRemaining = 0;
+			this.currentAbility = ability;
 		}
-		this.currentAbility = ability;
-		this.remaingAbilityUses = uses;
 	}
 
 	public Ability getCurrentAbility() {
@@ -434,11 +439,34 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	 * <p>
 	 *     DO NOT CALL THIS WITHIN A {@link StatusEffect}!!!
 	 * </p>
-	 * @param effect
 	 *
 	 * @throws java.util.ConcurrentModificationException when access while player is updating status effects
 	 */
 	public void addEffect(StatusEffect effect) {
 		effects.add(effect);
+	}
+
+	/**
+	 * adds a statuseffect to this player
+	 * <p>
+	 *     also removes existing inscances of this effect (uses {@code instanceof} to find these)
+	 * </p>
+	 * <p>
+	 *     DO NOT CALL THIS WITHIN A {@link StatusEffect}!!!
+	 * </p>
+	 *
+	 * @throws java.util.ConcurrentModificationException when access while player is updating status effects
+	 */
+	public void addOrUpdateEffect(StatusEffect effect) {
+		Iterator<StatusEffect> effectIterator = effects.iterator();
+		Class<? extends StatusEffect> clazz = effect.getClass();
+		while (effectIterator.hasNext()) {
+			StatusEffect old = effectIterator.next();
+			if(clazz.isInstance(old)) {
+				old.onEffectRemove(this);
+				effectIterator.remove();
+			}
+		}
+		addEffect(effect);
 	}
 }

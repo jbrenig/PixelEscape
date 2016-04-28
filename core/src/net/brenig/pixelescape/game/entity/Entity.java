@@ -147,4 +147,8 @@ public abstract class Entity implements Pool.Poolable {
 	public CollisionType doesEntityCollideWithEntity(Entity other) {
 		return other.doesAreaCollideWithEntity(getMinX(), getMinY(), getMaxX(), getMaxY());
 	}
+
+	public World getWorld() {
+		return world;
+	}
 }

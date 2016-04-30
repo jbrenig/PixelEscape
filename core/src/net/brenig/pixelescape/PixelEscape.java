@@ -242,10 +242,10 @@ public class PixelEscape extends Game {
 	public void updateFullscreen() {
 		if(gameConfig.canGoFullScreen()) {
 			if(gameSettings.fullscreen) {
-				final Graphics.DisplayMode oldMode = Gdx.graphics.getDesktopDisplayMode();
-				Gdx.graphics.setDisplayMode(oldMode.width, oldMode.height, true);
+				final Graphics.DisplayMode oldMode = Gdx.graphics.getDisplayMode();
+				Gdx.graphics.setFullscreenMode(oldMode);
 			} else {
-				Gdx.graphics.setDisplayMode(Reference.TARGET_RESOLUTION_X, Reference.TARGET_RESOLUTION_Y, false);
+				Gdx.graphics.setWindowedMode(Reference.TARGET_RESOLUTION_X, Reference.TARGET_RESOLUTION_Y);
 			}
 		}
 	}

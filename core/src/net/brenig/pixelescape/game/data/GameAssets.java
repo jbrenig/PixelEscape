@@ -49,6 +49,7 @@ public class GameAssets {
 	private Drawable item_blink;
 	private Drawable item_slow;
 	private Drawable item_shield;
+	private Drawable item_move;
 
 	private TextureRegion effect_item_shield;
 
@@ -115,6 +116,7 @@ public class GameAssets {
 		item_blink = new TextureRegionDrawable(textureAtlas.findRegion("item_blink"));
 		item_slow = new TextureRegionDrawable(textureAtlas.findRegion("item_slow"));
 		item_shield = new TextureRegionDrawable(textureAtlas.findRegion("item_shield"));
+		item_move = new TextureRegionDrawable(textureAtlas.findRegion("item_move"));
 
 		effect_item_shield = textureAtlas.findRegion("effect_item_shield");
 
@@ -397,5 +399,9 @@ public class GameAssets {
 
 	public TextureRegion getEffectItemShield() {
 		return effect_item_shield;
+	}
+
+	public Drawable getItemMove() {
+		return item_move;
 	}
 }

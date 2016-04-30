@@ -35,6 +35,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	private float yVelocity;
 
 	private float xVelocityModifier = 0;
+	private float yVelocityFactor = 1;
 
 	private int xPosScreen;
 
@@ -71,6 +72,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		xPos += deltaTick *(xVelocity + xVelocityModifier);
 		if(!GameDebugSettings.get("DEBUG_GOD_MODE")) {
 			yPos += deltaTick * yVelocity;
+			//make sure player doesn't leave the screen
 			if(yPos < getPlayerSizeRadius()) {
 				yPos = getPlayerSizeRadius();
 				yVelocity = 0;
@@ -94,14 +96,14 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		//speed update
 		if (inputManager.isTouched() || inputManager.isSpaceDown()) {
 			if(!lastTouched) {
-				yVelocity += Reference.CLICK_ACCELERATION;
+				yVelocity += Reference.CLICK_ACCELERATION * yVelocityFactor;
 				lastTouched = true;
 			} else {
-				yVelocity += Reference.TOUCH_ACCELERATION * deltaTick;
+				yVelocity += Reference.TOUCH_ACCELERATION * deltaTick * yVelocityFactor;
 				lastTouched = true;
 			}
 		} else {
-			yVelocity += Reference.GRAVITY_ACCELERATION * deltaTick;
+			yVelocity += Reference.GRAVITY_ACCELERATION * deltaTick * yVelocityFactor;
 			lastTouched = false;
 		}
 		xVelocity += Reference.SPEED_MODIFIER * deltaTick;
@@ -445,6 +447,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	 */
 	public void addEffect(StatusEffect effect) {
 		effects.add(effect);
+		effect.onEffectAdded(this);
 	}
 
 	/**
@@ -469,5 +472,37 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 			}
 		}
 		addEffect(effect);
+	}
+
+	/**
+	 * gets a statuseffect if possible
+	 * <p>
+	 *     DO NOT CALL THIS WITHIN A {@link StatusEffect}!!!
+	 * </p>
+	 *
+	 * @return found statuseffect, null if none was found
+	 * @throws java.util.ConcurrentModificationException when access while player is updating status effects
+	 */
+	public StatusEffect tryGetStatusEffect(Class<? extends StatusEffect> clazz) {
+		for (StatusEffect effect : effects) {
+			if (clazz.isInstance(effect)) {
+				return effect;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * additive modifies yVelocityFactor
+	 */
+	public void addYVelocityFactor(float change) {
+		this.yVelocityFactor += change;
+	}
+
+	/**
+	 * sets yVelocityFactor
+	 */
+	public void setYVelocityFactor(float yVelocityFactor) {
+		this.yVelocityFactor = yVelocityFactor;
 	}
 }

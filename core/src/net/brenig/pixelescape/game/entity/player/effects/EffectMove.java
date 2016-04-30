@@ -8,40 +8,40 @@ import net.brenig.pixelescape.game.entity.Item;
 import net.brenig.pixelescape.game.entity.player.EntityPlayer;
 import net.brenig.pixelescape.render.WorldRenderer;
 
-public class EffectSlow extends StatusEffect {
+/**
+ * effect that increases player vertical movement
+ */
+public class EffectMove extends StatusEffect {
+
+	private static final float PLAYER_VERTICAL_VELOCITY_MOD = 1;
 
 	public static final Item ITEM = new Item() {
 		@Override
 		public Drawable getItemDrawable(GameAssets assets) {
-			return assets.getItemSlow();
+			return assets.getItemMove();
 		}
 
 		@Override
 		public boolean onCollect(EntityPlayer player) {
-			player.addEffect(new EffectSlow(player));
+			player.addOrUpdateEffect(new EffectMove(player));
 			return true;
 		}
 	};
 
 	private float timeRemaining = 10;
-	private float velocityAmount;
 
-	private final static float xVelocityFactor = 0.2F;
-	private final static float maximumVelocityDecrease = 100F;
-
-	public EffectSlow(EntityPlayer player) {
+	public EffectMove(EntityPlayer player) {
 		super(player);
 	}
 
 	@Override
 	public void render(PixelEscape game, WorldRenderer renderer, EntityPlayer player, float delta) {
-		//TODO slow effect??
+
 	}
 
 	@Override
 	public void update(float delta) {
 		timeRemaining -= delta;
-		//TODO maybe gradually change player speed
 	}
 
 	@Override
@@ -51,12 +51,11 @@ public class EffectSlow extends StatusEffect {
 
 	@Override
 	public void onEffectAdded(EntityPlayer player) {
-		this.velocityAmount = Math.min(player.getXVelocity() * xVelocityFactor, maximumVelocityDecrease);
-		player.addXVelocityModifier(-velocityAmount);
+		player.addYVelocityFactor(PLAYER_VERTICAL_VELOCITY_MOD);
 	}
 
 	@Override
 	public void onEffectRemove(EntityPlayer player) {
-		player.addXVelocityModifier(velocityAmount);
+		player.addYVelocityFactor(-PLAYER_VERTICAL_VELOCITY_MOD);
 	}
 }

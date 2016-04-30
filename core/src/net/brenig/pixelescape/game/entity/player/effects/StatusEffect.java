@@ -30,4 +30,12 @@ public abstract class StatusEffect {
 	public boolean onPlayerCollide() {
 		return true;
 	}
+
+	/**
+	 * called when the effect gets added to the player
+	 * <p>
+	 *     make changes to {@link EntityPlayer} here
+	 * </p>
+	 */
+	public void onEffectAdded(EntityPlayer player) {}
 }

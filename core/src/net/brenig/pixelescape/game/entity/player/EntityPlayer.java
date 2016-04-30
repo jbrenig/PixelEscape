@@ -335,6 +335,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		} else {
 			this.cooldownRemaining = 0;
 			this.currentAbility = ability;
+			this.remaingAbilityUses = uses;
 		}
 	}
 

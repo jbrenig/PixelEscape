@@ -18,11 +18,11 @@ import net.brenig.pixelescape.render.WorldRenderer;
  */
 public class EntityItem extends Entity {
 
-	private final static int SIZE = 18 * 2;
+	private final static int SIZE = 32 * 2;
 	private final static int RADIUS = SIZE / 2;
 
-	private final static int BACKGROUND_SIZE_MOD = 14 * 2;
-	private final static int BACKGROUND_OFFSET = BACKGROUND_SIZE_MOD / 2;
+	private final static int ITEM_SIZE = 18 * 2;
+	private final static int ITEM_RADIUS = ITEM_SIZE / 2;
 
 	private Item item;
 
@@ -34,12 +34,12 @@ public class EntityItem extends Entity {
 
 	@Override
 	public float getMinX() {
-		return progress - RADIUS;
+		return xPos - RADIUS;
 	}
 
 	@Override
 	public float getMaxX() {
-		return progress + RADIUS;
+		return xPos + RADIUS;
 	}
 
 	@Override
@@ -63,8 +63,8 @@ public class EntityItem extends Entity {
 		}
 		game.getRenderManager().begin();
 		Gdx.gl.glEnable(GL20.GL_BLEND);
-		renderer.renderSimpleAnimationWorld(game.getGameAssets().getItemAnimatedBackground(), getMinX() - BACKGROUND_OFFSET, getMinY() - BACKGROUND_OFFSET, SIZE + BACKGROUND_SIZE_MOD, SIZE + BACKGROUND_SIZE_MOD, delta);
-		renderer.renderDrawableWorld(item.getItemDrawable(game.getGameAssets()), getMinX(), getMinY(), SIZE, SIZE);
+		renderer.renderSimpleAnimationWorld(game.getGameAssets().getItemAnimatedBackground(), getMinX(), getMinY(), SIZE, SIZE, delta);
+		renderer.renderDrawableWorld(item.getItemDrawable(game.getGameAssets()), xPos - ITEM_RADIUS, yPos - ITEM_RADIUS, ITEM_SIZE, ITEM_SIZE);
 	}
 
 	@Override

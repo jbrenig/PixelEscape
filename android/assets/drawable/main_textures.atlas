@@ -60,28 +60,28 @@ button_pause
   index: -1
 checkbox
   rotate: false
-  xy: 2, 8
+  xy: 158, 10
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 checkbox_checked
   rotate: false
-  xy: 158, 10
+  xy: 302, 28
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 checkbox_hover
   rotate: false
-  xy: 302, 28
+  xy: 22, 8
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 effect_item_shield
   rotate: false
-  xy: 20, 8
+  xy: 176, 10
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -170,16 +170,23 @@ item_frame
   orig: 32, 32
   offset: 0, 0
   index: -1
-item_shield
+item_move
   rotate: false
   xy: 350, 60
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
-item_slow
+item_shield
   rotate: false
   xy: 1000, 108
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
+item_slow
+  rotate: false
+  xy: 2, 6
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
@@ -214,7 +221,7 @@ music_enabled_hover
   index: -1
 scroll_background
   rotate: false
-  xy: 176, 11
+  xy: 320, 29
   size: 15, 15
   split: 4, 4, 4, 4
   orig: 15, 15

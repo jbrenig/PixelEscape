@@ -63,7 +63,7 @@ public class EntityFadingParticle extends Entity {
 			return;
 		}
 		//Move
-		progress += xVel * delta;
+		xPos += xVel * delta;
 		yPos += yVel * delta;
 
 		xVel = Math.min(Reference.MAX_ENTITY_SPEED, xVel * xAccelerationFactor);
@@ -76,7 +76,7 @@ public class EntityFadingParticle extends Entity {
 		game.getRenderManager().beginFilledShape();
 		Gdx.gl.glEnable(GL20.GL_BLEND);
 		game.getShapeRenderer().setColor(color_r, color_g, color_b, currentAlpha);
-		renderer.renderRectWorld(progress - radius, yPos - radius, size, size);
+		renderer.renderRectWorld(xPos - radius, yPos - radius, size, size);
 	}
 
 	@Override

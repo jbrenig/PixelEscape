@@ -68,7 +68,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	@Override
 	public boolean update(float deltaTick, InputManager inputManager) {
-		progress += deltaTick *(xVelocity + xVelocityModifier);
+		xPos += deltaTick *(xVelocity + xVelocityModifier);
 		if(!GameDebugSettings.get("DEBUG_GOD_MODE")) {
 			yPos += deltaTick * yVelocity;
 			if(yPos < getPlayerSizeRadius()) {
@@ -158,7 +158,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	public void reset(GameMode gameMode) {
 		reviveAfterCrash();
 
-		progress = 0;
+		xPos = 0;
 		xVelocity = gameMode.getStartingSpeed();
 		isDead = false;
 		extraLives = gameMode.getExtraLives();
@@ -189,17 +189,17 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	 */
 	@Override
 	public float getXPos() {
-		return progress + getXPosScreen();
+		return xPos + getXPosScreen();
 	}
 
 	@Override
 	public float getMinX() {
-		return progress + getXPosScreen() - RADIUS;
+		return xPos + getXPosScreen() - RADIUS;
 	}
 
 	@Override
 	public float getMaxX() {
-		return progress + getXPosScreen() + RADIUS;
+		return xPos + getXPosScreen() + RADIUS;
 	}
 
 	@Override
@@ -213,14 +213,14 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	}
 
 	public int getScore() {
-		return (int) progress;
+		return (int) xPos;
 	}
 
 	/**
 	 * @return progress the player made (distance travelled)
 	 */
 	public float getProgress() {
-		return progress;
+		return xPos;
 	}
 
 	public float getXVelocity() {
@@ -348,7 +348,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	}
 
 	public void increaseXPos(float x) {
-		progress += x;
+		xPos += x;
 	}
 
 	public float getCooldownRemaining() {

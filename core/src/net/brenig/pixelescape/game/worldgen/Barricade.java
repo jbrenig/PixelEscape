@@ -34,7 +34,7 @@ public class Barricade extends Entity {
 	public void render(PixelEscape game, WorldRenderer renderer, float x, float y, float delta) {
 		game.getRenderManager().beginFilledShape();
 		game.getRenderManager().getShapeRenderer().setColor(0, 0, 0, 1);
-		game.getRenderManager().getShapeRenderer().rect(x + world.convertWorldCoordToScreenCoord(xPos) - sizeX / 2, y + yPos - sizeY / 2, sizeX, sizeY);
+		game.getRenderManager().getShapeRenderer().rect(x + world.convertWorldCoordToScreenCoord(progress) - sizeX / 2, y + yPos - sizeY / 2, sizeX, sizeY);
 	}
 
 	@Override
@@ -52,12 +52,12 @@ public class Barricade extends Entity {
 
 	@Override
 	public float getMinX() {
-		return this.xPos - Barricade.sizeX / 2;
+		return this.progress - Barricade.sizeX / 2;
 	}
 
 	@Override
 	public float getMaxX() {
-		return this.xPos + Barricade.sizeX / 2;
+		return this.progress + Barricade.sizeX / 2;
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class Barricade extends Entity {
 	}
 
 	public void setXPos(float xPos) {
-		this.xPos = xPos;
+		this.progress = xPos;
 	}
 
 	public void setYPos(float yPos) {

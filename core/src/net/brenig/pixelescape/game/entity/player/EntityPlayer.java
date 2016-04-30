@@ -68,7 +68,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	@Override
 	public boolean update(float deltaTick, InputManager inputManager) {
-		xPos += deltaTick *(xVelocity + xVelocityModifier);
+		progress += deltaTick *(xVelocity + xVelocityModifier);
 		if(!GameDebugSettings.get("DEBUG_GOD_MODE")) {
 			yPos += deltaTick * yVelocity;
 			if(yPos < getPlayerSizeRadius()) {
@@ -158,7 +158,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	public void reset(GameMode gameMode) {
 		reviveAfterCrash();
 
-		xPos = 0;
+		progress = 0;
 		xVelocity = gameMode.getStartingSpeed();
 		isDead = false;
 		extraLives = gameMode.getExtraLives();
@@ -189,17 +189,17 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	 */
 	@Override
 	public float getXPos() {
-		return xPos + getXPosScreen();
+		return progress + getXPosScreen();
 	}
 
 	@Override
 	public float getMinX() {
-		return xPos + getXPosScreen() - RADIUS;
+		return progress + getXPosScreen() - RADIUS;
 	}
 
 	@Override
 	public float getMaxX() {
-		return xPos + getXPosScreen() + RADIUS;
+		return progress + getXPosScreen() + RADIUS;
 	}
 
 	@Override
@@ -213,14 +213,14 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	}
 
 	public int getScore() {
-		return (int) xPos;
+		return (int) progress;
 	}
 
 	/**
 	 * @return progress the player made (distance travelled)
 	 */
 	public float getProgress() {
-		return xPos;
+		return progress;
 	}
 
 	public float getXVelocity() {
@@ -249,7 +249,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	}
 
 	private boolean collide() {
-		CollisionType col = world.doesAreaCollideWithWorld(xPosScreen - getPlayerSizeRadius(), yPos - getPlayerSizeRadius(), xPosScreen + getPlayerSizeRadius(), yPos + getPlayerSizeRadius());
+		CollisionType col = world.doesAreaCollideWithWorld(getXPos() - getPlayerSizeRadius(), yPos - getPlayerSizeRadius(), getXPos() + getPlayerSizeRadius(), yPos + getPlayerSizeRadius());
 		if(col != CollisionType.NONE) {
 			boolean collide = true;
 			for (StatusEffect effect : effects) {
@@ -348,7 +348,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	}
 
 	public void increaseXPos(float x) {
-		xPos += x;
+		progress += x;
 	}
 
 	public float getCooldownRemaining() {

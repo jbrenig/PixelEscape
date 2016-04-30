@@ -46,7 +46,7 @@ public class EntityCrashParticle extends Entity {
 			return;
 		}
 		//Move
-		xPos += xVel * delta;
+		progress += xVel * delta;
 		yPos += yVel * delta;
 
 		//Accelerate and collide
@@ -94,7 +94,7 @@ public class EntityCrashParticle extends Entity {
 		xVel = Math.min(Reference.MAX_ENTITY_SPEED, xVel);
 		yVel = Math.min(Reference.MAX_ENTITY_SPEED, yVel);
 
-		float renderX = world.convertWorldCoordToScreenCoord(xPos);
+		float renderX = world.convertWorldCoordToScreenCoord(progress);
 
 		game.getRenderManager().beginFilledShape();
 		game.getShapeRenderer().setColor(color);
@@ -103,13 +103,12 @@ public class EntityCrashParticle extends Entity {
 
 	@Override
 	public boolean isDead() {
-		float renderX = world.convertWorldCoordToScreenCoord(xPos);
+		float renderX = world.convertWorldCoordToScreenCoord(progress);
 		return yPos - radius >= world.getWorldHeight() || yPos + radius <= 0 || renderX - radius >= world.getWorldWidth() || renderX + radius <= 0;
 	}
 
 	private CollisionType doesCollide() {
-		float renderX = world.convertWorldCoordToScreenCoord(xPos);
-		return world.doesAreaCollideWithWorld(renderX - radius, yPos - radius, renderX + radius, yPos + radius);
+		return world.doesAreaCollideWithWorld(progress - radius, yPos - radius, progress + radius, yPos + radius);
 	}
 
 	/**
@@ -123,7 +122,7 @@ public class EntityCrashParticle extends Entity {
 	@Override
 	public void reset() {
 		super.reset();
-		xPos = 0;
+		progress = 0;
 		yPos = 0;
 		xVel = 0;
 		yVel = 0;

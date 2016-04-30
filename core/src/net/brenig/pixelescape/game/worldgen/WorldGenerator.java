@@ -58,27 +58,28 @@ public class WorldGenerator {
 
         while (generationPasses > 0 && blockToGenerate > 0) {
             //get last terrain
-            TerrainPair old = world.getTerrain().getNewest();
-            if (old == null) {
-                old = new TerrainPair(Reference.STARTING_TERRAIN_HEIGHT, Reference.STARTING_TERRAIN_HEIGHT);
+            TerrainPair lastGeneratedTerrainPair = world.getTerrain().getNewest();
+            if (lastGeneratedTerrainPair == null) {
+                lastGeneratedTerrainPair = new TerrainPair(Reference.STARTING_TERRAIN_HEIGHT, Reference.STARTING_TERRAIN_HEIGHT);
             }
 
-            int lastRequested = world.blocksRequested;
-	        ITerrainGenerator gen = gens.getRandomValueWithFilter(random, new WorldGenFilter(old, blockToGenerate));
+            int oldTerrainBufferIndexStart = world.terrainBufferWorldIndex;
+	        ITerrainGenerator gen = gens.getRandomValueWithFilter(random, new WorldGenFilter(lastGeneratedTerrainPair, blockToGenerate));
 	        if(gen == null) {
+		        //no applicable generators left
 		        break;
 	        }
-            int generated = gen.generate(world, old, blockToGenerate, world.getBlocksGenerated(), random);
+            int generated = gen.generate(world, lastGeneratedTerrainPair, blockToGenerate, world.getTerrainBufferWorldIndex(), random);
             blockToGenerate -= generated;
             //noinspection deprecation
-            world.blocksGenerated += generated;
+            world.blocksGeneratedOLD += generated;
             generationPasses--;
             if (blockToGenerate < 0) {
                 LogHelper.error("Invalid World Gen!! Generator ignoring MAX! Generator: " + gen);
             }
-            if ((lastRequested + generated) != world.blocksRequested) {
+            if ((oldTerrainBufferIndexStart + generated) != world.terrainBufferWorldIndex) {
                 //noinspection deprecation
-                LogHelper.error("Invalid World Gen!! Generator returnvalue invalid! Generator: " + gen + "; generated: " + generated + "; lastGen: " + lastRequested + "; currentGen: " + world.blocksRequested + "; blocksGenerated: " + world.blocksGenerated);
+                LogHelper.error("Invalid World Gen!! Generator returnvalue invalid! Generator: " + gen + "; generated: " + generated + "; lastGen: " + oldTerrainBufferIndexStart + "; currentGen: " + world.terrainBufferWorldIndex + "; blocksGeneratedOLD: " + world.blocksGeneratedOLD);
             }
         }
 	    for(ISpecialWorldGenerator gen : specialGenerators) {

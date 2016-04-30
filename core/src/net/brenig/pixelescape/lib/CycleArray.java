@@ -106,7 +106,8 @@ public class CycleArray<T> {
 			data = new Object[newWidth];
 			System.arraycopy(oldData, 0, data, 0, index + 1);
 			if(oldData.length > index + 1) {
-				System.arraycopy(oldData, index + 1, data, data.length - oldData.length + index + 1, oldData.length - index - 1);
+				final int oldDataRemains = oldData.length - index - 1;
+				System.arraycopy(oldData, index + 1, data, data.length - oldDataRemains, oldDataRemains);
 			}
 		} else if(newWidth < data.length) {
 			Object[] oldData = data;

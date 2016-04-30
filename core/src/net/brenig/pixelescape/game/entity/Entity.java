@@ -14,7 +14,7 @@ import net.brenig.pixelescape.render.WorldRenderer;
 public abstract class Entity implements Pool.Poolable {
 
 	protected World world;
-	protected float xPos;
+	protected float progress;
 	protected float yPos;
 
 	public Entity(World world) {
@@ -25,7 +25,7 @@ public abstract class Entity implements Pool.Poolable {
 	 * sets the position of this entity
 	 */
 	public void setPosition(float xPos, float yPos) {
-		this.xPos = xPos;
+		this.progress = xPos;
 		this.yPos = yPos;
 	}
 
@@ -33,7 +33,7 @@ public abstract class Entity implements Pool.Poolable {
 	 * @return the xCoordinate of the left corner of this entity
 	 */
 	public float getMinX() {
-		return xPos;
+		return progress;
 	}
 
 
@@ -41,7 +41,7 @@ public abstract class Entity implements Pool.Poolable {
 	 * @return the xCoordinate of the right corner of this entity
 	 */
 	public float getMaxX() {
-		return xPos;
+		return progress;
 	}
 
 
@@ -61,7 +61,7 @@ public abstract class Entity implements Pool.Poolable {
 	}
 
 	public float getXPos() {
-		return xPos;
+		return progress;
 	}
 
 	public float getYPos() {
@@ -95,7 +95,7 @@ public abstract class Entity implements Pool.Poolable {
 
 	@Override
 	public void reset() {
-		xPos = 0;
+		progress = 0;
 		yPos = 0;
 	}
 

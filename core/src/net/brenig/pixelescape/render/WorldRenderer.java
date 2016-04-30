@@ -19,7 +19,7 @@ public class WorldRenderer {
 
 	private float rendererYOffset = 0;
 
-	private float xPos = 0;
+	private float xOffset = 0;
 	private float targetX = 0;
 	private float movementSpeedX = 0;
 
@@ -90,7 +90,7 @@ public class WorldRenderer {
 	}
 
 	public float getXPos() {
-		return xPos;
+		return xOffset;
 	}
 
 	public float getRendererYOffset() {
@@ -98,11 +98,11 @@ public class WorldRenderer {
 	}
 
 	private void moveScreen(float delta) {
-		if(movementSpeedX != 0 && xPos != targetX) {
-			if(targetX < xPos) {
-				xPos -= Math.min(xPos - targetX, movementSpeedX * delta);
+		if(movementSpeedX != 0 && xOffset != targetX) {
+			if(targetX < xOffset) {
+				xOffset -= Math.min(xOffset - targetX, movementSpeedX * delta);
 			} else {
-				xPos += Math.min(targetX - xPos, movementSpeedX * delta);
+				xOffset += Math.min(targetX - xOffset, movementSpeedX * delta);
 			}
 		}
 	}
@@ -124,7 +124,7 @@ public class WorldRenderer {
 	 */
 	private void renderEntities(float delta) {
 		for(Entity e : world.getEntityList()) {
-			e.render(game, this, xPos + screenShakeX, rendererYOffset + screenShakeY, delta);
+			e.render(game, this, xOffset + screenShakeX, rendererYOffset + screenShakeY, delta);
 		}
 	}
 
@@ -135,8 +135,8 @@ public class WorldRenderer {
 		game.getRenderManager().beginFilledShape();
 		game.getRenderManager().getShapeRenderer().setColor(0, 0, 0, 1);
 
-		for (int index = 0; index < world.getBlockBufferSize(); index++) {
-			world.getTerrainPairForIndex(index).render(game, world, xPos + getBlockPositionFromLocalIndex(index) + screenShakeX, rendererYOffset, screenShakeY, Gdx.graphics.getDeltaTime());
+		for (int index = world.getCameraLeftLocalIndex(); index < world.getCameraRightLocalIndex() + 1; index++) {
+			world.getTerrainPairForIndex(index).render(game, world, xOffset + getBlockPositionFromLocalIndex(index) + screenShakeX, rendererYOffset, screenShakeY, Gdx.graphics.getDeltaTime());
 		}
 	}
 
@@ -146,7 +146,7 @@ public class WorldRenderer {
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderRect(float x, float y, float width, float height) {
-		game.getRenderManager().getShapeRenderer().rect(xPos + screenShakeX + x, rendererYOffset + screenShakeY + y, width, height);
+		game.getRenderManager().getShapeRenderer().rect(xOffset + screenShakeX + x, rendererYOffset + screenShakeY + y, width, height);
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class WorldRenderer {
 	 *
 	 * note: Renderer has to be initialized and in the right state
 	 */
-	public void renderRectAbsolute(float x, float y, float width, float height) {
+	public void renderRectWorld(float x, float y, float width, float height) {
 		renderRect(world.convertWorldCoordToScreenCoord(x), y, width, height);
 	}
 
@@ -165,7 +165,7 @@ public class WorldRenderer {
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderDrawable(Drawable drawable, float x, float y, float width, float height) {
-		drawable.draw(game.getRenderManager().getBatch(), xPos + screenShakeX + x, rendererYOffset + screenShakeY + y, width, height);
+		drawable.draw(game.getRenderManager().getBatch(), xOffset + screenShakeX + x, rendererYOffset + screenShakeY + y, width, height);
 	}
 
 	/**
@@ -183,7 +183,7 @@ public class WorldRenderer {
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderTextureRegion(TextureRegion region, float x, float y, float width, float height) {
-		game.getRenderManager().getBatch().draw(region, xPos + screenShakeX + x, rendererYOffset + screenShakeY + y, width, height);
+		game.getRenderManager().getBatch().draw(region, xOffset + screenShakeX + x, rendererYOffset + screenShakeY + y, width, height);
 	}
 
 	/**
@@ -210,7 +210,7 @@ public class WorldRenderer {
 	 * @return global coordinate of this worldrenderer (left screen edge)
 	 */
 	public float getWorldCameraXPos() {
-		return xPos + screenShakeX + world.getPlayer().getProgress();
+		return -xOffset - screenShakeX + world.getPlayer().getProgress();
 	}
 
 	private float getBlockPositionFromLocalIndex(int index) {
@@ -221,7 +221,7 @@ public class WorldRenderer {
 	 * sets current position of the world renderer (world view)
 	 */
 	public void setCameraXPosition(float x) {
-		this.xPos = x;
+		this.xOffset = x;
 	}
 
 	public float getScreenShakeX() {

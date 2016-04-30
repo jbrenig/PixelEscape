@@ -226,10 +226,10 @@ public class GameScreen extends PixelScreen {
 			float worldY = world.convertMouseYToWorldCoordinate(y);
 			String screenTxt = "Screen: X: " + (int) x + ", Y: " + (int) world.convertMouseYToScreenCoordinate(y) + "(" + (int) y + "), Player speed: " + (int) world.getPlayer().getXVelocity();
 			String worldTxt = "World: X: " + (int) world.convertScreenToWorldCoordinate(x) + ", Y: " + (int) worldY + ", Block: " + world.convertScreenCoordToWorldBlockIndex(x) + " (" + world.convertWorldBlockToLocalBlockIndex(world.convertScreenCoordToWorldBlockIndex(x)) + ")";
-			TerrainPair terrain = world.getBlockForScreenPosition(x);
-			boolean isTerrain = world.getWorldHeight() - terrain.getBot() * Reference.BLOCK_WIDTH < worldY
-					|| terrain.getTop() * Reference.BLOCK_WIDTH >= worldY;
-			String blockInfoTxt = "Info: IsTerrain: " + isTerrain + ", BlocksGenerated: " + world.getBlocksGenerated();
+			TerrainPair terrain = world.getTerrainPairForIndex(world.convertScreenCoordToLocalBlockIndex(x));
+			boolean isTerrain = terrain.getBot() * Reference.BLOCK_WIDTH >= worldY
+					|| world.getWorldHeight() - (terrain.getTop() * Reference.BLOCK_WIDTH) <= worldY;
+			String blockInfoTxt = "Info: IsTerrain: " + isTerrain + ", BlocksGenerated: " + world.getTerrainBufferWorldIndex();
 
 			//Begin draw
 			game.getRenderManager().begin();

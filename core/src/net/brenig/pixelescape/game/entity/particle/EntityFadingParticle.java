@@ -63,7 +63,7 @@ public class EntityFadingParticle extends Entity {
 			return;
 		}
 		//Move
-		xPos += xVel * delta;
+		progress += xVel * delta;
 		yPos += yVel * delta;
 
 		xVel = Math.min(Reference.MAX_ENTITY_SPEED, xVel * xAccelerationFactor);
@@ -73,7 +73,7 @@ public class EntityFadingParticle extends Entity {
 
 		float currentAlpha = 1 - Utils.easeInAndOut(fadeTimePassed, fadeDuration);
 
-		float renderX = world.convertWorldCoordToScreenCoord(xPos);
+		float renderX = world.convertWorldCoordToScreenCoord(progress);
 
 		game.getRenderManager().beginFilledShape();
 		Gdx.gl.glEnable(GL20.GL_BLEND);

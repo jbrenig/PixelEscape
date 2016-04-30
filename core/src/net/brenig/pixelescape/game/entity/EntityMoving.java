@@ -28,7 +28,7 @@ public abstract class EntityMoving extends Entity {
 	 * @param delta time passed
 	 */
 	protected void move(float delta) {
-		xPos += xVel * delta;
+		progress += xVel * delta;
 		yPos += yVel * delta;
 	}
 

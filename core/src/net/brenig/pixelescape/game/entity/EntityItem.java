@@ -34,12 +34,12 @@ public class EntityItem extends Entity {
 
 	@Override
 	public float getMinX() {
-		return xPos - RADIUS;
+		return progress - RADIUS;
 	}
 
 	@Override
 	public float getMaxX() {
-		return xPos + RADIUS;
+		return progress + RADIUS;
 	}
 
 	@Override

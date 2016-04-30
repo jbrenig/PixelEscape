@@ -47,10 +47,22 @@ public class Reference {
 	 */
 	public static final int MAX_TERRAIN_SUM = 12;
 
-	public static final int TERRAIN_MIN_BUFFER_LEFT = 6;
-	public static final int TERRAIN_MIN_BUFFER_RIGHT = 4;
-	public static final int TERRAIN_BUFFER = 16;
-	public static final int ADDITIONAL_GENERATION_PASSES = 20;
+	/**
+	 * amount of blocks that is left of the screen at all times
+	 */
+	public static final int TERRAIN_BUFFER_LEFT = 2;
+
+	/**
+	 * amount of blocks that is not visible on screen but already generated (needs to be higher that {@link #TERRAIN_GENERATION_THRESHOLD}, otherwise not enough blocks are availbable toe the right of the screen)
+	 */
+	public static final int TERRAIN_BUFFER = 32;
+	/**
+	 * minimum number of blocks to start generating new terain
+	 */
+	public static final int TERRAIN_GENERATION_THRESHOLD = 16;
+
+
+	public static final int ADDITIONAL_GENERATION_PASSES = 0;
 
 	/**
 	 * the world will be rendered this high if the terrain generator fails

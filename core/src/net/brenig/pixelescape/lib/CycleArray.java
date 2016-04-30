@@ -95,7 +95,7 @@ public class CycleArray<T> {
 	}
 
 	/**
-	 * realizes the array to the given length<br>
+	 * resizes the array to the given length<br>
 	 * fields get added at the end of the array, filled with null<br>
 	 * when removing fields the oldest ones get removed first
 	 * @param newWidth the new length

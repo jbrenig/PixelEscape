@@ -31,7 +31,6 @@ public class GameDebugSettings {
 		Map<String, Boolean> result = new HashMap<String, Boolean>();
 		result.put("SHOW_FPS", false);
 		result.put("AUTO_PAUSE", true);
-		result.put("PLAYER_EXPLOSION_RED", false);
 		result.put("DEBUG_MODE_COORDS", false);
 		result.put("DEBUG_WORLD_GEN_VALIDATE", false);
 		result.put("DEBUG_SCREEN_BOUNDS", false);

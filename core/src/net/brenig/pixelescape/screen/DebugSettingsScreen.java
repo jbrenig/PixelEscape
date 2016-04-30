@@ -36,14 +36,11 @@ public class DebugSettingsScreen extends PixelScreen {
 
 		//configure main layout
 		uiLayout = new Table();
-//		uiLayout.setFillParent(true);
-//		uiLayout.setPosition(0, 0);
 		uiLayout.center();
 		uiLayout.padBottom(30).padTop(30);
 
 		uiLayout.add(createDebugSettingCheckBox("Show FPS", "SHOW_FPS")).left().row();
 		uiLayout.add(createDebugSettingCheckBox("Pause when window looses focus", "AUTO_PAUSE")).left().row();
-		uiLayout.add(createDebugSettingCheckBox("red player death particles", "PLAYER_EXPLOSION_RED")).left().row();
 		uiLayout.add(createDebugSettingCheckBox("show debug information", "DEBUG_MODE_COORDS")).left().row();
 		uiLayout.add(createDebugSettingCheckBox("validate world gen", "DEBUG_WORLD_GEN_VALIDATE")).left().row();
 		uiLayout.add(createDebugSettingCheckBox("Debug screen bounds", "DEBUG_SCREEN_BOUNDS")).left().row();

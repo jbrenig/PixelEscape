@@ -57,7 +57,7 @@ public class EntityItem extends Entity {
 	}
 
 	@Override
-	public void render(PixelEscape game, WorldRenderer renderer, float x, float y, float delta) {
+	public void render(PixelEscape game, WorldRenderer renderer, float delta) {
 		if(isDead) {
 			return;
 		}

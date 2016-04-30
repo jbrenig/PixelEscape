@@ -31,10 +31,10 @@ public class Barricade extends Entity {
 	}
 
 	@Override
-	public void render(PixelEscape game, WorldRenderer renderer, float x, float y, float delta) {
+	public void render(PixelEscape game, WorldRenderer renderer, float delta) {
 		game.getRenderManager().beginFilledShape();
-		game.getRenderManager().getShapeRenderer().setColor(0, 0, 0, 1);
-		game.getRenderManager().getShapeRenderer().rect(x + world.convertWorldCoordToScreenCoord(progress) - sizeX / 2, y + yPos - sizeY / 2, sizeX, sizeY);
+		game.getShapeRenderer().setColor(0, 0, 0, 1);
+		renderer.renderRectWorld(progress - sizeX / 2, yPos - sizeY / 2, sizeX, sizeY);
 	}
 
 	@Override

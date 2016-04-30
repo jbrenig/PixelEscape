@@ -32,6 +32,11 @@ public class WorldRenderer {
 	private float screenShakeTimerX = 0;
 	private float screenShakeTimerY = 0;
 
+	//gets updated every frame
+	//total offsets
+	private float currentTotalXOffset = 0;
+	private float currentTotalYOffset = 0;
+
 	private static final float screenShakeSpeed = 8;
 	private static final float screenShakeLengthMod = 4;
 	private static final float screenShakeForceMult = 8;
@@ -115,6 +120,8 @@ public class WorldRenderer {
 			shakeScreen(delta);
 		}
 		moveScreen(delta);
+		currentTotalXOffset = xOffset + screenShakeX;
+		currentTotalYOffset = rendererYOffset + screenShakeY;
 		renderWorld();
 		renderEntities(delta);
 	}
@@ -124,7 +131,7 @@ public class WorldRenderer {
 	 */
 	private void renderEntities(float delta) {
 		for(Entity e : world.getEntityList()) {
-			e.render(game, this, xOffset + screenShakeX, rendererYOffset + screenShakeY, delta);
+			e.render(game, this, delta);
 		}
 	}
 
@@ -136,7 +143,7 @@ public class WorldRenderer {
 		game.getRenderManager().getShapeRenderer().setColor(0, 0, 0, 1);
 
 		for (int index = world.getCameraLeftLocalIndex(); index < world.getCameraRightLocalIndex() + 1; index++) {
-			world.getTerrainPairForIndex(index).render(game, world, xOffset + getBlockPositionFromLocalIndex(index) + screenShakeX, rendererYOffset, screenShakeY, Gdx.graphics.getDeltaTime());
+			world.getTerrainPairForIndex(index).render(game, world, currentTotalXOffset + getBlockPositionFromLocalIndex(index), rendererYOffset, screenShakeY, Gdx.graphics.getDeltaTime());
 		}
 	}
 
@@ -146,7 +153,7 @@ public class WorldRenderer {
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderRect(float x, float y, float width, float height) {
-		game.getRenderManager().getShapeRenderer().rect(xOffset + screenShakeX + x, rendererYOffset + screenShakeY + y, width, height);
+		game.getRenderManager().getShapeRenderer().rect(currentTotalXOffset + x, currentTotalYOffset + y, width, height);
 	}
 
 	/**
@@ -165,7 +172,7 @@ public class WorldRenderer {
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderDrawable(Drawable drawable, float x, float y, float width, float height) {
-		drawable.draw(game.getRenderManager().getBatch(), xOffset + screenShakeX + x, rendererYOffset + screenShakeY + y, width, height);
+		drawable.draw(game.getRenderManager().getBatch(), currentTotalXOffset + x, currentTotalYOffset + y, width, height);
 	}
 
 	/**
@@ -183,7 +190,7 @@ public class WorldRenderer {
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderTextureRegion(TextureRegion region, float x, float y, float width, float height) {
-		game.getRenderManager().getBatch().draw(region, xOffset + screenShakeX + x, rendererYOffset + screenShakeY + y, width, height);
+		game.getRenderManager().getBatch().draw(region, currentTotalXOffset + x, currentTotalYOffset + y, width, height);
 	}
 
 	/**
@@ -253,5 +260,13 @@ public class WorldRenderer {
 	 */
 	public void setWorldRendererYOffset(float yOffset) {
 		rendererYOffset = yOffset;
+	}
+
+	public float getCurrentTotalXOffset() {
+		return currentTotalXOffset;
+	}
+
+	public float getCurrentTotalYOffset() {
+		return currentTotalYOffset;
 	}
 }

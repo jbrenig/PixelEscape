@@ -41,7 +41,7 @@ public class EntityCrashParticle extends Entity {
 	}
 
 	@Override
-	public void render(PixelEscape game, WorldRenderer renderer, float x, float y, float delta) {
+	public void render(PixelEscape game, WorldRenderer renderer, float delta) {
 		if(isDead()) {
 			return;
 		}
@@ -94,11 +94,9 @@ public class EntityCrashParticle extends Entity {
 		xVel = Math.min(Reference.MAX_ENTITY_SPEED, xVel);
 		yVel = Math.min(Reference.MAX_ENTITY_SPEED, yVel);
 
-		float renderX = world.convertWorldCoordToScreenCoord(progress);
-
 		game.getRenderManager().beginFilledShape();
 		game.getShapeRenderer().setColor(color);
-		game.getShapeRenderer().rect(x + renderX - radius, y + yPos - radius, size, size);
+		renderer.renderRectWorld(progress - radius, yPos - radius, size, size);
 	}
 
 	@Override

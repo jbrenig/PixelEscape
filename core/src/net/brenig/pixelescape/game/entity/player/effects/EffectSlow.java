@@ -36,7 +36,7 @@ public class EffectSlow extends StatusEffect {
 	}
 
 	@Override
-	public void render(PixelEscape game, WorldRenderer renderer, EntityPlayer player, float xPos, float yPos, float delta) {
+	public void render(PixelEscape game, WorldRenderer renderer, EntityPlayer player, float delta) {
 		//TODO slow effect??
 	}
 

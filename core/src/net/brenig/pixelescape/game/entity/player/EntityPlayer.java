@@ -284,7 +284,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	}
 
 	@Override
-	public void render(PixelEscape game, WorldRenderer renderer, float xPos, float yPos, float delta) {
+	public void render(PixelEscape game, WorldRenderer renderer, float delta) {
 		if(this.isDead()) {
 			return;
 		}
@@ -303,7 +303,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		}
 
 		for (StatusEffect effect : effects) {
-			effect.render(game, renderer, this, xPos, yPos, delta);
+			effect.render(game, renderer, this, delta);
 		}
 	}
 

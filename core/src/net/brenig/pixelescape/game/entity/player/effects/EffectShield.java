@@ -36,7 +36,7 @@ public class EffectShield extends StatusEffect {
 	}
 
 	@Override
-	public void render(PixelEscape game, WorldRenderer renderer, EntityPlayer player, float xPos, float yPos, float delta) {
+	public void render(PixelEscape game, WorldRenderer renderer, EntityPlayer player, float delta) {
 		renderer.getRenderManager().begin();
 		renderer.renderTextureRegion(game.getGameAssets().getEffectItemShield(), player.getXPosScreen() - RENDER_EFFECT_RADIUS, player.getYPos() - RENDER_EFFECT_RADIUS, RENDER_EFFECT_SIZE, RENDER_EFFECT_SIZE);
 	}

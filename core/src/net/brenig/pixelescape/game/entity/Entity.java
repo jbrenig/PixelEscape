@@ -72,11 +72,9 @@ public abstract class Entity implements Pool.Poolable {
 	 * renders the entity
 	 * @param game game instance
 	 * @param renderer renderer instance
-	 * @param x xoffset of the renderer
-	 * @param y yoffset of the renderer
 	 * @param delta time passed since last frame
 	 */
-	public abstract void render(PixelEscape game, WorldRenderer renderer, float x, float y, float delta);
+	public abstract void render(PixelEscape game, WorldRenderer renderer, float delta);
 
 	/**
 	 * update the entity, gets called every frame

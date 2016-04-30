@@ -12,7 +12,7 @@ public abstract class StatusEffect {
 		this.player = player;
 	}
 
-	public abstract void render(PixelEscape game, WorldRenderer renderer, EntityPlayer player, float xPos, float yPos, float delta);
+	public abstract void render(PixelEscape game, WorldRenderer renderer, EntityPlayer player, float delta);
 
 	public abstract void update(float delta);
 

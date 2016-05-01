@@ -6,6 +6,7 @@ import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
+import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.render.WorldRenderer;
 
 /**
@@ -72,9 +73,10 @@ public abstract class Entity implements Pool.Poolable {
 	 * renders the entity
 	 * @param game game instance
 	 * @param renderer renderer instance
+	 * @param gameMode
 	 * @param delta time passed since last frame
 	 */
-	public abstract void render(PixelEscape game, WorldRenderer renderer, float delta);
+	public abstract void render(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta);
 
 	/**
 	 * update the entity, gets called every frame
@@ -82,7 +84,7 @@ public abstract class Entity implements Pool.Poolable {
 	 * @return true if game update should be cancelled (eg. gameover)
 	 */
 	@SuppressWarnings("EmptyMethod")
-	public boolean update(float delta, InputManager inputManager) {return false;}
+	public boolean update(float delta, InputManager inputManager, GameMode gameMode) {return false;}
 
 	public abstract boolean isDead();
 

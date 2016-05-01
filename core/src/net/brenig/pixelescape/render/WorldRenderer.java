@@ -131,7 +131,7 @@ public class WorldRenderer {
 	 */
 	private void renderEntities(float delta) {
 		for(Entity e : world.getEntityList()) {
-			e.render(game, this, delta);
+			e.render(game, this, world.getScreen().getGameMode(), delta);
 		}
 	}
 

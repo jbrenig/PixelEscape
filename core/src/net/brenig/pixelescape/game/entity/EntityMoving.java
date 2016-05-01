@@ -1,7 +1,7 @@
 package net.brenig.pixelescape.game.entity;
 
 import net.brenig.pixelescape.game.World;
-import net.brenig.pixelescape.lib.Reference;
+import net.brenig.pixelescape.game.gamemode.GameMode;
 
 public abstract class EntityMoving extends Entity {
 
@@ -11,9 +11,9 @@ public abstract class EntityMoving extends Entity {
 		super(world);
 	}
 
-	protected void checkMaxVelocity() {
-		xVel = Math.min(xVel, Reference.MAX_ENTITY_SPEED);
-		yVel = Math.min(yVel, Reference.MAX_ENTITY_SPEED);
+	protected void checkMaxVelocity(GameMode gameMode) {
+		xVel = Math.min(xVel, gameMode.getMaxEntitySpeed());
+		yVel = Math.min(yVel, gameMode.getMaxEntitySpeed());
 	}
 
 	public void setVelocity(float xVel, float yVel) {

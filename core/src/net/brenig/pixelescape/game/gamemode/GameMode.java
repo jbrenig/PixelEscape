@@ -26,6 +26,20 @@ public abstract class GameMode {
 	}
 
 	/**
+	 * @return the speed increase of the player
+	 */
+	public float getSpeedIncreaseFactor() {
+		return Reference.SPEED_MODIFIER;
+	}
+
+	/**
+	 * @return maximum speed of entities
+	 */
+	public float getMaxEntitySpeed() {
+		return Reference.MAX_ENTITY_SPEED;
+	}
+
+	/**
 	 * @return the amount of extra lives the player has when the game starts
 	 */
 	public int getExtraLives() {

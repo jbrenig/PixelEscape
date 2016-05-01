@@ -35,7 +35,7 @@ public class BarricadeGenerator implements ISpecialWorldGenerator {
 			}
 		}
 
-		updateBarricades(world);
+		updateBarricades(world, mode);
 	}
 
 	public Barricade getCreateObstacleForGeneration(World world) {
@@ -52,18 +52,18 @@ public class BarricadeGenerator implements ISpecialWorldGenerator {
 		}
 	}
 
-	public void updateBarricades(World world) {
+	public void updateBarricades(World world, GameMode gameMode) {
 		for (int i = 0; i < obstacles.size(); i++) {
 			Barricade b =  obstacles.get(i);
 			if(b == null) continue;
 			if (!b.moved && b.getXPos() > world.getCurrentScreenEnd() + Reference.BLOCK_WIDTH && b.getXPos() < world.getCurrentScreenEnd() + Reference.BLOCK_WIDTH * 2) {
 				b.moved = true;
-				updateBarricade(world, b);
+				updateBarricade(world, b, gameMode);
 			}
 		}
 	}
 
-	private void updateBarricade(World world, Barricade b) {
+	private void updateBarricade(World world, Barricade b, GameMode gameMode) {
 		int localIndex = world.convertWorldCoordinateToLocalBlockIndex(b.getXPos());
 		//LogHelper.debug("Index convert from: " + b.posX + ", to: " + localIndex);
 		if (!(localIndex < 0)) {
@@ -77,7 +77,7 @@ public class BarricadeGenerator implements ISpecialWorldGenerator {
 			}
 
 			//Leave gap for player
-			int checkRadius = (int) ((world.getPlayer().getXVelocity() / Reference.MAX_ENTITY_SPEED) * Reference.OBSTACLE_X_CHECK_RADIUS_MAX);
+			int checkRadius = (int) ((world.getPlayer().getXVelocity() / gameMode.getMaxEntitySpeed()) * Reference.OBSTACLE_X_CHECK_RADIUS_MAX);
 			if (PixelEscape.rand.nextBoolean()) {
 				LogHelper.debug("Correcting Barricade leaving bottom gap @ x: " + b.getXPos() + "(" + world.convertWorldCoordinateToLocalBlockIndex(b.getXPos()) + ") y: " + b.getYPos());
 				b.setYPos(b.getYPos() + getAmountToCorrectBottom(world, b, checkRadius));

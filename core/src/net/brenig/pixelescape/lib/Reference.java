@@ -72,7 +72,7 @@ public class Reference {
 
 	public static final int OBSTACLE_MIN_HEIGHT = 3;
 	public static final float OBSTACLE_MIN_SPACE = BLOCK_WIDTH * 2F;
-	public static final int OBSTACLE_X_CHECK_RADIUS_MAX = 10;
+	public static final int OBSTACLE_X_CHECK_RADIUS_MAX = 12;
 
 	public static final float GRAVITY_ACCELERATION = -8 * BLOCK_WIDTH;
 

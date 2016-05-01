@@ -4,6 +4,7 @@ import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.entity.Entity;
+import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.render.WorldRenderer;
 
 /**
@@ -31,7 +32,7 @@ public class Barricade extends Entity {
 	}
 
 	@Override
-	public void render(PixelEscape game, WorldRenderer renderer, float delta) {
+	public void render(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta) {
 		game.getRenderManager().beginFilledShape();
 		game.getShapeRenderer().setColor(0, 0, 0, 1);
 		renderer.renderRectWorld(xPos - sizeX / 2, yPos - sizeY / 2, sizeX, sizeY);

@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.entity.Entity;
-import net.brenig.pixelescape.lib.Reference;
+import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.render.WorldRenderer;
 
@@ -58,7 +58,7 @@ public class EntityFadingParticle extends Entity {
 	}
 
 	@Override
-	public void render(PixelEscape game, WorldRenderer renderer, float delta) {
+	public void render(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta) {
 		if(isDead()) {
 			return;
 		}
@@ -66,8 +66,8 @@ public class EntityFadingParticle extends Entity {
 		xPos += xVel * delta;
 		yPos += yVel * delta;
 
-		xVel = Math.min(Reference.MAX_ENTITY_SPEED, xVel * xAccelerationFactor);
-		yVel = Math.min(Reference.MAX_ENTITY_SPEED, yVel * yAccelerationFactor);
+		xVel = Math.min(gameMode.getMaxEntitySpeed(), xVel * xAccelerationFactor);
+		yVel = Math.min(gameMode.getMaxEntitySpeed(), yVel * yAccelerationFactor);
 
 		fadeTimePassed += delta;
 

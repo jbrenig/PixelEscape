@@ -68,7 +68,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	}
 
 	@Override
-	public boolean update(float deltaTick, InputManager inputManager) {
+	public boolean update(float deltaTick, InputManager inputManager, GameMode gameMode) {
 		xPos += deltaTick *(xVelocity + xVelocityModifier);
 		if(!GameDebugSettings.get("DEBUG_GOD_MODE")) {
 			yPos += deltaTick * yVelocity;
@@ -106,10 +106,10 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 			yVelocity += Reference.GRAVITY_ACCELERATION * deltaTick * yVelocityFactor;
 			lastTouched = false;
 		}
-		xVelocity += Reference.SPEED_MODIFIER * deltaTick;
+		xVelocity += gameMode.getSpeedIncreaseFactor() * deltaTick;
 
-		yVelocity = Math.min(Reference.MAX_ENTITY_SPEED, yVelocity);
-		xVelocity = Math.min(Reference.MAX_ENTITY_SPEED, xVelocity);
+		yVelocity = Math.min(gameMode.getMaxEntitySpeed(), yVelocity);
+		xVelocity = Math.min(gameMode.getMaxEntitySpeed(), xVelocity);
 
 		//update trail
 		for (int i = 0; i < pathEntities.length; i++) {
@@ -286,7 +286,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	}
 
 	@Override
-	public void render(PixelEscape game, WorldRenderer renderer, float delta) {
+	public void render(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta) {
 		if(this.isDead()) {
 			return;
 		}

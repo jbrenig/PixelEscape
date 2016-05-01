@@ -7,6 +7,7 @@ import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.entity.player.EntityPlayer;
+import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.render.WorldRenderer;
 
@@ -57,7 +58,7 @@ public class EntityItem extends Entity {
 	}
 
 	@Override
-	public void render(PixelEscape game, WorldRenderer renderer, float delta) {
+	public void render(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta) {
 		if(isDead) {
 			return;
 		}
@@ -68,7 +69,7 @@ public class EntityItem extends Entity {
 	}
 
 	@Override
-	public boolean update(float delta, InputManager inputManager) {
+	public boolean update(float delta, InputManager inputManager, GameMode gameMode) {
 		if(!isDead && doesEntityIntersectWithEntity(world.getPlayer())) {
 			if(item.onCollect(world.getPlayer())) {
 				this.isDead = true;

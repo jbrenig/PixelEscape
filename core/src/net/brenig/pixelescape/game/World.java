@@ -123,7 +123,7 @@ public class World {
 				iterator.remove();
 				entityPoolManager.free(e);
 			} else {
-				if(e.update(deltaTick, screen.getInput())) {
+				if(e.update(deltaTick, screen.getInput(), screen.getGameMode())) {
 					break;
 				}
 			}

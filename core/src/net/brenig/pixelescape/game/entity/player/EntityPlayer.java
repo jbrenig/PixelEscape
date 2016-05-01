@@ -163,10 +163,19 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 		xPos = 0;
 		xVelocity = gameMode.getStartingSpeed();
+		xVelocityModifier = 0;
+
 		isDead = false;
 		extraLives = gameMode.getExtraLives();
+
 		currentAbility = gameMode.getStartingAbility();
 		remaingAbilityUses = gameMode.getStartingAbilityUses();
+		cooldownRemaining = 0;
+
+		for(StatusEffect effect : effects) {
+			effect.onEffectRemove(this);
+		}
+		effects.clear();
 	}
 
 	/**
@@ -179,12 +188,6 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		for (int i = 0; i < pathEntities.length; i++) {
 			pathEntities[i].reset(yPos, xPosScreen - Reference.PATH_ENTITY_OFFSET * (i + 1));
 		}
-		for(StatusEffect effect : effects) {
-			effect.onEffectRemove(this);
-		}
-		effects.clear();
-		xVelocityModifier = 0;
-		cooldownRemaining = 0;
 	}
 
 	/**
@@ -406,7 +409,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 			world.getScreen().game.getGameAssets().getPlayerChrashedSound().play(world.getScreen().game.gameSettings.getSoundVolume());
 		}
 
-		//explode live icon
+		//explode life icon
 		if(world.getScreen().getGameMode().getExtraLives() > 0) {
 			//We have a live system (and therefor have a lives icon)
 			final float lifeX = world.convertScreenToWorldCoordinate(world.getScreen().game.gameSizeX - 36 * getExtraLives() + 16);

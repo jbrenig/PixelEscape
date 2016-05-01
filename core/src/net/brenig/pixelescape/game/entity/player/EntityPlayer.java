@@ -18,6 +18,7 @@ import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.WorldRenderer;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
@@ -504,5 +505,9 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	 */
 	public void setYVelocityFactor(float yVelocityFactor) {
 		this.yVelocityFactor = yVelocityFactor;
+	}
+
+	public Collection<StatusEffect> getStatusEffects() {
+		return effects;
 	}
 }

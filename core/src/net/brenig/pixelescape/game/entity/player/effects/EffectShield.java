@@ -1,6 +1,7 @@
 package net.brenig.pixelescape.game.entity.player.effects;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import net.brenig.pixelescape.PixelEscape;
@@ -11,7 +12,7 @@ import net.brenig.pixelescape.game.entity.particle.EntityFadingParticle;
 import net.brenig.pixelescape.game.entity.player.EntityPlayer;
 import net.brenig.pixelescape.render.WorldRenderer;
 
-public class EffectShield extends StatusEffect {
+public class EffectShield extends StatusEffectTimed {
 
 	private static final int RENDER_EFFECT_RADIUS = 12;
 	private static final int RENDER_EFFECT_SIZE = RENDER_EFFECT_RADIUS * 2;
@@ -29,26 +30,14 @@ public class EffectShield extends StatusEffect {
 		}
 	};
 
-	private float timeRemaining = 8F;
-
 	public EffectShield(EntityPlayer player) {
-		super(player);
+		super(player, 8);
 	}
 
 	@Override
 	public void render(PixelEscape game, WorldRenderer renderer, EntityPlayer player, float delta) {
 		renderer.getRenderManager().begin();
 		renderer.renderTextureRegion(game.getGameAssets().getEffectItemShield(), player.getXPosScreen() - RENDER_EFFECT_RADIUS, player.getYPos() - RENDER_EFFECT_RADIUS, RENDER_EFFECT_SIZE, RENDER_EFFECT_SIZE);
-	}
-
-	@Override
-	public void update(float delta) {
-		timeRemaining -= delta;
-	}
-
-	@Override
-	public boolean effectActive() {
-		return timeRemaining > 0;
 	}
 
 	@Override
@@ -69,5 +58,10 @@ public class EffectShield extends StatusEffect {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void updateRenderColor(ShapeRenderer renderer) {
+		renderer.setColor(0.5F, 0.4F, 0.7F, 0);
 	}
 }

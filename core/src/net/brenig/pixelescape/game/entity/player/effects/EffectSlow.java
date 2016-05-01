@@ -1,5 +1,6 @@
 package net.brenig.pixelescape.game.entity.player.effects;
 
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import net.brenig.pixelescape.PixelEscape;
@@ -8,7 +9,7 @@ import net.brenig.pixelescape.game.entity.Item;
 import net.brenig.pixelescape.game.entity.player.EntityPlayer;
 import net.brenig.pixelescape.render.WorldRenderer;
 
-public class EffectSlow extends StatusEffect {
+public class EffectSlow extends StatusEffectTimed {
 
 	public static final Item ITEM = new Item() {
 		@Override
@@ -23,30 +24,18 @@ public class EffectSlow extends StatusEffect {
 		}
 	};
 
-	private float timeRemaining = 10;
 	private float velocityAmount;
 
 	private final static float xVelocityFactor = 0.2F;
 	private final static float maximumVelocityDecrease = 100F;
 
 	public EffectSlow(EntityPlayer player) {
-		super(player);
+		super(player, 10);
 	}
 
 	@Override
 	public void render(PixelEscape game, WorldRenderer renderer, EntityPlayer player, float delta) {
 		//TODO slow effect??
-	}
-
-	@Override
-	public void update(float delta) {
-		timeRemaining -= delta;
-		//TODO maybe gradually change player speed
-	}
-
-	@Override
-	public boolean effectActive() {
-		return timeRemaining > 0;
 	}
 
 	@Override
@@ -58,5 +47,10 @@ public class EffectSlow extends StatusEffect {
 	@Override
 	public void onEffectRemove(EntityPlayer player) {
 		player.addXVelocityModifier(velocityAmount);
+	}
+
+	@Override
+	public void updateRenderColor(ShapeRenderer renderer) {
+		renderer.setColor(0.3F, 0.6F, 0.5F, 0);
 	}
 }

@@ -15,6 +15,7 @@ import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameDebugSettings;
+import net.brenig.pixelescape.game.entity.player.effects.StatusEffect;
 import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.game.worldgen.TerrainPair;
 import net.brenig.pixelescape.lib.LogHelper;
@@ -30,6 +31,8 @@ import net.brenig.pixelescape.screen.ui.general.VerticalSpacer;
 import net.brenig.pixelescape.screen.ui.ingame.AbilityWidget;
 import net.brenig.pixelescape.screen.ui.ingame.ScoreWidget;
 import net.brenig.pixelescape.screen.ui.ingame.StageManagerGame;
+
+import java.util.Collection;
 
 
 /**
@@ -176,6 +179,7 @@ public class GameScreen extends PixelScreen {
 
 			//Draw lives
 			renderLives();
+			renderEffectTime();
 
 			this.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 			stage.draw(game.getRenderManager());
@@ -198,6 +202,27 @@ public class GameScreen extends PixelScreen {
 		}
 		game.getShapeRenderer().rect(0, 0, world.getWorldWidth(), uiPos);
 		game.getShapeRenderer().rect(0, world.getWorldHeight() + uiPos, world.getWorldWidth(), uiPos + Reference.GAME_UI_Y_SIZE);
+	}
+
+	private void renderEffectTime() {
+		Collection<StatusEffect> effects = world.player.getStatusEffects();
+		if(!effects.isEmpty()) {
+			game.getRenderManager().beginFilledShape();
+			int index = 0;
+			final int yPos = world.getWorldHeight() + uiPos - 6;
+			final int xPos = 10;
+			final int xSize = 16;
+			final int ySize = 32;
+			for (StatusEffect effect : effects) {
+				final float timeRemaining = effect.getScaledTime();
+				if(timeRemaining > 0) {
+					final float timeRemainingScaled = timeRemaining * ySize;
+					effect.updateRenderColor(game.getShapeRenderer());
+					game.getRenderManager().rect(xPos + index * xSize, yPos - timeRemainingScaled, xSize, timeRemainingScaled);
+					index++;
+				}
+			}
+		}
 	}
 
 	private void renderLives() {

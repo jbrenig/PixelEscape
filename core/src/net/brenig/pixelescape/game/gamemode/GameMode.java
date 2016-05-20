@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameAssets;
-import net.brenig.pixelescape.game.entity.player.abliity.Ability;
+import net.brenig.pixelescape.game.player.abliity.Ability;
 import net.brenig.pixelescape.game.worldgen.WorldGenerator;
 import net.brenig.pixelescape.lib.Reference;
 

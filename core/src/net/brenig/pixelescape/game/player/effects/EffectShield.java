@@ -1,4 +1,4 @@
-package net.brenig.pixelescape.game.entity.player.effects;
+package net.brenig.pixelescape.game.player.effects;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -7,9 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameAssets;
-import net.brenig.pixelescape.game.entity.Item;
+import net.brenig.pixelescape.game.player.Item;
 import net.brenig.pixelescape.game.entity.particle.EntityFadingParticle;
-import net.brenig.pixelescape.game.entity.player.EntityPlayer;
+import net.brenig.pixelescape.game.entity.EntityPlayer;
 import net.brenig.pixelescape.render.WorldRenderer;
 
 public class EffectShield extends StatusEffectTimed {

@@ -6,15 +6,14 @@ import com.badlogic.gdx.graphics.GL20;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
-import net.brenig.pixelescape.game.entity.player.EntityPlayer;
 import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.render.WorldRenderer;
 
 /**
- * Entity that contains one {@link Item}
+ * Entity that contains one {@link net.brenig.pixelescape.game.player.Item}
  * <p>
- *     when the player collects the item effects will be handled by {@link Item#onCollect(EntityPlayer)}
+ *     when the player collects the item effects will be handled by {@link net.brenig.pixelescape.game.player.Item#onCollect(EntityPlayer)}
  * </p>
  */
 public class EntityItem extends Entity {
@@ -25,7 +24,7 @@ public class EntityItem extends Entity {
 	private final static int ITEM_SIZE = 18 * 2;
 	private final static int ITEM_RADIUS = ITEM_SIZE / 2;
 
-	private Item item;
+	private net.brenig.pixelescape.game.player.Item item;
 
 	private boolean isDead = false;
 
@@ -53,12 +52,12 @@ public class EntityItem extends Entity {
 		return yPos + RADIUS;
 	}
 
-	public void setItem(Item item) {
+	public void setItem(net.brenig.pixelescape.game.player.Item item) {
 		this.item = item;
 	}
 
 	@Override
-	public void render(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta) {
+	public void renderBackground(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta) {
 		if(isDead) {
 			return;
 		}
@@ -84,7 +83,7 @@ public class EntityItem extends Entity {
 		return isDead;
 	}
 
-	public Item getItem() {
+	public net.brenig.pixelescape.game.player.Item getItem() {
 		return item;
 	}
 

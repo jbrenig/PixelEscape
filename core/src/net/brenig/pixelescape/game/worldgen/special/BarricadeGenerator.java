@@ -2,9 +2,8 @@ package net.brenig.pixelescape.game.worldgen.special;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
+import net.brenig.pixelescape.game.entity.EntityBarricade;
 import net.brenig.pixelescape.game.gamemode.GameMode;
-import net.brenig.pixelescape.game.worldgen.Barricade;
-import net.brenig.pixelescape.lib.CycleArray;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
 
@@ -12,58 +11,33 @@ import java.util.Random;
 
 public class BarricadeGenerator implements ISpecialWorldGenerator {
 
-	private final CycleArray<Barricade> obstacles;
+	private static final int spawnOffset = 40;
 
-	public BarricadeGenerator() {
-		obstacles = new CycleArray<Barricade>(3);
-	}
+	private int nextBarricadePosition;
 
 	@Override
 	public void generate(World world, Random rand, GameMode mode) {
-
 		if(mode.shouldGenerateBarricades(world)) {
-			while (obstacles.getOldest() == null || obstacles.getOldest().getXPos() < world.getPlayer().getXPos() - world.getWorldWidth() / 2) {
-				Barricade last = obstacles.getNewest();
-				int oldX = 0;
-				if (last != null) {
-					oldX = (int) last.getXPos();
-				}
-				Barricade b = getCreateObstacleForGeneration(world);
-				final int newXPos = (int) (oldX + world.getWorldWidth() * 0.7);
+			if(world.getCurrentScreenEnd() + spawnOffset > nextBarricadePosition) {
+				EntityBarricade barricade = world.createEntity(EntityBarricade.class);
+				final int newXPos = nextBarricadePosition;
 				final int newYPos = rand.nextInt(world.getWorldHeight() - Reference.OBSTACLE_MIN_HEIGHT * Reference.BLOCK_WIDTH * 2) + Reference.OBSTACLE_MIN_HEIGHT * Reference.BLOCK_WIDTH;
-				b.setPosition(newXPos, newYPos);
-			}
-		}
+				barricade.setPosition(newXPos, newYPos);
+				updateBarricade(world, barricade, mode);
+				world.spawnEntity(barricade);
 
-		updateBarricades(world, mode);
-	}
-
-	public Barricade getCreateObstacleForGeneration(World world) {
-		Barricade b = obstacles.getOldest();
-		if (b == null) {
-			b = new Barricade(world);
-			obstacles.add(b);
-			world.spawnEntity(b);
-			return b;
-		} else {
-			obstacles.cycleForward();
-			b.moved = false;
-			return b;
-		}
-	}
-
-	public void updateBarricades(World world, GameMode gameMode) {
-		for (int i = 0; i < obstacles.size(); i++) {
-			Barricade b =  obstacles.get(i);
-			if(b == null) continue;
-			if (!b.moved && b.getXPos() > world.getCurrentScreenEnd() + Reference.BLOCK_WIDTH && b.getXPos() < world.getCurrentScreenEnd() + Reference.BLOCK_WIDTH * 2) {
-				b.moved = true;
-				updateBarricade(world, b, gameMode);
+				nextBarricadePosition = (int) (newXPos + world.getWorldWidth() * 0.7);
 			}
 		}
 	}
 
-	private void updateBarricade(World world, Barricade b, GameMode gameMode) {
+	/**
+	 * checks blocks around the Barricade and tries to position the barricade (y-Pos) so that it is possible to get past is on higher player speeds
+	 * @param world world instance
+	 * @param b tha barricade that needs to be moved
+	 * @param gameMode current gamemode
+	 */
+	private void updateBarricade(World world, EntityBarricade b, GameMode gameMode) {
 		int localIndex = world.convertWorldCoordinateToLocalBlockIndex(b.getXPos());
 		//LogHelper.debug("Index convert from: " + b.posX + ", to: " + localIndex);
 		if (!(localIndex < 0)) {
@@ -90,10 +64,10 @@ public class BarricadeGenerator implements ISpecialWorldGenerator {
 		}
 	}
 
-	private float getAmountToCorrectBottom(World world, Barricade b, int checkRadius) {
+	private float getAmountToCorrectBottom(World world, EntityBarricade b, int checkRadius) {
 		int posXIndex = world.convertWorldCoordinateToLocalBlockIndex(b.getXPos());
 		float posY = b.getYPos();
-		posY -= Barricade.getSizeY() / 2;
+		posY -= EntityBarricade.getSizeY() / 2;
 
 		float correction = 0;
 		for (int i = (-1) * checkRadius; i <= checkRadius; i++) {
@@ -110,10 +84,10 @@ public class BarricadeGenerator implements ISpecialWorldGenerator {
 		return correction;
 	}
 
-	private float getAmountToCorrectTop(World world, Barricade b, int checkRadius) {
+	private float getAmountToCorrectTop(World world, EntityBarricade b, int checkRadius) {
 		int posXIndex = world.convertWorldCoordinateToLocalBlockIndex(b.getXPos());
 		float posY = b.getYPos();
-		posY += Barricade.getSizeY() / 2;
+		posY += EntityBarricade.getSizeY() / 2;
 
 		float correction = 0;
 		for (int i = (-1) * checkRadius; i <= checkRadius; i++) {
@@ -132,6 +106,6 @@ public class BarricadeGenerator implements ISpecialWorldGenerator {
 
 	@Override
 	public void reset(World world) {
-		obstacles.clear();
+		nextBarricadePosition = world.getWorldWidth() + spawnOffset;
 	}
 }

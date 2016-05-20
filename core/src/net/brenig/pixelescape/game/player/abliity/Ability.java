@@ -1,11 +1,11 @@
-package net.brenig.pixelescape.game.entity.player.abliity;
+package net.brenig.pixelescape.game.player.abliity;
 
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameAssets;
-import net.brenig.pixelescape.game.entity.Item;
-import net.brenig.pixelescape.game.entity.player.EntityPlayer;
+import net.brenig.pixelescape.game.player.Item;
+import net.brenig.pixelescape.game.entity.EntityPlayer;
 import net.brenig.pixelescape.screen.GameScreen;
 
 public abstract class Ability implements Item {

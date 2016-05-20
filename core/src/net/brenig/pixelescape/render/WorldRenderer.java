@@ -122,8 +122,18 @@ public class WorldRenderer {
 		moveScreen(delta);
 		currentTotalXOffset = xOffset + screenShakeX;
 		currentTotalYOffset = rendererYOffset + screenShakeY;
+		renderEntitiesBackground(delta);
 		renderWorld();
 		renderEntities(delta);
+	}
+
+	/**
+	 * renders entities in background
+	 */
+	private void renderEntitiesBackground(float delta) {
+		for(Entity e : world.getEntityList()) {
+			e.renderBackground(game, this, world.getScreen().getGameMode(), delta);
+		}
 	}
 
 	/**

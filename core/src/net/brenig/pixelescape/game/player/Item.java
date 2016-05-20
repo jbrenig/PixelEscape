@@ -1,9 +1,10 @@
-package net.brenig.pixelescape.game.entity;
+package net.brenig.pixelescape.game.player;
 
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import net.brenig.pixelescape.game.data.GameAssets;
-import net.brenig.pixelescape.game.entity.player.EntityPlayer;
+import net.brenig.pixelescape.game.entity.EntityItem;
+import net.brenig.pixelescape.game.entity.EntityPlayer;
 
 
 /**

@@ -27,6 +27,8 @@ public class EntityCrashParticle extends Entity {
 
 	private boolean collideTop = true;
 
+	private boolean dead;
+
 
 	public EntityCrashParticle(World world) {
 		super(world);
@@ -102,8 +104,9 @@ public class EntityCrashParticle extends Entity {
 
 	@Override
 	public boolean isDead() {
+		if(dead) return true;
 		float renderX = world.convertWorldCoordToScreenCoord(xPos);
-		return yPos - radius >= world.getWorldHeight() || yPos + radius <= 0 || renderX - radius >= world.getWorldWidth() || renderX + radius <= 0;
+		return dead = (yPos - radius >= world.getWorldHeight() || yPos + radius <= 0 || renderX - radius >= world.getWorldWidth() || renderX + radius <= 0);
 	}
 
 	private CollisionType doesCollide() {
@@ -127,5 +130,6 @@ public class EntityCrashParticle extends Entity {
 		yVel = 0;
 		color = Color.BLACK;
 		collideTop = true;
+		dead = false;
 	}
 }

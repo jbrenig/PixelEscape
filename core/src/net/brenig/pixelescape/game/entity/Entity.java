@@ -70,13 +70,25 @@ public abstract class Entity implements Pool.Poolable {
 	}
 
 	/**
+	 * renders the entity in the background
+	 * <p/>
+	 * gets called before terrain is rendered
+	 *
+	 * @param game game instance
+	 * @param renderer renderer instance
+	 * @param gameMode current gamemode
+	 * @param delta time passed since last frame
+	 */
+	public void renderBackground(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta) {}
+
+	/**
 	 * renders the entity
 	 * @param game game instance
 	 * @param renderer renderer instance
-	 * @param gameMode
+	 * @param gameMode current gamemode
 	 * @param delta time passed since last frame
 	 */
-	public abstract void render(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta);
+	public void render(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta) {}
 
 	/**
 	 * update the entity, gets called every frame

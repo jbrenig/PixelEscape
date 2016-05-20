@@ -1,23 +1,20 @@
-package net.brenig.pixelescape.game.worldgen;
+package net.brenig.pixelescape.game.entity;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.World;
-import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.render.WorldRenderer;
 
 /**
  * obstacles that spawn in the level
  */
-public class Barricade extends Entity {
-
-	public boolean moved = false;
+public class EntityBarricade extends Entity {
 
 	public static final int sizeX = 20;
 	public static final int sizeY = 80;
 
-	public Barricade(World world) {
+	public EntityBarricade(World world) {
 		super(world);
 	}
 
@@ -40,7 +37,7 @@ public class Barricade extends Entity {
 
 	@Override
 	public boolean isDead() {
-		return false;
+		return getMaxX() < world.getCurrentScreenStart();
 	}
 
 	@Override
@@ -53,22 +50,22 @@ public class Barricade extends Entity {
 
 	@Override
 	public float getMinX() {
-		return this.xPos - Barricade.sizeX / 2;
+		return this.xPos - EntityBarricade.sizeX / 2;
 	}
 
 	@Override
 	public float getMaxX() {
-		return this.xPos + Barricade.sizeX / 2;
+		return this.xPos + EntityBarricade.sizeX / 2;
 	}
 
 	@Override
 	public float getMinY() {
-		return this.yPos - Barricade.sizeY / 2;
+		return this.yPos - EntityBarricade.sizeY / 2;
 	}
 
 	@Override
 	public float getMaxY() {
-		return this.yPos + Barricade.sizeY / 2;
+		return this.yPos + EntityBarricade.sizeY / 2;
 	}
 
 	public void setXPos(float xPos) {

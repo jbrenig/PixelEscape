@@ -6,7 +6,7 @@ import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.game.entity.EntityPoolManager;
 import net.brenig.pixelescape.game.entity.particle.EntityCrashParticle;
-import net.brenig.pixelescape.game.entity.player.EntityPlayer;
+import net.brenig.pixelescape.game.entity.EntityPlayer;
 import net.brenig.pixelescape.game.worldgen.TerrainPair;
 import net.brenig.pixelescape.game.worldgen.WorldGenerator;
 import net.brenig.pixelescape.lib.CycleArray;
@@ -437,10 +437,16 @@ public class World {
 		return convertWorldBlockToLocalBlockIndex((int) (posX / Reference.BLOCK_WIDTH));
 	}
 
+	/**
+	 * @return global coordinate of the left screen edge
+	 */
 	public float getCurrentScreenStart() {
 		return screen.worldRenderer.getWorldCameraXPos();
 	}
 
+	/**
+	 * global world coordinate of the right end of the sceen
+	 */
 	public float getCurrentScreenEnd() {
 		return screen.worldRenderer.getWorldCameraXPos() + getWorldWidth();
 	}

@@ -1,4 +1,4 @@
-package net.brenig.pixelescape.game.entity.player;
+package net.brenig.pixelescape.game.entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -9,11 +9,9 @@ import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameDebugSettings;
-import net.brenig.pixelescape.game.entity.Entity;
-import net.brenig.pixelescape.game.entity.IMovingEntity;
 import net.brenig.pixelescape.game.entity.particle.EntityCrashParticle;
-import net.brenig.pixelescape.game.entity.player.abliity.Ability;
-import net.brenig.pixelescape.game.entity.player.effects.StatusEffect;
+import net.brenig.pixelescape.game.player.abliity.Ability;
+import net.brenig.pixelescape.game.player.effects.StatusEffect;
 import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.WorldRenderer;
@@ -44,7 +42,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	private float immortal = 0;
 
-	private final PlayerPathEntity[] pathEntities = new PlayerPathEntity[4];
+	private final net.brenig.pixelescape.game.player.PlayerPathEntity[] pathEntities = new net.brenig.pixelescape.game.player.PlayerPathEntity[4];
 
 	/**
 	 * used to allow for better acceleration of clicks
@@ -63,7 +61,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	public EntityPlayer(World world, GameMode gameMode) {
 		super(world);
 		for (int i = 0; i < pathEntities.length; i++) {
-			pathEntities[i] = new PlayerPathEntity(yPos, xPosScreen);
+			pathEntities[i] = new net.brenig.pixelescape.game.player.PlayerPathEntity(yPos, xPosScreen);
 		}
 		reset(gameMode);
 	}
@@ -268,7 +266,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		return false;
 	}
 
-	public PlayerPathEntity[] getPathEntities() {
+	public net.brenig.pixelescape.game.player.PlayerPathEntity[] getPathEntities() {
 		return pathEntities;
 	}
 
@@ -304,7 +302,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		}
 		renderer.renderRect(this.getXPosScreen() - this.getPlayerSize() / 2, this.getYPos() - this.getPlayerSize() / 2, this.getPlayerSize(), this.getPlayerSize());
 
-		for (PlayerPathEntity e : this.getPathEntities()) {
+		for (net.brenig.pixelescape.game.player.PlayerPathEntity e : this.getPathEntities()) {
 			renderer.renderRect(e.getXPosScreen() - e.getSizeRadius(), e.getYPos() - e.getSizeRadius(), e.getSize(), e.getSize());
 		}
 

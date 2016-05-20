@@ -1,6 +1,7 @@
-package net.brenig.pixelescape.game.entity.player;
+package net.brenig.pixelescape.game.player;
 
 import net.brenig.pixelescape.game.entity.*;
+import net.brenig.pixelescape.game.entity.EntityPlayer;
 import net.brenig.pixelescape.lib.Reference;
 
 /**

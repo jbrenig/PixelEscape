@@ -13,7 +13,16 @@ public class BarricadeGenerator implements ISpecialWorldGenerator {
 
 	private static final int spawnOffset = 40;
 
+	private final int barricadeOffset;
+
 	private int nextBarricadePosition;
+
+	/**
+	 * @param barricadeOffset pixels until the next barricade is generated
+	 */
+	public BarricadeGenerator(int barricadeOffset) {
+		this.barricadeOffset = barricadeOffset;
+	}
 
 	@Override
 	public void generate(World world, Random rand, GameMode mode) {
@@ -26,7 +35,7 @@ public class BarricadeGenerator implements ISpecialWorldGenerator {
 				updateBarricade(world, barricade, mode);
 				world.spawnEntity(barricade);
 
-				nextBarricadePosition = (int) (newXPos + Reference.TARGET_RESOLUTION_X * 0.85F);
+				nextBarricadePosition = (newXPos + barricadeOffset);
 			}
 		}
 	}

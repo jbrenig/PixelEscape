@@ -10,9 +10,11 @@ import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.entity.particle.EntityCrashParticle;
+import net.brenig.pixelescape.game.gamemode.GameMode;
+import net.brenig.pixelescape.game.player.PlayerMovementController;
+import net.brenig.pixelescape.game.player.PlayerPathEntity;
 import net.brenig.pixelescape.game.player.abliity.Ability;
 import net.brenig.pixelescape.game.player.effects.StatusEffect;
-import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.WorldRenderer;
 
@@ -30,6 +32,8 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	private int SIZE = Reference.PLAYER_ENTITY_SIZE;
 	private int RADIUS = SIZE / 2;
 
+	private PlayerMovementController movementController;
+
 	private float xVelocity;
 	private float yVelocity;
 
@@ -42,12 +46,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	private float immortal = 0;
 
-	private final net.brenig.pixelescape.game.player.PlayerPathEntity[] pathEntities = new net.brenig.pixelescape.game.player.PlayerPathEntity[4];
-
-	/**
-	 * used to allow for better acceleration of clicks
-	 */
-	private boolean lastTouched = false;
+	private final PlayerPathEntity[] pathEntities = new PlayerPathEntity[4];
 
 	private boolean isDead = false;
 
@@ -60,8 +59,9 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	public EntityPlayer(World world, GameMode gameMode) {
 		super(world);
+		movementController = gameMode.getPlayerMovementController();
 		for (int i = 0; i < pathEntities.length; i++) {
-			pathEntities[i] = new net.brenig.pixelescape.game.player.PlayerPathEntity(yPos, xPosScreen);
+			pathEntities[i] = new PlayerPathEntity(yPos, xPosScreen);
 		}
 		reset(gameMode);
 	}
@@ -93,19 +93,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		}
 
 		//speed update
-		if (inputManager.isTouched() || inputManager.isSpaceDown()) {
-			if(!lastTouched) {
-				yVelocity += Reference.CLICK_ACCELERATION * yVelocityFactor;
-				lastTouched = true;
-			} else {
-				yVelocity += Reference.TOUCH_ACCELERATION * deltaTick * yVelocityFactor;
-				lastTouched = true;
-			}
-		} else {
-			yVelocity += Reference.GRAVITY_ACCELERATION * deltaTick * yVelocityFactor;
-			lastTouched = false;
-		}
-		xVelocity += gameMode.getSpeedIncreaseFactor() * deltaTick;
+		movementController.updatePlayerMovement(world.getScreen().game, inputManager, gameMode, world, this, deltaTick, yVelocityFactor);
 
 		yVelocity = Math.min(gameMode.getMaxEntitySpeed(), yVelocity);
 		xVelocity = Math.min(gameMode.getMaxEntitySpeed(), xVelocity);
@@ -158,6 +146,8 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	 */
 	public void reset(GameMode gameMode) {
 		reviveAfterCrash();
+
+		movementController.reset();
 
 		xPos = 0;
 		xVelocity = gameMode.getStartingSpeed();
@@ -510,5 +500,33 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	public Collection<StatusEffect> getStatusEffects() {
 		return effects;
+	}
+
+	/**
+	 * adds given value to the players x-velocity
+	 */
+	public void modifiyXVelocity(float xVelocity) {
+		this.xVelocity += xVelocity;
+	}
+
+	/**
+	 * adds given value to the players y-velocity
+	 */
+	public void modifiyYVelocity(float yVelocity) {
+		this.yVelocity += yVelocity;
+	}
+
+	/**
+	 * sets new y- position
+	 */
+	public void setYPosition(float pos) {
+		this.yPos = pos;
+	}
+
+	/**
+	 * sets new y velocity
+	 */
+	public void setyVelocity(float velocity) {
+		this.yVelocity = velocity;
 	}
 }

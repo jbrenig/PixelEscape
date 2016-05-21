@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameAssets;
+import net.brenig.pixelescape.game.player.PlayerMovementController;
 import net.brenig.pixelescape.game.player.abliity.Ability;
 import net.brenig.pixelescape.game.worldgen.WorldGenerator;
 import net.brenig.pixelescape.lib.Reference;
@@ -88,4 +89,11 @@ public abstract class GameMode {
 	 * @return the icon of this gamemode
 	 */
 	public abstract TextureRegion getIcon(GameAssets assets);
+
+	/**
+	 * @return the movement controller used to do the players movement
+	 */
+	public PlayerMovementController getPlayerMovementController() {
+		return new PlayerMovementController.DefaultMovementController();
+	}
 }

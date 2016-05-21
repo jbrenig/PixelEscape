@@ -125,7 +125,7 @@ public class WorldGenerator {
 	 * registers the default Barricade generator
 	 */
 	public void registerDefaultBarricadeGenerator() {
-		addSpecialGenerator(new BarricadeGenerator());
+		addSpecialGenerator(new BarricadeGenerator((int) (Reference.TARGET_RESOLUTION_X * 0.85F)));
 	}
 
 	private class WorldGenFilter implements WeightedList.Filter<ITerrainGenerator> {

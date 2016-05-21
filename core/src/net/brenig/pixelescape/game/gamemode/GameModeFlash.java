@@ -27,7 +27,7 @@ public class GameModeFlash extends GameMode {
 
 	@Override
 	public TextureRegion getIcon(GameAssets assets) {
-		return assets.getHeart(); //TODO icon
+		return assets.getTextureAtlas().findRegion("gamemode_flash");
 	}
 
 	@Override

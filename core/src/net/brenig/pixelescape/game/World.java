@@ -190,8 +190,10 @@ public class World {
 		terrain.resize(calculateWorldBufferSize(newWidth));
 		if(oldSize < terrain.size()) {
 			//fill new entries
-			for(int i = oldSize; i < terrain.size(); i++) {
-				terrain.set(i, new TerrainPair(Reference.FALLBACK_TERRAIN_HEIGHT, Reference.FALLBACK_TERRAIN_HEIGHT));
+			for(int i = 0; i < terrain.size(); i++) {
+				if(terrain.get(i) == null) {
+					terrain.set(i, new TerrainPair(Reference.FALLBACK_TERRAIN_HEIGHT, Reference.FALLBACK_TERRAIN_HEIGHT));
+				}
 			}
 		}
 		player.setXPosScreen(worldWidth / 4);
@@ -426,7 +428,7 @@ public class World {
 	}
 
 	public float convertMouseYToScreenCoordinate(float mouseY) {
-		return Gdx.graphics.getHeight() - mouseY;
+		return screen.game.gameSizeY - mouseY;
 	}
 
 	public float convertMouseYToWorldCoordinate(float screenY) {

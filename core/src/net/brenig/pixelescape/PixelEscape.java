@@ -211,10 +211,12 @@ public class PixelEscape extends Game {
 	}
 
 	public float getScaledMouseX() {
+		final float scale = (float) gameSizeX / Gdx.graphics.getWidth();
 		return Gdx.input.getX() * scale;
 	}
 
 	public float getScaledMouseY() {
+		final float scale = (float) gameSizeY / Gdx.graphics.getHeight();
 		return Gdx.input.getY() * scale;
 	}
 

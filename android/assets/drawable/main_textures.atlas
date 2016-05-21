@@ -53,7 +53,7 @@ button_hover
   index: -1
 button_pause
   rotate: false
-  xy: 588, 94
+  xy: 686, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -74,14 +74,14 @@ checkbox_checked
   index: -1
 checkbox_hover
   rotate: false
-  xy: 40, 8
+  xy: 418, 56
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 effect_item_shield
   rotate: false
-  xy: 196, 10
+  xy: 438, 76
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -95,7 +95,7 @@ fullscreen
   index: -1
 fullscreen_hover
   rotate: false
-  xy: 622, 94
+  xy: 720, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -109,7 +109,7 @@ fullscreen_restore
   index: -1
 fullscreen_restore_hover
   rotate: false
-  xy: 656, 94
+  xy: 754, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -128,37 +128,44 @@ gamemode_classic
   orig: 96, 32
   offset: 0, 0
   index: -1
-gamemode_speed
+gamemode_flash
   rotate: false
   xy: 490, 94
   size: 96, 32
   orig: 96, 32
   offset: 0, 0
   index: -1
+gamemode_speed
+  rotate: false
+  xy: 588, 94
+  size: 96, 32
+  orig: 96, 32
+  offset: 0, 0
+  index: -1
 gear_settings
   rotate: false
-  xy: 690, 94
+  xy: 788, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 gear_settings_white
   rotate: false
-  xy: 724, 94
+  xy: 822, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 heart
   rotate: false
-  xy: 758, 94
+  xy: 856, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 item_blink
   rotate: false
-  xy: 996, 108
+  xy: 992, 108
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
@@ -172,7 +179,7 @@ item_blob_filled
   index: -1
 item_frame
   rotate: false
-  xy: 792, 94
+  xy: 890, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
@@ -193,42 +200,42 @@ item_shield
   index: -1
 item_slow
   rotate: false
-  xy: 350, 26
+  xy: 418, 74
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
 music_disabled
   rotate: false
-  xy: 826, 94
+  xy: 924, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 music_disabled_hover
   rotate: false
-  xy: 860, 94
+  xy: 958, 94
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 music_enabled
   rotate: false
-  xy: 894, 94
+  xy: 282, 12
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 music_enabled_hover
   rotate: false
-  xy: 928, 94
+  xy: 316, 12
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 scroll_background
   rotate: false
-  xy: 58, 9
+  xy: 40, 9
   size: 15, 15
   split: 4, 4, 4, 4
   orig: 15, 15
@@ -257,28 +264,28 @@ slider_knop
   index: -1
 sound_disabled
   rotate: false
-  xy: 962, 94
+  xy: 350, 46
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 sound_disabled_hover
   rotate: false
-  xy: 282, 12
+  xy: 350, 12
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 sound_enabled
   rotate: false
-  xy: 316, 12
+  xy: 384, 60
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 sound_enabled_hover
   rotate: false
-  xy: 350, 46
+  xy: 384, 26
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

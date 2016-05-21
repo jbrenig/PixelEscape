@@ -26,7 +26,7 @@ public class BarricadeGenerator implements ISpecialWorldGenerator {
 				updateBarricade(world, barricade, mode);
 				world.spawnEntity(barricade);
 
-				nextBarricadePosition = (int) (newXPos + world.getWorldWidth() * 0.7);
+				nextBarricadePosition = (int) (newXPos + Reference.TARGET_RESOLUTION_X * 0.85F);
 			}
 		}
 	}

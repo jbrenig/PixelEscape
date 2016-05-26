@@ -82,7 +82,7 @@ public class Reference {
 	public static final float SCREEN_TINT_STRENGTH = 0.4F;
 
 
-	public static final boolean DEBUG_SETTINGS_AVAILABLE    = true;
+	public static final boolean DEBUG_SETTINGS_AVAILABLE    = false;
 
 	/**
 	 * current version of saved data<br></br>

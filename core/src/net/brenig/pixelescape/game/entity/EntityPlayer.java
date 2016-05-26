@@ -458,7 +458,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		Class<? extends StatusEffect> clazz = effect.getClass();
 		while (effectIterator.hasNext()) {
 			StatusEffect old = effectIterator.next();
-			if(clazz.isInstance(old)) {
+			if(clazz.equals(old.getClass())) {
 				old.onEffectRemove(this);
 				effectIterator.remove();
 			}
@@ -477,7 +477,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	 */
 	public StatusEffect tryGetStatusEffect(Class<? extends StatusEffect> clazz) {
 		for (StatusEffect effect : effects) {
-			if (clazz.isInstance(effect)) {
+			if (clazz.equals(effect.getClass())) {
 				return effect;
 			}
 		}

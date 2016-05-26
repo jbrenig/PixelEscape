@@ -50,6 +50,7 @@ public class GameAssets {
 	private Drawable item_slow;
 	private Drawable item_shield;
 	private Drawable item_move;
+	private Drawable item_life;
 
 	private TextureRegion effect_item_shield;
 
@@ -117,6 +118,7 @@ public class GameAssets {
 		item_slow = new TextureRegionDrawable(textureAtlas.findRegion("item_slow"));
 		item_shield = new TextureRegionDrawable(textureAtlas.findRegion("item_shield"));
 		item_move = new TextureRegionDrawable(textureAtlas.findRegion("item_move"));
+		item_life = new TextureRegionDrawable(heart);
 
 		effect_item_shield = textureAtlas.findRegion("effect_item_shield");
 
@@ -403,5 +405,9 @@ public class GameAssets {
 
 	public Drawable getItemMove() {
 		return item_move;
+	}
+
+	public Drawable getHeartDrawable() {
+		return item_life;
 	}
 }

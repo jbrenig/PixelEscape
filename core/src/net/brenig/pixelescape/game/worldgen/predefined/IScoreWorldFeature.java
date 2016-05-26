@@ -3,6 +3,9 @@ package net.brenig.pixelescape.game.worldgen.predefined;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.entity.Entity;
 
+/**
+ * one-time world generator, that generates something at a specific predefined location
+ */
 public interface IScoreWorldFeature {
 
 	/**

@@ -4,9 +4,12 @@ package net.brenig.pixelescape.game.gamemode;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import net.brenig.pixelescape.game.data.GameAssets;
+import net.brenig.pixelescape.game.player.Item;
 import net.brenig.pixelescape.game.player.abliity.Ability;
+import net.brenig.pixelescape.game.player.item.ItemLife;
 import net.brenig.pixelescape.game.worldgen.WorldGenerator;
 import net.brenig.pixelescape.game.worldgen.special.ItemGenerator;
+import net.brenig.pixelescape.lib.FilteredElementProvider;
 import net.brenig.pixelescape.lib.Names;
 
 public class GameModeArcade extends GameMode {
@@ -30,6 +33,7 @@ public class GameModeArcade extends GameMode {
 		super.registerWorldGenerators(worldGenerator);
 //		worldGenerator.addSpecialGenerator(new ItemGenerator(3000, 5000, 4000, 6000, ItemGenerator.createDefaultItemList()));
 		worldGenerator.addSpecialGenerator(new ItemGenerator(600, 1000, 800, 1600, ItemGenerator.createDefaultItemList()));
+		worldGenerator.addSpecialGenerator(new ItemGenerator(10000, 12000, 20000, 25000, new FilteredElementProvider.SingleElementProvider<Item>(ItemLife.ITEM)));
 	}
 
 	@Override

@@ -7,8 +7,10 @@ import net.brenig.pixelescape.game.player.Item;
 import net.brenig.pixelescape.game.player.abliity.Ability;
 import net.brenig.pixelescape.game.player.effects.EffectShield;
 import net.brenig.pixelescape.game.player.effects.EffectSlow;
+import net.brenig.pixelescape.game.player.effects.EffectSmallBarricades;
 import net.brenig.pixelescape.game.worldgen.WeightedList;
 import net.brenig.pixelescape.game.worldgen.WorldGenerator;
+import net.brenig.pixelescape.lib.FilteredElementProvider;
 import net.brenig.pixelescape.lib.LogHelper;
 
 import java.util.Random;
@@ -28,9 +30,9 @@ public class ItemGenerator implements ISpecialWorldGenerator {
 
 	private int nextItemXPos;
 
-	private WeightedList<Item> itemList;
+	private FilteredElementProvider<Item> itemList;
 
-	public ItemGenerator(int minDistance, int maxDistance, int startMinDistance, int startMaxDistance, WeightedList<Item> itemList) {
+	public ItemGenerator(int minDistance, int maxDistance, int startMinDistance, int startMaxDistance, FilteredElementProvider<Item> itemList) {
 		this.minDistance = minDistance;
 		this.variableDistance = maxDistance - minDistance;
 		this.startMinDistance = startMinDistance;
@@ -71,6 +73,7 @@ public class ItemGenerator implements ISpecialWorldGenerator {
 		out.add(10, Ability.BLINK);
 		out.add(5, EffectShield.ITEM);
 		out.add(10, EffectSlow.ITEM);
+		out.add(8, EffectSmallBarricades.ITEM);
 //		out.add(10, EffectMove.ITEM);
 		return out;
 	}

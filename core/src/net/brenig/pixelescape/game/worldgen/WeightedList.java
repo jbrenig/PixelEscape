@@ -1,5 +1,7 @@
 package net.brenig.pixelescape.game.worldgen;
 
+import net.brenig.pixelescape.lib.FilteredElementProvider;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -9,7 +11,7 @@ import java.util.Random;
  * Used to provide weighted randomness<br/>
  * to provide this functionality an underlying {@link HashMap} is used
  */
-public class WeightedList<T> {
+public class WeightedList<T> implements FilteredElementProvider<T> {
 
 	private int totalWeight = 0;
 	private final Map<T, Integer> values;

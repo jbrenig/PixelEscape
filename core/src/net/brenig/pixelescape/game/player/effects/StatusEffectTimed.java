@@ -2,7 +2,7 @@ package net.brenig.pixelescape.game.player.effects;
 
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-import net.brenig.pixelescape.game.entity.EntityPlayer;
+import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
 
 /**
  * Base class for status effects that have a timer

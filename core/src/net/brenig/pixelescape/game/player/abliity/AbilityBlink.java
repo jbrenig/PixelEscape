@@ -6,8 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameAssets;
-import net.brenig.pixelescape.game.entity.particle.EntityFadingParticle;
-import net.brenig.pixelescape.game.entity.EntityPlayer;
+import net.brenig.pixelescape.game.entity.impl.particle.EntityFadingParticle;
+import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.screen.GameScreen;
 

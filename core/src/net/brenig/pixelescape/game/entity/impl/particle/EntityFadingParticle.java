@@ -1,4 +1,4 @@
-package net.brenig.pixelescape.game.entity.particle;
+package net.brenig.pixelescape.game.entity.impl.particle;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;

@@ -10,5 +10,9 @@
     
 	<add-linker name="xsiframe"/>	
 	<set-configuration-property name="devModeRedirectEnabled" value="true"/>
-	<set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>	
+	<set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>
+
+	<extend-configuration-property name="gdx.reflect.include" value="net.brenig.pixelescape.game.entity.impl" />
+	<extend-configuration-property name="gdx.reflect.include" value="net.brenig.pixelescape.game.entity.impl.particle" />
+	<extend-configuration-property name="gdx.reflect.include" value="net.brenig.pixelescape.game.World" />
 </module>

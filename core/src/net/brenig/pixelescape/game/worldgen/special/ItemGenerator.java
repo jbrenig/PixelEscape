@@ -1,7 +1,7 @@
 package net.brenig.pixelescape.game.worldgen.special;
 
 import net.brenig.pixelescape.game.World;
-import net.brenig.pixelescape.game.entity.EntityItem;
+import net.brenig.pixelescape.game.entity.impl.EntityItem;
 import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.game.player.Item;
 import net.brenig.pixelescape.game.player.abliity.Ability;

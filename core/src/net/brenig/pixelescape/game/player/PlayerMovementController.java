@@ -3,7 +3,7 @@ package net.brenig.pixelescape.game.player;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
-import net.brenig.pixelescape.game.entity.EntityPlayer;
+import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
 import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.lib.Reference;
 

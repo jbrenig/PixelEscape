@@ -1,4 +1,4 @@
-package net.brenig.pixelescape.game.entity;
+package net.brenig.pixelescape.game.entity.impl;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -9,7 +9,9 @@ import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameDebugSettings;
-import net.brenig.pixelescape.game.entity.particle.EntityCrashParticle;
+import net.brenig.pixelescape.game.entity.Entity;
+import net.brenig.pixelescape.game.entity.IMovingEntity;
+import net.brenig.pixelescape.game.entity.impl.particle.EntityCrashParticle;
 import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.game.player.PlayerMovementController;
 import net.brenig.pixelescape.game.player.PlayerPathEntity;

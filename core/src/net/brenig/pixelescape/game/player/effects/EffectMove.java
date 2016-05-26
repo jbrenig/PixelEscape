@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.data.GameAssets;
 import net.brenig.pixelescape.game.player.Item;
-import net.brenig.pixelescape.game.entity.EntityPlayer;
+import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
 import net.brenig.pixelescape.render.WorldRenderer;
 
 /**

@@ -8,6 +8,7 @@ import net.brenig.pixelescape.game.player.abliity.Ability;
 import net.brenig.pixelescape.game.player.effects.EffectShield;
 import net.brenig.pixelescape.game.player.effects.EffectSlow;
 import net.brenig.pixelescape.game.worldgen.WeightedList;
+import net.brenig.pixelescape.game.worldgen.WorldGenerator;
 import net.brenig.pixelescape.lib.LogHelper;
 
 import java.util.Random;
@@ -38,7 +39,7 @@ public class ItemGenerator implements ISpecialWorldGenerator {
 	}
 
 	@Override
-	public void generate(World world, Random rand, GameMode mode) {
+	public void generate(WorldGenerator generator, World world, Random rand, GameMode mode) {
 		if(world.getCurrentScreenEnd() + spawnOffset > nextItemXPos) {
 			EntityItem entity = world.createEntity(EntityItem.class);
 			final int blockIndex = world.convertWorldCoordinateToLocalBlockIndex(nextItemXPos);

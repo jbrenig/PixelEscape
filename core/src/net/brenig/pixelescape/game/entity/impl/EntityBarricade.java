@@ -12,20 +12,21 @@ import net.brenig.pixelescape.render.WorldRenderer;
  */
 public class EntityBarricade extends Entity {
 
-	public static final int sizeX = 20;
-	public static final int sizeY = 80;
+	public static final int defaultSizeX = 20;
+	public static final int defaultSizeY = 80;
+
+	private int sizeX = defaultSizeX;
+	private int sizeY = defaultSizeY;
 
 	public EntityBarricade(World world) {
 		super(world);
 	}
 
-	@SuppressWarnings("SameReturnValue")
-	public static int getSizeX() {
+	public int getSizeX() {
 		return sizeX;
 	}
 
-	@SuppressWarnings("SameReturnValue")
-	public static int getSizeY() {
+	public int getSizeY() {
 		return sizeY;
 	}
 
@@ -51,22 +52,22 @@ public class EntityBarricade extends Entity {
 
 	@Override
 	public float getMinX() {
-		return this.xPos - EntityBarricade.sizeX / 2;
+		return this.xPos - sizeX / 2;
 	}
 
 	@Override
 	public float getMaxX() {
-		return this.xPos + EntityBarricade.sizeX / 2;
+		return this.xPos + sizeX / 2;
 	}
 
 	@Override
 	public float getMinY() {
-		return this.yPos - EntityBarricade.sizeY / 2;
+		return this.yPos - sizeY / 2;
 	}
 
 	@Override
 	public float getMaxY() {
-		return this.yPos + EntityBarricade.sizeY / 2;
+		return this.yPos + sizeY / 2;
 	}
 
 	public void setXPos(float xPos) {
@@ -76,4 +77,13 @@ public class EntityBarricade extends Entity {
 	public void setYPos(float yPos) {
 		this.yPos = yPos;
 	}
+
+	/**
+	 * sets the y-size of the barricade to the default multiplied by the given value
+	 */
+	public void applyWorldGenSizeModifier(float mod) {
+		sizeY = (int) (mod * defaultSizeY);
+	}
+
+
 }

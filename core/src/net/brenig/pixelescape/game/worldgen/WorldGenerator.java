@@ -30,6 +30,12 @@ public class WorldGenerator {
     private List<ISpecialWorldGenerator> specialGenerators = new ArrayList<ISpecialWorldGenerator>();
     private List<IScoreWorldFeature> specialPredefinedGenerators = new ArrayList<IScoreWorldFeature>();
 
+	////////////////////////////////////////////////
+	// Worldgen effects (--> eg. items/Gamemodes) //
+	////////////////////////////////////////////////
+	public float obstacleSizeModifier = 1F;
+
+
     public WorldGenerator(World world, GameMode gameMode) {
 	    this.world = world;
 	    this.gameMode = gameMode;
@@ -71,19 +77,16 @@ public class WorldGenerator {
 	        }
             int generated = gen.generate(world, lastGeneratedTerrainPair, blockToGenerate, world.getTerrainBufferWorldIndex(), random);
             blockToGenerate -= generated;
-            //noinspection deprecation
-            world.blocksGeneratedOLD += generated;
             generationPasses--;
             if (blockToGenerate < 0) {
                 LogHelper.error("Invalid World Gen!! Generator ignoring MAX! Generator: " + gen);
             }
             if ((oldTerrainBufferIndexStart + generated) != world.terrainBufferWorldIndex) {
-                //noinspection deprecation
-                LogHelper.error("Invalid World Gen!! Generator returnvalue invalid! Generator: " + gen + "; generated: " + generated + "; lastGen: " + oldTerrainBufferIndexStart + "; currentGen: " + world.terrainBufferWorldIndex + "; blocksGeneratedOLD: " + world.blocksGeneratedOLD);
+                LogHelper.error("Invalid World Gen!! Generator returnvalue invalid! Generator: " + gen + "; generated: " + generated + "; lastGen: " + oldTerrainBufferIndexStart + "; currentGen: " + world.terrainBufferWorldIndex);
             }
         }
 	    for(ISpecialWorldGenerator gen : specialGenerators) {
-		    gen.generate(world, random, gameMode);
+		    gen.generate(this, world, random, gameMode);
 	    }
     }
 

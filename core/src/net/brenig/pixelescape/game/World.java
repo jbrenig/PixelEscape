@@ -52,12 +52,6 @@ public class World {
 	private final Set<Entity> entitySpawnQueue;
 
 	/**
-	 * tracks how many block got generated
-	 */
-	@Deprecated
-	public int blocksGeneratedOLD = 0;
-
-	/**
 	 * tracks how many blocks got generated (--> world-index of the newest element in the terrain-buffer)
 	 */
 	public int terrainBufferWorldIndex;
@@ -105,6 +99,10 @@ public class World {
 		entityPoolManager.allocateObjects(EntityCrashParticle.class, 100);
 
 		restart();
+	}
+
+	public WorldGenerator getWorldGenerator() {
+		return worldGenerator;
 	}
 
 	/**
@@ -337,8 +335,6 @@ public class World {
 	 * restart the world, player and all world gen get reset to start a new game
 	 */
 	public void restart() {
-		//noinspection deprecation
-		blocksGeneratedOLD = 0;
 		terrainBufferWorldIndex = -terrain.size();
 		player.reset(screen.getGameMode());
 		for (Entity e : entityList) {

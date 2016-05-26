@@ -4,6 +4,7 @@ import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.entity.impl.EntityBarricade;
 import net.brenig.pixelescape.game.gamemode.GameMode;
+import net.brenig.pixelescape.game.worldgen.WorldGenerator;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
 
@@ -25,13 +26,14 @@ public class BarricadeGenerator implements ISpecialWorldGenerator {
 	}
 
 	@Override
-	public void generate(World world, Random rand, GameMode mode) {
+	public void generate(WorldGenerator generator, World world, Random rand, GameMode mode) {
 		if(mode.shouldGenerateBarricades(world)) {
 			if(world.getCurrentScreenEnd() + spawnOffset > nextBarricadePosition) {
 				EntityBarricade barricade = world.createEntity(EntityBarricade.class);
 				final int newXPos = nextBarricadePosition;
 				final int newYPos = rand.nextInt(world.getWorldHeight() - Reference.OBSTACLE_MIN_HEIGHT * Reference.BLOCK_WIDTH * 2) + Reference.OBSTACLE_MIN_HEIGHT * Reference.BLOCK_WIDTH;
 				barricade.setPosition(newXPos, newYPos);
+				barricade.applyWorldGenSizeModifier(generator.obstacleSizeModifier);
 				updateBarricade(world, barricade, mode);
 				world.spawnEntity(barricade);
 
@@ -76,7 +78,7 @@ public class BarricadeGenerator implements ISpecialWorldGenerator {
 	private float getAmountToCorrectBottom(World world, EntityBarricade b, int checkRadius) {
 		int posXIndex = world.convertWorldCoordinateToLocalBlockIndex(b.getXPos());
 		float posY = b.getYPos();
-		posY -= EntityBarricade.getSizeY() / 2;
+		posY -= b.getSizeY() / 2;
 
 		float correction = 0;
 		for (int i = (-1) * checkRadius; i <= checkRadius; i++) {
@@ -96,7 +98,7 @@ public class BarricadeGenerator implements ISpecialWorldGenerator {
 	private float getAmountToCorrectTop(World world, EntityBarricade b, int checkRadius) {
 		int posXIndex = world.convertWorldCoordinateToLocalBlockIndex(b.getXPos());
 		float posY = b.getYPos();
-		posY += EntityBarricade.getSizeY() / 2;
+		posY += b.getSizeY() / 2;
 
 		float correction = 0;
 		for (int i = (-1) * checkRadius; i <= checkRadius; i++) {

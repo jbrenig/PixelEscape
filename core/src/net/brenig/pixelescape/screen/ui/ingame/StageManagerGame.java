@@ -42,9 +42,23 @@ public class StageManagerGame extends StageManager {
 		Table table = new Table();
 		table.defaults().height(screen.getUiSize() - 2 * screen.getUiPadding()).fillY();
 		table.pad(screen.getUiPadding(), screen.getUiPadding(), screen.getUiPadding(), screen.getUiPadding()); //top, left, bottom, right
-		table.setHeight(screen.getUiSize());
 		table.top().left();
 		add(table).height(screen.getUiSize()).fillY();
+		return table;
+	}
+
+	/**
+	 * creates a new table that should be used for the main content and adds it to the stage
+	 * <p/>
+	 * this should be created AFTER the head layout menu bar was added
+	 * @return the table created
+	 */
+	public Table createContentUiLayoutTable() {
+		Table table = new Table();
+		table.pad(screen.getUiPadding(), screen.getUiPadding(), screen.getUiPadding(), screen.getUiPadding()); //top, left, bottom, right
+		table.top().left();
+		row();
+		add(table).height(Reference.GAME_RESOLUTION_Y).fill();
 		return table;
 	}
 }

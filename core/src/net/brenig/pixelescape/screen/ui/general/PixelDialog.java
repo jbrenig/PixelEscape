@@ -4,6 +4,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
 /**
@@ -57,12 +59,12 @@ public class PixelDialog extends Dialog {
 		}
 	}
 
-	public Dialog label(String text) {
+	public Label label(String text) {
 		Label l = new Label(text, getSkin());
 		l.setWrap(true);
 		l.setFontScale(defaultFontScale);
 		getContentTable().add(l).width(getPrefContentWidth()).row();
-		return this;
+		return l;
 	}
 
 	public float getPrefContentWidth() {
@@ -80,5 +82,19 @@ public class PixelDialog extends Dialog {
 	public float getPrefWidth() {
 		if(prefWidth != -1) return prefWidth + getPadLeft() + getPadRight();
 		return super.getPrefWidth();
+	}
+
+	public TextButton buttonYes(ClickListener listener) {
+		TextButton btnYes = new TextButton("Yes", getSkin());
+		btnYes.addListener(listener);
+		button(btnYes);
+		return btnYes;
+	}
+
+	public TextButton buttonNo(ClickListener listener) {
+		TextButton btnNo = new TextButton("No", getSkin());
+		btnNo.addListener(listener);
+		button(btnNo);
+		return btnNo;
 	}
 }

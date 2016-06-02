@@ -1,9 +1,10 @@
 package net.brenig.pixelescape.render.overlay;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -12,6 +13,7 @@ import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.screen.GameScreen;
 import net.brenig.pixelescape.screen.ui.general.HorizontalSpacer;
+import net.brenig.pixelescape.screen.ui.general.VerticalSpacer;
 import net.brenig.pixelescape.screen.ui.ingame.StageManagerGame;
 
 /**
@@ -23,9 +25,14 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 	private static final float TIME_TO_WAIT = 1.2F;
 
 	private float animationProgress = 0;
+	/**
+	 * true when all gui elements are loaded in
+	 */
+	private boolean guiLoaded = false;
 
 	private final StageManagerGame stage;
 	private final TextButton mainMenu;
+	private final TextButton restartGame;
 
 	private final int highscore;
 
@@ -37,6 +44,12 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 
 
 		Table table = stage.createHeadUiLayoutTable();
+		table.add(new HorizontalSpacer());
+		table.add(Utils.addFullScreenButtonToTable(screen.game, Utils.addSoundAndMusicControllerToLayout(screen.game)));
+
+		Table content = stage.createContentUiLayoutTable();
+		content.add(new VerticalSpacer());
+		content.row().expandX().center();
 
 		mainMenu = new TextButton("Main Menu", screen.game.getSkin());
 		mainMenu.addListener(new ClickListener() {
@@ -46,9 +59,35 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 			}
 		});
 		mainMenu.setVisible(false);
-		table.add(mainMenu);
-		table.add(new HorizontalSpacer());
-		table.add(Utils.addFullScreenButtonToTable(screen.game, Utils.addSoundAndMusicControllerToLayout(screen.game)));
+		content.add(mainMenu).right().bottom().padBottom(30).padRight(10);
+
+
+		restartGame = new TextButton("Retry", screen.game.getSkin());
+		restartGame.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				restartGame();
+			}
+		});
+		restartGame.setVisible(false);
+		content.add(restartGame).left().bottom().padBottom(30).padLeft(10).width(mainMenu.getWidth());
+
+		stage.getRootTable().layout();
+
+		mainMenu.setVisible(false);
+		restartGame.setVisible(false);
+		float menuX = mainMenu.getX();
+		float restartX = restartGame.getX();
+		mainMenu.addAction(Actions.sequence(
+				Actions.delay(TIME_TO_WAIT),
+				Actions.moveTo(menuX + 1000, mainMenu.getY()),
+				Actions.visible(true),
+				Actions.moveTo(menuX, mainMenu.getY(), 0.8F, Interpolation.swing)));
+		restartGame.addAction(Actions.sequence(
+				Actions.delay(TIME_TO_WAIT + 0.2F),
+				Actions.moveTo(restartX + 500, restartGame.getY()),
+				Actions.visible(true),
+				Actions.moveTo(restartX, restartGame.getY(), 0.8F, Interpolation.swing)));
 	}
 
 	@Override
@@ -100,27 +139,33 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 
 		//Info
 		if (animationProgress > TIME_TO_WAIT) {
-			mainMenu.setVisible(true);
-			mainMenu.invalidateHierarchy();
-			if ((animationProgress - TIME_TO_WAIT) % 2 < 1.2F) {
-				screen.game.getFont().setColor(0, 1, 0, 1);
-				screen.game.getFont().getData().setScale(0.8F);
-				screen.getFontLayout().setText(screen.game.getFont(), "Tap to continue!");
-				xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
-				yPos -= txtGameOverHeight + screen.game.getFont().getLineHeight() + txtScoreHeight + screen.getFontLayout().height / 2;
-				screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
-			}
+//			mainMenu.setVisible(true);
+//			restartGame.setVisible(true);
+//			stage.getRootTable().layout();
+//			float menuX = mainMenu.getX();
+//			float restartX = restartGame.getX();
+//			mainMenu.addAction(Actions.sequence(Actions.moveTo(menuX - 100, mainMenu.getY()), Actions.moveTo(menuX, mainMenu.getY(), 2F)));
+//			restartGame.addAction(Actions.sequence(Actions.moveTo(restartX + 100, restartGame.getY()), Actions.moveTo(restartX, restartGame.getY(), 2F)));
+
+//			if ((animationProgress - TIME_TO_WAIT) % 2 < 1.2F) {
+//				screen.game.getFont().setColor(0, 1, 0, 1);
+//				screen.game.getFont().getData().setScale(0.8F);
+//				screen.getFontLayout().setText(screen.game.getFont(), "Tap to continue!");
+//				xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
+//				yPos -= txtGameOverHeight + screen.game.getFont().getLineHeight() + txtScoreHeight + screen.getFontLayout().height / 2;
+//				screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
+//			}
 		}
 
 		animationProgress += delta;
 		screen.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
-		stage.draw(screen.game.getRenderManager());
 		stage.act(delta);
+		stage.draw(screen.game.getRenderManager());
 	}
 
 	@Override
 	public void show() {
-		screen.setOverlayInputProcessor(new InputMultiplexer(stage.getInputProcessor(), this));
+		screen.setOverlayInputProcessor(stage.getInputProcessor());
 		screen.game.gameMusic.fadeOutToStop(0.6F);
 	}
 
@@ -163,9 +208,7 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 	@Override
 	public boolean keyDown(int keycode) {
 		if (animationProgress > TIME_TO_WAIT && keycode == Input.Keys.SPACE) {
-			screen.resetToEmptyOverlay();
-			screen.restart();
-			restartMusic();
+			restartGame();
 			return true;
 		}
 		return false;
@@ -184,9 +227,7 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if (animationProgress > TIME_TO_WAIT && screen.game.convertToScaled(screenY) > screen.getUiSize() + screen.getUiPos()) {
-			screen.resetToEmptyOverlay();
-			screen.restart();
-			restartMusic();
+			restartGame();
 			return true;
 		}
 		return false;
@@ -210,5 +251,11 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 	@Override
 	public boolean scrolled(int amount) {
 		return false;
+	}
+
+	private void restartGame() {
+		screen.resetToEmptyOverlay();
+		screen.restart();
+		restartMusic();
 	}
 }

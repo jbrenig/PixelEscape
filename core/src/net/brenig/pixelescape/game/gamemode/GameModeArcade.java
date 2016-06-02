@@ -33,7 +33,7 @@ public class GameModeArcade extends GameMode {
 		super.registerWorldGenerators(worldGenerator);
 //		worldGenerator.addSpecialGenerator(new ItemGenerator(3000, 5000, 4000, 6000, ItemGenerator.createDefaultItemList()));
 		worldGenerator.addSpecialGenerator(new ItemGenerator(600, 1000, 800, 1600, ItemGenerator.createDefaultItemList()));
-		worldGenerator.addSpecialGenerator(new ItemGenerator(10000, 12000, 20000, 25000, new FilteredElementProvider.SingleElementProvider<Item>(ItemLife.ITEM)));
+		worldGenerator.addSpecialGenerator(new ItemGenerator(20000, 25000, 30000, 35000, new FilteredElementProvider.SingleElementProvider<Item>(ItemLife.ITEM)));
 	}
 
 	@Override

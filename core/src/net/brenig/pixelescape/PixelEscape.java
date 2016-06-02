@@ -20,6 +20,7 @@ import net.brenig.pixelescape.game.data.GameSettings;
 import net.brenig.pixelescape.game.data.UserData;
 import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.game.gamemode.GameModeArcade;
+import net.brenig.pixelescape.game.gamemode.GameModeBlink;
 import net.brenig.pixelescape.game.gamemode.GameModeClassic;
 import net.brenig.pixelescape.game.gamemode.GameModeFlash;
 import net.brenig.pixelescape.game.gamemode.GameModeSpeed;
@@ -54,7 +55,7 @@ public class PixelEscape extends Game {
 	private float scale = 1.0F;
 
 
-	public static final GameMode[] gameModes = {new GameModeClassic(), new GameModeArcade(), new GameModeSpeed(), new GameModeFlash()};
+	public static final GameMode[] gameModes = {new GameModeClassic(), new GameModeArcade(), new GameModeSpeed(), new GameModeFlash(), new GameModeBlink()};
 
 	public PixelEscape() {
 		//set default config

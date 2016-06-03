@@ -1,6 +1,7 @@
 package net.brenig.pixelescape.render.overlay;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -66,27 +67,7 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 		btnMainMenu.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				final PixelDialog dialog = new PixelDialog("Sure?", screen.game.getSkin());
-				dialog.setMovable(false);
-				dialog.setModal(true);
-				dialog.setPrefWidth(stage.getStageViewport().getWorldWidth() * 0.7F);
-				dialog.setWidth(stage.getStageViewport().getWorldWidth() * 0.7F);
-				dialog.label("Quit to main menu?");
-				dialog.buttonYes(new ClickListener() {
-					@Override
-					public void clicked(InputEvent event, float x, float y) {
-						dialog.hide();
-						screen.showMainMenu();
-					}
-				});
-				dialog.buttonNo(new ClickListener() {
-					@Override
-					public void clicked(InputEvent event, float x, float y) {
-						dialog.hide();
-					}
-				});
-				dialog.init();
-				dialog.show(stage.getUiStage());
+				gotoMainMenu();
 
 			}
 		});
@@ -103,7 +84,7 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 
 	@Override
 	public void show() {
-		screen.setOverlayInputProcessor(stage.getInputProcessor());
+		screen.setOverlayInputProcessor(new InputMultiplexer(stage.getInputProcessor(), this));
 		screen.game.gameMusic.fadeOutToPause();
 	}
 
@@ -144,15 +125,6 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 		float txtHighscoreHeight = screen.getFontLayout().height / 2;
 		yPos -= screen.game.getFont().getLineHeight() + txtScoreHeight + txtHighscoreHeight;
 		screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
-
-		//Info
-//		screen.game.getFont().setColor(0, 1, 0, 1);
-//		screen.game.getFont().getData().setScale(0.8F);
-//		screen.getFontLayout().setText(screen.game.getFont(), "Tap to continue!");
-//		xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
-//		yPos -= screen.game.getFont().getLineHeight() + txtHighscoreHeight + screen.getFontLayout().height / 2;
-//		screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
-
 
 		screen.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 		stage.draw(screen.game.getRenderManager());
@@ -200,9 +172,14 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if (keycode == Input.Keys.SPACE) {
-			resumeGame();
-			return true;
+		switch (keycode) {
+			case Input.Keys.SPACE:
+				resumeGame();
+				return true;
+			case Input.Keys.ESCAPE:
+				gotoMainMenu();
+				return true;
+
 		}
 		return false;
 	}
@@ -219,10 +196,6 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		if(screen.game.convertToScaled(screenY) > screen.getUiSize() + screen.getUiPos()) {
-			resumeGame();
-			return true;
-		}
 		return false;
 	}
 
@@ -249,5 +222,32 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 	private void resumeGame() {
 		screen.setOverlay(new CountDownOverlay(screen));
 		restartMusic();
+	}
+
+	/**
+	 * display dialog asking to go to main menu
+	 */
+	private void gotoMainMenu() {
+		final PixelDialog dialog = new PixelDialog("Sure?", screen.game.getSkin());
+		dialog.setMovable(false);
+		dialog.setModal(true);
+		dialog.setPrefWidth(stage.getStageViewport().getWorldWidth() * 0.7F);
+		dialog.setWidth(stage.getStageViewport().getWorldWidth() * 0.7F);
+		dialog.label("Quit to main menu?");
+		dialog.buttonYes(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				dialog.hide();
+				screen.showMainMenu();
+			}
+		});
+		dialog.buttonNo(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				dialog.hide();
+			}
+		});
+		dialog.init();
+		dialog.show(stage.getUiStage());
 	}
 }

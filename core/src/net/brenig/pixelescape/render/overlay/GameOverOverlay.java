@@ -1,6 +1,7 @@
 package net.brenig.pixelescape.render.overlay;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -43,6 +44,7 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 		highscore = screen.game.userData.getHighScore(screen.getGameMode());
 
 
+		screen.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 		Table table = stage.createHeadUiLayoutTable();
 		table.add(new HorizontalSpacer());
 		table.add(Utils.addFullScreenButtonToTable(screen.game, Utils.addSoundAndMusicControllerToLayout(screen.game)));
@@ -59,7 +61,7 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 			}
 		});
 		mainMenu.setVisible(false);
-		content.add(mainMenu).right().bottom().padBottom(30).padRight(10);
+		content.add(mainMenu).right().bottom().padBottom(40).padRight(10);
 
 
 		restartGame = new TextButton("Retry", screen.game.getSkin());
@@ -70,7 +72,7 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 			}
 		});
 		restartGame.setVisible(false);
-		content.add(restartGame).left().bottom().padBottom(30).padLeft(10).width(mainMenu.getWidth());
+		content.add(restartGame).left().bottom().padBottom(40).padLeft(10).width(mainMenu.getWidth());
 
 		stage.getRootTable().layout();
 
@@ -137,26 +139,6 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 		yPos -= screen.game.getFont().getLineHeight() + txtHighscoreHeight;
 		screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
 
-		//Info
-		if (animationProgress > TIME_TO_WAIT) {
-//			mainMenu.setVisible(true);
-//			restartGame.setVisible(true);
-//			stage.getRootTable().layout();
-//			float menuX = mainMenu.getX();
-//			float restartX = restartGame.getX();
-//			mainMenu.addAction(Actions.sequence(Actions.moveTo(menuX - 100, mainMenu.getY()), Actions.moveTo(menuX, mainMenu.getY(), 2F)));
-//			restartGame.addAction(Actions.sequence(Actions.moveTo(restartX + 100, restartGame.getY()), Actions.moveTo(restartX, restartGame.getY(), 2F)));
-
-//			if ((animationProgress - TIME_TO_WAIT) % 2 < 1.2F) {
-//				screen.game.getFont().setColor(0, 1, 0, 1);
-//				screen.game.getFont().getData().setScale(0.8F);
-//				screen.getFontLayout().setText(screen.game.getFont(), "Tap to continue!");
-//				xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
-//				yPos -= txtGameOverHeight + screen.game.getFont().getLineHeight() + txtScoreHeight + screen.getFontLayout().height / 2;
-//				screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
-//			}
-		}
-
 		animationProgress += delta;
 		screen.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 		stage.act(delta);
@@ -165,7 +147,7 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 
 	@Override
 	public void show() {
-		screen.setOverlayInputProcessor(stage.getInputProcessor());
+		screen.setOverlayInputProcessor(new InputMultiplexer(stage.getInputProcessor(), this));
 		screen.game.gameMusic.fadeOutToStop(0.6F);
 	}
 
@@ -207,9 +189,15 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if (animationProgress > TIME_TO_WAIT && keycode == Input.Keys.SPACE) {
-			restartGame();
-			return true;
+		if (animationProgress > TIME_TO_WAIT) {
+			switch (keycode) {
+				case Input.Keys.SPACE:
+					restartGame();
+					return true;
+				case Input.Keys.ESCAPE:
+					screen.showMainMenu();
+					return true;
+			}
 		}
 		return false;
 	}
@@ -226,10 +214,6 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		if (animationProgress > TIME_TO_WAIT && screen.game.convertToScaled(screenY) > screen.getUiSize() + screen.getUiPos()) {
-			restartGame();
-			return true;
-		}
 		return false;
 	}
 

@@ -51,6 +51,8 @@ public class GameAssets {
 	private Drawable item_shield;
 	private Drawable item_move;
 	private Drawable item_life;
+	private Drawable item_small_barricades;
+	private Drawable item_score;
 
 	private TextureRegion effect_item_shield;
 
@@ -118,6 +120,8 @@ public class GameAssets {
 		item_slow = new TextureRegionDrawable(textureAtlas.findRegion("item_slow"));
 		item_shield = new TextureRegionDrawable(textureAtlas.findRegion("item_shield"));
 		item_move = new TextureRegionDrawable(textureAtlas.findRegion("item_move"));
+		item_score = new TextureRegionDrawable(textureAtlas.findRegion("item_score"));
+		item_small_barricades = new TextureRegionDrawable(textureAtlas.findRegion("item_small_obstacles"));
 		item_life = new TextureRegionDrawable(heart);
 
 		effect_item_shield = textureAtlas.findRegion("effect_item_shield");
@@ -401,6 +405,14 @@ public class GameAssets {
 
 	public TextureRegion getEffectItemShield() {
 		return effect_item_shield;
+	}
+
+	public Drawable getItemSmallBarricades() {
+		return item_small_barricades;
+	}
+
+	public Drawable getItemScore() {
+		return item_score;
 	}
 
 	public Drawable getItemMove() {

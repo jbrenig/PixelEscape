@@ -28,7 +28,7 @@ public class ItemScore implements Item {
 
 	@Override
 	public Drawable getItemDrawable(GameAssets assets) {
-		return assets.getMissingTexture();
+		return assets.getItemScore();
 	}
 
 	@Override

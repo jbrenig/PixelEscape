@@ -25,7 +25,7 @@ public class GameModeBlink extends GameMode {
 
 	@Override
 	public TextureRegion getIcon(GameAssets assets) {
-		return assets.getHeart();
+		return assets.getTextureAtlas().findRegion("gamemode_blink");
 	}
 
 	@Override

@@ -16,7 +16,7 @@ public class EffectSmallBarricades extends StatusEffectTimed {
 	public static final Item ITEM = new Item() {
 		@Override
 		public Drawable getItemDrawable(GameAssets assets) {
-			return assets.getItemMove();
+			return assets.getItemSmallBarricades();
 		}
 
 		@Override

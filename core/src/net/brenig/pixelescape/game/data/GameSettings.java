@@ -16,6 +16,7 @@ public class GameSettings {
 		public static final String soundEnabled = "ENABLE_SOUNDS";
 		public static final String musicVolume = "VOLUME_MUSIC";
 		public static final String soundVolume = "VOLUME_SOUND";
+		public static final String shortCountdown = "SHORT_COUNTDOWN";
 	}
 
 	private static final class Defaults {
@@ -23,6 +24,7 @@ public class GameSettings {
 		private static final boolean soundEnabled = true;
 		private static final float musicVolume = 0.5F;
 		private static final float soundVolume = 0.5F;
+		private static final boolean shortCountdown = false;
 	}
 
 	private static final String PREF_MAIN_SETTINGS = "PixelEscape_User_Preferences";
@@ -67,7 +69,7 @@ public class GameSettings {
 
 	public void setMusicVolume(float musicVolume) {
 		prefs.putFloat(Keys.musicVolume, musicVolume);
-		saveToDisk();
+//		saveToDisk();
 	}
 
 	public float getSoundVolume() {
@@ -76,7 +78,17 @@ public class GameSettings {
 
 	public void setSoundVolume(float soundVolume) {
 		prefs.putFloat(Keys.soundVolume, soundVolume);
-		saveToDisk();
+//		saveToDisk();
+	}
+
+
+
+	public boolean shortCountdownEnabled() {
+		return prefs.getBoolean(Keys.shortCountdown, Defaults.shortCountdown);
+	}
+
+	public void setCountdownEnabled(boolean countdownEnabled) {
+		prefs.putBoolean(Keys.shortCountdown, countdownEnabled);
 	}
 
 }

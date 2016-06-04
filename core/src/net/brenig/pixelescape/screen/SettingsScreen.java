@@ -3,6 +3,7 @@ package net.brenig.pixelescape.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
@@ -99,6 +100,24 @@ public class SettingsScreen extends PixelScreen {
 			uiLayout.add(musicControl).fillX().padBottom(20);
 			uiLayout.row();
 		}
+
+		//Short Countdown
+		{
+			CheckBox chbx = new CheckBox("Short Countdown", game.getSkin());
+			chbx.setChecked(game.gameSettings.shortCountdownEnabled());
+			chbx.addListener(new ChangeListener() {
+				@Override
+				public void changed(ChangeEvent event, Actor actor) {
+					game.gameSettings.setCountdownEnabled (((CheckBox) actor).isChecked());
+				}
+			});
+			chbx.getImageCell().padBottom(8).padRight(10).size(32);
+			chbx.getLabel().setFontScale(0.7F);
+
+			uiLayout.add(chbx).fillX().padBottom(20);
+			uiLayout.row();
+		}
+
 		//Back Button
 		{
 			TextButton btnBack = new TextButton("Go Back", game.getSkin());

@@ -11,11 +11,17 @@ public class CountDownOverlay extends Overlay {
 
 	private static final int COUNT_FROM = 3;
 	private static final String GO_TEXT = "GO!";
+	/**
+	 * only used for short countdown
+	 */
+	private static final String READY_TEXT = "Ready!";
 
+	private boolean isShort;
 	private long startedAt = 0;
 
 	public CountDownOverlay(GameScreen screen) {
 		super(screen);
+		isShort = screen.game.gameSettings.shortCountdownEnabled();
 	}
 
 	@Override
@@ -26,13 +32,9 @@ public class CountDownOverlay extends Overlay {
 
 	@Override
 	public void render(float delta) {
-//		if (delta > 0.1) {
-//			//compensate low frame rate
-//			startedAt += (long) (delta * 1000F);
-//		}
 		final long timePassed = screen.isScreenPaused() ? 0 : (System.currentTimeMillis() - startedAt);
 		final long secondsPassed = (timePassed / 1000L);
-		final long secondsRemaining = COUNT_FROM - secondsPassed;
+		final long secondsRemaining = isShort ? 1 - secondsPassed : COUNT_FROM - secondsPassed;
 		if (secondsRemaining <= -1L) {
 			//end
 			screen.resetToEmptyOverlay();
@@ -59,12 +61,14 @@ public class CountDownOverlay extends Overlay {
 
 		screen.game.getRenderManager().begin();
 		screen.game.getFont().setColor(0.2F, 0.8F, 0, 1000 / (fractionOfCurrentSecond));
-		screen.game.getFont().getData().setScale(fontScale);
+		screen.game.getFont().getData().setScale(isShort ? fontScale * 0.7F : fontScale);
 
 		if (secondsRemaining <= 0) {
 			screen.getFontLayout().setText(screen.game.getFont(), GO_TEXT);
-		} else {
+		} else if(!isShort) {
 			screen.getFontLayout().setText(screen.game.getFont(), "" + secondsRemaining);
+		} else {
+			screen.getFontLayout().setText(screen.game.getFont(), READY_TEXT);
 		}
 
 		final float xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;

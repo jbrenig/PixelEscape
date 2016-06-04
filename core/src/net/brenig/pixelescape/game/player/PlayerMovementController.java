@@ -24,8 +24,19 @@ public interface PlayerMovementController {
 	 */
 	void updatePlayerMovement(PixelEscape game, InputManager manager, GameMode gameMode, World world, EntityPlayer player, float deltaTick, float yVelocityFactor);
 
+	/**
+	 * reset the player input controller
+	 * <p/>
+	 * gets called when player respawns
+	 * @see EntityPlayer#reset(GameMode)
+	 */
 	void reset();
 
+	/**
+	 * default implementation of a {@link PlayerMovementController}, standart behaviour
+	 *
+	 * @see net.brenig.pixelescape.game.gamemode.GameModeClassic
+	 */
 	class DefaultMovementController implements PlayerMovementController {
 		private boolean lastTouched = false;
 

@@ -1,4 +1,4 @@
-package net.brenig.pixelescape.screen.ui;
+package net.brenig.pixelescape.render.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;

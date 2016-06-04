@@ -1,4 +1,4 @@
-package net.brenig.pixelescape.screen.ui.ingame;
+package net.brenig.pixelescape.render.ui.ingame;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;

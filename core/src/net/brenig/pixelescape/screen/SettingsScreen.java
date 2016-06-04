@@ -15,8 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
-import net.brenig.pixelescape.screen.ui.general.PixelDialog;
-import net.brenig.pixelescape.screen.ui.general.StageManager;
+import net.brenig.pixelescape.render.ui.general.PixelDialog;
+import net.brenig.pixelescape.render.ui.general.StageManager;
 
 /**
  * Screen that provides user settings<br></br>

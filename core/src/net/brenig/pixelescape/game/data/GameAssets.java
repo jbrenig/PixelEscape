@@ -22,8 +22,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import net.brenig.pixelescape.render.SimpleAnimation;
-import net.brenig.pixelescape.screen.ui.general.TwoStateImageButton;
-import net.brenig.pixelescape.screen.ui.ingame.AbilityWidget;
+import net.brenig.pixelescape.render.ui.general.TwoStateImageButton;
+import net.brenig.pixelescape.render.ui.ingame.AbilityWidget;
 
 import java.util.Random;
 

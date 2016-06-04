@@ -13,8 +13,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.lib.Utils;
-import net.brenig.pixelescape.screen.ui.general.HorizontalSpacer;
-import net.brenig.pixelescape.screen.ui.general.StageManager;
+import net.brenig.pixelescape.render.ui.general.HorizontalSpacer;
+import net.brenig.pixelescape.render.ui.general.StageManager;
 
 /**
  * Screen to adjust DEBUG features

@@ -1,4 +1,4 @@
-package net.brenig.pixelescape.screen.ui.general;
+package net.brenig.pixelescape.render.ui.general;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;

@@ -26,11 +26,11 @@ import net.brenig.pixelescape.render.overlay.EmptyOverlay;
 import net.brenig.pixelescape.render.overlay.GameOverOverlay;
 import net.brenig.pixelescape.render.overlay.GamePausedOverlay;
 import net.brenig.pixelescape.render.overlay.Overlay;
-import net.brenig.pixelescape.screen.ui.general.HorizontalSpacer;
-import net.brenig.pixelescape.screen.ui.general.VerticalSpacer;
-import net.brenig.pixelescape.screen.ui.ingame.AbilityWidget;
-import net.brenig.pixelescape.screen.ui.ingame.ScoreWidget;
-import net.brenig.pixelescape.screen.ui.ingame.StageManagerGame;
+import net.brenig.pixelescape.render.ui.general.HorizontalSpacer;
+import net.brenig.pixelescape.render.ui.general.VerticalSpacer;
+import net.brenig.pixelescape.render.ui.ingame.AbilityWidget;
+import net.brenig.pixelescape.render.ui.ingame.ScoreWidget;
+import net.brenig.pixelescape.render.ui.ingame.StageManagerGame;
 
 import java.util.Collection;
 

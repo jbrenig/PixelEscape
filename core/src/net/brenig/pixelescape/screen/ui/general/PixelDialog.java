@@ -46,6 +46,7 @@ public class PixelDialog extends Dialog {
 		padBottom(10);
 		getContentTable().left().padTop(10);
 		getButtonTable().padTop(10);
+		getColor().a = 0;
 		invalidateHierarchy();
 		invalidate();
 		layout();

@@ -1,9 +1,10 @@
-package net.brenig.pixelescape.game;
+package net.brenig.pixelescape.game.data;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import net.brenig.pixelescape.PixelEscape;
-import net.brenig.pixelescape.game.data.GameAssets;
+import net.brenig.pixelescape.game.InputManager;
+import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
 import net.brenig.pixelescape.game.player.Item;
 import net.brenig.pixelescape.game.player.PlayerMovementController;

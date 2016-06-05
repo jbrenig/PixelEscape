@@ -1,6 +1,6 @@
 package net.brenig.pixelescape.game.entity;
 
-import net.brenig.pixelescape.game.GameMode;
+import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.game.World;
 
 public abstract class EntityMoving extends Entity {

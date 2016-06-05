@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.brenig.pixelescape.PixelEscape;
-import net.brenig.pixelescape.game.GameMode;
+import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.render.ui.CurrentHighscoreLabel;
 import net.brenig.pixelescape.render.ui.general.HorizontalSpacer;

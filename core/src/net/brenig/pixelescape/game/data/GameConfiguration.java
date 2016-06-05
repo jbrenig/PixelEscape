@@ -1,6 +1,5 @@
 package net.brenig.pixelescape.game.data;
 
-import net.brenig.pixelescape.game.GameMode;
 import net.brenig.pixelescape.lib.Reference;
 
 /**

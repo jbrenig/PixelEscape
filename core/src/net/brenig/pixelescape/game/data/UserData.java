@@ -3,7 +3,6 @@ package net.brenig.pixelescape.game.data;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
-import net.brenig.pixelescape.game.GameMode;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Names;
 import net.brenig.pixelescape.lib.Reference;

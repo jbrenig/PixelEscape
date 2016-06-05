@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 
 import net.brenig.pixelescape.PixelEscape;
-import net.brenig.pixelescape.game.GameMode;
+import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.lib.Utils;

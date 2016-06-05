@@ -1,7 +1,7 @@
 package net.brenig.pixelescape.game.worldgen.special;
 
 import net.brenig.pixelescape.game.World;
-import net.brenig.pixelescape.game.gamemode.GameMode;
+import net.brenig.pixelescape.game.GameMode;
 import net.brenig.pixelescape.game.worldgen.WorldGenerator;
 
 import java.util.Random;

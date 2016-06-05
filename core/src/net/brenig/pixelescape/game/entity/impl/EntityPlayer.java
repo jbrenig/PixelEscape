@@ -12,7 +12,7 @@ import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.game.entity.IMovingEntity;
 import net.brenig.pixelescape.game.entity.impl.particle.EntityCrashParticle;
-import net.brenig.pixelescape.game.gamemode.GameMode;
+import net.brenig.pixelescape.game.GameMode;
 import net.brenig.pixelescape.game.player.PlayerMovementController;
 import net.brenig.pixelescape.game.player.PlayerPathEntity;
 import net.brenig.pixelescape.game.player.abliity.Ability;
@@ -61,7 +61,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	public EntityPlayer(World world, GameMode gameMode) {
 		super(world);
-		movementController = gameMode.getPlayerMovementController();
+		movementController = gameMode.createPlayerMovementController();
 		for (int i = 0; i < pathEntities.length; i++) {
 			pathEntities[i] = new PlayerPathEntity(yPos, xPosScreen);
 		}

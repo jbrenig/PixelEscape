@@ -16,7 +16,7 @@ import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.player.effects.StatusEffect;
-import net.brenig.pixelescape.game.gamemode.GameMode;
+import net.brenig.pixelescape.game.GameMode;
 import net.brenig.pixelescape.game.worldgen.TerrainPair;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;

@@ -4,9 +4,9 @@ import com.badlogic.gdx.utils.Pool;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.CollisionType;
+import net.brenig.pixelescape.game.GameMode;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
-import net.brenig.pixelescape.game.gamemode.GameMode;
 import net.brenig.pixelescape.render.WorldRenderer;
 
 /**

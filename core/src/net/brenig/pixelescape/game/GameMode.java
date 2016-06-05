@@ -222,7 +222,7 @@ public enum GameMode {
 	private class FlashMovementController implements PlayerMovementController {
 
 		@Override
-		public void updatePlayerMovement(PixelEscape game, InputManager manager, net.brenig.pixelescape.game.gamemode.GameMode gameMode, World world, EntityPlayer player, float deltaTick, float yVelocityFactor) {
+		public void updatePlayerMovement(PixelEscape game, InputManager manager, GameMode gameMode, World world, EntityPlayer player, float deltaTick, float yVelocityFactor) {
 			if(manager.isTouched()) {
 				player.setYPosition(world.convertMouseYToWorldCoordinate(game.getScaledMouseY()));
 			}

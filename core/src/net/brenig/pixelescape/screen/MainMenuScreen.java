@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.brenig.pixelescape.PixelEscape;
-import net.brenig.pixelescape.game.gamemode.GameMode;
+import net.brenig.pixelescape.game.GameMode;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.render.ui.CurrentHighscoreLabel;
 import net.brenig.pixelescape.render.ui.general.HorizontalSpacer;
@@ -84,8 +84,8 @@ public class MainMenuScreen extends PixelScreen {
 		gmImageStack = new TabbedStack();
 
 		//init gamemodes
-		for(GameMode mode : PixelEscape.gameModes) {
-			Image gameModeImageArcade = new Image(mode.getIcon(game.getGameAssets()));
+		for(GameMode mode : game.gameConfig.getAvailbleGameModes()) {
+			Image gameModeImageArcade = new Image(mode.createIcon(game.getGameAssets()));
 			gameModeImageArcade.setRotation(5);
 			gmImageStack.add(gameModeImageArcade);
 		}
@@ -171,7 +171,7 @@ public class MainMenuScreen extends PixelScreen {
 		if(gmImageStack == null) {
 			return null;
 		}
-		return PixelEscape.gameModes[gmImageStack.getCurrentElement()];
+		return game.gameConfig.getAvailbleGameModes()[gmImageStack.getCurrentElement()];
 	}
 
 	@Override

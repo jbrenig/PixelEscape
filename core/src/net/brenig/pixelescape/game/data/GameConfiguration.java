@@ -1,5 +1,6 @@
 package net.brenig.pixelescape.game.data;
 
+import net.brenig.pixelescape.game.GameMode;
 import net.brenig.pixelescape.lib.Reference;
 
 /**
@@ -40,5 +41,12 @@ public class GameConfiguration {
 	 */
 	public boolean debugSettingsAvailable() {
 		return Reference.DEBUG_SETTINGS_AVAILABLE;
+	}
+
+	/**
+	 * @return the gamemodes playable on this platform
+	 */
+	public GameMode[] getAvailbleGameModes() {
+		return GameMode.values();
 	}
 }

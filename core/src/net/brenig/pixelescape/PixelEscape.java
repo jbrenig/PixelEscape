@@ -18,12 +18,6 @@ import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.data.GameMusic;
 import net.brenig.pixelescape.game.data.GameSettings;
 import net.brenig.pixelescape.game.data.UserData;
-import net.brenig.pixelescape.game.gamemode.GameMode;
-import net.brenig.pixelescape.game.gamemode.GameModeArcade;
-import net.brenig.pixelescape.game.gamemode.GameModeBlink;
-import net.brenig.pixelescape.game.gamemode.GameModeClassic;
-import net.brenig.pixelescape.game.gamemode.GameModeFlash;
-import net.brenig.pixelescape.game.gamemode.GameModeSpeed;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.GameRenderManager;
@@ -54,8 +48,6 @@ public class PixelEscape extends Game {
 	public int gameSizeY = Reference.GAME_RESOLUTION_Y + Reference.GAME_UI_Y_SIZE;
 	private float scale = 1.0F;
 
-
-	public static final GameMode[] gameModes = {new GameModeClassic(), new GameModeArcade(), new GameModeSpeed(), new GameModeFlash(), new GameModeBlink()};
 
 	public PixelEscape() {
 		//set default config

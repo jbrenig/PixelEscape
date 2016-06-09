@@ -7,16 +7,16 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameDebugSettings;
-import net.brenig.pixelescape.game.player.effects.StatusEffect;
 import net.brenig.pixelescape.game.data.GameMode;
+import net.brenig.pixelescape.game.player.effects.StatusEffect;
 import net.brenig.pixelescape.game.worldgen.TerrainPair;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
@@ -96,14 +96,15 @@ public class GameScreen extends PixelScreen {
 		Table table = stage.createHeadUiLayoutTable();
 
 		game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
-		TextButton mainMenu = new TextButton("Pause", this.game.getSkin());
-		mainMenu.addListener(new ClickListener() {
+		ImageTextButton buttonPause = new ImageTextButton("Pause", this.game.getSkin(), "pause");
+		buttonPause.getImageCell().padRight(6).padBottom(4);
+		buttonPause.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				setOverlay(new GamePausedOverlay(GameScreen.this));
 			}
 		});
-		table.add(mainMenu);
+		table.add(buttonPause);
 		table.add(new HorizontalSpacer());
 		table.add(new ScoreWidget(world.getPlayer(), fontLayout, game));
 		if(gameMode.abilitiesEnabled()) {

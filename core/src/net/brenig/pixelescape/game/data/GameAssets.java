@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -165,6 +166,9 @@ public class GameAssets {
 		mainUiSkin.add("button_right", textureAtlas.createSprite("arrow_right"));
 		mainUiSkin.add("button_left", textureAtlas.createSprite("arrow_left"));
 
+		mainUiSkin.add("button_pause", textureAtlas.createSprite("pause"));
+		mainUiSkin.add("button_resume", textureAtlas.createSprite("resume"));
+
 		mainUiSkin.add("item_frame", textureAtlas.createSprite("item_frame"));
 
 		mainUiSkin.add("slider_background", textureAtlas.createSprite("slider_background"));
@@ -233,14 +237,6 @@ public class GameAssets {
 			mainUiSkin.add("fullscreen", imageButtonStyle);
 		}
 
-		//Button style: Pause
-		{
-			ImageButton.ImageButtonStyle imageButtonStyle = new ImageButton.ImageButtonStyle();
-			imageButtonStyle.imageUp = mainUiSkin.newDrawable("button_pause", Color.BLACK);
-
-			mainUiSkin.add("pause", imageButtonStyle);
-		}
-
 		//Button style: Arrow Right
 		{
 			Button.ButtonStyle buttonStyle = new Button.ButtonStyle();
@@ -276,6 +272,22 @@ public class GameAssets {
 			textButtonStyle.disabledFontColor = Color.GRAY;
 
 			mainUiSkin.add("default", textButtonStyle);
+		}
+
+		//Button style: Pause
+		{
+			ImageTextButton.ImageTextButtonStyle imageButtonStyle = new ImageTextButton.ImageTextButtonStyle(mainUiSkin.get(TextButton.TextButtonStyle.class));
+			imageButtonStyle.imageUp = mainUiSkin.newDrawable("button_pause");
+
+			mainUiSkin.add("pause", imageButtonStyle);
+		}
+
+		//Button style: Resume
+		{
+			ImageTextButton.ImageTextButtonStyle imageButtonStyle = new ImageTextButton.ImageTextButtonStyle(mainUiSkin.get(TextButton.TextButtonStyle.class));
+			imageButtonStyle.imageUp = mainUiSkin.newDrawable("button_resume");
+
+			mainUiSkin.add("resume", imageButtonStyle);
 		}
 
 		//Button style: Ability

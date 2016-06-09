@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -47,7 +48,8 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 //		});
 //		table.add(mainMenu);
 
-		TextButton btnResume = new TextButton("Resume", screen.game.getSkin());
+		ImageTextButton btnResume = new ImageTextButton("Resume", screen.game.getSkin(), "resume");
+		btnResume.getImageCell().padRight(6).padBottom(4);
 		btnResume.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {

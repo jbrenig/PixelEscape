@@ -149,7 +149,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	public void reset(GameMode gameMode) {
 		reviveAfterCrash();
 
-		movementController.reset();
+		movementController.reset(gameMode);
 
 		xPos = 0;
 		xVelocity = gameMode.getStartingSpeed();
@@ -284,6 +284,8 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		if(this.isDead()) {
 			return;
 		}
+		movementController.render(game, renderer, world, delta);
+
 		game.getRenderManager().beginFilledShape();
 
 		// Draw Background color
@@ -294,7 +296,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		}
 		renderer.renderRect(this.getXPosScreen() - this.getPlayerSize() / 2, this.getYPos() - this.getPlayerSize() / 2, this.getPlayerSize(), this.getPlayerSize());
 
-		for (net.brenig.pixelescape.game.player.PlayerPathEntity e : this.getPathEntities()) {
+		for (PlayerPathEntity e : this.getPathEntities()) {
 			renderer.renderRect(e.getXPosScreen() - e.getSizeRadius(), e.getYPos() - e.getSizeRadius(), e.getSize(), e.getSize());
 		}
 
@@ -528,7 +530,14 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	/**
 	 * sets new y velocity
 	 */
-	public void setyVelocity(float velocity) {
+	public void setYVelocity(float velocity) {
 		this.yVelocity = velocity;
+	}
+
+	/**
+	 * sets new x velocity
+	 */
+	public void setXVelocity(float xVelocity) {
+		this.xVelocity = xVelocity;
 	}
 }

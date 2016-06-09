@@ -6,6 +6,7 @@ import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
 import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.lib.Reference;
+import net.brenig.pixelescape.render.WorldRenderer;
 
 /**
  * Handles player input and applies it to the Player entity
@@ -29,8 +30,11 @@ public interface PlayerMovementController {
 	 * <p/>
 	 * gets called when player respawns
 	 * @see EntityPlayer#reset(GameMode)
+	 * @param mode
 	 */
-	void reset();
+	void reset(GameMode mode);
+
+	void render(PixelEscape game, WorldRenderer renderer, World world, float delta);
 
 	/**
 	 * default implementation of a {@link PlayerMovementController}, standart behaviour
@@ -58,8 +62,13 @@ public interface PlayerMovementController {
 		}
 
 		@Override
-		public void reset() {
+		public void reset(GameMode mode) {
 			lastTouched = false;
+		}
+
+		@Override
+		public void render(PixelEscape game, WorldRenderer renderer, World world, float delta) {
+
 		}
 	}
 }

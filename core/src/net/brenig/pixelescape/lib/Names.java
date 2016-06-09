@@ -10,4 +10,5 @@ public class Names {
 	public static final String SCOREBOARD_SPEED = "speed";
 	public static final String SCOREBOARD_FLASH = "flash";
 	public static final String SCOREBOARD_BLINK = "blink";
+	public static final String SCOREBOARD_DRAG = "drag";
 }

@@ -94,7 +94,7 @@ public class ResetScoreScreen extends PixelScreen {
 				}
 			}
 		});
-		//suspress changeevents for setChecked()
+		//suspress events caused by setChecked()
 		resetAllCheckBox.setProgrammaticChangeEvents(false);
 		contentLayout.add(resetAllCheckBox).padBottom(20).left().row();
 

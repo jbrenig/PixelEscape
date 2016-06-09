@@ -88,7 +88,7 @@ public class Reference {
 	 * current version of saved data<br></br>
 	 * changes every time a breaking change happens to the way data is saved on disk
 	 */
-	public static final int PREFS_REVISION = 1;
+	public static final int PREFS_REVISION = 2;
 
 
 }

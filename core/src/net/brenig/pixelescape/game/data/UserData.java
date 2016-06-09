@@ -93,6 +93,8 @@ public class UserData {
 				case -1:
 					int oldHighScore = prefs.getInteger(Keys.highScore, Defaults.highScore);
 					prefs.putInteger(Keys.highScore + Names.SCOREBOARD_CLASSIC, oldHighScore);
+				case 1:
+					prefs.putInteger(Keys.highScore + Names.SCOREBOARD_ARCADE, 0);
 			}
 			prefs.putInteger(Keys.savesRevision, Reference.PREFS_REVISION);
 			saveToDisk();

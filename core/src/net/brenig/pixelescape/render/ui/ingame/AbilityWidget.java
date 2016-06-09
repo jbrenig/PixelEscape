@@ -57,7 +57,7 @@ public class AbilityWidget extends Button {
 		addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if (!gameScreen.isGamePaused() && player.hasAbility()) {
+				if (!gameScreen.isGamePaused() && player.hasAbility() && player.getCooldownRemaining() == 0) {
 					player.useAbility();
 				}
 			}

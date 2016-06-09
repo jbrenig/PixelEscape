@@ -280,11 +280,18 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	}
 
 	@Override
-	public void render(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta) {
+	public void renderBackground(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta) {
 		if(this.isDead()) {
 			return;
 		}
 		movementController.render(game, renderer, world, delta);
+	}
+
+	@Override
+	public void render(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta) {
+		if(this.isDead()) {
+			return;
+		}
 
 		game.getRenderManager().beginFilledShape();
 

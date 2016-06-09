@@ -118,6 +118,20 @@ public class SettingsScreen extends PixelScreen {
 			uiLayout.row();
 		}
 
+		//Reset Scores
+		{
+			TextButton button = new TextButton("Reset Scores...", game.getSkin());
+			button.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					game.setScreen(new ResetScoreScreen(game));
+				}
+			});
+			button.getLabel().setFontScale(0.7F);
+			uiLayout.add(button).fillX().padBottom(20);
+			uiLayout.row();
+		}
+
 		//Back Button
 		{
 			TextButton btnBack = new TextButton("Go Back", game.getSkin());

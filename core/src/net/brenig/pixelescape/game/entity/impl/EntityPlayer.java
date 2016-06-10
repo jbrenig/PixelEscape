@@ -13,7 +13,7 @@ import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.game.entity.IMovingEntity;
 import net.brenig.pixelescape.game.entity.impl.particle.EntityCrashParticle;
 import net.brenig.pixelescape.game.data.GameMode;
-import net.brenig.pixelescape.game.player.PlayerMovementController;
+import net.brenig.pixelescape.game.player.movement.PlayerMovementController;
 import net.brenig.pixelescape.game.player.PlayerPathEntity;
 import net.brenig.pixelescape.game.player.abliity.Ability;
 import net.brenig.pixelescape.game.player.effects.StatusEffect;
@@ -284,7 +284,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		if(this.isDead()) {
 			return;
 		}
-		movementController.render(game, renderer, world, delta);
+		movementController.renderBackground(game, renderer, world, delta);
 	}
 
 	@Override

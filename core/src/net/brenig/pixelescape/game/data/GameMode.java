@@ -1,14 +1,13 @@
 package net.brenig.pixelescape.game.data;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import net.brenig.pixelescape.PixelEscape;
-import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
-import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
 import net.brenig.pixelescape.game.player.Item;
-import net.brenig.pixelescape.game.player.PlayerMovementController;
+import net.brenig.pixelescape.game.player.movement.DefaultMovementController;
+import net.brenig.pixelescape.game.player.movement.DragMovementController;
+import net.brenig.pixelescape.game.player.movement.FlashMovementController;
+import net.brenig.pixelescape.game.player.movement.PlayerMovementController;
 import net.brenig.pixelescape.game.player.abliity.Ability;
 import net.brenig.pixelescape.game.player.item.ItemLife;
 import net.brenig.pixelescape.game.worldgen.WorldGenerator;
@@ -17,7 +16,6 @@ import net.brenig.pixelescape.game.worldgen.special.ItemGenerator;
 import net.brenig.pixelescape.lib.FilteredElementProvider;
 import net.brenig.pixelescape.lib.Names;
 import net.brenig.pixelescape.lib.Reference;
-import net.brenig.pixelescape.render.WorldRenderer;
 
 /**
  * GameMode information
@@ -143,7 +141,7 @@ public enum GameMode {
 	 * @return the movement controller used to do the players movement
 	 */
 	public PlayerMovementController createPlayerMovementController() {
-		return new PlayerMovementController.DefaultMovementController();
+		return new DefaultMovementController();
 	}
 
 	/**
@@ -233,82 +231,5 @@ public enum GameMode {
 		return startingAbilityUses;
 	}
 
-
-	private class FlashMovementController implements PlayerMovementController {
-
-		@Override
-		public void updatePlayerMovement(PixelEscape game, InputManager manager, GameMode gameMode, World world, EntityPlayer player, float deltaTick, float yVelocityFactor) {
-			if(manager.isTouched()) {
-				player.setYPosition(world.convertMouseYToWorldCoordinate(game.getScaledMouseY()));
-			}
-			player.modifiyXVelocity(gameMode.getSpeedIncreaseFactor() * deltaTick);
-		}
-
-		@Override
-		public void reset(GameMode mode) {
-
-		}
-
-		@Override
-		public void render(PixelEscape game, WorldRenderer renderer, World world, float delta) {
-			if(world.getScreen().getInput().isTouched()) {
-				renderer.getRenderManager().beginFilledShape();
-				renderer.getRenderManager().getShapeRenderer().setColor(Color.CYAN);
-				renderer.renderRect(world.player.getXPosScreen(), world.player.getYPos() - Reference.PATH_ENTITY_SIZE/2, game.getScaledMouseX() - world.player.getXPosScreen(), Reference.PATH_ENTITY_SIZE);
-				renderer.getRenderManager().getShapeRenderer().setColor(Color.GRAY);
-				renderer.renderRect(game.getScaledMouseX() - Reference.PLAYER_ENTITY_SIZE/2, world.player.getYPos() - Reference.PLAYER_ENTITY_SIZE/2, Reference.PLAYER_ENTITY_SIZE, Reference.PLAYER_ENTITY_SIZE);
-			}
-		}
-	}
-
-	private class DragMovementController implements PlayerMovementController {
-
-		private float acceleration;
-
-		private boolean isTouched;
-		private float touchX;
-		private float touchY;
-
-		@Override
-		public void updatePlayerMovement(PixelEscape game, InputManager manager, GameMode gameMode, World world, EntityPlayer player, float deltaTick, float yVelocityFactor) {
-			player.modifiyXVelocity(gameMode.getSpeedIncreaseFactor() * deltaTick);
-			player.modifiyYVelocity(acceleration * deltaTick);
-			if(isTouched) {
-				if(!manager.isTouched()) {
-					//Confirm
-					if(touchX > 0) {
-						acceleration = world.convertMouseYToScreenCoordinate(game.getScaledMouseY()) - touchY;
-					}
-					isTouched = false;
-					touchX = Float.MIN_VALUE;
-					touchY = Float.MIN_VALUE;
-				}
-			} else if(manager.isTouched()) {
-				touchX = game.getScaledMouseX();
-				touchY = world.convertMouseYToScreenCoordinate(game.getScaledMouseY());
-				isTouched = true;
-			}
-		}
-
-		@Override
-		public void render(PixelEscape game, WorldRenderer renderer, World world, float delta) {
-			renderer.getRenderManager().beginFilledShape();
-			if(isTouched && touchX > 0) {
-				Color color = world.convertMouseYToScreenCoordinate(game.getScaledMouseY()) < touchY ? Color.RED : Color.BLACK;
-				renderer.getRenderManager().getShapeRenderer().line(touchX, touchY, game.getScaledMouseX(), world.convertMouseYToScreenCoordinate(game.getScaledMouseY()), color, color);
-			}
-			final float ySize = Reference.PLAYER_ENTITY_SIZE * acceleration / 40;
-			renderer.getRenderManager().getShapeRenderer().setColor(Color.GRAY);
-			renderer.renderRect(world.player.getXPosScreen() - Reference.PATH_ENTITY_SIZE / 2, world.player.getYPos(), Reference.PATH_ENTITY_SIZE, ySize);
-		}
-
-		@Override
-		public void reset(GameMode mode) {
-			acceleration = 0;
-			isTouched = false;
-			touchX = Float.MIN_VALUE;
-			touchY = Float.MIN_VALUE;
-		}
-	}
 
 }

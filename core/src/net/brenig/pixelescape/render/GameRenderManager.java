@@ -1,6 +1,7 @@
 package net.brenig.pixelescape.render;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -227,6 +228,36 @@ public class GameRenderManager implements Disposable {
 	 */
 	public void draw(Sprite sprite) {
 		sprite.draw(batch);
+	}
+
+	/**
+	 * draws the given String
+	 *
+	 * note: Renderer has to be initialized and in the right state
+	 */
+	public void draw(String text, float x, float y) {
+		getFont().draw(batch, text, x, y);
+	}
+
+	/**
+	 * draws the given String
+	 *
+	 * note: Renderer has to be initialized and in the right state
+	 */
+	public void draw(String text, Color color, float x, float y) {
+		getFont().setColor(color);
+		getFont().draw(batch, text, x, y);
+	}
+
+	/**
+	 * draws the given String
+	 *
+	 * note: Renderer has to be initialized and in the right state
+	 */
+	public void draw(String text, Color color, float x, float y, float size) {
+		setFontScale(size);
+		getFont().setColor(color);
+		getFont().draw(batch, text, x, y);
 	}
 
 	/**

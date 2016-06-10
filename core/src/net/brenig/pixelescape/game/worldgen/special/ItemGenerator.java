@@ -74,7 +74,6 @@ public class ItemGenerator implements ISpecialWorldGenerator {
 		out.add(5, EffectShield.ITEM);
 		out.add(10, EffectSlow.ITEM);
 		out.add(8, EffectSmallBarricades.ITEM);
-//		out.add(10, EffectMove.ITEM);
 		return out;
 	}
 }

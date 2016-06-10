@@ -1,6 +1,7 @@
 package net.brenig.pixelescape.render;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
@@ -217,6 +218,60 @@ public class WorldRenderer {
 	 */
 	public void renderSimpleAnimationWorld(SimpleAnimation animation, float x, float y, float width, float height, float delta) {
 		renderTextureRegionWorld(animation.getFrameAfterTimePassed(delta), x, y, width, height);
+	}
+
+	/**
+	 * draws the given String
+	 *
+	 * note: Renderer has to be initialized and in the right state
+	 */
+	public void renderText(String text, float x, float y) {
+		getRenderManager().draw(text, currentTotalXOffset + x, currentTotalYOffset + y);
+	}
+
+	/**
+	 * draws the given String
+	 *
+	 * note: Renderer has to be initialized and in the right state
+	 */
+	public void renderText(String text, Color color, float x, float y) {
+		getRenderManager().draw(text, color,  currentTotalXOffset + x, currentTotalYOffset + y);
+	}
+
+	/**
+	 * draws the given String
+	 *
+	 * note: Renderer has to be initialized and in the right state
+	 */
+	public void renderText(String text, Color color, float x, float y, float size) {
+		getRenderManager().draw(text, color,  currentTotalXOffset + x, currentTotalYOffset + y, size);
+	}
+
+	/**
+	 * same as {@link #renderText(String, float, float)}, but using global coordinates
+	 *
+	 * note: Renderer has to be initialized and in the right state
+	 */
+	public void renderTextWorld(String text, float x, float y) {
+		renderText(text, world.convertWorldCoordToScreenCoord(x), y);
+	}
+
+	/**
+	 * same as {@link #renderText(String, Color, float, float)}, but using global coordinates
+	 *
+	 * note: Renderer has to be initialized and in the right state
+	 */
+	public void renderTextWorld(String text, Color color, float x, float y) {
+		renderText(text, color, world.convertWorldCoordToScreenCoord(x), y);
+	}
+
+	/**
+	 * same as {@link #renderText(String, Color, float, float, float)}, but using global coordinates
+	 *
+	 * note: Renderer has to be initialized and in the right state
+	 */
+	public void renderTextWorld(String text, Color color, float x, float y, float size) {
+		renderText(text, color, world.convertWorldCoordToScreenCoord(x), y, size);
 	}
 
 	public GameRenderManager getRenderManager() {

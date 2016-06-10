@@ -48,6 +48,8 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	private float immortal = 0;
 
+	private int bonusScore;
+
 	private final PlayerPathEntity[] pathEntities = new PlayerPathEntity[4];
 
 	private boolean isDead = false;
@@ -152,6 +154,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		movementController.reset(gameMode);
 
 		xPos = 0;
+		bonusScore = 0;
 		xVelocity = gameMode.getStartingSpeed();
 		xVelocityModifier = 0;
 
@@ -209,7 +212,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	}
 
 	public int getScore() {
-		return (int) xPos;
+		return (int) xPos + bonusScore;
 	}
 
 	/**
@@ -546,5 +549,9 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	 */
 	public void setXVelocity(float xVelocity) {
 		this.xVelocity = xVelocity;
+	}
+
+	public void addBonusScore(int score) {
+		bonusScore += score;
 	}
 }

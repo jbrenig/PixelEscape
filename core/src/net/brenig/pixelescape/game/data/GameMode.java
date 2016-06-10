@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.player.Item;
+import net.brenig.pixelescape.game.player.effects.EffectMove;
+import net.brenig.pixelescape.game.player.item.ItemScore;
 import net.brenig.pixelescape.game.player.movement.DefaultMovementController;
 import net.brenig.pixelescape.game.player.movement.DragMovementController;
 import net.brenig.pixelescape.game.player.movement.FlashMovementController;
@@ -28,6 +30,8 @@ public enum GameMode {
 			super.registerWorldGenerators(worldGenerator);
 			worldGenerator.addSpecialGenerator(new ItemGenerator(600, 1000, 800, 1600, ItemGenerator.createDefaultItemList()));
 			worldGenerator.addSpecialGenerator(new ItemGenerator(20000, 25000, 30000, 35000, new FilteredElementProvider.SingleElementProvider<Item>(ItemLife.ITEM)));
+			worldGenerator.addSpecialGenerator(new ItemGenerator(25000, 30000, 50000, 60000, new FilteredElementProvider.SingleElementProvider<Item>(EffectMove.ITEM)));
+			worldGenerator.addSpecialGenerator(new ItemGenerator(25000, 50000, 60000, 70000, new FilteredElementProvider.SingleElementProvider<Item>(ItemScore.ITEM)));
 		}
 	},
 	SPEED("Speed", Names.SCOREBOARD_SPEED, "gamemode_speed", Reference.MAX_ENTITY_SPEED * 1.2F, Reference.STARTING_SPEED * 2, Reference.SPEED_MODIFIER * 3),

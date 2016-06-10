@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import net.brenig.pixelescape.game.data.GameAssets;
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
+import net.brenig.pixelescape.game.entity.impl.particle.EntityFadingText;
 import net.brenig.pixelescape.game.player.Item;
 
 /**
@@ -33,7 +34,11 @@ public class ItemScore implements Item {
 
 	@Override
 	public boolean onCollect(EntityPlayer player) {
-		//TODO add mechanic
+		player.addBonusScore(score);
+		EntityFadingText entity = player.getWorld().createEntity(EntityFadingText.class);
+		entity.setText("+" + score, 0.8F);
+		entity.setPosition(player.getXPos(), player.getYPos());
+		player.getWorld().spawnEntity(entity);
 		return true;
 	}
 }

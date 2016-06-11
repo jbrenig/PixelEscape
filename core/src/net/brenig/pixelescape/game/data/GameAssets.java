@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -102,7 +103,9 @@ public class GameAssets {
 
 	private void initFont() {
 		//Use custom font
-		font = new BitmapFont(Gdx.files.internal("font/p2p.fnt"), Gdx.files.internal("font/p2p_0.png"), false, true);
+		Texture texture = new Texture(Gdx.files.internal("font/p2p_0.png"), false);
+		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+		font = new BitmapFont(Gdx.files.internal("font/p2p.fnt"), new TextureRegion(texture));
 		font.setColor(Color.BLACK);
 	}
 

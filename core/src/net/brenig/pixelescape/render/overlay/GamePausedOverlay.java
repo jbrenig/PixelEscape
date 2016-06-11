@@ -12,20 +12,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
-import net.brenig.pixelescape.screen.GameScreen;
 import net.brenig.pixelescape.render.ui.general.HorizontalSpacer;
 import net.brenig.pixelescape.render.ui.general.PixelDialog;
 import net.brenig.pixelescape.render.ui.general.VerticalSpacer;
 import net.brenig.pixelescape.render.ui.ingame.ScoreWidget;
-import net.brenig.pixelescape.render.ui.ingame.StageManagerGame;
+import net.brenig.pixelescape.screen.GameScreen;
 
 /**
  * Displays when game gets paused
  */
-public class GamePausedOverlay extends Overlay implements InputProcessor {
+public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 
 	private static final float ANIM_TIME_PAUSED = 0.4F;
-	private final StageManagerGame stage;
 
 	private final int highscore;
 
@@ -33,20 +31,11 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 
 	public GamePausedOverlay(final GameScreen screen) {
 		super(screen);
-		stage = new StageManagerGame(screen);
 		highscore = screen.game.userData.getHighScore(screen.getGameMode());
 
 		Table table = stage.createHeadUiLayoutTable();
 
 		screen.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
-//		TextButton mainMenu = new TextButton("Main Menu", screen.game.getSkin());
-//		mainMenu.addListener(new ClickListener() {
-//			@Override
-//			public void clicked(InputEvent event, float x, float y) {
-//				screen.showMainMenu();
-//			}
-//		});
-//		table.add(mainMenu);
 
 		ImageTextButton btnResume = new ImageTextButton("Resume", screen.game.getSkin(), "resume");
 		btnResume.getImageCell().padRight(6).padBottom(4);
@@ -90,6 +79,7 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 		screen.game.gameMusic.fadeOutToPause();
 	}
 
+
 	@Override
 	public void renderFirst(float delta) {
 		//noinspection PointlessBooleanExpression,ConstantConditions
@@ -128,10 +118,6 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 		yPos -= screen.game.getFont().getLineHeight() + txtScoreHeight + txtHighscoreHeight;
 		screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
 
-		screen.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
-		stage.draw(screen.game.getRenderManager());
-		stage.act(delta);
-
 		animationProgress += delta;
 	}
 
@@ -143,23 +129,8 @@ public class GamePausedOverlay extends Overlay implements InputProcessor {
 	public void resume() {
 	}
 
-	@Override
-	public void onResize(int width, int height) {
-		stage.updateStageToGameBounds(width, height);
-	}
-
-	@Override
-	public void dispose() {
-		stage.dispose();
-	}
-
 	private void restartMusic() {
 		screen.game.gameMusic.play(true);
-	}
-
-	@Override
-	public boolean shouldHideGameUI() {
-		return true;
 	}
 
 	@Override

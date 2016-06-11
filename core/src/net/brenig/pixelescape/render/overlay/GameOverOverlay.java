@@ -12,26 +12,20 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
-import net.brenig.pixelescape.screen.GameScreen;
 import net.brenig.pixelescape.render.ui.general.HorizontalSpacer;
 import net.brenig.pixelescape.render.ui.general.VerticalSpacer;
-import net.brenig.pixelescape.render.ui.ingame.StageManagerGame;
+import net.brenig.pixelescape.screen.GameScreen;
 
 /**
  * Displays when Player crashed
  */
-public class GameOverOverlay extends Overlay implements InputProcessor {
+public class GameOverOverlay extends OverlayWithUi implements InputProcessor {
 
 	private static final float ANIM_TIME_GAME_OVER = 0.6F;
 	private static final float TIME_TO_WAIT = 1.2F;
 
 	private float animationProgress = 0;
-	/**
-	 * true when all gui elements are loaded in
-	 */
-	private boolean guiLoaded = false;
 
-	private final StageManagerGame stage;
 	private final TextButton mainMenu;
 	private final TextButton restartGame;
 
@@ -40,7 +34,6 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 
 	public GameOverOverlay(final GameScreen screen) {
 		super(screen);
-		stage = new StageManagerGame(screen);
 		highscore = screen.game.userData.getHighScore(screen.getGameMode());
 
 
@@ -140,9 +133,8 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 		screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
 
 		animationProgress += delta;
-		screen.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
-		stage.act(delta);
-		stage.draw(screen.game.getRenderManager());
+
+		super.render(delta);
 	}
 
 	@Override
@@ -152,29 +144,14 @@ public class GameOverOverlay extends Overlay implements InputProcessor {
 	}
 
 	@Override
-	public void onResize(int width, int height) {
-		stage.updateStageToGameBounds(width, height);
-	}
-
-	@Override
 	public void resume() {}
 
 	@Override
 	public void pause() {}
 
-	@Override
-	public void dispose() {
-		stage.dispose();
-	}
-
 	private void restartMusic() {
 		screen.game.gameMusic.setCurrentMusic(screen.getGameMusic());
 		screen.game.gameMusic.play();
-	}
-
-	@Override
-	public boolean shouldHideGameUI() {
-		return true;
 	}
 
 	@Override

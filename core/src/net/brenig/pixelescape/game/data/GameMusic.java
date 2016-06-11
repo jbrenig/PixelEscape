@@ -173,8 +173,10 @@ public class GameMusic {
 	}
 
 	public void fadeOutToStop(float time) {
-		fadingProgress = 0;
-		fadingTime = time;
+		if (!isFading() || state == MusicState.FADE_IN) {
+			fadingProgress = 0;
+			fadingTime = time;
+		}
 		state = MusicState.FADE_OUT_STOP;
 	}
 

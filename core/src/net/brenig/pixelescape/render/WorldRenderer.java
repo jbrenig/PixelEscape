@@ -123,9 +123,17 @@ public class WorldRenderer {
 		moveScreen(delta);
 		currentTotalXOffset = xOffset + screenShakeX;
 		currentTotalYOffset = rendererYOffset + screenShakeY;
+		renderWorldBackground();
 		renderEntitiesBackground(delta);
 		renderWorld();
 		renderEntities(delta);
+	}
+
+	/**
+	 * renders terrain background
+	 */
+	private void renderWorldBackground() {
+
 	}
 
 	/**

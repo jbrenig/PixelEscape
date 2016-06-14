@@ -332,3 +332,10 @@ sound_enabled_hover
   orig: 32, 32
   offset: 0, 0
   index: -1
+square
+  rotate: false
+  xy: 2, 2
+  size: 2, 2
+  orig: 2, 2
+  offset: 0, 0
+  index: -1

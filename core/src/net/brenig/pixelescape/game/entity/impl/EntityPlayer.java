@@ -296,13 +296,13 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 			return;
 		}
 
-		game.getRenderManager().beginFilledShape();
+		game.getRenderManager().begin();
 
 		// Draw Background color
 		if(immortal % 1F < 0.5F) {
-			game.getShapeRenderer().setColor(0, 0, 0, 1);
+			game.getRenderManager().setColor(0, 0, 0, 1);
 		} else {
-			game.getShapeRenderer().setColor(Color.LIGHT_GRAY);
+			game.getRenderManager().setColor(Color.LIGHT_GRAY);
 		}
 		renderer.renderRect(this.getXPosScreen() - this.getPlayerSize() / 2, this.getYPos() - this.getPlayerSize() / 2, this.getPlayerSize(), this.getPlayerSize());
 
@@ -313,6 +313,8 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		for (StatusEffect effect : effects) {
 			effect.render(game, renderer, this, delta);
 		}
+
+		movementController.renderForeground(game, renderer, world, delta);
 	}
 
 	@Override

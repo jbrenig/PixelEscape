@@ -79,7 +79,7 @@ public class Reference {
 	public static final float TOUCH_ACCELERATION = 12 * BLOCK_WIDTH;
 	public static final float CLICK_ACCELERATION = 3 * BLOCK_WIDTH;
 
-	public static final float SCREEN_TINT_STRENGTH = 0.4F;
+	public static final float SCREEN_TINT_STRENGTH = 0.6F;
 
 
 	public static final boolean DEBUG_SETTINGS_AVAILABLE    = true;

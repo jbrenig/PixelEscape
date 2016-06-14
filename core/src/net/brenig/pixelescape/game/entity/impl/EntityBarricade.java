@@ -32,8 +32,8 @@ public class EntityBarricade extends Entity {
 
 	@Override
 	public void render(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta) {
-		game.getRenderManager().beginFilledShape();
-		game.getShapeRenderer().setColor(0, 0, 0, 1);
+		game.getRenderManager().begin();
+		game.getRenderManager().setColor(0, 0, 0, 1);
 		renderer.renderRectWorld(xPos - sizeX / 2, yPos - sizeY / 2, sizeX, sizeY);
 	}
 

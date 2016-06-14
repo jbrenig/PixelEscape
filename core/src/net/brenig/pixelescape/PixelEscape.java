@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import net.brenig.pixelescape.game.data.GameAssets;
@@ -269,19 +268,15 @@ public class PixelEscape extends Game {
 	}
 
 	/**
-	 * Main ShapeRenderer
-	 */
-	public ShapeRenderer getShapeRenderer() {
-		return renderManager.getShapeRenderer();
-	}
-
-	/**
 	 * Main Sprite Batch
 	 */
 	public SpriteBatch getBatch() {
 		return renderManager.getBatch();
 	}
 
+	/**
+	 * @return Game Renderer
+	 */
 	public GameRenderManager getRenderManager() {
 		return renderManager;
 	}

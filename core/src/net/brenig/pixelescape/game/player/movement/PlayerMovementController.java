@@ -46,4 +46,5 @@ public interface PlayerMovementController {
 	 */
 	void renderBackground(PixelEscape game, WorldRenderer renderer, World world, float delta);
 
+	void renderForeground(PixelEscape game, WorldRenderer renderer, World world, float delta);
 }

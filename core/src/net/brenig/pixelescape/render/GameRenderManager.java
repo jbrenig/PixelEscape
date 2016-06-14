@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -31,6 +32,23 @@ public class GameRenderManager implements Disposable {
 
 	private GameAssets gameAssets;
 
+
+	/**
+	 * basic square texture for easy access
+	 */
+	private TextureRegion square;
+
+
+	/**
+	 * current color (for drawing rects, etc.)
+	 */
+	private Color color = Color.BLACK;
+
+	/**
+	 * current colored square texture
+	 */
+	private Sprite squareDrawable;
+
 	public GameRenderManager() {
 		//initialize viewport
 		camera = new OrthographicCamera();
@@ -39,6 +57,9 @@ public class GameRenderManager implements Disposable {
 
 	public void setGameAssets(GameAssets gameAssets) {
 		this.gameAssets = gameAssets;
+		this.square = gameAssets.getSquare();
+		this.squareDrawable = new Sprite(square);
+		this.squareDrawable.setColor(color);
 	}
 
 	/**
@@ -87,6 +108,10 @@ public class GameRenderManager implements Disposable {
 		return batch;
 	}
 
+	/**
+	 * Use {@link #rect(float, float, float, float)} to draw rectangles
+	 */
+	@Deprecated
 	public ShapeRenderer getShapeRenderer() {
 		return shapeRenderer;
 	}
@@ -116,6 +141,7 @@ public class GameRenderManager implements Disposable {
 	/**
 	 * initialized shaperenderer for drawing filled shapes
 	 */
+	@Deprecated
 	public void beginFilledShape() {
 		if(state != State.SHAPE_FILLED) {
 			end();
@@ -128,6 +154,7 @@ public class GameRenderManager implements Disposable {
 	 * initialized shaperenderer for drawing
 	 * @param type shapetype
 	 */
+	@Deprecated
 	public void beginShape(ShapeRenderer.ShapeType type) {
 		if(state != State.SHAPE_OTHER) {
 			end();
@@ -261,12 +288,75 @@ public class GameRenderManager implements Disposable {
 	}
 
 	/**
-	 * draws a Rectangle at the given position and size
+	 * draws a filled Rectangle at the given position and size
 	 *
-	 * note: the renderer has to be initialized and in the correct state
+	 * note: the renderer has to be initialized and in the correct state {@link State#BATCH}
+	 */
+	public void rect(float x, float y, float width, float height, Color color) {
+		setColor(color);
+		rect(x, y, width, height);
+	}
+
+	/**
+	 * draws a filled Rectangle at the given position and size
+	 *
+	 * note: the renderer has to be initialized and in the correct state {@link State#BATCH}
 	 */
 	public void rect(float x, float y, float width, float height) {
-		shapeRenderer.rect(x, y, width, height);
+		squareDrawable.setBounds(x, y, width, height);
+		squareDrawable.draw(batch);
+	}
+
+
+	/**
+	 * draws a filled line at the given position and size
+	 *
+	 * note: the renderer has to be initialized and in the correct state {@link State#BATCH}
+	 */
+	public void line(float x1, float y1, float x2, float y2, int thickness, Color color) {
+		setColor(color);
+		line(x1, y1, x2, y2, thickness);
+	}
+
+	/**
+	 * draws a filled line at the given position and size
+	 *
+	 * note: the renderer has to be initialized and in the correct state {@link State#BATCH}
+	 */
+	public void line(float x1, float y1, float x2, float y2, int thickness) {
+		float dx = x2-x1;
+		float dy = y2-y1;
+		float dist = (float)Math.sqrt(dx*dx + dy*dy);
+		float rad = (float)Math.atan2(dy, dx);
+		squareDrawable.setBounds(x1, y1, dist, thickness);
+		squareDrawable.setRotation(rad * MathUtils.radiansToDegrees);
+		squareDrawable.draw(batch);
+		squareDrawable.setRotation(0);
+	}
+
+	/**
+	 * sets the current color to draw basic shapes in (when not using {@link ShapeRenderer}
+	 */
+	public void setColor(Color color) {
+		if(this.color != color) {
+			squareDrawable.setColor(color);
+			this.color = color;
+		}
+	}
+
+	/**
+	 * sets the current color to draw basic shapes in (when not using {@link ShapeRenderer}
+	 */
+	public void setColor(float r, float g, float b, float a) {
+		setColor(new Color(r, g, b, a));
+	}
+
+	public void enableBlending() {
+		batch.enableBlending();
+	}
+
+	public void disableBlending() {
+		batch.disableBlending();
 	}
 
 	public enum State {

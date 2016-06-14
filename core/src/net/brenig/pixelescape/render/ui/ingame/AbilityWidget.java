@@ -1,9 +1,7 @@
 package net.brenig.pixelescape.render.ui.ingame;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -82,23 +80,13 @@ public class AbilityWidget extends Button {
 			}
 			if (player.getCooldownRemaining() != 0) {
 				animCounter = ANIM_DURATION;
-				batch.end();
-				gameScreen.game.getShapeRenderer().begin(ShapeRenderer.ShapeType.Filled);
-				Gdx.gl.glEnable(GL20.GL_BLEND);
-				gameScreen.game.getShapeRenderer().setColor(0.7F, 0.7F, 1, 0.4F);
-				gameScreen.game.getShapeRenderer().rect(getX() + itemFrame, getY() + itemFrame, getWidth() - itemFrame * 2, (getHeight() - itemFrame * 2) * player.getCooldownRemainingScaled());
-				gameScreen.game.getShapeRenderer().end();
-				batch.begin();
+				gameScreen.game.getRenderManager().setColor(0.7F, 0.7F, 1, 0.4F);
+				gameScreen.game.getRenderManager().rect(getX() + itemFrame, getY() + itemFrame, getWidth() - itemFrame * 2, (getHeight() - itemFrame * 2) * player.getCooldownRemainingScaled());
 			} else if (animCounter > 0) {
 				animCounter -= Gdx.graphics.getDeltaTime();
 				final float alpha = Utils.easeInAndOut(animCounter, ANIM_DURATION) * 0.7F;
-				batch.end();
-				gameScreen.game.getShapeRenderer().begin(ShapeRenderer.ShapeType.Filled);
-				Gdx.gl.glEnable(GL20.GL_BLEND);
-				gameScreen.game.getShapeRenderer().setColor(1, 1, 1, alpha);
-				gameScreen.game.getShapeRenderer().rect(getX() + itemFrame, getY() + itemFrame, getWidth() - itemFrame * 2, getHeight() - itemFrame * 2);
-				gameScreen.game.getShapeRenderer().end();
-				batch.begin();
+				gameScreen.game.getRenderManager().setColor(1, 1, 1, alpha);
+				gameScreen.game.getRenderManager().rect(getX() + itemFrame, getY() + itemFrame, getWidth() - itemFrame * 2, getHeight() - itemFrame * 2);
 			}
 		}
 	}

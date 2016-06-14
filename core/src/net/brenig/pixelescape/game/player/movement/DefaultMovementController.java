@@ -42,4 +42,9 @@ public class DefaultMovementController implements PlayerMovementController {
 	public void renderBackground(PixelEscape game, WorldRenderer renderer, World world, float delta) {
 
 	}
+
+	@Override
+	public void renderForeground(PixelEscape game, WorldRenderer renderer, World world, float delta) {
+
+	}
 }

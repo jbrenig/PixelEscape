@@ -97,8 +97,8 @@ public class EntityCrashParticle extends Entity {
 		xVel = Math.min(gameMode.getMaxEntitySpeed(), xVel);
 		yVel = Math.min(gameMode.getMaxEntitySpeed(), yVel);
 
-		game.getRenderManager().beginFilledShape();
-		game.getShapeRenderer().setColor(color);
+		game.getRenderManager().begin();
+		game.getRenderManager().setColor(color);
 		renderer.renderRectWorld(xPos - radius, yPos - radius, size, size);
 	}
 

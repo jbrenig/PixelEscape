@@ -75,8 +75,6 @@ public class GameScreen extends PixelScreen {
 	private final InputManager inputManager;
 	private final InputMultiplexer inputMultiplexer;
 
-
-
 	private Overlay overlay;
 
 	public GameScreen(final PixelEscape game, GameMode gameMode) {
@@ -162,12 +160,11 @@ public class GameScreen extends PixelScreen {
 		}
 
 		//black background
+		game.getRenderManager().disableBlending();
 		renderBackground();
 
-		//flush before rendering the world
-		game.getRenderManager().end();
-
 		//render world
+		game.getRenderManager().enableBlending();
 		worldRenderer.render(delta);
 
 		//draw ui
@@ -194,21 +191,21 @@ public class GameScreen extends PixelScreen {
 	}
 
 	private void renderBackground() {
-		game.getRenderManager().beginFilledShape();
+		game.getRenderManager().begin();
 
 		if(GameDebugSettings.get("DEBUG_SCREEN_BOUNDS")) {
-			game.getShapeRenderer().setColor(1, 0, 0, 0);
+			game.getRenderManager().setColor(1, 0, 0, 0);
 		} else {
-			game.getShapeRenderer().setColor(0, 0, 0, 1);
+			game.getRenderManager().setColor(0, 0, 0, 1);
 		}
-		game.getShapeRenderer().rect(0, 0, world.getWorldWidth(), uiPos);
-		game.getShapeRenderer().rect(0, world.getWorldHeight() + uiPos, world.getWorldWidth(), uiPos + Reference.GAME_UI_Y_SIZE);
+		game.getRenderManager().rect(0, 0, world.getWorldWidth(), uiPos);
+		game.getRenderManager().rect(0, world.getWorldHeight() + uiPos, world.getWorldWidth(), uiPos + Reference.GAME_UI_Y_SIZE);
 	}
 
 	private void renderEffectTime() {
 		Collection<StatusEffect> effects = world.player.getStatusEffects();
 		if(!effects.isEmpty()) {
-			game.getRenderManager().beginFilledShape();
+			game.getRenderManager().begin();
 			int index = 0;
 			final int yPos = world.getWorldHeight() + uiPos - 6;
 			final int xPos = 10;
@@ -218,7 +215,7 @@ public class GameScreen extends PixelScreen {
 				final float timeRemaining = effect.getScaledTime();
 				if(timeRemaining > 0) {
 					final float timeRemainingScaled = timeRemaining * ySize;
-					effect.updateRenderColor(game.getShapeRenderer());
+					effect.updateRenderColor(game.getRenderManager());
 					game.getRenderManager().rect(xPos + index * xSize, yPos - timeRemainingScaled, xSize, timeRemainingScaled);
 					index++;
 				}

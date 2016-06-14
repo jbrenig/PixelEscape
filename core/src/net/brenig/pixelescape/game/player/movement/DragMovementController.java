@@ -44,14 +44,20 @@ public class DragMovementController implements PlayerMovementController {
 
 	@Override
 	public void renderBackground(PixelEscape game, WorldRenderer renderer, World world, float delta) {
-		renderer.getRenderManager().beginFilledShape();
+		renderer.getRenderManager().begin();
+		final float ySize = Reference.PLAYER_ENTITY_SIZE * acceleration / 40;
+		renderer.getRenderManager().setColor(Color.GRAY);
+		renderer.renderRect(world.player.getXPosScreen() - Reference.PATH_ENTITY_SIZE / 2, world.player.getYPos(), Reference.PATH_ENTITY_SIZE, ySize);
+
+	}
+
+	@Override
+	public void renderForeground(PixelEscape game, WorldRenderer renderer, World world, float delta) {
+		renderer.getRenderManager().begin();
 		if (isTouched && touchX > 0) {
 			Color color = world.convertMouseYToScreenCoordinate(game.getScaledMouseY()) < touchY ? Color.RED : Color.BLACK;
-			renderer.getRenderManager().getShapeRenderer().line(touchX, touchY, game.getScaledMouseX(), world.convertMouseYToScreenCoordinate(game.getScaledMouseY()), color, color);
+			renderer.getRenderManager().line(touchX, touchY, game.getScaledMouseX(), world.convertMouseYToScreenCoordinate(game.getScaledMouseY()), 2, color);
 		}
-		final float ySize = Reference.PLAYER_ENTITY_SIZE * acceleration / 40;
-		renderer.getRenderManager().getShapeRenderer().setColor(Color.GRAY);
-		renderer.renderRect(world.player.getXPosScreen() - Reference.PATH_ENTITY_SIZE / 2, world.player.getYPos(), Reference.PATH_ENTITY_SIZE, ySize);
 	}
 
 	@Override

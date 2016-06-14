@@ -1,7 +1,6 @@
 package net.brenig.pixelescape.game.player.effects;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 
 import net.brenig.pixelescape.PixelEscape;
@@ -10,6 +9,7 @@ import net.brenig.pixelescape.game.data.GameAssets;
 import net.brenig.pixelescape.game.player.Item;
 import net.brenig.pixelescape.game.entity.impl.particle.EntityFadingParticle;
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
+import net.brenig.pixelescape.render.GameRenderManager;
 import net.brenig.pixelescape.render.WorldRenderer;
 
 public class EffectShield extends StatusEffectTimed {
@@ -61,7 +61,7 @@ public class EffectShield extends StatusEffectTimed {
 	}
 
 	@Override
-	public void updateRenderColor(ShapeRenderer renderer) {
-		renderer.setColor(0.5F, 0.4F, 0.7F, 0);
+	public void updateRenderColor(GameRenderManager renderer) {
+		renderer.setColor(0.5F, 0.4F, 0.7F, 1);
 	}
 }

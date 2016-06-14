@@ -1,9 +1,8 @@
 package net.brenig.pixelescape.game.player.effects;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
+import net.brenig.pixelescape.render.GameRenderManager;
 import net.brenig.pixelescape.render.WorldRenderer;
 
 public abstract class StatusEffect {
@@ -53,6 +52,7 @@ public abstract class StatusEffect {
 	 * <p>
 	 *     used for rendering remaining duration
 	 * </p>
+	 * @param renderer
 	 */
-	public void updateRenderColor(ShapeRenderer renderer) {}
+	public void updateRenderColor(GameRenderManager renderer) {}
 }

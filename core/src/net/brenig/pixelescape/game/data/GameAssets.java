@@ -60,6 +60,8 @@ public class GameAssets {
 
 	private Drawable missingTexture;
 
+	private TextureRegion square;
+
 	private Skin mainUiSkin;
 
 	private SimpleAnimation itemAnimatedBackground;
@@ -117,6 +119,7 @@ public class GameAssets {
 	private void initTextures() {
 		//Cache default button texture for other use cases
 		buttonNinePatch = textureAtlas.createPatch("button");
+		square = textureAtlas.findRegion("square");
 		heart = textureAtlas.findRegion("heart");
 
 		//ITEMS
@@ -134,6 +137,7 @@ public class GameAssets {
 		itemAnimatedBackground = new SimpleAnimation(3, 2, textureAtlas.findRegion("item_blob_filled"), 0.5F);
 
 		missingTexture = new TextureRegionDrawable(textureAtlas.findRegion("fullscreen_hover"));
+
 	}
 
 	private void initSkin() {
@@ -436,5 +440,9 @@ public class GameAssets {
 
 	public Drawable getHeartDrawable() {
 		return item_life;
+	}
+
+	public TextureRegion getSquare() {
+		return square;
 	}
 }

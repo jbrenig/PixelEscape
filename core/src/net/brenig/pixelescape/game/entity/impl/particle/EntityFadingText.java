@@ -25,10 +25,6 @@ public class EntityFadingText extends Entity {
 	private float color_b = 0;
 
 
-	public EntityFadingText(World world) {
-		super(world);
-	}
-
 
 	public void setColor(float color_r, float color_g, float color_b) {
 		this.color_r = color_r;

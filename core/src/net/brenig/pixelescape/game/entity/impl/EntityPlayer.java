@@ -62,12 +62,12 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	private Set<StatusEffect> effects = new HashSet<StatusEffect>();
 
 	public EntityPlayer(World world, GameMode gameMode) {
-		super(world);
 		movementController = gameMode.createPlayerMovementController();
 		for (int i = 0; i < pathEntities.length; i++) {
 			pathEntities[i] = new PlayerPathEntity(yPos, xPosScreen);
 		}
 		reset(gameMode);
+		setWorld(world);
 	}
 
 	@Override

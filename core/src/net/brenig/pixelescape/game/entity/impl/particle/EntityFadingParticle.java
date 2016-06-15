@@ -3,7 +3,6 @@ package net.brenig.pixelescape.game.entity.impl.particle;
 import com.badlogic.gdx.graphics.Color;
 
 import net.brenig.pixelescape.PixelEscape;
-import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.lib.Utils;
@@ -26,10 +25,6 @@ public class EntityFadingParticle extends Entity {
 	private float color_r = 0;
 	private float color_g = 0;
 	private float color_b = 0;
-
-	public EntityFadingParticle(World world) {
-		super(world);
-	}
 
 	public void setColor(float color_r, float color_g, float color_b) {
 		this.color_r = color_r;

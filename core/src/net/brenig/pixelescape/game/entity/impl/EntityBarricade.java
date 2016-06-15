@@ -3,7 +3,6 @@ package net.brenig.pixelescape.game.entity.impl;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.data.GameMode;
-import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.render.WorldRenderer;
 
@@ -17,10 +16,6 @@ public class EntityBarricade extends Entity {
 
 	private int sizeX = defaultSizeX;
 	private int sizeY = defaultSizeY;
-
-	public EntityBarricade(World world) {
-		super(world);
-	}
 
 	public int getSizeX() {
 		return sizeX;

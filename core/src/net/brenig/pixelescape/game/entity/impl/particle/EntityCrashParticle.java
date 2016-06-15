@@ -30,10 +30,6 @@ public class EntityCrashParticle extends Entity {
 	private boolean dead;
 
 
-	public EntityCrashParticle(World world) {
-		super(world);
-	}
-
 	public void setVelocity(float xVel, float yVel) {
 		this.xVel = xVel;
 		this.yVel = yVel;

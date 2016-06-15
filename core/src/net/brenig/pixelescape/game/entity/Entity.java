@@ -18,8 +18,7 @@ public abstract class Entity implements Pool.Poolable {
 	protected float xPos;
 	protected float yPos;
 
-	public Entity(World world) {
-		this.world = world;
+	public Entity() {
 	}
 
 	/**
@@ -162,5 +161,9 @@ public abstract class Entity implements Pool.Poolable {
 
 	public World getWorld() {
 		return world;
+	}
+
+	public void setWorld(World world) {
+		this.world = world;
 	}
 }

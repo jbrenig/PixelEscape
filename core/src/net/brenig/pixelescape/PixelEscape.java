@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import net.brenig.pixelescape.game.data.GameAssets;
@@ -97,16 +96,6 @@ public class PixelEscape extends Game {
 		return instance;
 	}
 
-	@Deprecated
-	public void renderTextureRegion(TextureRegion region, float x, float y) {
-		getBatch().draw(region, x, y);
-	}
-
-	@Deprecated
-	public void renderTextureRegion(TextureRegion region, float x, float y, float width, float height) {
-		getBatch().draw(region, x, y, width, height);
-	}
-
 	public GameAssets getGameAssets() {
 		return gameAssets;
 	}
@@ -132,20 +121,10 @@ public class PixelEscape extends Game {
 		renderManager.end();
 	}
 
-//	private void prepareRender() {
-//		Gdx.gl.glClearColor(1, 1, 1, 1);
-//		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//
-//		// tell the camera to update its matrices.
-//		cam.update();
-//	}
-
 	@Override
 	public void dispose() {
 		gameSettings.saveToDisk();
 		userData.saveToDisk();
-//		batch.dispose();
-//		shapeRenderer.dispose();
 		renderManager.dispose();
 		gameAssets.disposeAll();
 		assetsLoaded = false;

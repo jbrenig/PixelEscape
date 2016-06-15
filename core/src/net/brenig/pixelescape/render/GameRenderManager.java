@@ -27,7 +27,6 @@ public class GameRenderManager implements Disposable {
 
 	private OrthographicCamera camera;
 
-	private ShapeRenderer shapeRenderer;
 	private SpriteBatch batch;
 
 	private GameAssets gameAssets;
@@ -73,9 +72,6 @@ public class GameRenderManager implements Disposable {
 		batch = new SpriteBatch();
 		batch.setProjectionMatrix(camera.combined);
 
-		shapeRenderer = new ShapeRenderer();
-		shapeRenderer.setProjectionMatrix(camera.combined);
-
 		state = State.READY;
 	}
 
@@ -96,7 +92,6 @@ public class GameRenderManager implements Disposable {
 	public void onResize(float gameSizeX, float gameSizeY) {
 		camera.setToOrtho(false, gameSizeX, gameSizeY);
 		batch.setProjectionMatrix(camera.combined);
-		shapeRenderer.setProjectionMatrix(camera.combined);
 		camera.update();
 	}
 
@@ -108,14 +103,6 @@ public class GameRenderManager implements Disposable {
 		return batch;
 	}
 
-	/**
-	 * Use {@link #rect(float, float, float, float)} to draw rectangles
-	 */
-	@Deprecated
-	public ShapeRenderer getShapeRenderer() {
-		return shapeRenderer;
-	}
-
 	public BitmapFont getFont() {
 		return gameAssets.getFont();
 	}
@@ -123,7 +110,6 @@ public class GameRenderManager implements Disposable {
 	@Override
 	public void dispose() {
 		state = State.INVALID;
-		shapeRenderer.dispose();
 		batch.dispose();
 	}
 
@@ -135,34 +121,6 @@ public class GameRenderManager implements Disposable {
 			end();
 			batch.begin();
 			state = State.BATCH;
-		}
-	}
-
-	/**
-	 * initialized shaperenderer for drawing filled shapes
-	 */
-	@Deprecated
-	public void beginFilledShape() {
-		if(state != State.SHAPE_FILLED) {
-			end();
-			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-			state = State.SHAPE_FILLED;
-		}
-	}
-
-	/**
-	 * initialized shaperenderer for drawing
-	 * @param type shapetype
-	 */
-	@Deprecated
-	public void beginShape(ShapeRenderer.ShapeType type) {
-		if(state != State.SHAPE_OTHER) {
-			end();
-			shapeRenderer.begin(type);
-			state = State.SHAPE_OTHER;
-		} else if(shapeRenderer.getCurrentType() != type) {
-			shapeRenderer.end();
-			shapeRenderer.begin(type);
 		}
 	}
 
@@ -197,10 +155,6 @@ public class GameRenderManager implements Disposable {
 			case BATCH:
 				batch.end();
 				break;
-			case SHAPE_FILLED:
-			case SHAPE_OTHER:
-				shapeRenderer.end();
-				break;
 			case INVALID:
 				LogHelper.warn("RenderManager in invalid state. Initializing...");
 				prepareRender();
@@ -209,9 +163,6 @@ public class GameRenderManager implements Disposable {
 				LogHelper.error("RenderManager in unknown state!");
 				if(batch.isDrawing()) {
 					batch.end();
-					break;
-				} else if(shapeRenderer.isDrawing()) {
-					shapeRenderer.end();
 					break;
 				} else {
 					LogHelper.error("Unable to reconstruct state!!");
@@ -360,6 +311,6 @@ public class GameRenderManager implements Disposable {
 	}
 
 	public enum State {
-		READY, BATCH, SHAPE_FILLED, SHAPE_OTHER, UNKNOWN, INVALID
+		READY, BATCH, INVALID
 	}
 }

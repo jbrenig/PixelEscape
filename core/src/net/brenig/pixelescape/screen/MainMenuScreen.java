@@ -86,7 +86,7 @@ public class MainMenuScreen extends PixelScreen {
 		//init gamemodes
 		for(GameMode mode : game.gameConfig.getAvailbleGameModes()) {
 			Image gameModeImageArcade = new Image(mode.createIcon(game.getGameAssets()));
-			gameModeImageArcade.setRotation(5);
+//			gameModeImageArcade.setRotation(5);
 			gmImageStack.add(gameModeImageArcade);
 		}
 

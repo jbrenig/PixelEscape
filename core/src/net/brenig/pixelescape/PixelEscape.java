@@ -44,8 +44,6 @@ public class PixelEscape extends Game {
 
 	public int gameSizeX = Reference.TARGET_RESOLUTION_X;
 	public int gameSizeY = Reference.GAME_RESOLUTION_Y + Reference.GAME_UI_Y_SIZE;
-	private float scale = 1.0F;
-
 
 	public PixelEscape() {
 		//set default config
@@ -162,7 +160,7 @@ public class PixelEscape extends Game {
 		final float targetWidth = Reference.TARGET_RESOLUTION_X;
 		final float targetRatio = targetHeight / targetWidth;
 		final float sourceRatio = (float) height / (float) width;
-		this.scale = sourceRatio > targetRatio ? targetWidth / width : targetHeight / height;
+		final float scale = sourceRatio > targetRatio ? targetWidth / width : targetHeight / height;
 		gameSizeX = (int) Math.ceil(width * scale);
 		gameSizeY = (int) Math.ceil(height * scale);
 
@@ -177,10 +175,6 @@ public class PixelEscape extends Game {
 		setScreen(new MainMenuScreen(this));
 	}
 
-	public float getScale() {
-		return scale;
-	}
-
 	public float getScaledMouseX() {
 		final float scale = (float) gameSizeX / Gdx.graphics.getWidth();
 		return Gdx.input.getX() * scale;
@@ -189,14 +183,6 @@ public class PixelEscape extends Game {
 	public float getScaledMouseY() {
 		final float scale = (float) gameSizeY / Gdx.graphics.getHeight();
 		return Gdx.input.getY() * scale;
-	}
-
-	public float convertToScaled(float f) {
-		return f * getScale();
-	}
-
-	public float convertToUnscaled(float f) {
-		return f / getScale();
 	}
 
 	/**

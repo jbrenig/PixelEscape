@@ -81,12 +81,12 @@ public class AbilityWidget extends Button {
 			if (player.getCooldownRemaining() != 0) {
 				animCounter = ANIM_DURATION;
 				gameScreen.game.getRenderManager().setColor(0.7F, 0.7F, 1, 0.4F);
-				gameScreen.game.getRenderManager().rect(getX() + itemFrame, getY() + itemFrame, getWidth() - itemFrame * 2, (getHeight() - itemFrame * 2) * player.getCooldownRemainingScaled());
+				gameScreen.game.getRenderManager().rect(batch, getX() + itemFrame, getY() + itemFrame, getWidth() - itemFrame * 2, (getHeight() - itemFrame * 2) * player.getCooldownRemainingScaled());
 			} else if (animCounter > 0) {
 				animCounter -= Gdx.graphics.getDeltaTime();
 				final float alpha = Utils.easeInAndOut(animCounter, ANIM_DURATION) * 0.7F;
 				gameScreen.game.getRenderManager().setColor(1, 1, 1, alpha);
-				gameScreen.game.getRenderManager().rect(getX() + itemFrame, getY() + itemFrame, getWidth() - itemFrame * 2, getHeight() - itemFrame * 2);
+				gameScreen.game.getRenderManager().rect(batch, getX() + itemFrame, getY() + itemFrame, getWidth() - itemFrame * 2, getHeight() - itemFrame * 2);
 			}
 		}
 	}

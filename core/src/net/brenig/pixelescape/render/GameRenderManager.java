@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -236,6 +237,17 @@ public class GameRenderManager implements Disposable {
 		setFontScale(size);
 		getFont().setColor(color);
 		getFont().draw(batch, text, x, y);
+	}
+
+
+	/**
+	 * draws a filled Rectangle at the given position and size using the specified batch
+	 *
+	 * note: the batch has to be initialized and in the correct state
+	 */
+	public void rect(Batch batch, float x, float y, float width, float height) {
+		squareDrawable.setBounds(x, y, width, height);
+		squareDrawable.draw(batch);
 	}
 
 	/**

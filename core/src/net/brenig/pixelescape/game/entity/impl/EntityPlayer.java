@@ -331,11 +331,11 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	}
 
 	/**
-	 * sets the currently available ability
+	 * sets the currently available ability, amount of uses will increase, should the player already have this ability
 	 * @param ability new ability
 	 * @param uses amount of times the player can use this ability (-1 for unlimited uses)
 	 */
-	public void setCurrentAbility(Ability ability, int uses) {
+	public void addAbility(Ability ability, int uses) {
 		if (this.currentAbility == ability) {
 			if(uses > 0) {
 				this.remaingAbilityUses += uses;

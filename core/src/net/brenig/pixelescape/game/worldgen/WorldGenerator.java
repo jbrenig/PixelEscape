@@ -28,6 +28,7 @@ public class WorldGenerator {
     private final WeightedList<ITerrainGenerator> terrainGenerators = new WeightedList<ITerrainGenerator>();
 
     private List<ISpecialWorldGenerator> specialGenerators = new ArrayList<ISpecialWorldGenerator>();
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     private List<IScoreWorldFeature> specialPredefinedGenerators = new ArrayList<IScoreWorldFeature>();
 
 	////////////////////////////////////////////////

@@ -11,7 +11,7 @@ import net.brenig.pixelescape.render.WorldRenderer;
 /**
  * default implementation of a {@link PlayerMovementController}, standart behaviour
  *
- * @see net.brenig.pixelescape.game.gamemode.GameModeClassic
+ * @see GameMode#CLASSIC
  */
 public class DefaultMovementController implements PlayerMovementController {
 	private boolean lastTouched = false;

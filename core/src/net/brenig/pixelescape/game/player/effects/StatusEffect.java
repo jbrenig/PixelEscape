@@ -52,7 +52,7 @@ public abstract class StatusEffect {
 	 * <p>
 	 *     used for rendering remaining duration
 	 * </p>
-	 * @param renderer
+	 * @param renderer current renderer instance
 	 */
 	public void updateRenderColor(GameRenderManager renderer) {}
 }

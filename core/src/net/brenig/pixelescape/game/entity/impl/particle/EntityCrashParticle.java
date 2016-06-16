@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.data.GameMode;
-import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.WorldRenderer;

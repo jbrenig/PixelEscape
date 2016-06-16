@@ -44,9 +44,6 @@ public class EntityPoolManager {
 		Pools.freeAll(objects, samePool);
 	}
 
-	public void allocateObjects(Class<? extends Entity> type, int amount) {
-	}
-
 	/**
 	 * Frees an object.
 	 * @see Pools#free(Object)

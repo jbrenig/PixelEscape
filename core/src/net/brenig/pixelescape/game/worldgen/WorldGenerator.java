@@ -60,32 +60,34 @@ public class WorldGenerator {
      * @param random           world random-generator
      */
     public void generateWorld(int blockToGenerate, int generationPasses, Random random) {
-        //Init available terrain gen list
-        WeightedList<ITerrainGenerator> gens = terrainGenerators.createCopy();
+	    if(blockToGenerate > 0) {
+		    //Init available terrain gen list
+		    WeightedList<ITerrainGenerator> gens = terrainGenerators.createCopy();
 
-        while (generationPasses > 0 && blockToGenerate > 0) {
-            //get last terrain
-            TerrainPair lastGeneratedTerrainPair = world.getTerrain().getNewest();
-            if (lastGeneratedTerrainPair == null) {
-                lastGeneratedTerrainPair = new TerrainPair(Reference.STARTING_TERRAIN_HEIGHT, Reference.STARTING_TERRAIN_HEIGHT);
-            }
+		    while (generationPasses > 0 && blockToGenerate > 0) {
+			    //get last terrain
+			    TerrainPair lastGeneratedTerrainPair = world.getTerrain().getNewest();
+			    if (lastGeneratedTerrainPair == null) {
+				    lastGeneratedTerrainPair = new TerrainPair(Reference.STARTING_TERRAIN_HEIGHT, Reference.STARTING_TERRAIN_HEIGHT);
+			    }
 
-            int oldTerrainBufferIndexStart = world.terrainBufferWorldIndex;
-	        ITerrainGenerator gen = gens.getRandomValueWithFilter(random, new WorldGenFilter(lastGeneratedTerrainPair, blockToGenerate));
-	        if(gen == null) {
-		        //no applicable generators left
-		        break;
-	        }
-            int generated = gen.generate(world, lastGeneratedTerrainPair, blockToGenerate, world.getTerrainBufferWorldIndex(), random);
-            blockToGenerate -= generated;
-            generationPasses--;
-            if (blockToGenerate < 0) {
-                LogHelper.error("Invalid World Gen!! Generator ignoring MAX! Generator: " + gen);
-            }
-            if ((oldTerrainBufferIndexStart + generated) != world.terrainBufferWorldIndex) {
-                LogHelper.error("Invalid World Gen!! Generator returnvalue invalid! Generator: " + gen + "; generated: " + generated + "; lastGen: " + oldTerrainBufferIndexStart + "; currentGen: " + world.terrainBufferWorldIndex);
-            }
-        }
+			    int oldTerrainBufferIndexStart = world.terrainBufferWorldIndex;
+			    ITerrainGenerator gen = gens.getRandomValueWithFilter(random, new WorldGenFilter(lastGeneratedTerrainPair, blockToGenerate));
+			    if (gen == null) {
+				    //no applicable generators left
+				    break;
+			    }
+			    int generated = gen.generate(world, lastGeneratedTerrainPair, blockToGenerate, world.getTerrainBufferWorldIndex(), random);
+			    blockToGenerate -= generated;
+			    generationPasses--;
+			    if (blockToGenerate < 0) {
+				    LogHelper.error("Invalid World Gen!! Generator ignoring MAX! Generator: " + gen);
+			    }
+			    if ((oldTerrainBufferIndexStart + generated) != world.terrainBufferWorldIndex) {
+				    LogHelper.error("Invalid World Gen!! Generator returnvalue invalid! Generator: " + gen + "; generated: " + generated + "; lastGen: " + oldTerrainBufferIndexStart + "; currentGen: " + world.terrainBufferWorldIndex);
+			    }
+		    }
+	    }
 	    for(ISpecialWorldGenerator gen : specialGenerators) {
 		    gen.generate(this, world, random, gameMode);
 	    }

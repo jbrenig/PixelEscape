@@ -97,7 +97,15 @@ public abstract class Entity implements Pool.Poolable {
 	@SuppressWarnings("EmptyMethod")
 	public boolean update(float delta, InputManager inputManager, GameMode gameMode) {return false;}
 
-	public abstract boolean isDead();
+	/**
+	 * checks whether the entity is dead (--> should be removed from the world)
+	 * <br/>
+	 * default implementation checks if the entities right edge left the screen (to the left)
+	 * @return true if the entity should not be used anymore, and is ready to be removed
+	 */
+	public boolean isDead() {
+		return getMaxX() < world.getCurrentScreenStart();
+	}
 
 	@SuppressWarnings("EmptyMethod")
 	public void removeEntityOnDeath() {

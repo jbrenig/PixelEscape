@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.game.entity.EntityPoolManager;
+import net.brenig.pixelescape.game.entity.impl.EntityHighscore;
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
 import net.brenig.pixelescape.game.worldgen.TerrainPair;
 import net.brenig.pixelescape.game.worldgen.WorldGenerator;
@@ -345,6 +346,11 @@ public class World {
 
 		//respawn player entity
 		spawnEntityDo(player);
+		if(screen.game.gameSettings.showHighScoreInWorld()) {
+			final EntityHighscore entityHighscore = createEntity(EntityHighscore.class);
+			entityHighscore.init();
+			spawnEntityDo(entityHighscore);
+		}
 
 		//Reset world gen
 		worldGenerator.reset();

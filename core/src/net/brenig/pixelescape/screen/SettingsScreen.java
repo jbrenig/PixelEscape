@@ -3,6 +3,7 @@ package net.brenig.pixelescape.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -44,6 +45,7 @@ public class SettingsScreen extends PixelScreen {
 		uiLayout.padTop(30).padBottom(20);
 
 		Label header = new Label("Settings", game.getSkin());
+		header.setTouchable(Touchable.disabled);
 		header.setHeight(150);
 		header.setScale(2);
 

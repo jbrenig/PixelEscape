@@ -21,11 +21,11 @@ import net.brenig.pixelescape.game.worldgen.TerrainPair;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.WorldRenderer;
-import net.brenig.pixelescape.render.overlay.CountDownOverlay;
 import net.brenig.pixelescape.render.overlay.EmptyOverlay;
 import net.brenig.pixelescape.render.overlay.GameOverOverlay;
 import net.brenig.pixelescape.render.overlay.GamePausedOverlay;
 import net.brenig.pixelescape.render.overlay.Overlay;
+import net.brenig.pixelescape.render.overlay.TutorialOverlay;
 import net.brenig.pixelescape.render.ui.general.HorizontalSpacer;
 import net.brenig.pixelescape.render.ui.general.VerticalSpacer;
 import net.brenig.pixelescape.render.ui.ingame.AbilityWidget;
@@ -237,7 +237,8 @@ public class GameScreen extends PixelScreen {
 	 */
 	private void init() {
 		firstUpdate = false;
-		setOverlay(new CountDownOverlay(this));
+//		setOverlay(new CountDownOverlay(this));
+		setOverlay(new TutorialOverlay(this));
 		world.generateWorld(true);
 		world.spawnEntities();
 	}

@@ -1,5 +1,7 @@
 package net.brenig.pixelescape.render.overlay;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.ui.ingame.StageManagerGame;
 import net.brenig.pixelescape.screen.GameScreen;
@@ -41,5 +43,9 @@ public abstract class OverlayWithUi extends Overlay {
 	@Override
 	public boolean shouldHideGameUI() {
 		return true;
+	}
+
+	protected Skin getSkin() {
+		return screen.game.getSkin();
 	}
 }

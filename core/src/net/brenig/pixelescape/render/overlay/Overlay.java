@@ -1,8 +1,5 @@
 package net.brenig.pixelescape.render.overlay;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-
 import net.brenig.pixelescape.screen.GameScreen;
 
 /**
@@ -110,12 +107,9 @@ public abstract class Overlay {
 	 * Renders a coloured overlay in the given color
 	 */
 	protected void renderScreenTint(float r, float g, float b, float a) {
-		screen.game.getRenderManager().beginFilledShape();
-		Gdx.gl.glEnable(GL20.GL_BLEND);
-		screen.game.getShapeRenderer().setColor(r, g, b, a);
-		screen.game.getShapeRenderer().rect(0, 0, screen.game.gameSizeX, screen.game.gameSizeY);
-//		screen.game.getShapeRenderer().end();
-//		Gdx.gl.glDisable(GL20.GL_BLEND);
+		screen.game.getRenderManager().begin();
+		screen.game.getRenderManager().setColor(r, g, b, a);
+		screen.game.getRenderManager().rect(0, 0, screen.game.gameSizeX, screen.game.gameSizeY);
 	}
 
 	/**

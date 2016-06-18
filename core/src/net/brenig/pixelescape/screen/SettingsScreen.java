@@ -118,6 +118,23 @@ public class SettingsScreen extends PixelScreen {
 			uiLayout.row();
 		}
 
+		//Highscore in world
+		{
+			CheckBox chbx = new CheckBox("Show Highscore in world", game.getSkin());
+			chbx.setChecked(game.gameSettings.showHighScoreInWorld());
+			chbx.addListener(new ChangeListener() {
+				@Override
+				public void changed(ChangeEvent event, Actor actor) {
+					game.gameSettings.setShowHighScoreInWorld (((CheckBox) actor).isChecked());
+				}
+			});
+			chbx.getImageCell().padBottom(8).padRight(10).size(32);
+			chbx.getLabel().setFontScale(0.7F);
+
+			uiLayout.add(chbx).fillX().padBottom(20);
+			uiLayout.row();
+		}
+
 		//Reset Scores
 		{
 			TextButton button = new TextButton("Reset Scores...", game.getSkin());

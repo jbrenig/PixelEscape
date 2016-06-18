@@ -119,6 +119,8 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 		screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
 
 		animationProgress += delta;
+
+		super.render(delta);
 	}
 
 	@Override

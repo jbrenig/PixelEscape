@@ -4,11 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -26,10 +28,26 @@ public class GameRenderManager implements Disposable {
 
 	private OrthographicCamera camera;
 
-	private ShapeRenderer shapeRenderer;
 	private SpriteBatch batch;
 
 	private GameAssets gameAssets;
+
+
+	/**
+	 * basic square texture for easy access
+	 */
+	private TextureRegion square;
+
+
+	/**
+	 * current color (for drawing rects, etc.)
+	 */
+	private Color color = Color.BLACK;
+
+	/**
+	 * current colored square texture
+	 */
+	private Sprite squareDrawable;
 
 	public GameRenderManager() {
 		//initialize viewport
@@ -39,6 +57,9 @@ public class GameRenderManager implements Disposable {
 
 	public void setGameAssets(GameAssets gameAssets) {
 		this.gameAssets = gameAssets;
+		this.square = gameAssets.getSquare();
+		this.squareDrawable = new Sprite(square);
+		this.squareDrawable.setColor(color);
 	}
 
 	/**
@@ -51,9 +72,6 @@ public class GameRenderManager implements Disposable {
 		//initialize drawing area
 		batch = new SpriteBatch();
 		batch.setProjectionMatrix(camera.combined);
-
-		shapeRenderer = new ShapeRenderer();
-		shapeRenderer.setProjectionMatrix(camera.combined);
 
 		state = State.READY;
 	}
@@ -75,7 +93,6 @@ public class GameRenderManager implements Disposable {
 	public void onResize(float gameSizeX, float gameSizeY) {
 		camera.setToOrtho(false, gameSizeX, gameSizeY);
 		batch.setProjectionMatrix(camera.combined);
-		shapeRenderer.setProjectionMatrix(camera.combined);
 		camera.update();
 	}
 
@@ -87,10 +104,6 @@ public class GameRenderManager implements Disposable {
 		return batch;
 	}
 
-	public ShapeRenderer getShapeRenderer() {
-		return shapeRenderer;
-	}
-
 	public BitmapFont getFont() {
 		return gameAssets.getFont();
 	}
@@ -98,7 +111,6 @@ public class GameRenderManager implements Disposable {
 	@Override
 	public void dispose() {
 		state = State.INVALID;
-		shapeRenderer.dispose();
 		batch.dispose();
 	}
 
@@ -110,32 +122,6 @@ public class GameRenderManager implements Disposable {
 			end();
 			batch.begin();
 			state = State.BATCH;
-		}
-	}
-
-	/**
-	 * initialized shaperenderer for drawing filled shapes
-	 */
-	public void beginFilledShape() {
-		if(state != State.SHAPE_FILLED) {
-			end();
-			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-			state = State.SHAPE_FILLED;
-		}
-	}
-
-	/**
-	 * initialized shaperenderer for drawing
-	 * @param type shapetype
-	 */
-	public void beginShape(ShapeRenderer.ShapeType type) {
-		if(state != State.SHAPE_OTHER) {
-			end();
-			shapeRenderer.begin(type);
-			state = State.SHAPE_OTHER;
-		} else if(shapeRenderer.getCurrentType() != type) {
-			shapeRenderer.end();
-			shapeRenderer.begin(type);
 		}
 	}
 
@@ -170,10 +156,6 @@ public class GameRenderManager implements Disposable {
 			case BATCH:
 				batch.end();
 				break;
-			case SHAPE_FILLED:
-			case SHAPE_OTHER:
-				shapeRenderer.end();
-				break;
 			case INVALID:
 				LogHelper.warn("RenderManager in invalid state. Initializing...");
 				prepareRender();
@@ -182,9 +164,6 @@ public class GameRenderManager implements Disposable {
 				LogHelper.error("RenderManager in unknown state!");
 				if(batch.isDrawing()) {
 					batch.end();
-					break;
-				} else if(shapeRenderer.isDrawing()) {
-					shapeRenderer.end();
 					break;
 				} else {
 					LogHelper.error("Unable to reconstruct state!!");
@@ -260,16 +239,90 @@ public class GameRenderManager implements Disposable {
 		getFont().draw(batch, text, x, y);
 	}
 
+
 	/**
-	 * draws a Rectangle at the given position and size
+	 * draws a filled Rectangle at the given position and size using the specified batch
 	 *
-	 * note: the renderer has to be initialized and in the correct state
+	 * note: the batch has to be initialized and in the correct state
+	 */
+	public void rect(Batch batch, float x, float y, float width, float height) {
+		squareDrawable.setBounds(x, y, width, height);
+		squareDrawable.draw(batch);
+	}
+
+	/**
+	 * draws a filled Rectangle at the given position and size
+	 *
+	 * note: the renderer has to be initialized and in the correct state {@link State#BATCH}
+	 */
+	public void rect(float x, float y, float width, float height, Color color) {
+		setColor(color);
+		rect(x, y, width, height);
+	}
+
+	/**
+	 * draws a filled Rectangle at the given position and size
+	 *
+	 * note: the renderer has to be initialized and in the correct state {@link State#BATCH}
 	 */
 	public void rect(float x, float y, float width, float height) {
-		shapeRenderer.rect(x, y, width, height);
+		squareDrawable.setBounds(x, y, width, height);
+		squareDrawable.draw(batch);
+	}
+
+
+	/**
+	 * draws a filled line at the given position and size
+	 *
+	 * note: the renderer has to be initialized and in the correct state {@link State#BATCH}
+	 */
+	public void line(float x1, float y1, float x2, float y2, int thickness, Color color) {
+		setColor(color);
+		line(x1, y1, x2, y2, thickness);
+	}
+
+	/**
+	 * draws a filled line at the given position and size
+	 *
+	 * note: the renderer has to be initialized and in the correct state {@link State#BATCH}
+	 */
+	public void line(float x1, float y1, float x2, float y2, int thickness) {
+		float dx = x2-x1;
+		float dy = y2-y1;
+		float dist = (float)Math.sqrt(dx*dx + dy*dy);
+		float rad = (float)Math.atan2(dy, dx);
+		squareDrawable.setBounds(x1, y1, dist, thickness);
+		squareDrawable.setRotation(rad * MathUtils.radiansToDegrees);
+		squareDrawable.draw(batch);
+		squareDrawable.setRotation(0);
+	}
+
+	/**
+	 * sets the current color to draw basic shapes in (when not using {@link ShapeRenderer}
+	 */
+	public void setColor(Color color) {
+		if(this.color != color) {
+			squareDrawable.setColor(color);
+			this.color = color;
+		}
+	}
+
+	/**
+	 * sets the current color to draw basic shapes in (when not using {@link ShapeRenderer}
+	 */
+	public void setColor(float r, float g, float b, float a) {
+		setColor(new Color(r, g, b, a));
+	}
+
+	public void enableBlending() {
+		batch.enableBlending();
+	}
+
+	public void disableBlending() {
+		batch.disableBlending();
 	}
 
 	public enum State {
-		READY, BATCH, SHAPE_FILLED, SHAPE_OTHER, UNKNOWN, INVALID
+		READY, BATCH, INVALID
 	}
 }

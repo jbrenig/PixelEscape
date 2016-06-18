@@ -1,8 +1,7 @@
 package net.brenig.pixelescape.game.player.effects;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
+import net.brenig.pixelescape.render.GameRenderManager;
 
 /**
  * Base class for status effects that have a timer
@@ -34,7 +33,7 @@ public abstract class StatusEffectTimed extends StatusEffect {
 	}
 
 	@Override
-	public void updateRenderColor(ShapeRenderer renderer) {
-		renderer.setColor(0.4F, 0.4F, 0.4F, 0);
+	public void updateRenderColor(GameRenderManager renderer) {
+		renderer.setColor(0.4F, 0.4F, 0.4F, 1);
 	}
 }

@@ -53,7 +53,7 @@ public abstract class Ability implements Item {
 	 */
 	@Override
 	public boolean onCollect(EntityPlayer player) {
-		player.setCurrentAbility(this, 1);
+		player.addAbility(this, 1);
 		return true;
 	}
 

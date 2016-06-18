@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 
 import net.brenig.pixelescape.PixelEscape;
-import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.lib.Utils;
@@ -24,10 +23,6 @@ public class EntityFadingText extends Entity {
 	private float color_g = 0;
 	private float color_b = 0;
 
-
-	public EntityFadingText(World world) {
-		super(world);
-	}
 
 
 	public void setColor(float color_r, float color_g, float color_b) {

@@ -1,12 +1,9 @@
 package net.brenig.pixelescape.game.entity.impl.particle;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.data.GameMode;
-import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.render.WorldRenderer;
@@ -28,10 +25,6 @@ public class EntityFadingParticle extends Entity {
 	private float color_r = 0;
 	private float color_g = 0;
 	private float color_b = 0;
-
-	public EntityFadingParticle(World world) {
-		super(world);
-	}
 
 	public void setColor(float color_r, float color_g, float color_b) {
 		this.color_r = color_r;
@@ -73,9 +66,8 @@ public class EntityFadingParticle extends Entity {
 
 		float currentAlpha = 1 - Utils.easeInAndOut(fadeTimePassed, fadeDuration);
 
-		game.getRenderManager().beginFilledShape();
-		Gdx.gl.glEnable(GL20.GL_BLEND);
-		game.getShapeRenderer().setColor(color_r, color_g, color_b, currentAlpha);
+		game.getRenderManager().begin();
+		game.getRenderManager().setColor(color_r, color_g, color_b, currentAlpha);
 		renderer.renderRectWorld(xPos - radius, yPos - radius, size, size);
 	}
 

@@ -8,8 +8,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import net.brenig.pixelescape.game.data.GameAssets;
@@ -46,8 +44,6 @@ public class PixelEscape extends Game {
 
 	public int gameSizeX = Reference.TARGET_RESOLUTION_X;
 	public int gameSizeY = Reference.GAME_RESOLUTION_Y + Reference.GAME_UI_Y_SIZE;
-	private float scale = 1.0F;
-
 
 	public PixelEscape() {
 		//set default config
@@ -98,16 +94,6 @@ public class PixelEscape extends Game {
 		return instance;
 	}
 
-	@Deprecated
-	public void renderTextureRegion(TextureRegion region, float x, float y) {
-		getBatch().draw(region, x, y);
-	}
-
-	@Deprecated
-	public void renderTextureRegion(TextureRegion region, float x, float y, float width, float height) {
-		getBatch().draw(region, x, y, width, height);
-	}
-
 	public GameAssets getGameAssets() {
 		return gameAssets;
 	}
@@ -133,20 +119,10 @@ public class PixelEscape extends Game {
 		renderManager.end();
 	}
 
-//	private void prepareRender() {
-//		Gdx.gl.glClearColor(1, 1, 1, 1);
-//		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//
-//		// tell the camera to update its matrices.
-//		cam.update();
-//	}
-
 	@Override
 	public void dispose() {
 		gameSettings.saveToDisk();
 		userData.saveToDisk();
-//		batch.dispose();
-//		shapeRenderer.dispose();
 		renderManager.dispose();
 		gameAssets.disposeAll();
 		assetsLoaded = false;
@@ -184,7 +160,7 @@ public class PixelEscape extends Game {
 		final float targetWidth = Reference.TARGET_RESOLUTION_X;
 		final float targetRatio = targetHeight / targetWidth;
 		final float sourceRatio = (float) height / (float) width;
-		this.scale = sourceRatio > targetRatio ? targetWidth / width : targetHeight / height;
+		final float scale = sourceRatio > targetRatio ? targetWidth / width : targetHeight / height;
 		gameSizeX = (int) Math.ceil(width * scale);
 		gameSizeY = (int) Math.ceil(height * scale);
 
@@ -199,10 +175,6 @@ public class PixelEscape extends Game {
 		setScreen(new MainMenuScreen(this));
 	}
 
-	public float getScale() {
-		return scale;
-	}
-
 	public float getScaledMouseX() {
 		final float scale = (float) gameSizeX / Gdx.graphics.getWidth();
 		return Gdx.input.getX() * scale;
@@ -211,14 +183,6 @@ public class PixelEscape extends Game {
 	public float getScaledMouseY() {
 		final float scale = (float) gameSizeY / Gdx.graphics.getHeight();
 		return Gdx.input.getY() * scale;
-	}
-
-	public float convertToScaled(float f) {
-		return f * getScale();
-	}
-
-	public float convertToUnscaled(float f) {
-		return f / getScale();
 	}
 
 	/**
@@ -269,19 +233,15 @@ public class PixelEscape extends Game {
 	}
 
 	/**
-	 * Main ShapeRenderer
-	 */
-	public ShapeRenderer getShapeRenderer() {
-		return renderManager.getShapeRenderer();
-	}
-
-	/**
 	 * Main Sprite Batch
 	 */
 	public SpriteBatch getBatch() {
 		return renderManager.getBatch();
 	}
 
+	/**
+	 * @return Game Renderer
+	 */
 	public GameRenderManager getRenderManager() {
 		return renderManager;
 	}

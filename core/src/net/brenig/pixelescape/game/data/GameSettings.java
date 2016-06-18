@@ -17,6 +17,7 @@ public class GameSettings {
 		public static final String musicVolume = "VOLUME_MUSIC";
 		public static final String soundVolume = "VOLUME_SOUND";
 		public static final String shortCountdown = "SHORT_COUNTDOWN";
+		public static final String highscoreInWorld = "HIGHSCORE_INWORLD";
 	}
 
 	private static final class Defaults {
@@ -25,6 +26,7 @@ public class GameSettings {
 		private static final float musicVolume = 0.5F;
 		private static final float soundVolume = 0.5F;
 		private static final boolean shortCountdown = false;
+		private static final boolean highscoreInWorld = true;
 	}
 
 	private static final String PREF_MAIN_SETTINGS = "PixelEscape_User_Preferences";
@@ -91,4 +93,12 @@ public class GameSettings {
 		prefs.putBoolean(Keys.shortCountdown, countdownEnabled);
 	}
 
+
+	public boolean showHighScoreInWorld() {
+		return prefs.getBoolean(Keys.highscoreInWorld, Defaults.highscoreInWorld);
+	}
+
+	public void setShowHighScoreInWorld(boolean b) {
+		prefs.putBoolean(Keys.highscoreInWorld, b);
+	}
 }

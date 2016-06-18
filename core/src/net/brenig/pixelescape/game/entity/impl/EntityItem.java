@@ -4,9 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 
 import net.brenig.pixelescape.PixelEscape;
-import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.game.InputManager;
-import net.brenig.pixelescape.game.World;
+import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.render.WorldRenderer;
@@ -28,10 +27,6 @@ public class EntityItem extends Entity {
 	private net.brenig.pixelescape.game.player.Item item;
 
 	private boolean isDead = false;
-
-	public EntityItem(World world) {
-		super(world);
-	}
 
 	@Override
 	public float getMinX() {

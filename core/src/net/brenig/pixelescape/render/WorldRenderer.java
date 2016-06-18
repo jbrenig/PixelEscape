@@ -123,9 +123,16 @@ public class WorldRenderer {
 		moveScreen(delta);
 		currentTotalXOffset = xOffset + screenShakeX;
 		currentTotalYOffset = rendererYOffset + screenShakeY;
+		renderWorldBackground();
 		renderEntitiesBackground(delta);
 		renderWorld();
 		renderEntities(delta);
+	}
+
+	/**
+	 * renders terrain background
+	 */
+	private void renderWorldBackground() {
 	}
 
 	/**
@@ -150,12 +157,14 @@ public class WorldRenderer {
 	 * renders terrain
 	 */
 	private void renderWorld() {
-		game.getRenderManager().beginFilledShape();
-		game.getRenderManager().getShapeRenderer().setColor(0, 0, 0, 1);
+		game.getRenderManager().disableBlending();
+		game.getRenderManager().begin();
+		game.getRenderManager().setColor(0, 0, 0, 1);
 
 		for (int index = world.getCameraLeftLocalIndex(); index < world.getCameraRightLocalIndex() + 1; index++) {
 			world.getTerrainPairForIndex(index).render(game, world, currentTotalXOffset + getBlockPositionFromLocalIndex(index), rendererYOffset, screenShakeY, Gdx.graphics.getDeltaTime());
 		}
+		game.getRenderManager().enableBlending();
 	}
 
 	/**
@@ -164,7 +173,7 @@ public class WorldRenderer {
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderRect(float x, float y, float width, float height) {
-		game.getRenderManager().getShapeRenderer().rect(currentTotalXOffset + x, currentTotalYOffset + y, width, height);
+		game.getRenderManager().rect(currentTotalXOffset + x, currentTotalYOffset + y, width, height);
 	}
 
 	/**

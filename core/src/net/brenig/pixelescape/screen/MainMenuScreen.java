@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.data.GameMode;
+import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.render.ui.CurrentHighscoreLabel;
 import net.brenig.pixelescape.render.ui.general.HorizontalSpacer;
@@ -43,7 +44,6 @@ public class MainMenuScreen extends PixelScreen {
 		//Setting up stage
 		uiStage = new StageManager(game.getRenderManager());
 
-		game.getRenderManager().resetFontSize();
 
 		//Settings Button Panel
 		buttonPanelLayout = Utils.createUIHeadLayout(game);
@@ -75,6 +75,7 @@ public class MainMenuScreen extends PixelScreen {
 		//PixelEscape Heading
 		Label header = new Label("PixelEscape", game.getSkin());
 		header.setHeight(150);
+		header.setFontScale(1.0F);
 
 		centerTable.padTop(0);
 		centerTable.add(header);
@@ -86,7 +87,7 @@ public class MainMenuScreen extends PixelScreen {
 		//init gamemodes
 		for(GameMode mode : game.gameConfig.getAvailbleGameModes()) {
 			Image gameModeImageArcade = new Image(mode.createIcon(game.getGameAssets()));
-			gameModeImageArcade.setRotation(5);
+//			gameModeImageArcade.setRotation(5);
 			gmImageStack.add(gameModeImageArcade);
 		}
 
@@ -110,6 +111,7 @@ public class MainMenuScreen extends PixelScreen {
 				game.setScreen(new GameScreen(game, getGameMode()));
 			}
 		});
+		btnStart.getLabel().setFontScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 		centerButtons.add(btnStart).padBottom(40).fillX();
 
 		//Quit Button
@@ -121,6 +123,7 @@ public class MainMenuScreen extends PixelScreen {
 					Gdx.app.exit();
 				}
 			});
+			btnQuit.getLabel().setFontScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 			centerButtons.row();
 			centerButtons.add(btnQuit).fillX();
 		}

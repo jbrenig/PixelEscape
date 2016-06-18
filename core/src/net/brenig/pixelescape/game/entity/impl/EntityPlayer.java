@@ -62,12 +62,12 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	private Set<StatusEffect> effects = new HashSet<StatusEffect>();
 
 	public EntityPlayer(World world, GameMode gameMode) {
-		super(world);
 		movementController = gameMode.createPlayerMovementController();
 		for (int i = 0; i < pathEntities.length; i++) {
 			pathEntities[i] = new PlayerPathEntity(yPos, xPosScreen);
 		}
 		reset(gameMode);
+		setWorld(world);
 	}
 
 	@Override
@@ -296,13 +296,13 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 			return;
 		}
 
-		game.getRenderManager().beginFilledShape();
+		game.getRenderManager().begin();
 
 		// Draw Background color
 		if(immortal % 1F < 0.5F) {
-			game.getShapeRenderer().setColor(0, 0, 0, 1);
+			game.getRenderManager().setColor(0, 0, 0, 1);
 		} else {
-			game.getShapeRenderer().setColor(Color.LIGHT_GRAY);
+			game.getRenderManager().setColor(Color.LIGHT_GRAY);
 		}
 		renderer.renderRect(this.getXPosScreen() - this.getPlayerSize() / 2, this.getYPos() - this.getPlayerSize() / 2, this.getPlayerSize(), this.getPlayerSize());
 
@@ -313,6 +313,8 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		for (StatusEffect effect : effects) {
 			effect.render(game, renderer, this, delta);
 		}
+
+		movementController.renderForeground(game, renderer, world, delta);
 	}
 
 	@Override
@@ -329,11 +331,11 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	}
 
 	/**
-	 * sets the currently available ability
+	 * sets the currently available ability, amount of uses will increase, should the player already have this ability
 	 * @param ability new ability
 	 * @param uses amount of times the player can use this ability (-1 for unlimited uses)
 	 */
-	public void setCurrentAbility(Ability ability, int uses) {
+	public void addAbility(Ability ability, int uses) {
 		if (this.currentAbility == ability) {
 			if(uses > 0) {
 				this.remaingAbilityUses += uses;

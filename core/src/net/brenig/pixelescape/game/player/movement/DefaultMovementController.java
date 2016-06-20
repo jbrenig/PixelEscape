@@ -1,9 +1,15 @@
 package net.brenig.pixelescape.game.player.movement;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameMode;
+import net.brenig.pixelescape.game.data.constants.Textures;
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.WorldRenderer;
@@ -46,5 +52,32 @@ public class DefaultMovementController implements PlayerMovementController {
 	@Override
 	public void renderForeground(PixelEscape game, WorldRenderer renderer, World world, float delta) {
 
+	}
+
+	@Override
+	public Table createTutorialWindow(Skin skin) {
+		Table table = new Table(skin);
+		table.setBackground(Textures.BUTTON_UP);
+		table.defaults().padBottom(20);
+
+		Label lbl = new Label("Touch the screen to move up.", skin, "white");
+		lbl.setColor(Color.GREEN);
+		Label lbl2_1 = new Label("Gravity will make you", skin, "white");
+		lbl2_1.setColor(Color.RED);
+
+		Label lbl2_2 = new Label("CRASH", skin, "white");
+		lbl2_2.setColor(Color.RED);
+		lbl2_2.setFontScale(1.2F);
+
+		Label lbl2_3 = new Label("otherwise.", skin, "white");
+		lbl2_3.setColor(Color.RED);
+
+		table.add(lbl).center();
+		table.row();
+		table.add(lbl2_1).center();
+		table.row();
+		table.add(lbl2_2).center();
+		table.add(lbl2_3).center();
+		return table;
 	}
 }

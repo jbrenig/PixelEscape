@@ -1,6 +1,8 @@
 package net.brenig.pixelescape.game.player.movement;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
@@ -66,5 +68,11 @@ public class DragMovementController implements PlayerMovementController {
 		isTouched = false;
 		touchX = Float.MIN_VALUE;
 		touchY = Float.MIN_VALUE;
+	}
+
+	@Override
+	public Table createTutorialWindow(Skin skin) {
+		Table table = new Table();
+		return table;
 	}
 }

@@ -1,10 +1,16 @@
 package net.brenig.pixelescape.render.overlay;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.lib.Reference;
+import net.brenig.pixelescape.render.ui.general.HorizontalSpacer;
 import net.brenig.pixelescape.render.ui.general.SwipeTabbedStack;
+import net.brenig.pixelescape.render.ui.general.VerticalSpacer;
 import net.brenig.pixelescape.screen.GameScreen;
 
 /**
@@ -12,13 +18,19 @@ import net.brenig.pixelescape.screen.GameScreen;
  */
 public class TutorialOverlay extends OverlayWithUi {
 
-	public TutorialOverlay(GameScreen screen) {
+	public TutorialOverlay(final GameScreen screen) {
 		super(screen);
+
+		final GameMode gameMode = screen.getGameMode();
+
 		Table headLayout = stage.createHeadUiLayoutTable();
 		Table table = stage.createContentUiLayoutTable();
 		table.defaults().expand().fill();
 
-		SwipeTabbedStack stack = new SwipeTabbedStack();
+		final SwipeTabbedStack stack = new SwipeTabbedStack();
+		stack.setCycle(false);
+
+		stack.add(screen.world.getPlayer().getMovementController().createTutorialWindow(getSkin()));
 		stack.add(createButton("Test 1"));
 		stack.add(createButton("Test 2"));
 		stack.add(createButton("Test 3"));
@@ -28,6 +40,38 @@ public class TutorialOverlay extends OverlayWithUi {
 
 
 		table.add(stack).center().fill().expand();
+
+		Table controls = new Table();
+
+		Button buttonLeft =  new Button(getSkin(), "arrow_left");
+		buttonLeft.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if(stack.hasLastElement()) {
+					stack.last();
+				}
+			}
+		});
+		buttonLeft.padLeft(40).padRight(40);
+
+		Button buttonRight =  new Button(getSkin(), "arrow_right");
+		buttonRight.addListener(new ClickListener() {
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				if(stack.hasNextElement()) {
+					stack.next();
+				}
+			}
+		});
+		buttonRight.padLeft(40).padRight(40);
+
+		controls.add(buttonLeft).padLeft(40);
+		controls.add(new HorizontalSpacer());
+		controls.add(buttonRight).padRight(40);
+
+		table.add(new VerticalSpacer());
+		table.row();
+		table.add(controls);
 
 	}
 

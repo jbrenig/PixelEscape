@@ -556,4 +556,8 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	public void addBonusScore(int score) {
 		bonusScore += score;
 	}
+
+	public PlayerMovementController getMovementController() {
+		return movementController;
+	}
 }

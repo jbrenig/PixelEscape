@@ -26,6 +26,8 @@ public class SwipeTabbedStack extends Stack {
 	private final static int animationXOffset = 400;
 	private final static float animationDuration = 0.2F;
 
+	private boolean cycle = true;
+
 	public SwipeTabbedStack() {
 		super();
 		this.setTouchable(Touchable.enabled);
@@ -38,6 +40,7 @@ public class SwipeTabbedStack extends Stack {
 				actor.setPosition(currentOffsetX, actor.getY());
 				actor.getColor().a = 1 - Math.min(1, Math.abs(currentOffsetX) / animationXOffset);
 
+				//remove old element
 				if(oldOffsetX <= 0 && currentOffsetX > 0) {
 					final int nextElement = (currentElement + 1) % getChildren().size;
 					final Actor old = getChildren().get(nextElement);
@@ -47,26 +50,29 @@ public class SwipeTabbedStack extends Stack {
 					final Actor old = getChildren().get(nextElement);
 					old.setVisible(false);
 				}
-
 				if(currentOffsetX <= 0) {
-					final Actor next = setupNextElement();
-					final float pos = currentOffsetX + (getWidth() / 2F) + panXPadding;
-					next.setPosition(pos, next.getY());
-					next.getColor().a = 1 - Math.min(1, Math.abs(pos) / animationXOffset);
+					if(cycle || hasNextElement()) {
+						final Actor next = setupNextElement();
+						final float pos = currentOffsetX + (getWidth() / 2F) + panXPadding;
+						next.setPosition(pos, next.getY());
+						next.getColor().a = 1 - Math.min(1, Math.abs(pos) / animationXOffset);
+					}
 				} else {
-					final Actor next = setupLastElement();
-					final float pos = currentOffsetX - (getWidth() / 2F) - panXPadding;
-					next.setPosition(pos, next.getY());
-					next.getColor().a = 1 - Math.min(1, Math.abs(pos) / animationXOffset);
+					if(cycle || hasLastElement()) {
+						final Actor next = setupLastElement();
+						final float pos = currentOffsetX - (getWidth() / 2F) - panXPadding;
+						next.setPosition(pos, next.getY());
+						next.getColor().a = 1 - Math.min(1, Math.abs(pos) / animationXOffset);
+					}
 				}
 			}
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				if(currentOffsetX > panXOffset) {
+				if(currentOffsetX > panXOffset && (cycle || hasLastElement())) {
 					//swipe to last
 					last();
-				} else if(currentOffsetX < panXOffset * -1) {
+				} else if(currentOffsetX < panXOffset * -1 && (cycle || hasNextElement())) {
 					//swipe to next
 					next();
 				} else {
@@ -74,10 +80,10 @@ public class SwipeTabbedStack extends Stack {
 					Actor actor = getChildren().get(currentElement);
 					actor.addAction(Actions.parallel(Actions.moveTo(0, 0, animationDuration, Interpolation.pow2In), Actions.fadeIn(animationDuration)));
 
-					if(currentOffsetX <= 0) {
+					if(currentOffsetX <= 0 && (cycle || hasNextElement())) {
 						final Actor next = setupNextElement();
 						next.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(animationXOffset, 0, animationDuration, Interpolation.pow2In), Actions.fadeOut(animationDuration)), Actions.visible(false)));
-					} else {
+					} else if((cycle || hasLastElement())) {
 						final Actor next = setupLastElement();
 						next.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(-animationXOffset, 0, animationDuration, Interpolation.pow2In), Actions.fadeOut(animationDuration)), Actions.visible(false)));
 					}
@@ -87,10 +93,10 @@ public class SwipeTabbedStack extends Stack {
 
 			@Override
 			public void fling(InputEvent event, float velocityX, float velocityY, int button) {
-				if(velocityX > flingVelocity) {
+				if(velocityX > flingVelocity  && (cycle || hasLastElement())) {
 					last();
 					currentOffsetX = 0;
-				} else if(velocityX * -1 > flingVelocity) {
+				} else if(velocityX * -1 > flingVelocity && (cycle || hasNextElement())) {
 					next();
 					currentOffsetX = 0;
 				}
@@ -140,30 +146,51 @@ public class SwipeTabbedStack extends Stack {
 	 * cycles to the next element
 	 */
 	public void next() {
-		final int nextElement = (currentElement + 1) % getChildren().size;
-		final Actor next = setupNextElement();
-		next.addAction(Actions.parallel(Actions.moveTo(0, 0, animationDuration, Interpolation.pow2In), Actions.fadeIn(animationDuration)));
+		if(cycle || hasNextElement()) {
+			final int nextElement = (currentElement + 1) % getChildren().size;
+			final Actor next = setupNextElement();
+			next.addAction(Actions.parallel(Actions.moveTo(0, 0, animationDuration, Interpolation.pow2In), Actions.fadeIn(animationDuration)));
 
-		final Actor old = getChildren().get(currentElement);
-		old.clearActions();
-		old.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(-animationXOffset, 0, animationDuration, Interpolation.pow2In), Actions.fadeOut(animationDuration)), Actions.visible(false)));
+			final Actor old = getChildren().get(currentElement);
+			old.clearActions();
+			old.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(-animationXOffset, 0, animationDuration, Interpolation.pow2In), Actions.fadeOut(animationDuration)), Actions.visible(false)));
 
-		currentElement = nextElement;
+			currentElement = nextElement;
+		}
 	}
 
 	/**
 	 * cycles to the last element
 	 */
 	public void last() {
-		final int nextElement = (currentElement - 1 + getChildren().size) % getChildren().size;
-		final Actor next = setupLastElement();
-		next.addAction(Actions.parallel(Actions.moveTo(0, 0, animationDuration, Interpolation.pow2In), Actions.fadeIn(animationDuration)));
+		if(cycle || hasLastElement()) {
+			final int nextElement = (currentElement - 1 + getChildren().size) % getChildren().size;
+			final Actor next = setupLastElement();
+			next.addAction(Actions.parallel(Actions.moveTo(0, 0, animationDuration, Interpolation.pow2In), Actions.fadeIn(animationDuration)));
 
-		final Actor old = getChildren().get(currentElement);
-		old.clearActions();
-		old.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(animationXOffset, 0, animationDuration, Interpolation.pow2In), Actions.fadeOut(animationDuration)), Actions.visible(false)));
+			final Actor old = getChildren().get(currentElement);
+			old.clearActions();
+			old.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(animationXOffset, 0, animationDuration, Interpolation.pow2In), Actions.fadeOut(animationDuration)), Actions.visible(false)));
 
-		currentElement = nextElement;
+			currentElement = nextElement;
+		}
 	}
 
+	/**
+	 * @return true if the currently displayed element is not the first
+	 */
+	public boolean hasLastElement() {
+		return currentElement > 0;
+	}
+
+	/**
+	 * @return true if the currently displayed element is not the last
+	 */
+	public boolean hasNextElement() {
+		return currentElement < getChildren().size - 1;
+	}
+
+	public void setCycle(boolean cycle) {
+		this.cycle = cycle;
+	}
 }

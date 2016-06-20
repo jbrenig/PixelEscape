@@ -1,5 +1,8 @@
 package net.brenig.pixelescape.game.player.movement;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
@@ -47,4 +50,6 @@ public interface PlayerMovementController {
 	void renderBackground(PixelEscape game, WorldRenderer renderer, World world, float delta);
 
 	void renderForeground(PixelEscape game, WorldRenderer renderer, World world, float delta);
+
+	Table createTutorialWindow(Skin skin);
 }

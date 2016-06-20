@@ -1,6 +1,8 @@
 package net.brenig.pixelescape.game.player.movement;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
@@ -42,5 +44,11 @@ public class FlashMovementController implements PlayerMovementController {
 	@Override
 	public void renderForeground(PixelEscape game, WorldRenderer renderer, World world, float delta) {
 
+	}
+
+	@Override
+	public Table createTutorialWindow(Skin skin) {
+		Table table = new Table();
+		return table;
 	}
 }

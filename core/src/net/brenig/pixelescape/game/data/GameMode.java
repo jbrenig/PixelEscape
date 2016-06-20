@@ -33,6 +33,11 @@ public enum GameMode {
 			worldGenerator.addSpecialGenerator(new ItemGenerator(25000, 30000, 50000, 60000, new FilteredElementProvider.SingleElementProvider<Item>(EffectMove.ITEM)));
 			worldGenerator.addSpecialGenerator(new ItemGenerator(25000, 50000, 60000, 70000, new FilteredElementProvider.SingleElementProvider<Item>(ItemScoreDynamic.ITEM)));
 		}
+
+		@Override
+		public boolean itemsEnabled() {
+			return true;
+		}
 	},
 	SPEED("Speed", Names.SCOREBOARD_SPEED, "gamemode_speed", Reference.MAX_ENTITY_SPEED * 1.2F, Reference.STARTING_SPEED * 2, Reference.SPEED_MODIFIER * 3),
 	FLASH("Flash", Names.SCOREBOARD_FLASH, "gamemode_flash", Reference.MAX_ENTITY_SPEED * 1.4F, Reference.STARTING_SPEED * 4, Reference.SPEED_MODIFIER * 4) {
@@ -233,6 +238,13 @@ public enum GameMode {
 	 */
 	public int getStartingAbilityUses() {
 		return startingAbilityUses;
+	}
+
+	/**
+	 * @return whether items are enabled (used for tutorial)
+	 */
+	public boolean itemsEnabled() {
+		return false;
 	}
 
 

@@ -1,6 +1,6 @@
 package net.brenig.pixelescape.game.data.constants;
 
-public class SkinTypes {
+public class StyleNames {
 
 	public static final String DEFAULT = "default";
 

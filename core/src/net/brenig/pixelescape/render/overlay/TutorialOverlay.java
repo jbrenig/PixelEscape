@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import net.brenig.pixelescape.game.data.GameMode;
+import net.brenig.pixelescape.game.data.constants.StyleNames;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.ui.general.HorizontalSpacer;
 import net.brenig.pixelescape.render.ui.general.SwipeTabbedStack;
@@ -39,11 +40,11 @@ public class TutorialOverlay extends OverlayWithUi {
 		stack.add(createButton("Test 6"));
 
 
-		table.add(stack).center().fill().expand();
+		table.add(stack).center().fill().expand().pad(20);
 
 		Table controls = new Table();
 
-		Button buttonLeft =  new Button(getSkin(), "arrow_left");
+		Button buttonLeft =  new Button(getSkin(), StyleNames.BUTTON_ARROW_LEFT);
 		buttonLeft.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -54,7 +55,7 @@ public class TutorialOverlay extends OverlayWithUi {
 		});
 		buttonLeft.padLeft(40).padRight(40);
 
-		Button buttonRight =  new Button(getSkin(), "arrow_right");
+		Button buttonRight =  new Button(getSkin(), StyleNames.BUTTON_ARROW_RIGHT);
 		buttonRight.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {

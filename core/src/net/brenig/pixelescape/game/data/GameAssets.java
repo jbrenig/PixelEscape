@@ -23,7 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
-import net.brenig.pixelescape.game.data.constants.SkinTypes;
+import net.brenig.pixelescape.game.data.constants.StyleNames;
 import net.brenig.pixelescape.game.data.constants.Textures;
 import net.brenig.pixelescape.render.SimpleAnimation;
 import net.brenig.pixelescape.render.ui.general.TwoStateImageButton;
@@ -196,7 +196,7 @@ public class GameAssets {
 			imageButtonStyle.imageDown = mainUiSkin.newDrawable(Textures.BUTTON_SETTINGS_WHITE, Color.GRAY);
 			imageButtonStyle.imageDisabled = mainUiSkin.newDrawable(Textures.BUTTON_SETTINGS_WHITE, Color.DARK_GRAY);
 
-			mainUiSkin.add(SkinTypes.BUTTON_SETTINGS, imageButtonStyle);
+			mainUiSkin.add(StyleNames.BUTTON_SETTINGS, imageButtonStyle);
 		}
 
 		//Button style: Music
@@ -211,7 +211,7 @@ public class GameAssets {
 			imageButtonStyle.imageDisabled = mainUiSkin.newDrawable(Textures.BUTTON_MUSIC_ENABLED_HOVER, Color.DARK_GRAY);
 			imageButtonStyle.image2Disabled = mainUiSkin.newDrawable(Textures.BUTTON_MUSIC_DISABLED_HOVER, Color.DARK_GRAY);
 
-			mainUiSkin.add(SkinTypes.BUTTON_MUSIC, imageButtonStyle);
+			mainUiSkin.add(StyleNames.BUTTON_MUSIC, imageButtonStyle);
 		}
 
 		//Button style: Sound
@@ -226,7 +226,7 @@ public class GameAssets {
 			imageButtonStyle.imageDisabled = mainUiSkin.newDrawable(Textures.BUTTON_SOUND_ENABLED_HOVER, Color.DARK_GRAY);
 			imageButtonStyle.image2Disabled = mainUiSkin.newDrawable(Textures.BUTTON_SOUND_DISABLED_HOVER, Color.DARK_GRAY);
 
-			mainUiSkin.add(SkinTypes.BUTTON_SOUND, imageButtonStyle);
+			mainUiSkin.add(StyleNames.BUTTON_SOUND, imageButtonStyle);
 		}
 
 		//Button style: Fullscreen
@@ -241,7 +241,7 @@ public class GameAssets {
 			imageButtonStyle.imageDisabled = mainUiSkin.newDrawable(Textures.BUTTON_FULLSCREEN_HOVER, Color.DARK_GRAY);
 			imageButtonStyle.image2Disabled = mainUiSkin.newDrawable(Textures.BUTTON_RESTORE_WINDOW_HOVER, Color.DARK_GRAY);
 
-			mainUiSkin.add(SkinTypes.BUTTON_FULLSCREEN, imageButtonStyle);
+			mainUiSkin.add(StyleNames.BUTTON_FULLSCREEN, imageButtonStyle);
 		}
 
 		//Button style: Arrow Right
@@ -252,7 +252,7 @@ public class GameAssets {
 			buttonStyle.over = mainUiSkin.newDrawable(Textures.BUTTON_RIGHT, Color.LIGHT_GRAY);
 			buttonStyle.disabled = mainUiSkin.newDrawable(Textures.BUTTON_RIGHT, Color.DARK_GRAY);
 
-			mainUiSkin.add(SkinTypes.BUTTON_ARROW_RIGHT, buttonStyle);
+			mainUiSkin.add(StyleNames.BUTTON_ARROW_RIGHT, buttonStyle);
 		}
 
 		//Button style: Arrow Left
@@ -263,7 +263,7 @@ public class GameAssets {
 			buttonStyle.over = mainUiSkin.newDrawable(Textures.BUTTON_LEFT, Color.LIGHT_GRAY);
 			buttonStyle.disabled = mainUiSkin.newDrawable(Textures.BUTTON_LEFT, Color.DARK_GRAY);
 
-			mainUiSkin.add(SkinTypes.BUTTON_ARROW_LEFT, buttonStyle);
+			mainUiSkin.add(StyleNames.BUTTON_ARROW_LEFT, buttonStyle);
 		}
 
 		//Button style: Text (default)
@@ -278,7 +278,7 @@ public class GameAssets {
 			textButtonStyle.downFontColor = Color.WHITE;
 			textButtonStyle.disabledFontColor = Color.GRAY;
 
-			mainUiSkin.add(SkinTypes.DEFAULT, textButtonStyle);
+			mainUiSkin.add(StyleNames.DEFAULT, textButtonStyle);
 		}
 
 		//Button style: Pause
@@ -286,7 +286,7 @@ public class GameAssets {
 			ImageTextButton.ImageTextButtonStyle imageButtonStyle = new ImageTextButton.ImageTextButtonStyle(mainUiSkin.get(TextButton.TextButtonStyle.class));
 			imageButtonStyle.imageUp = mainUiSkin.newDrawable(Textures.BUTTON_PAUSE);
 
-			mainUiSkin.add(SkinTypes.BUTTON_PAUSE, imageButtonStyle);
+			mainUiSkin.add(StyleNames.BUTTON_PAUSE, imageButtonStyle);
 		}
 
 		//Button style: Resume
@@ -294,7 +294,7 @@ public class GameAssets {
 			ImageTextButton.ImageTextButtonStyle imageButtonStyle = new ImageTextButton.ImageTextButtonStyle(mainUiSkin.get(TextButton.TextButtonStyle.class));
 			imageButtonStyle.imageUp = mainUiSkin.newDrawable(Textures.BUTTON_RESUME);
 
-			mainUiSkin.add(SkinTypes.BUTTON_RESUME, imageButtonStyle);
+			mainUiSkin.add(StyleNames.BUTTON_RESUME, imageButtonStyle);
 		}
 
 		//Button style: Ability
@@ -305,25 +305,25 @@ public class GameAssets {
 			abilityButtonStyle.over = mainUiSkin.getDrawable(Textures.ITEM_FRAME);
 			abilityButtonStyle.disabled = mainUiSkin.getDrawable(Textures.ITEM_FRAME);
 
-			mainUiSkin.add(SkinTypes.DEFAULT, abilityButtonStyle);
+			mainUiSkin.add(StyleNames.DEFAULT, abilityButtonStyle);
 		}
 
 		//Label style: default
 		{
 			Label.LabelStyle labelStyle = new Label.LabelStyle(getFont(), Color.BLACK);
-			mainUiSkin.add(SkinTypes.DEFAULT, labelStyle);
+			mainUiSkin.add(StyleNames.DEFAULT, labelStyle);
 		}
 
 		//Label style: white
 		{
 			Label.LabelStyle labelStyle = new Label.LabelStyle(getFont(), Color.WHITE);
-			mainUiSkin.add(SkinTypes.LABEL_WHITE, labelStyle);
+			mainUiSkin.add(StyleNames.LABEL_WHITE, labelStyle);
 		}
 
 		//Slide style: default
 		{
 			Slider.SliderStyle style = new Slider.SliderStyle(mainUiSkin.getDrawable(Textures.SLIDER_BACKGROUND), mainUiSkin.getDrawable(Textures.SLIDER_KNOB));
-			mainUiSkin.add(SkinTypes.DEFAULT, style);
+			mainUiSkin.add(StyleNames.DEFAULT, style);
 		}
 
 		//Dialog style: default
@@ -332,7 +332,7 @@ public class GameAssets {
 			style.titleFont = font;
 			style.titleFontColor = Color.BLACK;
 			style.background = new NinePatchDrawable(buttonNinePatch);
-			mainUiSkin.add(SkinTypes.DEFAULT, style);
+			mainUiSkin.add(StyleNames.DEFAULT, style);
 		}
 
 		//CheckBox style: default
@@ -343,7 +343,7 @@ public class GameAssets {
 			style.checkboxOver = mainUiSkin.getDrawable(Textures.CHBX_HOVER);
 			style.font = font;
 			style.fontColor = Color.BLACK;
-			mainUiSkin.add(SkinTypes.DEFAULT, style);
+			mainUiSkin.add(StyleNames.DEFAULT, style);
 		}
 
 		//Scroller style: default
@@ -351,7 +351,7 @@ public class GameAssets {
 			ScrollPane.ScrollPaneStyle style = new ScrollPane.ScrollPaneStyle();
 			style.background = new NinePatchDrawable(mainUiSkin.getPatch(Textures.SCROLL_BACKGROUND));
 			style.vScrollKnob = mainUiSkin.getDrawable(Textures.SCROLLBAR);
-			mainUiSkin.add(SkinTypes.DEFAULT, style);
+			mainUiSkin.add(StyleNames.DEFAULT, style);
 		}
 
 	}

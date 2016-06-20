@@ -45,4 +45,5 @@ public class Textures {
 
 	public static final String SCROLL_BACKGROUND = "scroll_background";
 	public static final String SCROLLBAR = "scrollbar";
+
 }

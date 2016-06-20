@@ -58,7 +58,7 @@ public class StageManagerGame extends StageManager {
 		table.pad(screen.getUiPadding(), screen.getUiPadding(), screen.getUiPadding(), screen.getUiPadding()); //top, left, bottom, right
 		table.top().left();
 		row();
-		add(table).height(Reference.GAME_RESOLUTION_Y).fill().expand();
+		add(table).height(Reference.GAME_RESOLUTION_Y).maxHeight(Reference.GAME_RESOLUTION_Y).maxWidth(screen.world.getWorldWidth()).fill().expand();
 		return table;
 	}
 }

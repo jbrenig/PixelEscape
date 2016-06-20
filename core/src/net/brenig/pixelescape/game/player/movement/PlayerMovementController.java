@@ -9,6 +9,7 @@ import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
 import net.brenig.pixelescape.render.WorldRenderer;
+import net.brenig.pixelescape.screen.GameScreen;
 
 /**
  * Handles player input and applies it to the Player entity
@@ -51,5 +52,5 @@ public interface PlayerMovementController {
 
 	void renderForeground(PixelEscape game, WorldRenderer renderer, World world, float delta);
 
-	Table createTutorialWindow(Skin skin);
+	Table createTutorialWindow(Skin skin, GameScreen screen, int maxWidth, int maxHeight);
 }

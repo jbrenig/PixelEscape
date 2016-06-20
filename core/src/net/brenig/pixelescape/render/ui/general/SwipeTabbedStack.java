@@ -28,6 +28,8 @@ public class SwipeTabbedStack extends Stack {
 
 	private boolean cycle = true;
 
+	private IOverSwipeListener overSwipeListener;
+
 	public SwipeTabbedStack() {
 		super();
 		this.setTouchable(Touchable.enabled);
@@ -38,17 +40,21 @@ public class SwipeTabbedStack extends Stack {
 				currentOffsetX += deltaX;
 				Actor actor = getChildren().get(currentElement);
 				actor.setPosition(currentOffsetX, actor.getY());
-				actor.getColor().a = 1 - Math.min(1, Math.abs(currentOffsetX) / animationXOffset);
+				actor.getColor().a = 1 - Math.min(1, Math.abs(currentOffsetX) / (float) animationXOffset);
 
 				//remove old element
 				if(oldOffsetX <= 0 && currentOffsetX > 0) {
-					final int nextElement = (currentElement + 1) % getChildren().size;
-					final Actor old = getChildren().get(nextElement);
-					old.setVisible(false);
+					if(hasNextElement()) {
+						final int nextElement = (currentElement + 1) % getChildren().size;
+						final Actor old = getChildren().get(nextElement);
+						old.setVisible(false);
+					}
 				} else if(oldOffsetX > 0 && currentOffsetX <= 0) {
-					final int nextElement = (currentElement - 1 + getChildren().size) % getChildren().size;
-					final Actor old = getChildren().get(nextElement);
-					old.setVisible(false);
+					if(hasLastElement()) {
+						final int nextElement = (currentElement - 1 + getChildren().size) % getChildren().size;
+						final Actor old = getChildren().get(nextElement);
+						old.setVisible(false);
+					}
 				}
 				if(currentOffsetX <= 0) {
 					if(cycle || hasNextElement()) {
@@ -69,24 +75,24 @@ public class SwipeTabbedStack extends Stack {
 
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-				if(currentOffsetX > panXOffset && (cycle || hasLastElement())) {
-					//swipe to last
-					last();
-				} else if(currentOffsetX < panXOffset * -1 && (cycle || hasNextElement())) {
-					//swipe to next
-					next();
-				} else {
-					//reset positions
-					Actor actor = getChildren().get(currentElement);
-					actor.addAction(Actions.parallel(Actions.moveTo(0, 0, animationDuration, Interpolation.pow2In), Actions.fadeIn(animationDuration)));
-
-					if(currentOffsetX <= 0 && (cycle || hasNextElement())) {
-						final Actor next = setupNextElement();
-						next.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(animationXOffset, 0, animationDuration, Interpolation.pow2In), Actions.fadeOut(animationDuration)), Actions.visible(false)));
-					} else if((cycle || hasLastElement())) {
-						final Actor next = setupLastElement();
-						next.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(-animationXOffset, 0, animationDuration, Interpolation.pow2In), Actions.fadeOut(animationDuration)), Actions.visible(false)));
+				if(currentOffsetX > panXOffset) {
+					if(cycle || hasLastElement()) {
+						//swipe to last
+						last();
+					} else {
+						resetPositions();
 					}
+					checkBeforeFirst();
+				} else if(currentOffsetX < panXOffset * -1) {
+					if(cycle || hasNextElement()) {
+						//swipe to next
+						next();
+					} else {
+						resetPositions();
+					}
+					checkAfterLast();
+				} else {
+					resetPositions();
 				}
 				currentOffsetX = 0;
 			}
@@ -102,6 +108,45 @@ public class SwipeTabbedStack extends Stack {
 				}
 			}
 		});
+	}
+
+	public void swipeOut(boolean direction) {
+		final Actor old = getChildren().get(currentElement);
+		old.clearActions();
+		if(direction) {
+			old.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(animationXOffset, 0, animationDuration, Interpolation.pow2In), Actions.fadeOut(animationDuration)), Actions.visible(false)));
+		} else {
+			old.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(-animationXOffset, 0, animationDuration, Interpolation.pow2In), Actions.fadeOut(animationDuration)), Actions.visible(false)));
+		}
+	}
+
+	/**
+	 * resets actor positions after eg. panning
+	 */
+	private void resetPositions() {
+		//reset positions
+		Actor actor = getChildren().get(currentElement);
+		actor.addAction(Actions.parallel(Actions.moveTo(0, 0, animationDuration, Interpolation.pow2In), Actions.fadeIn(animationDuration)));
+
+		if(currentOffsetX <= 0 && (cycle || hasNextElement())) {
+			final Actor next = setupNextElement();
+			next.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(animationXOffset, 0, animationDuration, Interpolation.pow2In), Actions.fadeOut(animationDuration)), Actions.visible(false)));
+		} else if((cycle || hasLastElement())) {
+			final Actor next = setupLastElement();
+			next.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(-animationXOffset, 0, animationDuration, Interpolation.pow2In), Actions.fadeOut(animationDuration)), Actions.visible(false)));
+		}
+	}
+
+	private void checkAfterLast() {
+		if(overSwipeListener != null && !hasNextElement()) {
+			overSwipeListener.onAfterLast();
+		}
+	}
+
+	private void checkBeforeFirst() {
+		if(overSwipeListener != null && !hasLastElement()) {
+			overSwipeListener.onBeforeFirst();
+		}
 	}
 
 	@Override
@@ -157,6 +202,7 @@ public class SwipeTabbedStack extends Stack {
 
 			currentElement = nextElement;
 		}
+		checkAfterLast();
 	}
 
 	/**
@@ -174,6 +220,11 @@ public class SwipeTabbedStack extends Stack {
 
 			currentElement = nextElement;
 		}
+		checkBeforeFirst();
+	}
+
+	public void setOverSwipeListener(IOverSwipeListener overSwipeListener) {
+		this.overSwipeListener = overSwipeListener;
 	}
 
 	/**
@@ -192,5 +243,15 @@ public class SwipeTabbedStack extends Stack {
 
 	public void setCycle(boolean cycle) {
 		this.cycle = cycle;
+	}
+
+	/**
+	 * gets notified when user continues after the last element (or the first when scrolling backwards)
+	 */
+	public interface IOverSwipeListener {
+
+		void onAfterLast();
+
+		void onBeforeFirst();
 	}
 }

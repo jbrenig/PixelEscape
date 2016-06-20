@@ -16,6 +16,7 @@ import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.WorldRenderer;
 import net.brenig.pixelescape.render.ui.general.HorizontalSpacer;
+import net.brenig.pixelescape.screen.GameScreen;
 
 /**
  * default implementation of a {@link PlayerMovementController}, standart behaviour
@@ -58,7 +59,7 @@ public class DefaultMovementController implements PlayerMovementController {
 	}
 
 	@Override
-	public Table createTutorialWindow(Skin skin) {
+	public Table createTutorialWindow(Skin skin, GameScreen screen, int maxWidth, int maxHeight) {
 		Table table = new Table(skin);
 		table.setBackground(Textures.BUTTON_UP);
 		table.defaults().padBottom(20);

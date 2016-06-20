@@ -1,6 +1,7 @@
 package net.brenig.pixelescape.game.player.movement;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
@@ -8,9 +9,12 @@ import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameMode;
+import net.brenig.pixelescape.game.data.constants.StyleNames;
+import net.brenig.pixelescape.game.data.constants.Textures;
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.WorldRenderer;
+import net.brenig.pixelescape.screen.GameScreen;
 
 /**
  * Movement Controller for Drag GameMode
@@ -71,8 +75,25 @@ public class DragMovementController implements PlayerMovementController {
 	}
 
 	@Override
-	public Table createTutorialWindow(Skin skin) {
-		Table table = new Table();
+	public Table createTutorialWindow(Skin skin, GameScreen screen, int maxWidth, int maxHeight) {
+		final int maxLabelWidth = maxWidth - 60;
+		Table table = new Table(skin);
+		table.setBackground(Textures.BUTTON_UP);
+		table.defaults().padBottom(20);
+
+		Label lbl = new Label("Drag across the screen to change your height.", skin, StyleNames.LABEL_WHITE);
+		lbl.setWrap(true);
+		lbl.setColor(Color.GREEN);
+		lbl.pack();
+
+		Label lbl2_1 = new Label("Be careful, you need to react fast!", skin, StyleNames.LABEL_WHITE);
+		lbl2_1.setWrap(true);
+		lbl2_1.setColor(Color.GREEN);
+		lbl2_1.pack();
+
+		table.add(lbl).center().width(maxLabelWidth);
+		table.row();
+		table.add(lbl2_1).center().width(maxLabelWidth);
 		return table;
 	}
 }

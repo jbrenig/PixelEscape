@@ -17,11 +17,14 @@ public class UserData {
 
 		public static final String highScore = "highscore";
 		public static final String gameMode = "gamemode";
+
+		public static final String tutorial = "tutorial";
 	}
 
 	private static final class Defaults {
 		private static final int highScore = 0;
-		public static final int gameMode = 0;
+		private static final int gameMode = 0;
+		private static final boolean tutorial = false;
 	}
 
 	private static final String PREF_MAIN_DATA = "PixelEscape_User_Data";
@@ -80,6 +83,18 @@ public class UserData {
 	public void setLastGameMode(int id) {
 		prefs.putInteger(Keys.gameMode, id);
 		saveToDisk();
+	}
+
+	public boolean tutorialSeen(GameMode gameMode) {
+		if(GameDebugSettings.get("FORCE_TUTORIALS")) {
+			return true;
+		}
+		//noinspection PointlessBooleanExpression,ConstantConditions
+		return Reference.SUSPRESS_TUTORIALS || prefs.getBoolean(Keys.tutorial + gameMode.getGameModeName(), Defaults.tutorial);
+	}
+
+	public void setTutorialSeen(GameMode gameMode, boolean value) {
+		prefs.putBoolean(Keys.tutorial + gameMode.getGameModeName(), value);
 	}
 
 	/**

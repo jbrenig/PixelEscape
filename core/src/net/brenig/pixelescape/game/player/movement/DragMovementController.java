@@ -27,6 +27,8 @@ public class DragMovementController implements PlayerMovementController {
 	private float touchX;
 	private float touchY;
 
+	private static final int DEAD_ZONE = 4;
+
 	@Override
 	public void updatePlayerMovement(PixelEscape game, InputManager manager, GameMode gameMode, World world, EntityPlayer player, float deltaTick, float yVelocityFactor) {
 		player.modifiyXVelocity(gameMode.getSpeedIncreaseFactor() * deltaTick);
@@ -36,6 +38,11 @@ public class DragMovementController implements PlayerMovementController {
 				//Confirm
 				if (touchX > 0) {
 					acceleration = world.convertMouseYToScreenCoordinate(game.getScaledMouseY()) - touchY;
+					if(acceleration > 0) {
+						acceleration = Math.max(0, acceleration - DEAD_ZONE);
+					} else {
+						acceleration = Math.min(0, acceleration + DEAD_ZONE);
+					}
 				}
 				isTouched = false;
 				touchX = Float.MIN_VALUE;
@@ -53,7 +60,7 @@ public class DragMovementController implements PlayerMovementController {
 		renderer.getRenderManager().begin();
 		final float ySize = Reference.PLAYER_ENTITY_SIZE * acceleration / 40;
 		renderer.getRenderManager().setColor(Color.GRAY);
-		renderer.renderRect(world.player.getXPosScreen() - Reference.PATH_ENTITY_SIZE / 2, world.player.getYPos(), Reference.PATH_ENTITY_SIZE, ySize);
+		renderer.renderRect(world.player.getXPosScreen() - Reference.PATH_ENTITY_SIZE / 2, world.player.getYPos() + (ySize > 0 ? Reference.PLAYER_ENTITY_SIZE / 2 : -Reference.PLAYER_ENTITY_SIZE / 2), Reference.PATH_ENTITY_SIZE, ySize);
 
 	}
 

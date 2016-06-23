@@ -21,6 +21,7 @@ import net.brenig.pixelescape.game.worldgen.TerrainPair;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.WorldRenderer;
+import net.brenig.pixelescape.render.overlay.CountDownOverlay;
 import net.brenig.pixelescape.render.overlay.EmptyOverlay;
 import net.brenig.pixelescape.render.overlay.GameOverOverlay;
 import net.brenig.pixelescape.render.overlay.GamePausedOverlay;
@@ -237,8 +238,11 @@ public class GameScreen extends PixelScreen {
 	 */
 	private void init() {
 		firstUpdate = false;
-//		setOverlay(new CountDownOverlay(this));
-		setOverlay(new TutorialOverlay(this));
+		if(game.userData.tutorialSeen(gameMode)) {
+			setOverlay(new CountDownOverlay(this));
+		} else {
+			setOverlay(new TutorialOverlay(this));
+		}
 		world.generateWorld(true);
 		world.spawnEntities();
 	}

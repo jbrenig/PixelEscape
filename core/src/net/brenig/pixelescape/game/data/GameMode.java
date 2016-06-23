@@ -1,8 +1,15 @@
 package net.brenig.pixelescape.game.data;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 
 import net.brenig.pixelescape.game.World;
+import net.brenig.pixelescape.game.data.constants.StyleNames;
+import net.brenig.pixelescape.game.data.constants.Textures;
 import net.brenig.pixelescape.game.player.Item;
 import net.brenig.pixelescape.game.player.abliity.Ability;
 import net.brenig.pixelescape.game.player.effects.EffectMove;
@@ -18,12 +25,30 @@ import net.brenig.pixelescape.game.worldgen.special.ItemGenerator;
 import net.brenig.pixelescape.lib.FilteredElementProvider;
 import net.brenig.pixelescape.lib.Names;
 import net.brenig.pixelescape.lib.Reference;
+import net.brenig.pixelescape.render.ui.general.SwipeTabbedStack;
 
 /**
  * GameMode information
  */
 public enum GameMode {
-	CLASSIC("Classic", Names.SCOREBOARD_CLASSIC, "gamemode_classic"),
+	CLASSIC("Classic", Names.SCOREBOARD_CLASSIC, "gamemode_classic") {
+		@Override
+		public void createCustomTutorial(Skin skin, SwipeTabbedStack stack, int contentSizeX, int contentSizeY) {
+			final int maxLabelWidth = contentSizeX - 60;
+			Table table = new Table(skin);
+			table.setBackground(Textures.BUTTON_UP);
+			table.defaults().padBottom(20);
+			{
+				Label lbl = new Label("Good old classic!", skin);
+				lbl.setWrap(true);
+				lbl.setAlignment(Align.center);
+				lbl.pack();
+
+				table.add(lbl).width(maxLabelWidth).center();
+			}
+			stack.add(table);
+		}
+	},
 	ARCADE("Arcade", Names.SCOREBOARD_ARCADE, "gamemode_arcade", true, 2) {
 		@Override
 		public void registerWorldGenerators(WorldGenerator worldGenerator) {
@@ -38,8 +63,45 @@ public enum GameMode {
 		public boolean itemsEnabled() {
 			return true;
 		}
+
+		@Override
+		public void createCustomTutorial(Skin skin, SwipeTabbedStack stack, int contentSizeX, int contentSizeY) {
+			final int maxLabelWidth = contentSizeX - 60;
+			Table table = new Table(skin);
+			table.setBackground(Textures.BUTTON_UP);
+			table.defaults().padBottom(20);
+			{
+				Label lbl = new Label("Like Classic, but cooler!", skin, StyleNames.LABEL_WHITE);
+				lbl.setWrap(true);
+				lbl.setAlignment(Align.center);
+				lbl.setColor(Color.PURPLE);
+				lbl.pack();
+
+				table.add(lbl).width(maxLabelWidth).center();
+			}
+			stack.add(table);
+		}
 	},
-	SPEED("Speed", Names.SCOREBOARD_SPEED, "gamemode_speed", Reference.MAX_ENTITY_SPEED * 1.2F, Reference.STARTING_SPEED * 2, Reference.SPEED_MODIFIER * 3),
+	SPEED("Speed", Names.SCOREBOARD_SPEED, "gamemode_speed", Reference.MAX_ENTITY_SPEED * 1.2F, Reference.STARTING_SPEED * 2, Reference.SPEED_MODIFIER * 3) {
+
+		@Override
+		public void createCustomTutorial(Skin skin, SwipeTabbedStack stack, int contentSizeX, int contentSizeY) {
+			final int maxLabelWidth = contentSizeX - 60;
+			Table table = new Table(skin);
+			table.setBackground(Textures.BUTTON_UP);
+			table.defaults().padBottom(20);
+			{
+				Label lbl = new Label("Watch out! It will get fast!", skin, StyleNames.LABEL_WHITE);
+				lbl.setWrap(true);
+				lbl.setAlignment(Align.center);
+				lbl.setColor(Color.ORANGE);
+				lbl.pack();
+
+				table.add(lbl).width(maxLabelWidth).center();
+			}
+			stack.add(table);
+		}
+	},
 	FLASH("Flash", Names.SCOREBOARD_FLASH, "gamemode_flash", Reference.MAX_ENTITY_SPEED * 1.4F, Reference.STARTING_SPEED * 4, Reference.SPEED_MODIFIER * 4) {
 		@Override
 		public void registerWorldGenerators(WorldGenerator worldGenerator) {
@@ -51,6 +113,34 @@ public enum GameMode {
 		public PlayerMovementController createPlayerMovementController() {
 			return new FlashMovementController();
 		}
+
+		@Override
+		public void createCustomTutorial(Skin skin, SwipeTabbedStack stack, int contentSizeX, int contentSizeY) {
+			final int maxLabelWidth = contentSizeX - 60;
+			Table table = new Table(skin);
+			table.setBackground(Textures.BUTTON_UP);
+			table.defaults().padBottom(20);
+			{
+				Label lbl = new Label("Ready for a challenge?", skin, StyleNames.LABEL_WHITE);
+				lbl.setWrap(true);
+				lbl.setAlignment(Align.center);
+				lbl.setColor(Color.NAVY);
+				lbl.pack();
+
+				table.add(lbl).width(maxLabelWidth).center();
+			}
+			table.row();
+			{
+				Label lbl = new Label("You'll need to react quickly!", skin, StyleNames.LABEL_WHITE);
+				lbl.setWrap(true);
+				lbl.setAlignment(Align.center);
+				lbl.setColor(Color.NAVY);
+				lbl.pack();
+
+				table.add(lbl).width(maxLabelWidth).center();
+			}
+			stack.add(table);
+		}
 	},
 	BLINK("Blink", Names.SCOREBOARD_BLINK, "gamemode_blink", true, Ability.BLINK, -1) {
 		@Override
@@ -58,6 +148,24 @@ public enum GameMode {
 			worldGenerator.registerDefaultTerrainGenerators();
 			worldGenerator.addSpecialGenerator(new BarricadeGenerator(400));
 			worldGenerator.obstacleSizeModifier = 1.5F;
+		}
+
+		@Override
+		public void createCustomTutorial(Skin skin, SwipeTabbedStack stack, int contentSizeX, int contentSizeY) {
+			final int maxLabelWidth = contentSizeX - 60;
+			Table table = new Table(skin);
+			table.setBackground(Textures.BUTTON_UP);
+			table.defaults().padBottom(20);
+			{
+				Label lbl = new Label("Like Teleporting? Here you go!", skin, StyleNames.LABEL_WHITE);
+				lbl.setWrap(true);
+				lbl.setAlignment(Align.center);
+				lbl.setColor(Color.NAVY);
+				lbl.pack();
+
+				table.add(lbl).width(maxLabelWidth).center();
+			}
+			stack.add(table);
 		}
 	},
 	DRAG("Drag", Names.SCOREBOARD_DRAG, "gamemode_drag") {
@@ -70,6 +178,24 @@ public enum GameMode {
 		public void registerWorldGenerators(WorldGenerator worldGenerator) {
 			super.registerWorldGenerators(worldGenerator);
 			worldGenerator.obstacleSizeModifier = 0.7F;
+		}
+
+		@Override
+		public void createCustomTutorial(Skin skin, SwipeTabbedStack stack, int contentSizeX, int contentSizeY) {
+			final int maxLabelWidth = contentSizeX - 60;
+			Table table = new Table(skin);
+			table.setBackground(Textures.BUTTON_UP);
+			table.defaults().padBottom(20);
+			{
+				Label lbl = new Label("Just drag along!", skin, StyleNames.LABEL_WHITE);;
+				lbl.setWrap(true);
+				lbl.setAlignment(Align.center);
+				lbl.setColor(Color.FIREBRICK);
+				lbl.pack();
+
+				table.add(lbl).width(maxLabelWidth).center();
+			}
+			stack.add(table);
 		}
 	};
 
@@ -246,6 +372,15 @@ public enum GameMode {
 	public boolean itemsEnabled() {
 		return false;
 	}
+
+	/**
+	 * ability for gamemodes to add custom tutorial pages
+	 * @param skin skin used for ui
+	 * @param stack stack the pages should get added to
+	 * @param contentSizeX
+	 * @param contentSizeY
+	 */
+	public void createCustomTutorial(Skin skin, SwipeTabbedStack stack, int contentSizeX, int contentSizeY) {}
 
 
 }

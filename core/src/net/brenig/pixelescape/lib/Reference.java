@@ -81,6 +81,7 @@ public class Reference {
 
 	public static final float SCREEN_TINT_STRENGTH = 0.6F;
 
+	public static final boolean SUSPRESS_TUTORIALS = false;
 
 	public static final boolean DEBUG_SETTINGS_AVAILABLE    = true;
 

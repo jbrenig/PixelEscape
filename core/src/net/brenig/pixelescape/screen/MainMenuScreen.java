@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Scaling;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.data.GameMode;
@@ -18,7 +19,7 @@ import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.render.ui.CurrentHighscoreLabel;
 import net.brenig.pixelescape.render.ui.general.HorizontalSpacer;
 import net.brenig.pixelescape.render.ui.general.StageManager;
-import net.brenig.pixelescape.render.ui.general.TabbedStack;
+import net.brenig.pixelescape.render.ui.general.SwipeTabbedStack;
 
 /**
  * PixelEscape MainMenu
@@ -37,7 +38,7 @@ public class MainMenuScreen extends PixelScreen {
 	 */
 	private final Table buttonPanelLayout;
 	private final CurrentHighscoreLabel highscoreLabel;
-	private final TabbedStack gmImageStack;
+	private final SwipeTabbedStack gmImageStack;
 
 	public MainMenuScreen(final PixelEscape game) {
 		super(game);
@@ -82,17 +83,17 @@ public class MainMenuScreen extends PixelScreen {
 		centerTable.row();
 
 		//GameMode Image
-		gmImageStack = new TabbedStack();
-
+		gmImageStack = new SwipeTabbedStack(SwipeTabbedStack.DEFAULT_ANIMATION_X_OFFSET);
 		//init gamemodes
 		for(GameMode mode : game.gameConfig.getAvailbleGameModes()) {
 			Image gameModeImageArcade = new Image(mode.createIcon(game.getGameAssets()));
 //			gameModeImageArcade.setRotation(5);
+			gameModeImageArcade.setScaling(Scaling.fit);
 			gmImageStack.add(gameModeImageArcade);
 		}
 
 		gmImageStack.setCurrentElement(game.userData.getLastGameMode());
-		centerTable.add(gmImageStack).pad(20, 0, 10, 0).size(144, 48);
+		centerTable.add(gmImageStack).pad(20, 0, 10, 0).height(48).fillX();
 		centerTable.row();
 
 		//Highscore Label

@@ -39,6 +39,7 @@ public class GameDebugSettings {
 		result.put("DEBUG_GOD_MODE", false);
 		result.put("DEBUG_MUSIC", false);
 		result.put("SCREEN_SHAKE", true);
+		result.put("FORCE_TUTORIALS", false);
 		return Collections.unmodifiableMap(result);
 	}
 

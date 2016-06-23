@@ -174,6 +174,7 @@ public class ResetScoreScreen extends PixelScreen {
 		for(Map.Entry<CheckBox, GameMode> entry : gamemodeCheckboxes.entrySet()) {
 			if(entry.getKey().isChecked()) {
 				game.userData.setHighScore(entry.getValue(), 0);
+				game.userData.setTutorialSeen(entry.getValue(), false);
 			}
 		}
 	}

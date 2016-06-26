@@ -392,22 +392,50 @@ public class World {
 	/**
 	 * checks collision with terrain<br></br>
 	 * parmetters are world coordinates
+	 * <br/>
+	 * note: results are not perfect
 	 */
 	public CollisionType doesAreaCollideWithTerrain(float x1, float y1, float x2, float y2) {
-		TerrainPair back = this.getBlockForWorldCoordinate((int) x1);
-		TerrainPair front = this.getBlockForWorldCoordinate((int) x2);
+		final TerrainPair back = this.getBlockForWorldCoordinate((int) x1);
+		final TerrainPair front = this.getBlockForWorldCoordinate((int) x2);
+
+		final int frontBot = front.getBot() * Reference.BLOCK_WIDTH;
+		final int backBot = back.getBot() * Reference.BLOCK_WIDTH;
+		final int frontTop = this.getWorldHeight() - front.getTop() * Reference.BLOCK_WIDTH;
+		final int backTop = this.getWorldHeight() - back.getTop() * Reference.BLOCK_WIDTH;
+
 		//collide
-		if (y1 < front.getBot() * Reference.BLOCK_WIDTH) {
-			return CollisionType.TERRAIN_BOT_RIGHT;
+		if (y1 < frontBot) { //right bot
+			if(y1 < backBot) { //left bot
+				if(y2 < frontBot) { // front bot top
+					return CollisionType.TERRAIN_BOT_RIGHT;
+				} else if(y2 < backBot) {
+					return CollisionType.TERRAIN_BOT_LEFT;
+				} else {
+					return CollisionType.TERRAIN_BOTTOM;
+				}
+			} else {
+				return CollisionType.TERRAIN_RIGHT;
+			}
 		}
-		if (y1 < back.getBot() * Reference.BLOCK_WIDTH) {
-			return CollisionType.TERRAIN_BOT_LEFT;
+		if (y1 < backBot) {
+			return CollisionType.TERRAIN_LEFT;
 		}
-		if (y2 > this.getWorldHeight() - front.getTop() * Reference.BLOCK_WIDTH) {
-			return CollisionType.TERRAIN_TOP_RIGHT;
+		if (y2 > frontTop) {
+			if (y2 > backTop) {
+				if(y1 > frontTop) {
+					return CollisionType.TERRAIN_TOP_RIGHT;
+				} else if(y1 > backTop) {
+					return CollisionType.TERRAIN_TOP_LEFT;
+				} else {
+					return CollisionType.TERRAIN_TOP;
+				}
+			} else {
+				return CollisionType.TERRAIN_RIGHT;
+			}
 		}
-		if (y2 > this.getWorldHeight() - back.getTop() * Reference.BLOCK_WIDTH) {
-			return CollisionType.TERRAIN_TOP_LEFT;
+		if (y2 > backTop) {
+			return CollisionType.TERRAIN_LEFT;
 		}
 		return CollisionType.NONE;
 	}

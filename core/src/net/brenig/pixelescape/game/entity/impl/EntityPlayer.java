@@ -395,18 +395,19 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 			EntityCrashParticle e = world.createEntity(EntityCrashParticle.class);
 			e.setPosition(getXPos() - getXVelocity() * Gdx.graphics.getDeltaTime() + x, getYPos() - getYVelocity() * Gdx.graphics.getDeltaTime() + y);
 			e.setColor(world.getScreen().game.gameDebugSettings.getBoolean("PLAYER_EXPLOSION_RED") ? Color.RED : Color.BLACK);
-			final float xVel = (x * 2 + (random.nextFloat() - 0.5F)) * 70;
+			final float xVel = (x * 2 + (random.nextFloat() - 0.5F)) * 70 + getXVelocity() * 0.4F;
 			final float yVel = (y * 2 + (random.nextFloat() - 0.5F)) * 70;
 			e.setVelocity(xVel, yVel);
 			world.spawnEntity(e);
 		}
 		//apply screenshake
 		//increase effect with higher score
-		final float scoreModifier = 1 - 1 / (getScore() * 0.001F);
-		final float force = 0.5F + random.nextFloat() * 0.5F * scoreModifier;
+//		final float scoreModifier = 1 - 1 / (getScore() * 0.001F);
+		final float scoreModifier = 1 - 1 / (getXVelocity() * 0.4F);
+		final float forceX = 0.5F + random.nextFloat() * 0.5F * scoreModifier;
+		final float forceY = 0.5F + random.nextFloat() * 0.5F * scoreModifier;
 		//when colliding with Barricades, shake horizontally
-		final boolean horizontal = col == CollisionType.ENTITY;
-		world.getScreen().worldRenderer.applyForceToScreen(horizontal ? force : 0, horizontal ? 0 : force);
+		world.getScreen().worldRenderer.applyForceToScreen(col.doesCollideHorizontally() ? forceX : 0, col.doesCollideVertically() ? forceY : 0);
 
 		//play sound
 		if (world.getScreen().game.gameSettings.isSoundEnabled()) {

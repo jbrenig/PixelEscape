@@ -39,9 +39,9 @@ public class WorldRenderer {
 	private float currentTotalYOffset = 0;
 
 	private static final float screenShakeSpeed = 8;
-	private static final float screenShakeLengthMod = 4;
-	private static final float screenShakeForceMult = 8;
-	private static final float screenShakeNoise = 10F; //TODO balance
+	private static final float screenShakeLengthMod = 7;
+	private static final float screenShakeForceMult = 6;
+	private static final float screenShakeNoise = 1.4F;
 
 	public WorldRenderer(final PixelEscape game, World world) {
 		this.world = world;
@@ -63,13 +63,13 @@ public class WorldRenderer {
 			screenShakeX = screenShakeForceX = screenShakeTimerX = 0;
 		} else {
 			float difX = screenShakeForceX - screenShakeTimerX;
-			screenShakeX = (float) (Math.sin(screenShakeTimerX * screenShakeSpeed) * difX) * screenShakeForceMult + world.getRandom().nextFloat() * screenShakeNoise;
+			screenShakeX = (float) (Math.sin(screenShakeTimerX * screenShakeSpeed + world.getRandom().nextFloat() * screenShakeNoise) * difX) * screenShakeForceMult;
 		}
 		if(screenShakeTimerY >= screenShakeForceY) {
 			screenShakeY = screenShakeForceY = screenShakeTimerY = 0;
 		} else {
 			float difY = screenShakeForceY - screenShakeTimerY;
-			screenShakeY = (float) (Math.sin(screenShakeTimerY * screenShakeSpeed) * difY) * screenShakeForceMult + world.getRandom().nextFloat() * screenShakeNoise;
+			screenShakeY = (float) (Math.sin(screenShakeTimerY * screenShakeSpeed + world.getRandom().nextFloat() * screenShakeNoise) * difY) * screenShakeForceMult;
 		}
 	}
 

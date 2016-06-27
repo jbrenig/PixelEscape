@@ -59,7 +59,7 @@ public class EntityCrashParticle extends Entity {
 				if(xVel > 0) bounceX();
 				else slowDownX(delta);
 
-				if(yVel < 0) bounceY();
+				if(yVel <= 0) bounceY();
 				else gravityY(delta);
 
 				break;
@@ -67,13 +67,13 @@ public class EntityCrashParticle extends Entity {
 				if(xVel < 0) bounceX();
 				else slowDownX(delta);
 
-				if(yVel < 0) bounceY();
+				if(yVel <= 0) bounceY();
 				else gravityY(delta);
 
 				break;
 			case TERRAIN_BOTTOM:
 
-				if(yVel < 0) {
+				if(yVel <= 0) {
 					bounceY();
 					if(yVel != 0) {
 						slowDownX(delta * 10);

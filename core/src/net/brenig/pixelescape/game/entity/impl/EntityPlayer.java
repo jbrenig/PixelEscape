@@ -417,7 +417,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		//explode life icon
 		if(world.getScreen().getGameMode().getExtraLives() > 0) {
 			//We have a live system (and therefor have a lives icon)
-			final float lifeX = world.convertScreenToWorldCoordinate(world.getScreen().game.gameSizeX - 36 * getExtraLives() + 16);
+			final float lifeX = world.convertScreenToWorldCoordinate(world.getScreen().game.gameSizeX - 36 * getExtraLives() - 16);
 			final float lifeY = world.getWorldHeight() - 28 + 16;
 			//Spawn crash particles
 			for (int i = 0; i < 60; i++) {

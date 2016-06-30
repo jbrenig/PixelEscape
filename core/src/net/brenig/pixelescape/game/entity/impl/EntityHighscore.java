@@ -3,6 +3,7 @@ package net.brenig.pixelescape.game.entity.impl;
 import com.badlogic.gdx.graphics.Color;
 
 import net.brenig.pixelescape.PixelEscape;
+import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.render.WorldRenderer;
@@ -16,12 +17,18 @@ public class EntityHighscore extends Entity {
 	public void renderBackground(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta) {
 		if(getMinX() < world.getCurrentScreenEnd()) {
 			renderer.getRenderManager().setColor(Color.BLUE);
-			renderer.renderRectWorld(xPos, yPos, 4, world.getWorldHeight());
+			renderer.renderRectWorld(xPos - world.player.getBonusScore(), yPos, 4, world.getWorldHeight());
 		}
 	}
 
-	public void init() {
-		xPos = world.getScreen().game.userData.getHighScore(world.getScreen().getGameMode());
+	public void setWorld(World world) {
+		super.setWorld(world);
+		xPos = world.getScreen().game.userData.getHighScore(world.getScreen().getGameMode()) + world.player.getXPosScreen();
 		yPos = 0;
+	}
+
+	@Override
+	public boolean isDead() {
+		return getMaxX() - world.player.getBonusScore() < world.getCurrentScreenStart();
 	}
 }

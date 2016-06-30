@@ -15,8 +15,8 @@ import net.brenig.pixelescape.render.WorldRenderer;
  */
 public class EntityCrashParticle extends Entity {
 
-	private static final int size = 6;
-	private static final int radius = size / 2;
+	public static final int SIZE = 6;
+	private static final int radius = SIZE / 2;
 	private static final float collisionSpeed = -0.4F;
 
 	private float xVel = 0;
@@ -151,7 +151,7 @@ public class EntityCrashParticle extends Entity {
 
 		game.getRenderManager().begin();
 		game.getRenderManager().setColor(color);
-		renderer.renderRectWorld(xPos - radius, yPos - radius, size, size);
+		renderer.renderRectWorld(xPos - radius, yPos - radius, SIZE, SIZE);
 	}
 
 	private void slowDownX(float delta) {

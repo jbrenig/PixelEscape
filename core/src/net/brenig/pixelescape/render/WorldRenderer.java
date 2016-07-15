@@ -1,6 +1,5 @@
 package net.brenig.pixelescape.render;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -125,7 +124,7 @@ public class WorldRenderer {
 		currentTotalYOffset = rendererYOffset + screenShakeY;
 		renderWorldBackground();
 		renderEntitiesBackground(delta);
-		renderWorld();
+		renderWorld(delta);
 		renderEntities(delta);
 	}
 
@@ -156,13 +155,13 @@ public class WorldRenderer {
 	/**
 	 * renders terrain
 	 */
-	private void renderWorld() {
+	private void renderWorld(float delta) {
 		game.getRenderManager().disableBlending();
 		game.getRenderManager().begin();
 		game.getRenderManager().setColor(0, 0, 0, 1);
 
 		for (int index = world.getCameraLeftLocalIndex(); index < world.getCameraRightLocalIndex() + 1; index++) {
-			world.getTerrainPairForIndex(index).render(game, world, currentTotalXOffset + getBlockPositionFromLocalIndex(index), rendererYOffset, screenShakeY, Gdx.graphics.getDeltaTime());
+			world.getTerrainPairForIndex(index).render(game, world, currentTotalXOffset + getBlockPositionFromLocalIndex(index), rendererYOffset, screenShakeY, delta);
 		}
 		game.getRenderManager().enableBlending();
 	}

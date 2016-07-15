@@ -2,7 +2,6 @@ package net.brenig.pixelescape.game;
 
 import com.badlogic.gdx.Gdx;
 
-import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.game.entity.EntityPoolManager;
 import net.brenig.pixelescape.game.entity.impl.EntityHighscore;
@@ -62,12 +61,6 @@ public class World {
 	 * GameScreen instance
 	 */
 	private final GameScreen screen;
-
-	//DEUBG Code
-	//TODO remove
-	private int lastIndex = -1;
-	private int lastTop = -1;
-	private int lastBot = -1;
 
 	public World(GameScreen screen) {
 		this(screen, Reference.TARGET_RESOLUTION_X);
@@ -139,31 +132,6 @@ public class World {
 
 	public void spawnEntityDo(Entity e) {
 		entityList.add(e);
-	}
-
-	@Deprecated
-	private void debugValidateWorldGen() {
-		//TODO: remove legacy debug options
-		//DEBUG Code
-		if (GameDebugSettings.get("DEBUG_WORLD_GEN_VALIDATE")) {
-			int index = convertScreenCoordToWorldBlockIndex(player.getXPosScreen());
-			if ((index - 5) <= lastIndex && index >= lastIndex) {
-				int local = convertWorldBlockToLocalBlockIndex(lastIndex);
-				int top = getTopBlockHeight(local);
-				int bot = getBotBlockHeight(local);
-				if (top != lastTop || bot != lastBot) {
-					LogHelper.debug("WorldGen", "BlocksGenerated: " + getTerrainBufferWorldIndex() + "; BlocksRequested: " + terrainBufferWorldIndex, null);
-					LogHelper.error("Error in WorldGen!");
-					LogHelper.error("TerrainBuffer:");
-					LogHelper.error(terrain.toString());
-				}
-			} else {
-				int local = convertWorldBlockToLocalBlockIndex(index);
-				lastIndex = index;
-				lastTop = getTopBlockHeight(local);
-				lastBot = getBotBlockHeight(local);
-			}
-		}
 	}
 
 	/**
@@ -253,9 +221,6 @@ public class World {
 
 	@SuppressWarnings("SameReturnValue")
 	public int getWorldHeight() {
-		/*
-	  The height of the world in pixels
-	 */
 		return Reference.GAME_RESOLUTION_Y;
 	}
 
@@ -507,7 +472,7 @@ public class World {
 
 	/**
 	 * Converts a World index to a local (or generator) index
-	 * note: local BlockIndex starts with the newest block --> right to left
+	 * note: local BlockIndex starts with the newest block --> left to right
 	 */
 	public int convertWorldBlockToLocalBlockIndex(int i) {
 		return i - terrainBufferWorldIndex;
@@ -515,7 +480,7 @@ public class World {
 
 	/**
 	 * Converts a local (or generator) index to a World index
-	 * note: local BlockIndex starts with the newest block --> right to left
+	 * note: local BlockIndex starts with the newest block --> left to right
 	 */
 	public int convertLocalBlockToWorldBlockIndex(int i) {
 		return terrainBufferWorldIndex + i;

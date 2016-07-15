@@ -30,6 +30,7 @@ android/*.apk
 *.apk
 out/
 com_crashlytics_export_strings.xml
+captures/
 
 ## Eclipse
 .classpath

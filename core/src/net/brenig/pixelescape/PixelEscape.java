@@ -9,13 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-
-import net.brenig.pixelescape.game.data.GameAssets;
-import net.brenig.pixelescape.game.data.GameConfiguration;
-import net.brenig.pixelescape.game.data.GameDebugSettings;
-import net.brenig.pixelescape.game.data.GameMusic;
-import net.brenig.pixelescape.game.data.GameSettings;
-import net.brenig.pixelescape.game.data.UserData;
+import net.brenig.pixelescape.game.data.*;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.GameRenderManager;
@@ -121,12 +115,20 @@ public class PixelEscape extends Game {
 
 	@Override
 	public void dispose() {
+		saveUserData();
+		unloadAssets();
+		super.dispose();
+	}
+
+	public void saveUserData() {
 		gameSettings.saveToDisk();
 		userData.saveToDisk();
+	}
+
+	public void unloadAssets() {
 		renderManager.dispose();
 		gameAssets.disposeAll();
 		assetsLoaded = false;
-		super.dispose();
 	}
 
 	@Override

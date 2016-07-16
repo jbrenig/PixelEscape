@@ -3,7 +3,6 @@ package net.brenig.pixelescape.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-
 import net.brenig.pixelescape.PixelEscape;
 
 /**
@@ -15,7 +14,8 @@ public class InputManager implements InputProcessor {
 	private boolean isSpaceDown = false;
 	private boolean isEscapeDown = false;
 
-	/** Cursor timer
+	/**
+	 * Cursor timer
 	 * -1 if idle
 	 * 0 if not idle
 	 * >0 if idle for n seconds
@@ -24,10 +24,10 @@ public class InputManager implements InputProcessor {
 	private static final float cursorIdleTime = 3;
 
 	public void updateMouseVisibility(float delta, boolean canHide) {
-		if(canHide && cursorIdleTimer >= 0) {
+		if (canHide && cursorIdleTimer >= 0) {
 			cursorIdleTimer += delta;
 		}
-		if(cursorIdleTimer > cursorIdleTime) {
+		if (cursorIdleTimer > cursorIdleTime) {
 			cursorIdleTimer = -1;
 			updateMouseVisibility();
 		}
@@ -35,13 +35,13 @@ public class InputManager implements InputProcessor {
 
 
 	private void updateMouseVisibility() {
-		if(PixelEscape.getPixelEscape().gameConfig.canHideCursor()) {
+		if (PixelEscape.getPixelEscape().gameConfig.canHideCursor()) {
 			Gdx.input.setCursorCatched(cursorIdleTimer < 0);
 		}
 	}
 
 	public void resetMouseVisibility() {
-		if(PixelEscape.getPixelEscape().gameConfig.canHideCursor()) {
+		if (PixelEscape.getPixelEscape().gameConfig.canHideCursor()) {
 			cursorIdleTimer = 0;
 			Gdx.input.setCursorCatched(false);
 		}
@@ -50,11 +50,11 @@ public class InputManager implements InputProcessor {
 	@Override
 	public boolean keyDown(int keycode) {
 		boolean changed = false;
-		if(keycode == Input.Keys.ESCAPE) {
+		if (keycode == Input.Keys.ESCAPE) {
 			isEscapeDown = true;
 			changed = true;
 		}
-		if(keycode == Input.Keys.SPACE) {
+		if (keycode == Input.Keys.SPACE) {
 			isSpaceDown = true;
 			changed = true;
 		}
@@ -64,11 +64,11 @@ public class InputManager implements InputProcessor {
 	@Override
 	public boolean keyUp(int keycode) {
 		boolean changed = false;
-		if(keycode == Input.Keys.ESCAPE) {
+		if (keycode == Input.Keys.ESCAPE) {
 			isEscapeDown = false;
 			changed = true;
 		}
-		if(keycode == Input.Keys.SPACE) {
+		if (keycode == Input.Keys.SPACE) {
 			isSpaceDown = false;
 			changed = true;
 		}

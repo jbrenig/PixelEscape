@@ -1,8 +1,8 @@
 package net.brenig.pixelescape.game.worldgen.special;
 
 import net.brenig.pixelescape.game.World;
-import net.brenig.pixelescape.game.entity.impl.EntityItem;
 import net.brenig.pixelescape.game.data.GameMode;
+import net.brenig.pixelescape.game.entity.impl.EntityItem;
 import net.brenig.pixelescape.game.player.Item;
 import net.brenig.pixelescape.game.player.abliity.Abilities;
 import net.brenig.pixelescape.game.player.effects.EffectShield;
@@ -42,7 +42,7 @@ public class ItemGenerator implements ISpecialWorldGenerator {
 
 	@Override
 	public void generate(WorldGenerator generator, World world, Random rand, GameMode mode) {
-		if(world.getCurrentScreenEnd() + spawnOffset > nextItemXPos) {
+		if (world.getCurrentScreenEnd() + spawnOffset > nextItemXPos) {
 			EntityItem entity = world.createEntity(EntityItem.class);
 			final int blockIndex = world.convertWorldCoordinateToLocalBlockIndex(nextItemXPos);
 			final int minY = world.getTerrainBotHeightReal(blockIndex);

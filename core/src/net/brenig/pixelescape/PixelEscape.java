@@ -52,8 +52,8 @@ public class PixelEscape extends Game {
 	@Override
 	public void create() {
 		LogHelper.log("Main", "Starting up...");
-		if(instance != null) {
-			if(instance.assetsLoaded) {
+		if (instance != null) {
+			if (instance.assetsLoaded) {
 				instance.dispose(); //needed?
 			}
 			LogHelper.warn("Critical Error! Game already initialized!");
@@ -104,7 +104,7 @@ public class PixelEscape extends Game {
 		gameMusic.update(Gdx.graphics.getDeltaTime());
 		renderManager.prepareRender();
 		super.render();
-		if(GameDebugSettings.get("SHOW_FPS")) {
+		if (GameDebugSettings.get("SHOW_FPS")) {
 			renderManager.begin();
 			getFont().setColor(Color.RED);
 			getRenderManager().resetFontSize();
@@ -133,7 +133,7 @@ public class PixelEscape extends Game {
 
 	@Override
 	public void resume() {
-		if(!assetsLoaded) {
+		if (!assetsLoaded) {
 			initializeRendering();
 		}
 		super.resume();
@@ -143,7 +143,7 @@ public class PixelEscape extends Game {
 
 		renderManager.initializeRendering();
 
-		if(gameAssets == null) {
+		if (gameAssets == null) {
 			gameAssets = new GameAssets();
 		}
 
@@ -191,10 +191,10 @@ public class PixelEscape extends Game {
 	 * stops or starts music if settings have changed
 	 */
 	public void updateMusicPlaying() {
-		if(!gameSettings.isMusicEnabled()) {
+		if (!gameSettings.isMusicEnabled()) {
 			gameMusic.fadeOutToStop(0.5F);
 		}
-		if(screen instanceof PixelScreen) {
+		if (screen instanceof PixelScreen) {
 			((PixelScreen) screen).updateMusic(gameSettings.isMusicEnabled());
 		}
 	}
@@ -203,8 +203,8 @@ public class PixelEscape extends Game {
 	 * goes or leaves fullscreen
 	 */
 	public void updateFullscreen() {
-		if(gameConfig.canGoFullScreen()) {
-			if(gameSettings.fullscreen) {
+		if (gameConfig.canGoFullScreen()) {
+			if (gameSettings.fullscreen) {
 				final Graphics.DisplayMode oldMode = Gdx.graphics.getDisplayMode();
 				Gdx.graphics.setFullscreenMode(oldMode);
 			} else {

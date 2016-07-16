@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
@@ -29,7 +28,7 @@ public class DefaultMovementController implements PlayerMovementController {
 	@Override
 	public void updatePlayerMovement(PixelEscape game, InputManager inputManager, GameMode gameMode, World world, EntityPlayer player, float deltaTick, float yVelocityFactor) {
 		if (inputManager.isTouched() || inputManager.isSpaceDown()) {
-			if(!lastTouched) {
+			if (!lastTouched) {
 				player.modifyYVelocity(Reference.CLICK_ACCELERATION * yVelocityFactor);
 				lastTouched = true;
 			} else {

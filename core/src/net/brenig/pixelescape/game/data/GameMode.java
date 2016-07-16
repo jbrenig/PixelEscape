@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.constants.StyleNames;
 import net.brenig.pixelescape.game.data.constants.Textures;
@@ -84,7 +83,6 @@ public enum GameMode {
 		}
 	},
 	SPEED("Speed", Names.SCOREBOARD_SPEED, "gamemode_speed", Reference.MAX_ENTITY_SPEED * 1.2F, Reference.STARTING_SPEED * 2, Reference.SPEED_MODIFIER * 3) {
-
 		@Override
 		public void createCustomTutorial(Skin skin, SwipeTabbedStack stack, int contentSizeX, int contentSizeY) {
 			final int maxLabelWidth = contentSizeX - 60;
@@ -221,7 +219,7 @@ public enum GameMode {
 	}
 
 	GameMode(String name, String scoreBoardName, String iconTexture, boolean abilitiesEnabled, Ability startingAbility, int startingAbilityUses,
-	         int extraLives, float maxEntitySpeed, float startingSpeed, float  speedIncreaseFactor) {
+	         int extraLives, float maxEntitySpeed, float startingSpeed, float speedIncreaseFactor) {
 		this.name = name;
 		this.scoreBoardName = scoreBoardName;
 		this.iconTexture = iconTexture;
@@ -282,6 +280,7 @@ public enum GameMode {
 
 	/**
 	 * finds the texture region for the gamemode icon
+	 *
 	 * @return the icon of this gamemode
 	 */
 	public TextureRegion createIcon(GameAssets assets) {
@@ -311,8 +310,9 @@ public enum GameMode {
 
 	/**
 	 * gets called every tick
-	 * @return whether barricades should be generated
+	 *
 	 * @param world the world to generate in
+	 * @return whether barricades should be generated
 	 */
 	public boolean shouldGenerateBarricades(World world) {
 		return true;
@@ -376,12 +376,14 @@ public enum GameMode {
 
 	/**
 	 * ability for gamemodes to add custom tutorial pages
-	 * @param skin skin used for ui
-	 * @param stack stack the pages should get added to
+	 *
+	 * @param skin         skin used for ui
+	 * @param stack        stack the pages should get added to
 	 * @param contentSizeX target X size for the elements added
 	 * @param contentSizeY target Y size for the elements added
 	 */
-	public void createCustomTutorial(Skin skin, SwipeTabbedStack stack, int contentSizeX, int contentSizeY) {}
+	public void createCustomTutorial(Skin skin, SwipeTabbedStack stack, int contentSizeX, int contentSizeY) {
+	}
 
 
 }

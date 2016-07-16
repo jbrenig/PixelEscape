@@ -1,7 +1,6 @@
 package net.brenig.pixelescape.lib;
 
 import com.badlogic.gdx.Gdx;
-
 import net.brenig.pixelescape.game.data.GameDebugSettings;
 
 public class LogHelper {
@@ -32,15 +31,15 @@ public class LogHelper {
 
 	public static void log(String level, String tag, String msg, Throwable t) {
 		StringBuilder builder = new StringBuilder();
-		if(level != null && !(level.length() <= 0)) {
+		if (level != null && !(level.length() <= 0)) {
 			builder.append(LOG_LEVEL_BRACKET_OPEN).append(level).append(LOG_LEVEL_BRACKET_CLOSE);
 		}
 		builder.append(LOG_TAG_BRACKET_OPEN + LOG_TAG_NAME);
-		if(tag != null && !(tag.length() <= 0)) {
+		if (tag != null && !(tag.length() <= 0)) {
 			builder.append(LOG_TAG_BRACKET_SEPARATE).append(tag);
 		}
 		builder.append(LOG_TAG_BRACKET_CLOSE);
-		if(t != null) {
+		if (t != null) {
 			Gdx.app.log(builder.toString(), msg);
 		} else {
 			Gdx.app.log(builder.toString(), msg);
@@ -56,7 +55,7 @@ public class LogHelper {
 	}
 
 	public static void debug(String tag, String msg, Throwable t) {
-		if(GameDebugSettings.get("DEBUG_LOGGING")) {
+		if (GameDebugSettings.get("DEBUG_LOGGING")) {
 			log(LOG_LEVEL_DEBUG, tag, msg, t);
 		}
 	}

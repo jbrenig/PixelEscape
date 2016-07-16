@@ -3,28 +3,23 @@ package net.brenig.pixelescape.game.entity.impl;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameDebugSettings;
+import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.game.entity.IMovingEntity;
 import net.brenig.pixelescape.game.entity.impl.particle.EntityCrashParticle;
-import net.brenig.pixelescape.game.data.GameMode;
-import net.brenig.pixelescape.game.player.movement.PlayerMovementController;
 import net.brenig.pixelescape.game.player.PlayerPathEntity;
 import net.brenig.pixelescape.game.player.abliity.Ability;
 import net.brenig.pixelescape.game.player.effects.StatusEffect;
+import net.brenig.pixelescape.game.player.movement.PlayerMovementController;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.WorldRenderer;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 /**
  * the Player
@@ -72,22 +67,22 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	@Override
 	public boolean update(float deltaTick, InputManager inputManager, GameMode gameMode) {
-		xPos += deltaTick *(xVelocity + xVelocityModifier);
-		if(!GameDebugSettings.get("DEBUG_GOD_MODE")) {
+		xPos += deltaTick * (xVelocity + xVelocityModifier);
+		if (!GameDebugSettings.get("DEBUG_GOD_MODE")) {
 			yPos += deltaTick * yVelocity;
 			//make sure player doesn't leave the screen
-			if(yPos < getPlayerSizeRadius()) {
+			if (yPos < getPlayerSizeRadius()) {
 				yPos = getPlayerSizeRadius();
 				yVelocity = 0;
-			} else if(yPos > world.getWorldHeight() - getPlayerSizeRadius()) {
+			} else if (yPos > world.getWorldHeight() - getPlayerSizeRadius()) {
 				yPos = world.getWorldHeight() - getPlayerSizeRadius();
 				yVelocity = 0;
 			}
 		}
 
 		//trigger ability by key press
-		if(hasAbility()) {
-			if(cooldownRemaining == 0)  {
+		if (hasAbility()) {
+			if (cooldownRemaining == 0) {
 				if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
 					useAbility();
 				}
@@ -115,13 +110,13 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		while (iterEffect.hasNext()) {
 			final StatusEffect effect = iterEffect.next();
 			effect.update(deltaTick);
-			if(!effect.effectActive()) {
+			if (!effect.effectActive()) {
 				effect.onEffectRemove(this);
 				iterEffect.remove();
 			}
 		}
-		if(immortal <= 0) {
-			if(!GameDebugSettings.get("DEBUG_GOD_MODE") && collide()) {
+		if (immortal <= 0) {
+			if (!GameDebugSettings.get("DEBUG_GOD_MODE") && collide()) {
 				return true;
 			}
 		} else {
@@ -134,9 +129,9 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	 * use the current ability of the player
 	 */
 	public void useAbility() {
-		if(currentAbility.onActivate(world.getScreen(), world, this)) {
+		if (currentAbility.onActivate(world.getScreen(), world, this)) {
 			remainingAbilityUses--;
-			if(remainingAbilityUses == 0) {
+			if (remainingAbilityUses == 0) {
 				currentAbility = null;
 				cooldownRemaining = 0;
 			} else {
@@ -165,7 +160,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		remainingAbilityUses = gameMode.getStartingAbilityUses();
 		cooldownRemaining = 0;
 
-		for(StatusEffect effect : effects) {
+		for (StatusEffect effect : effects) {
 			effect.onEffectRemove(this);
 		}
 		effects.clear();
@@ -232,7 +227,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	public void setXPosScreen(int xPosScreen) {
 		this.xPosScreen = xPosScreen;
-		for(int i = 0; i < pathEntities.length; i++) {
+		for (int i = 0; i < pathEntities.length; i++) {
 			pathEntities[i].setXPosScreen(xPosScreen - (Reference.PATH_ENTITY_OFFSET * (i + 1)));
 		}
 	}
@@ -240,7 +235,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	/**
 	 * adds the given value to the xVelocity ignoring maximum speed limit
 	 * <p>
-	 *     a negative value will decrease player speed
+	 * a negative value will decrease player speed
 	 * </p>
 	 */
 	public void addXVelocityModifier(float xVelocityModifier) {
@@ -249,7 +244,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	private boolean collide() {
 		CollisionType col = world.doesAreaCollideWithWorld(getXPos() - getPlayerSizeRadius(), yPos - getPlayerSizeRadius(), getXPos() + getPlayerSizeRadius(), yPos + getPlayerSizeRadius());
-		if(col != CollisionType.NONE) {
+		if (col != CollisionType.NONE) {
 			boolean collide = true;
 			for (StatusEffect effect : effects) {
 				if (!effect.onPlayerCollide()) {
@@ -284,7 +279,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	@Override
 	public void renderBackground(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta) {
-		if(this.isDead()) {
+		if (this.isDead()) {
 			return;
 		}
 		movementController.renderBackground(game, renderer, world, delta);
@@ -292,14 +287,14 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	@Override
 	public void render(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta) {
-		if(this.isDead()) {
+		if (this.isDead()) {
 			return;
 		}
 
 		game.getRenderManager().begin();
 
 		// Draw Background color
-		if(immortal % 1F < 0.5F) {
+		if (immortal % 1F < 0.5F) {
 			game.getRenderManager().setColor(0, 0, 0, 1);
 		} else {
 			game.getRenderManager().setColor(Color.LIGHT_GRAY);
@@ -324,6 +319,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	/**
 	 * makes player immortal
+	 *
 	 * @param time time in seconds to remain immortal
 	 */
 	public void setImmortal(float time) {
@@ -332,12 +328,13 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	/**
 	 * sets the currently available ability, amount of uses will increase, should the player already have this ability
+	 *
 	 * @param ability new ability
-	 * @param uses amount of times the player can use this ability (-1 for unlimited uses)
+	 * @param uses    amount of times the player can use this ability (-1 for unlimited uses)
 	 */
 	public void addAbility(Ability ability, int uses) {
 		if (this.currentAbility == ability) {
-			if(uses > 0) {
+			if (uses > 0) {
 				this.remainingAbilityUses += uses;
 			} else {
 				this.remainingAbilityUses = uses;
@@ -366,7 +363,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	}
 
 	public float getCooldownRemainingScaled() {
-		if(currentAbility != null) {
+		if (currentAbility != null) {
 			return cooldownRemaining / currentAbility.getCooldown();
 		}
 		return 0;
@@ -383,7 +380,8 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	/**
 	 * Gets called when player collides<br></br>
 	 * used to spawn explosion and other effects as well as reducing lives/showing gameover screen
-	 * @param col type of collision
+	 *
+	 * @param col   type of collision
 	 * @param world the world instance
 	 */
 	public boolean onPlayerCollide(CollisionType col, World world) {
@@ -415,7 +413,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		}
 
 		//explode life icon
-		if(world.getScreen().getGameMode().getExtraLives() > 0) {
+		if (world.getScreen().getGameMode().getExtraLives() > 0) {
 			//We have a live system (and therefor have a lives icon)
 			final float lifeX = world.convertScreenToWorldCoordinate(world.getScreen().game.gameSizeX - 36 * getExtraLives() - 16);
 			final float lifeY = world.getWorldHeight() - 28 + 16;
@@ -434,7 +432,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 			}
 		}
 		//use lives
-		if(getExtraLives() > 0) {
+		if (getExtraLives() > 0) {
 			extraLives--;
 			setImmortal(3);
 			reviveAfterCrash();
@@ -449,7 +447,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	/**
 	 * adds a statuseffect to this player
 	 * <p>
-	 *     DO NOT CALL THIS WITHIN A {@link StatusEffect}!!!
+	 * DO NOT CALL THIS WITHIN A {@link StatusEffect}!!!
 	 * </p>
 	 *
 	 * @throws java.util.ConcurrentModificationException when access while player is updating status effects
@@ -462,10 +460,10 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	/**
 	 * adds a statuseffect to this player
 	 * <p>
-	 *     also removes existing instances of this effect (uses {@code instanceof} to find these)
+	 * also removes existing instances of this effect (uses {@code instanceof} to find these)
 	 * </p>
 	 * <p>
-	 *     DO NOT CALL THIS WITHIN A {@link StatusEffect}!!!
+	 * DO NOT CALL THIS WITHIN A {@link StatusEffect}!!!
 	 * </p>
 	 *
 	 * @throws java.util.ConcurrentModificationException when access while player is updating status effects
@@ -475,7 +473,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		Class<? extends StatusEffect> clazz = effect.getClass();
 		while (effectIterator.hasNext()) {
 			StatusEffect old = effectIterator.next();
-			if(clazz.equals(old.getClass())) {
+			if (clazz.equals(old.getClass())) {
 				old.onEffectRemove(this);
 				effectIterator.remove();
 			}
@@ -486,7 +484,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	/**
 	 * gets a statuseffect if possible
 	 * <p>
-	 *     DO NOT CALL THIS WITHIN A {@link StatusEffect}!!!
+	 * DO NOT CALL THIS WITHIN A {@link StatusEffect}!!!
 	 * </p>
 	 *
 	 * @return found statuseffect, null if none was found

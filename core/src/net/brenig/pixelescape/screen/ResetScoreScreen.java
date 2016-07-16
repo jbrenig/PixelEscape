@@ -3,14 +3,9 @@ package net.brenig.pixelescape.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.lib.Utils;
@@ -65,13 +60,13 @@ public class ResetScoreScreen extends PixelScreen {
 		uiStage.add(headLayout);
 
 		//content (scrollpane)
-		gamemodeCheckboxes =  new HashMap<CheckBox, GameMode>(game.gameConfig.getAvailableGameModes().length);
+		gamemodeCheckboxes = new HashMap<CheckBox, GameMode>(game.gameConfig.getAvailableGameModes().length);
 
 		final ChangeListener chbxListener = new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				for(CheckBox chbx : gamemodeCheckboxes.keySet()) {
-					if(!chbx.isChecked()) {
+				for (CheckBox chbx : gamemodeCheckboxes.keySet()) {
+					if (!chbx.isChecked()) {
 						resetAllCheckBox.setChecked(false);
 						return;
 					}
@@ -88,7 +83,7 @@ public class ResetScoreScreen extends PixelScreen {
 		resetAllCheckBox.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				for(CheckBox chbx : gamemodeCheckboxes.keySet()) {
+				for (CheckBox chbx : gamemodeCheckboxes.keySet()) {
 					chbx.setChecked(resetAllCheckBox.isChecked());
 				}
 			}
@@ -97,7 +92,7 @@ public class ResetScoreScreen extends PixelScreen {
 		resetAllCheckBox.setProgrammaticChangeEvents(false);
 		contentLayout.add(resetAllCheckBox).padBottom(20).left().row();
 
-		for(GameMode mode : game.gameConfig.getAvailableGameModes()) {
+		for (GameMode mode : game.gameConfig.getAvailableGameModes()) {
 			CheckBox chbx = new CheckBox(mode.getGameModeName(), game.getSkin());
 			chbx.setChecked(false);
 			chbx.getImageCell().padBottom(8).padRight(10).size(32);
@@ -170,8 +165,8 @@ public class ResetScoreScreen extends PixelScreen {
 	}
 
 	private void apply() {
-		for(Map.Entry<CheckBox, GameMode> entry : gamemodeCheckboxes.entrySet()) {
-			if(entry.getKey().isChecked()) {
+		for (Map.Entry<CheckBox, GameMode> entry : gamemodeCheckboxes.entrySet()) {
+			if (entry.getKey().isChecked()) {
 				game.userData.setHighScore(entry.getValue(), 0);
 				game.userData.setTutorialSeen(entry.getValue(), false);
 			}

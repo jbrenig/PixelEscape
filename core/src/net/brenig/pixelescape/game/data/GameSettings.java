@@ -2,7 +2,6 @@ package net.brenig.pixelescape.game.data;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-
 import net.brenig.pixelescape.lib.LogHelper;
 
 /**
@@ -82,7 +81,6 @@ public class GameSettings {
 		prefs.putFloat(Keys.soundVolume, soundVolume);
 //		saveToDisk();
 	}
-
 
 
 	public boolean shortCountdownEnabled() {

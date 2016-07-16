@@ -2,12 +2,11 @@ package net.brenig.pixelescape.game.player.abliity;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameAssets;
-import net.brenig.pixelescape.game.entity.impl.particle.EntityFadingParticle;
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
+import net.brenig.pixelescape.game.entity.impl.particle.EntityFadingParticle;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.screen.GameScreen;
 
@@ -22,7 +21,7 @@ public class AbilityBlink extends Ability {
 
 	@Override
 	public boolean onActivate(GameScreen screen, World world, EntityPlayer player) {
-		for(int i = 0; i < 60; i++) {
+		for (int i = 0; i < 60; i++) {
 			EntityFadingParticle e = world.createEntity(EntityFadingParticle.class);
 			e.setPosition(player.getXPos() + PixelEscape.rand.nextFloat() * 20 - 10, player.getYPos() + PixelEscape.rand.nextFloat() * 40 - 20);
 			e.setColor(Color.BLUE);

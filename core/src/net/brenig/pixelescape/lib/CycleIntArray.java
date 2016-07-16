@@ -11,7 +11,7 @@ public class CycleIntArray {
 
 
 	public CycleIntArray(int size, int initValue) {
-		if(size < 1) {
+		if (size < 1) {
 			throw new IllegalArgumentException("The specified size has to be 1 or greater!");
 		}
 		data = new int[size];
@@ -37,8 +37,8 @@ public class CycleIntArray {
 	}
 
 	/**
-	 * @see #get(int)
 	 * @return the object at the given index reversed (--> index of 0 returns the newest object, an index of size-1 the oldest)
+	 * @see #get(int)
 	 */
 	public int getFromNewest(int index) {
 		return get(data.length - index - 1);
@@ -76,7 +76,7 @@ public class CycleIntArray {
 	}
 
 	public void fill(int value) {
-		for(int i = 0; i < data.length; i++) {
+		for (int i = 0; i < data.length; i++) {
 			data[i] = value;
 		}
 	}

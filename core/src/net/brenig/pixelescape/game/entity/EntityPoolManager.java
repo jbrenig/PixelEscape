@@ -2,7 +2,6 @@ package net.brenig.pixelescape.game.entity;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pools;
-
 import net.brenig.pixelescape.game.World;
 
 /**
@@ -30,6 +29,7 @@ public class EntityPoolManager {
 
 	/**
 	 * Frees the specified objects.
+	 *
 	 * @see Pools#freeAll(Array)
 	 */
 	public void freeAll(Array<? extends Entity> objects) {
@@ -38,6 +38,7 @@ public class EntityPoolManager {
 
 	/**
 	 * Frees the specified objects.
+	 *
 	 * @see Pools#freeAll(Array, boolean)
 	 */
 	public void freeAll(Array<? extends Entity> objects, boolean samePool) {
@@ -46,6 +47,7 @@ public class EntityPoolManager {
 
 	/**
 	 * Frees an object.
+	 *
 	 * @see Pools#free(Object)
 	 */
 	public void free(Entity object) {

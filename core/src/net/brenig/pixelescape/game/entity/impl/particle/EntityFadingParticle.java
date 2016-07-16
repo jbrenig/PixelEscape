@@ -1,7 +1,6 @@
 package net.brenig.pixelescape.game.entity.impl.particle;
 
 import com.badlogic.gdx.graphics.Color;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.game.entity.Entity;
@@ -52,7 +51,7 @@ public class EntityFadingParticle extends Entity {
 
 	@Override
 	public void render(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta) {
-		if(isDead()) {
+		if (isDead()) {
 			return;
 		}
 		//Move

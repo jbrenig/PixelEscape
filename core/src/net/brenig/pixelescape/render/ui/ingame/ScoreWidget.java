@@ -3,7 +3,6 @@ package net.brenig.pixelescape.render.ui.ingame;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
 import net.brenig.pixelescape.lib.Reference;

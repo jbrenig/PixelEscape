@@ -1,7 +1,6 @@
 package net.brenig.pixelescape.game.entity.impl;
 
 import com.badlogic.gdx.graphics.Color;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameMode;
@@ -20,9 +19,9 @@ public class EntityHighscore extends Entity {
 
 	@Override
 	public void renderBackground(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta) {
-		if(getMinX() < world.getCurrentScreenEnd()) {
+		if (getMinX() < world.getCurrentScreenEnd()) {
 			final float pos = xPos - world.player.getBonusScore();
-			if(world.player.getXPos() > pos) {
+			if (world.player.getXPos() > pos) {
 				final Random random = world.getRandom();
 				final int yEnd = world.getTerrainTopHeightRealForCoord((int) pos);
 				final int yStart = world.getTerrainBotHeightRealForCoord((int) pos);

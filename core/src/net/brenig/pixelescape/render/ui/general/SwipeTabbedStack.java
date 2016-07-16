@@ -59,7 +59,7 @@ public class SwipeTabbedStack extends Stack {
 
 	public SwipeTabbedStack(boolean touchEnabled) {
 		super();
-		if(touchEnabled) {
+		if (touchEnabled) {
 			this.setTouchable(Touchable.enabled);
 			addListener(new ActorGestureListener() {
 				@Override
@@ -69,7 +69,7 @@ public class SwipeTabbedStack extends Stack {
 					currentOffsetX += deltaX;
 					Actor actor = getChildren().get(currentElement);
 
-					if(!cycle && ((!overDrawLeft && currentOffsetX > 0 && !hasLastElement()) || (!overDrawRight && currentOffsetX < 0 && !hasNextElement()))) {
+					if (!cycle && ((!overDrawLeft && currentOffsetX > 0 && !hasLastElement()) || (!overDrawRight && currentOffsetX < 0 && !hasNextElement()))) {
 						actor.setPosition(currentOffsetX * slowOverDrawFactor, actor.getY());
 						actor.getColor().a = 1;
 					} else {
@@ -150,7 +150,7 @@ public class SwipeTabbedStack extends Stack {
 	public void swipeOut(boolean direction) {
 		final Actor old = getChildren().get(currentElement);
 		old.clearActions();
-		if(direction) {
+		if (direction) {
 			old.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(animationXOffset, 0, animationDuration, Interpolation.pow2In), Actions.fadeOut(animationDuration)), Actions.visible(false)));
 		} else {
 			old.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(-animationXOffset, 0, animationDuration, Interpolation.pow2In), Actions.fadeOut(animationDuration)), Actions.visible(false)));
@@ -165,23 +165,23 @@ public class SwipeTabbedStack extends Stack {
 		Actor actor = getChildren().get(currentElement);
 		actor.addAction(Actions.parallel(Actions.moveTo(0, 0, animationDuration, Interpolation.pow2In), Actions.fadeIn(animationDuration)));
 
-		if(currentOffsetX <= 0 && (cycle || hasNextElement())) {
+		if (currentOffsetX <= 0 && (cycle || hasNextElement())) {
 			final Actor next = setupNextElement();
 			next.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(animationXOffset, 0, animationDuration, Interpolation.pow2In), Actions.fadeOut(animationDuration)), Actions.visible(false)));
-		} else if((cycle || hasLastElement())) {
+		} else if ((cycle || hasLastElement())) {
 			final Actor next = setupLastElement();
 			next.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(-animationXOffset, 0, animationDuration, Interpolation.pow2In), Actions.fadeOut(animationDuration)), Actions.visible(false)));
 		}
 	}
 
 	private void checkAfterLast() {
-		if(overSwipeListener != null && !hasNextElement()) {
+		if (overSwipeListener != null && !hasNextElement()) {
 			overSwipeListener.onAfterLast();
 		}
 	}
 
 	private void checkBeforeFirst() {
-		if(overSwipeListener != null && !hasLastElement()) {
+		if (overSwipeListener != null && !hasLastElement()) {
 			overSwipeListener.onBeforeFirst();
 		}
 	}
@@ -194,7 +194,7 @@ public class SwipeTabbedStack extends Stack {
 
 	@Override
 	public void add(Actor actor) {
-		if(getChildren().size >= 1) {
+		if (getChildren().size >= 1) {
 			actor.setVisible(false);
 		}
 		super.add(actor);
@@ -203,7 +203,7 @@ public class SwipeTabbedStack extends Stack {
 	private Actor setupNextElement() {
 		final int nextElement = (currentElement + 1) % getChildren().size;
 		final Actor next = getChildren().get(nextElement);
-		if(!next.isVisible()) {
+		if (!next.isVisible()) {
 			next.getColor().a = 0;
 			next.setVisible(true);
 			next.setPosition(animationXOffset, 0);
@@ -215,7 +215,7 @@ public class SwipeTabbedStack extends Stack {
 	private Actor setupLastElement() {
 		final int nextElement = (currentElement - 1 + getChildren().size) % getChildren().size;
 		final Actor next = getChildren().get(nextElement);
-		if(!next.isVisible()) {
+		if (!next.isVisible()) {
 			next.getColor().a = 0;
 			next.setVisible(true);
 			next.setPosition(-animationXOffset, 0);
@@ -228,7 +228,7 @@ public class SwipeTabbedStack extends Stack {
 	 * cycles to the next element
 	 */
 	public void next() {
-		if(cycle || hasNextElement()) {
+		if (cycle || hasNextElement()) {
 			final int nextElement = (currentElement + 1) % getChildren().size;
 			final Actor next = setupNextElement();
 			next.addAction(Actions.parallel(Actions.moveTo(0, 0, animationDuration, Interpolation.pow2In), Actions.fadeIn(animationDuration)));
@@ -249,7 +249,7 @@ public class SwipeTabbedStack extends Stack {
 	 * cycles to the last element
 	 */
 	public void last() {
-		if(cycle || hasLastElement()) {
+		if (cycle || hasLastElement()) {
 			final int nextElement = (currentElement - 1 + getChildren().size) % getChildren().size;
 			final Actor next = setupLastElement();
 			next.addAction(Actions.parallel(Actions.moveTo(0, 0, animationDuration, Interpolation.pow2In), Actions.fadeIn(animationDuration)));
@@ -275,7 +275,7 @@ public class SwipeTabbedStack extends Stack {
 	}
 
 	private void fireElementChanged() {
-		if(elementChangedListener != null) {
+		if (elementChangedListener != null) {
 			elementChangedListener.onElementChanged(currentElement);
 		}
 	}
@@ -297,7 +297,6 @@ public class SwipeTabbedStack extends Stack {
 	public void setCycle(boolean cycle) {
 		this.cycle = cycle;
 	}
-
 
 
 	/**
@@ -331,6 +330,7 @@ public class SwipeTabbedStack extends Stack {
 
 	/**
 	 * xOffset used when the next element gets moved in by an animation
+	 *
 	 * @see #setElementPadding(int)
 	 */
 	public void setAnimationXOffset(int animationXOffset) {

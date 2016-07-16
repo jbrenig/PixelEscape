@@ -3,15 +3,9 @@ package net.brenig.pixelescape.render.overlay;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-
 import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.game.data.constants.StyleNames;
 import net.brenig.pixelescape.game.data.constants.Textures;
@@ -53,7 +47,7 @@ public class TutorialOverlay extends OverlayWithUi implements SwipeTabbedStack.I
 		stack.add(screen.world.getPlayer().getMovementController().createTutorialWindow(getSkin(), screen, contentSizeX, contentSizeY));
 
 		final int maxLabelWidth = contentSizeX - 60;
-		if(gameMode.itemsEnabled()) {
+		if (gameMode.itemsEnabled()) {
 			Table table = new Table(getSkin());
 			table.setBackground(Textures.BUTTON_UP);
 			table.defaults().padBottom(20);
@@ -89,7 +83,7 @@ public class TutorialOverlay extends OverlayWithUi implements SwipeTabbedStack.I
 
 			stack.add(table);
 		}
-		if(gameMode.abilitiesEnabled()) {
+		if (gameMode.abilitiesEnabled()) {
 
 			Table table = new Table(getSkin());
 			table.setBackground(Textures.BUTTON_UP);
@@ -120,7 +114,7 @@ public class TutorialOverlay extends OverlayWithUi implements SwipeTabbedStack.I
 		buttonRight.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if(stack.hasNextElement()) {
+				if (stack.hasNextElement()) {
 					stack.next();
 				} else {
 					onAfterLast();
@@ -132,7 +126,7 @@ public class TutorialOverlay extends OverlayWithUi implements SwipeTabbedStack.I
 		buttonLeft.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				if(stack.hasLastElement()) {
+				if (stack.hasLastElement()) {
 					stack.last();
 				}
 			}
@@ -164,8 +158,8 @@ public class TutorialOverlay extends OverlayWithUi implements SwipeTabbedStack.I
 	@Override
 	public void renderFirst(float delta) {
 		//noinspection PointlessBooleanExpression,ConstantConditions
-		if(Reference.SCREEN_TINT_STRENGTH > 0) {
-			if(timer != Float.MIN_VALUE) {
+		if (Reference.SCREEN_TINT_STRENGTH > 0) {
+			if (timer != Float.MIN_VALUE) {
 				renderScreenTint(Reference.SCREEN_TINT_STRENGTH * (timer / timer_amount));
 			} else {
 				renderScreenTint(Reference.SCREEN_TINT_STRENGTH);
@@ -176,8 +170,8 @@ public class TutorialOverlay extends OverlayWithUi implements SwipeTabbedStack.I
 	@Override
 	public void render(float delta) {
 		super.render(delta);
-		if(timer != Float.MIN_VALUE) {
-			if(timer < 0) {
+		if (timer != Float.MIN_VALUE) {
+			if (timer < 0) {
 				screen.setOverlay(new CountDownOverlay(screen));
 			} else {
 				timer -= delta;
@@ -206,7 +200,7 @@ public class TutorialOverlay extends OverlayWithUi implements SwipeTabbedStack.I
 
 	@Override
 	public void onElementChanged(int newElement) {
-		if(!stack.hasNextElement()) {
+		if (!stack.hasNextElement()) {
 			buttonRight.getColor().r = 0;
 			buttonRight.getColor().g = 1;
 			buttonRight.getColor().b = 0;
@@ -216,7 +210,7 @@ public class TutorialOverlay extends OverlayWithUi implements SwipeTabbedStack.I
 			buttonRight.getColor().b = 1;
 		}
 
-		if(!stack.hasLastElement()) {
+		if (!stack.hasLastElement()) {
 			buttonLeft.setDisabled(true);
 		} else {
 			buttonLeft.setDisabled(false);

@@ -2,7 +2,6 @@ package net.brenig.pixelescape.game.data;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Names;
 import net.brenig.pixelescape.lib.Reference;
@@ -43,13 +42,14 @@ public class UserData {
 
 	/**
 	 * updates the HighScore
+	 *
 	 * @param gameMode the current GameMode
-	 * @param score the new score
+	 * @param score    the new score
 	 * @return true if the score got updated (--> new highscore)
 	 */
 	public boolean updateHighscore(GameMode gameMode, int score) {
 		int lastHighScore = getHighScore(gameMode);
-		if(score > lastHighScore) {
+		if (score > lastHighScore) {
 			setHighScore(gameMode, score);
 			return true;
 		}
@@ -86,7 +86,7 @@ public class UserData {
 	}
 
 	public boolean tutorialSeen(GameMode gameMode) {
-		if(GameDebugSettings.get("FORCE_TUTORIALS")) {
+		if (GameDebugSettings.get("FORCE_TUTORIALS")) {
 			return true;
 		}
 		//noinspection PointlessBooleanExpression,ConstantConditions
@@ -102,7 +102,7 @@ public class UserData {
 	 */
 	public void updateSaveGames() {
 		int savedDataVersion = prefs.getInteger(Keys.savesRevision, -1);
-		if(savedDataVersion < Reference.PREFS_REVISION) {
+		if (savedDataVersion < Reference.PREFS_REVISION) {
 			LogHelper.log("UserData", "converting old save data!");
 			switch (savedDataVersion) {
 				case -1:

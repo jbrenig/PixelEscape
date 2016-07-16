@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
@@ -38,7 +37,7 @@ public class DragMovementController implements PlayerMovementController {
 				//Confirm
 				if (touchX > 0) {
 					acceleration = world.convertMouseYToScreenCoordinate(game.getScaledMouseY()) - touchY;
-					if(acceleration > 0) {
+					if (acceleration > 0) {
 						acceleration = Math.max(0, acceleration - DEAD_ZONE);
 					} else {
 						acceleration = Math.min(0, acceleration + DEAD_ZONE);

@@ -1,10 +1,6 @@
 package net.brenig.pixelescape.render.ui.general;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 
@@ -53,7 +49,7 @@ public class PixelDialog extends Dialog {
 	}
 
 	private void updateCells(float width) {
-		if(getContentTable() != null) {
+		if (getContentTable() != null) {
 			for (Cell c : getContentTable().getCells()) {
 				c.width(width);
 			}
@@ -69,19 +65,19 @@ public class PixelDialog extends Dialog {
 	}
 
 	public float getPrefContentWidth() {
-		if(prefWidth != -1) return prefWidth;
+		if (prefWidth != -1) return prefWidth;
 		return getTitleLabel().getPrefWidth();
 	}
 
 	@Override
 	public float getPrefHeight() {
-		if(prefHeight != -1) return prefHeight;
+		if (prefHeight != -1) return prefHeight;
 		return super.getPrefHeight();
 	}
 
 	@Override
 	public float getPrefWidth() {
-		if(prefWidth != -1) return prefWidth + getPadLeft() + getPadRight();
+		if (prefWidth != -1) return prefWidth + getPadLeft() + getPadRight();
 		return super.getPrefWidth();
 	}
 

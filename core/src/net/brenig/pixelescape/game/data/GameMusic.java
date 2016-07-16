@@ -1,7 +1,6 @@
 package net.brenig.pixelescape.game.data;
 
 import com.badlogic.gdx.audio.Music;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.lib.Utils;
 
@@ -16,7 +15,9 @@ public class GameMusic {
 
 	private Music currentMusic;
 
-	/** The target Music that should get faded in */
+	/**
+	 * The target Music that should get faded in
+	 */
 	private Music fadeInMusic;
 
 
@@ -62,10 +63,10 @@ public class GameMusic {
 					fadingProgress = 0;
 					if (state == MusicState.FADE_OUT_PAUSE) {
 						pause();
-					} else if(state == MusicState.FADE_OUT_INTO) {
+					} else if (state == MusicState.FADE_OUT_INTO) {
 						setFadeInMusicCurrent();
 						fadeIn();
-					} else  {
+					} else {
 						stop();
 					}
 				}
@@ -75,7 +76,7 @@ public class GameMusic {
 	}
 
 	public void updateMusicVolume() {
-		if(!isFading()) {
+		if (!isFading()) {
 			currentVolume = game.gameSettings.getMusicVolume();
 			currentMusic.setVolume(game.gameSettings.getMusicVolume());
 		}
@@ -118,7 +119,7 @@ public class GameMusic {
 	 * sets music to fade into as current music (and stops any music playing)
 	 */
 	public void setFadeInMusicCurrent() {
-		if(fadeInMusic != null) {
+		if (fadeInMusic != null) {
 			setCurrentMusic(fadeInMusic);
 			fadeInMusic = null;
 		}
@@ -135,7 +136,7 @@ public class GameMusic {
 	public void play(boolean fadeIn, float fadeInTime) {
 		if (currentMusic != null && state != MusicState.PLAYING && game.gameSettings.isMusicEnabled()) {
 			if (fadeIn) {
-				if(!isFading()) {
+				if (!isFading()) {
 					fadingProgress = 0;
 					currentMusic.setVolume(0);
 				}
@@ -192,6 +193,7 @@ public class GameMusic {
 
 	/**
 	 * Fades current music out, and fades given music in
+	 *
 	 * @param music music to play next
 	 */
 	public void fadeIntoMusic(Music music) {

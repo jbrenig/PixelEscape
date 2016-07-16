@@ -18,14 +18,17 @@ public abstract class Overlay {
 	/**
 	 * Called when the Overly gets displayed to the player
 	 */
-	public void show() {}
+	public void show() {
+	}
 
 	/**
 	 * method to render effects on the world<br></br>
 	 * (gets called before game ui is rendered)
+	 *
 	 * @param delta time passed between frames in seconds
 	 */
-	public void renderFirst(float delta) {}
+	public void renderFirst(float delta) {
+	}
 
 	/**
 	 * renders the overlay
@@ -64,7 +67,8 @@ public abstract class Overlay {
 	/**
 	 * Gets called when the Overlay is destroyed
 	 */
-	public void dispose() {}
+	public void dispose() {
+	}
 
 	/**
 	 * @return true if the default game-ui should be hidden
@@ -114,10 +118,12 @@ public abstract class Overlay {
 
 	/**
 	 * called whenever the music status gets updated (might get called without anything changed)
+	 *
 	 * @param play whether the music is playing or not
 	 */
 	@SuppressWarnings("EmptyMethod")
-	public void updateMusic(boolean play) {}
+	public void updateMusic(boolean play) {
+	}
 
 	/**
 	 * @return whether the game should open the game paused overlay when the escape key is pressed

@@ -1,7 +1,6 @@
 package net.brenig.pixelescape.render.overlay;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.ui.ingame.StageManagerGame;
 import net.brenig.pixelescape.screen.GameScreen;

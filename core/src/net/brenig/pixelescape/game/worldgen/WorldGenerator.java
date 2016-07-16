@@ -5,11 +5,7 @@ import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.game.worldgen.predefined.IScoreWorldFeature;
 import net.brenig.pixelescape.game.worldgen.special.BarricadeGenerator;
 import net.brenig.pixelescape.game.worldgen.special.ISpecialWorldGenerator;
-import net.brenig.pixelescape.game.worldgen.terrain.DiagonalCorridor;
-import net.brenig.pixelescape.game.worldgen.terrain.FlatCorridor;
-import net.brenig.pixelescape.game.worldgen.terrain.RandomTerrainGenerator;
-import net.brenig.pixelescape.game.worldgen.terrain.TerrainClosing;
-import net.brenig.pixelescape.game.worldgen.terrain.TerrainOpening;
+import net.brenig.pixelescape.game.worldgen.terrain.*;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
 
@@ -25,11 +21,11 @@ public class WorldGenerator {
 	private final World world;
 	private final GameMode gameMode;
 
-    private final WeightedList<ITerrainGenerator> terrainGenerators = new WeightedList<ITerrainGenerator>();
+	private final WeightedList<ITerrainGenerator> terrainGenerators = new WeightedList<ITerrainGenerator>();
 
-    private List<ISpecialWorldGenerator> specialGenerators = new ArrayList<ISpecialWorldGenerator>();
-    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-    private List<IScoreWorldFeature> specialPredefinedGenerators = new ArrayList<IScoreWorldFeature>();
+	private List<ISpecialWorldGenerator> specialGenerators = new ArrayList<ISpecialWorldGenerator>();
+	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+	private List<IScoreWorldFeature> specialPredefinedGenerators = new ArrayList<IScoreWorldFeature>();
 
 	////////////////////////////////////////////////
 	// Worldgen effects (--> eg. items/Gamemodes) //
@@ -37,71 +33,71 @@ public class WorldGenerator {
 	public float obstacleSizeModifier = 1F;
 
 
-    public WorldGenerator(World world, GameMode gameMode) {
-	    this.world = world;
-	    this.gameMode = gameMode;
+	public WorldGenerator(World world, GameMode gameMode) {
+		this.world = world;
+		this.gameMode = gameMode;
 	}
 
-    /**
-     * registers a new TerrainGenerator
-     *
-     * @param generator The Generator to register
-     */
-    public void registerTerrainGenerator(ITerrainGenerator generator) {
-        if (generator.getWeight() <= 0) return;
-        terrainGenerators.add(generator.getWeight(), generator);
-    }
+	/**
+	 * registers a new TerrainGenerator
+	 *
+	 * @param generator The Generator to register
+	 */
+	public void registerTerrainGenerator(ITerrainGenerator generator) {
+		if (generator.getWeight() <= 0) return;
+		terrainGenerators.add(generator.getWeight(), generator);
+	}
 
-    /**
-     * generates the World
-     *
-     * @param blockToGenerate  amount of blocks that should get generated
-     * @param generationPasses amount of tries to generate the world
-     * @param random           world random-generator
-     */
-    public void generateWorld(int blockToGenerate, int generationPasses, Random random) {
-	    if(blockToGenerate > 0) {
-		    //Init available terrain gen list
-		    WeightedList<ITerrainGenerator> gens = terrainGenerators.createCopy();
+	/**
+	 * generates the World
+	 *
+	 * @param blockToGenerate  amount of blocks that should get generated
+	 * @param generationPasses amount of tries to generate the world
+	 * @param random           world random-generator
+	 */
+	public void generateWorld(int blockToGenerate, int generationPasses, Random random) {
+		if (blockToGenerate > 0) {
+			//Init available terrain gen list
+			WeightedList<ITerrainGenerator> gens = terrainGenerators.createCopy();
 
-		    while (generationPasses > 0 && blockToGenerate > 0) {
-			    //get last terrain
-			    TerrainPair lastGeneratedTerrainPair = world.getTerrain().getNewest();
-			    if (lastGeneratedTerrainPair == null) {
-				    lastGeneratedTerrainPair = new TerrainPair(Reference.STARTING_TERRAIN_HEIGHT, Reference.STARTING_TERRAIN_HEIGHT);
-			    }
+			while (generationPasses > 0 && blockToGenerate > 0) {
+				//get last terrain
+				TerrainPair lastGeneratedTerrainPair = world.getTerrain().getNewest();
+				if (lastGeneratedTerrainPair == null) {
+					lastGeneratedTerrainPair = new TerrainPair(Reference.STARTING_TERRAIN_HEIGHT, Reference.STARTING_TERRAIN_HEIGHT);
+				}
 
-			    int oldTerrainBufferIndexStart = world.terrainBufferWorldIndex;
-			    ITerrainGenerator gen = gens.getRandomValueWithFilter(random, new WorldGenFilter(lastGeneratedTerrainPair, blockToGenerate));
-			    if (gen == null) {
-				    //no applicable generators left
-				    break;
-			    }
-			    int generated = gen.generate(world, lastGeneratedTerrainPair, blockToGenerate, world.getTerrainBufferWorldIndex(), random);
-			    blockToGenerate -= generated;
-			    generationPasses--;
-			    if (blockToGenerate < 0) {
-				    LogHelper.error("Invalid World Gen!! Generator ignoring MAX! Generator: " + gen);
-			    }
-			    if ((oldTerrainBufferIndexStart + generated) != world.terrainBufferWorldIndex) {
-				    LogHelper.error("Invalid World Gen!! Generator return value invalid! Generator: " + gen + "; generated: " + generated + "; lastGen: " + oldTerrainBufferIndexStart + "; currentGen: " + world.terrainBufferWorldIndex);
-			    }
-		    }
-	    }
-	    for(ISpecialWorldGenerator gen : specialGenerators) {
-		    gen.generate(this, world, random, gameMode);
-	    }
-    }
+				int oldTerrainBufferIndexStart = world.terrainBufferWorldIndex;
+				ITerrainGenerator gen = gens.getRandomValueWithFilter(random, new WorldGenFilter(lastGeneratedTerrainPair, blockToGenerate));
+				if (gen == null) {
+					//no applicable generators left
+					break;
+				}
+				int generated = gen.generate(world, lastGeneratedTerrainPair, blockToGenerate, world.getTerrainBufferWorldIndex(), random);
+				blockToGenerate -= generated;
+				generationPasses--;
+				if (blockToGenerate < 0) {
+					LogHelper.error("Invalid World Gen!! Generator ignoring MAX! Generator: " + gen);
+				}
+				if ((oldTerrainBufferIndexStart + generated) != world.terrainBufferWorldIndex) {
+					LogHelper.error("Invalid World Gen!! Generator return value invalid! Generator: " + gen + "; generated: " + generated + "; lastGen: " + oldTerrainBufferIndexStart + "; currentGen: " + world.terrainBufferWorldIndex);
+				}
+			}
+		}
+		for (ISpecialWorldGenerator gen : specialGenerators) {
+			gen.generate(this, world, random, gameMode);
+		}
+	}
 
-    public void addSpecialGenerator(ISpecialWorldGenerator gen) {
-        specialGenerators.add(gen);
-    }
+	public void addSpecialGenerator(ISpecialWorldGenerator gen) {
+		specialGenerators.add(gen);
+	}
 
 	public void reset() {
-		for(ISpecialWorldGenerator generator : specialGenerators) {
+		for (ISpecialWorldGenerator generator : specialGenerators) {
 			generator.reset(world);
 		}
-		for(IScoreWorldFeature gen : specialPredefinedGenerators) {
+		for (IScoreWorldFeature gen : specialPredefinedGenerators) {
 			gen.reset(world);
 		}
 	}

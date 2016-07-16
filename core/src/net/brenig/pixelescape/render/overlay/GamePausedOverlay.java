@@ -42,7 +42,7 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 
 		Table table = stage.createHeadUiLayoutTable();
 
-		if(!isGameOver) {
+		if (!isGameOver) {
 			ImageTextButton btnResume = new ImageTextButton("Resume", screen.game.getSkin(), "resume");
 			btnResume.getImageCell().padRight(6).padBottom(4);
 			btnResume.addListener(new ClickListener() {
@@ -57,7 +57,7 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 		table.add(new HorizontalSpacer());
 		table.add(Utils.addFullScreenButtonToTable(Utils.addSoundAndMusicControllerToLayout(screen.game, Utils.createUIHeadLayout(screen.game))));
 
-		if(!isGameOver) {
+		if (!isGameOver) {
 			table.add(new ScoreWidget(screen));
 		}
 
@@ -107,7 +107,7 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 	@Override
 	public void show() {
 		screen.setOverlayInputProcessor(new InputMultiplexer(stage.getInputProcessor(), this));
-		if(isGameOver) {
+		if (isGameOver) {
 			screen.game.gameMusic.fadeOutToStop(0.6F);
 		} else {
 			screen.game.gameMusic.fadeOutToPause();
@@ -118,7 +118,7 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 	@Override
 	public void renderFirst(float delta) {
 		//noinspection PointlessBooleanExpression,ConstantConditions
-		if(Reference.SCREEN_TINT_STRENGTH > 0 && animationProgress > 0) {
+		if (Reference.SCREEN_TINT_STRENGTH > 0 && animationProgress > 0) {
 			renderScreenTint(Utils.easeOut(animationProgress, isGameOver ? ANIM_TIME_GAME_OVER : ANIM_TIME_PAUSED, 2) * Reference.SCREEN_TINT_STRENGTH);
 		}
 	}
@@ -128,7 +128,7 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 		//Game Paused
 		screen.game.getRenderManager().begin();
 		screen.game.getFont().getData().setScale(2, 4);
-		if(isGameOver) {
+		if (isGameOver) {
 			screen.game.getFont().setColor(1, 0, 0, 1);
 			screen.getFontLayout().setText(screen.game.getFont(), "Game Over!");
 		} else {
@@ -149,11 +149,11 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 		screen.getFontLayout().setText(screen.game.getFont(), "Your score: " + screen.world.getPlayer().getScore());
 		xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
 		float txtScoreHeight = screen.getFontLayout().height / 2;
-		yPos -= txtGameOverHeight + screen.game.getFont().getLineHeight()+ txtScoreHeight;
+		yPos -= txtGameOverHeight + screen.game.getFont().getLineHeight() + txtScoreHeight;
 		screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
 
 		//Highscore
-		if(isGameOver && highscore < screen.world.getPlayer().getScore()) {
+		if (isGameOver && highscore < screen.world.getPlayer().getScore()) {
 			screen.game.getFont().setColor(0, 1, 0, 1);
 			screen.game.getFont().getData().setScale(1.2F);
 			screen.getFontLayout().setText(screen.game.getFont(), "New Highscore!");
@@ -181,7 +181,7 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 	}
 
 	private void restartMusic() {
-		if(isGameOver) {
+		if (isGameOver) {
 			screen.game.gameMusic.setCurrentMusic(screen.getGameMusic());
 		}
 		screen.game.gameMusic.play(true);
@@ -199,7 +199,7 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if(!isGameOver || animationProgress > TIME_TO_WAIT) {
+		if (!isGameOver || animationProgress > TIME_TO_WAIT) {
 			switch (keycode) {
 				case Input.Keys.SPACE:
 					resumeGame();
@@ -257,7 +257,7 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 	 * display dialog asking to go to main menu
 	 */
 	private void gotoMainMenu() {
-		if(isGameOver) {
+		if (isGameOver) {
 			screen.showMainMenu();
 		} else {
 			final PixelDialog dialog = new PixelDialog("Sure?", screen.game.getSkin());
@@ -285,7 +285,7 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 	}
 
 	private void restartGame() {
-		if(isGameOver) {
+		if (isGameOver) {
 			restartGameDo();
 		} else {
 			final PixelDialog dialog = new PixelDialog("Sure?", screen.game.getSkin());

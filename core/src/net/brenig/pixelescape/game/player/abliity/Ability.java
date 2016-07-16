@@ -47,12 +47,12 @@ public abstract class Ability implements Item, Serializable {
 	/**
 	 * called when player tries to collect this item
 	 * <p>
-	 *     it will not yet be added to the players itemslot
+	 * it will not yet be added to the players itemslot
 	 * </p>
 	 *
-	 * @see Item
 	 * @param player hte player that collected this item
 	 * @return true if this ability can be collected
+	 * @see Item
 	 */
 	@Override
 	public boolean onCollect(EntityPlayer player) {

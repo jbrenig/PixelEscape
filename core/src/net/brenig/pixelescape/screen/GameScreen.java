@@ -100,7 +100,7 @@ public class GameScreen extends PixelScreen {
 		table.add(buttonPause);
 		table.add(new HorizontalSpacer());
 		table.add(new ScoreWidget(world.getPlayer(), fontLayout, game));
-		if(gameMode.abilitiesEnabled()) {
+		if (gameMode.abilitiesEnabled()) {
 			stage.row();
 			stage.add(new VerticalSpacer());
 			stage.row();
@@ -136,7 +136,8 @@ public class GameScreen extends PixelScreen {
 		//Game will be slowed down if the frames don't get processed fast enough
 		delta = Math.min(Reference.MAX_FRAME_TIME, delta);
 
-		if(game.gameConfig.canHideCursor()) inputManager.updateMouseVisibility(delta, game.gameSettings.fullscreen && overlay.canHideCursor());
+		if (game.gameConfig.canHideCursor())
+			inputManager.updateMouseVisibility(delta, game.gameSettings.fullscreen && overlay.canHideCursor());
 
 		if (!initialized) {
 			init();
@@ -148,8 +149,8 @@ public class GameScreen extends PixelScreen {
 		}
 
 		//Pause on escape
-		if(inputManager.isEscapeDown()) {
-			if(overlay.shouldPauseOnEscape()) {
+		if (inputManager.isEscapeDown()) {
+			if (overlay.shouldPauseOnEscape()) {
 				showGamePausedOverlay();
 			}
 		}
@@ -168,7 +169,7 @@ public class GameScreen extends PixelScreen {
 		overlay.renderFirst(delta);
 
 		//UI
-		if(!overlay.shouldHideGameUI()) {
+		if (!overlay.shouldHideGameUI()) {
 
 			//Draw lives
 			renderLives();
@@ -188,7 +189,7 @@ public class GameScreen extends PixelScreen {
 	private void renderBackground() {
 		game.getRenderManager().begin();
 
-		if(GameDebugSettings.get("DEBUG_SCREEN_BOUNDS")) {
+		if (GameDebugSettings.get("DEBUG_SCREEN_BOUNDS")) {
 			game.getRenderManager().setColor(1, 0, 0, 0);
 		} else {
 			game.getRenderManager().setColor(0, 0, 0, 1);
@@ -199,7 +200,7 @@ public class GameScreen extends PixelScreen {
 
 	private void renderEffectTime() {
 		Collection<StatusEffect> effects = world.player.getStatusEffects();
-		if(!effects.isEmpty()) {
+		if (!effects.isEmpty()) {
 			game.getRenderManager().begin();
 			int index = 0;
 			final int yPos = world.getWorldHeight() + uiPos - 6;
@@ -208,7 +209,7 @@ public class GameScreen extends PixelScreen {
 			final int ySize = 32;
 			for (StatusEffect effect : effects) {
 				final float timeRemaining = effect.getScaledTime();
-				if(timeRemaining > 0) {
+				if (timeRemaining > 0) {
 					final float timeRemainingScaled = timeRemaining * ySize;
 					effect.updateRenderColor(game.getRenderManager());
 					game.getRenderManager().rect(xPos + index * xSize, yPos - timeRemainingScaled, xSize, timeRemainingScaled);
@@ -219,7 +220,7 @@ public class GameScreen extends PixelScreen {
 	}
 
 	private void renderLives() {
-		if(gameMode.getExtraLives() > 0) {
+		if (gameMode.getExtraLives() > 0) {
 			game.getRenderManager().begin();
 			for (int index = 1; index <= world.getPlayer().getExtraLives() + 1; index++) {
 				game.getRenderManager().getBatch().draw(game.getGameAssets().getHeart(), game.gameSizeX - 36 * index, uiPos + world.getWorldHeight() - 28);
@@ -232,7 +233,7 @@ public class GameScreen extends PixelScreen {
 	 */
 	private void init() {
 		initialized = true;
-		if(game.userData.tutorialSeen(gameMode)) {
+		if (game.userData.tutorialSeen(gameMode)) {
 			setOverlay(new CountDownOverlay(this));
 		} else {
 			setOverlay(new TutorialOverlay(this));
@@ -242,7 +243,7 @@ public class GameScreen extends PixelScreen {
 	}
 
 	private void renderDebugInformation() {
-		if(GameDebugSettings.get("DEBUG_MODE_COORDS")) {
+		if (GameDebugSettings.get("DEBUG_MODE_COORDS")) {
 			float x = game.getScaledMouseX();
 			float y = game.getScaledMouseY();
 			float worldY = world.convertMouseYToWorldCoordinate(y);
@@ -271,7 +272,7 @@ public class GameScreen extends PixelScreen {
 			game.getFont().draw(game.getBatch(), fontLayout, 5, pos);
 			//End draw
 			game.getFont().getData().setScale(1F);
-		} else if(GameDebugSettings.get("DEBUG_MUSIC")) {
+		} else if (GameDebugSettings.get("DEBUG_MUSIC")) {
 			game.getRenderManager().begin();
 			game.getFont().setColor(Color.LIGHT_GRAY);
 			game.getFont().getData().setScale(0.5F);
@@ -298,7 +299,7 @@ public class GameScreen extends PixelScreen {
 
 	@Override
 	public void pause() {
-		if(GameDebugSettings.get("AUTO_PAUSE")) {
+		if (GameDebugSettings.get("AUTO_PAUSE")) {
 			isScreenPaused = true;
 			overlay.pause();
 		}
@@ -306,7 +307,7 @@ public class GameScreen extends PixelScreen {
 
 	@Override
 	public void resume() {
-		if(GameDebugSettings.get("AUTO_PAUSE")) {
+		if (GameDebugSettings.get("AUTO_PAUSE")) {
 			isScreenPaused = false;
 			overlay.resume();
 		}
@@ -330,7 +331,7 @@ public class GameScreen extends PixelScreen {
 	}
 
 	public void setOverlayInputProcessor(InputProcessor processor) {
-		if(valid) {
+		if (valid) {
 			Gdx.input.setInputProcessor(processor);
 		}
 	}
@@ -352,6 +353,7 @@ public class GameScreen extends PixelScreen {
 	/**
 	 * Sets a new overlay as active<br></br>
 	 * disposes the old overlay and resets InputProcessors
+	 *
 	 * @param o {@link Overlay} to show
 	 */
 	public void setOverlay(Overlay o) {
@@ -359,7 +361,7 @@ public class GameScreen extends PixelScreen {
 		resetInputManager();
 		overlay = o;
 		overlay.show();
-		if(!overlay.canHideCursor()) {
+		if (!overlay.canHideCursor()) {
 			inputManager.resetMouseVisibility();
 		}
 	}
@@ -404,7 +406,7 @@ public class GameScreen extends PixelScreen {
 	}
 
 	public void resetInputManager() {
-		if(valid) {
+		if (valid) {
 			Gdx.input.setInputProcessor(inputMultiplexer);
 			inputManager.refreshButtonState();
 			stage.getInputProcessor().mouseMoved(Gdx.input.getX(), Gdx.input.getY());

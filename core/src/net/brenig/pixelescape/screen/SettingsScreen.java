@@ -4,15 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
@@ -110,7 +104,7 @@ public class SettingsScreen extends PixelScreen {
 			chbx.addListener(new ChangeListener() {
 				@Override
 				public void changed(ChangeEvent event, Actor actor) {
-					game.gameSettings.setCountdownEnabled (((CheckBox) actor).isChecked());
+					game.gameSettings.setCountdownEnabled(((CheckBox) actor).isChecked());
 				}
 			});
 			chbx.getImageCell().padBottom(8).padRight(10).size(32);
@@ -127,7 +121,7 @@ public class SettingsScreen extends PixelScreen {
 			chbx.addListener(new ChangeListener() {
 				@Override
 				public void changed(ChangeEvent event, Actor actor) {
-					game.gameSettings.setShowHighScoreInWorld (((CheckBox) actor).isChecked());
+					game.gameSettings.setShowHighScoreInWorld(((CheckBox) actor).isChecked());
 				}
 			});
 			chbx.getImageCell().padBottom(8).padRight(10).size(32);

@@ -2,7 +2,6 @@ package net.brenig.pixelescape.game.player.movement;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
@@ -18,12 +17,13 @@ public interface PlayerMovementController {
 
 	/**
 	 * update player movement (x and y)
-	 * @param game Game instance
-	 * @param manager inputmanager instance
-	 * @param gameMode current GameMode
-	 * @param world Current world
-	 * @param player the player
-	 * @param deltaTick time since last frame
+	 *
+	 * @param game            Game instance
+	 * @param manager         inputmanager instance
+	 * @param gameMode        current GameMode
+	 * @param world           Current world
+	 * @param player          the player
+	 * @param deltaTick       time since last frame
 	 * @param yVelocityFactor players y-velocity factor (y-movement might be amplified)
 	 */
 	void updatePlayerMovement(PixelEscape game, InputManager manager, GameMode gameMode, World world, EntityPlayer player, float deltaTick, float yVelocityFactor);
@@ -32,21 +32,21 @@ public interface PlayerMovementController {
 	 * reset the player input controller
 	 * <p/>
 	 * gets called when player respawns
-	 * @see EntityPlayer#reset(GameMode)
 	 *
 	 * @param mode current gamemode
+	 * @see EntityPlayer#reset(GameMode)
 	 */
 	void reset(GameMode mode);
 
 	/**
 	 * render effects in the background
 	 * <p/>
-	 * @see EntityPlayer#renderBackground(PixelEscape, WorldRenderer, GameMode, float)
-	 * 
-	 * @param game game instance
+	 *
+	 * @param game     game instance
 	 * @param renderer current renderer
-	 * @param world current world
-	 * @param delta time passed since last frame
+	 * @param world    current world
+	 * @param delta    time passed since last frame
+	 * @see EntityPlayer#renderBackground(PixelEscape, WorldRenderer, GameMode, float)
 	 */
 	void renderBackground(PixelEscape game, WorldRenderer renderer, World world, float delta);
 

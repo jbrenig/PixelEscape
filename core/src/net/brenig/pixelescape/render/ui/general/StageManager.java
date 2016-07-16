@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
 import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.GameRenderManager;
@@ -18,18 +17,19 @@ import net.brenig.pixelescape.render.GameRenderManager;
  * provides common methods to organize root layouts
  */
 public class StageManager {
-	
+
 	protected final Stage uiStage;
 	protected final Table rootTable;
 
 	/**
 	 * default stagemanager using a {@link com.badlogic.gdx.utils.viewport.ExtendViewport}
+	 *
 	 * @param renderManager game rendermanager
 	 */
 	public StageManager(GameRenderManager renderManager) {
 		this(new ExtendViewport(Reference.TARGET_RESOLUTION_X, Reference.TARGET_RESOLUTION_Y, renderManager.getCamera()));
 	}
-	
+
 	public StageManager(Viewport view) {
 		uiStage = new Stage(view);
 		uiStage.setDebugAll(GameDebugSettings.get("DEBUG_UI"));
@@ -52,6 +52,7 @@ public class StageManager {
 
 	/**
 	 * act-method
+	 *
 	 * @see Stage#act(float)
 	 */
 	public void act(float delta) {
@@ -60,6 +61,7 @@ public class StageManager {
 
 	/**
 	 * draw the ui
+	 *
 	 * @see Stage#draw()
 	 */
 	public void draw(GameRenderManager renderManager) {
@@ -70,6 +72,7 @@ public class StageManager {
 	/**
 	 * Special method to add actors directly to the stage<br>
 	 * note: Actors do not get added to the rootTable
+	 *
 	 * @see Stage#addActor(Actor)
 	 */
 	public void addActorToStage(Actor actor) {
@@ -78,6 +81,7 @@ public class StageManager {
 
 	/**
 	 * adds an actor to the rootTable
+	 *
 	 * @see Table#add(Actor)
 	 */
 	public Cell<Actor> add(Actor actor) {
@@ -101,6 +105,7 @@ public class StageManager {
 
 	/**
 	 * updates viewport
+	 *
 	 * @see Viewport#update(int, int, boolean)
 	 */
 	public void updateViewport(int width, int height, boolean centerCamera) {
@@ -109,6 +114,7 @@ public class StageManager {
 
 	/**
 	 * updates Viewport to screen bounds and centers camera
+	 *
 	 * @see Viewport#update(int, int, boolean)
 	 */
 	public void updateViewportToScreen() {

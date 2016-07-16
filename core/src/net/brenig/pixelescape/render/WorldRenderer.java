@@ -3,7 +3,6 @@ package net.brenig.pixelescape.render;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.entity.Entity;
@@ -49,22 +48,23 @@ public class WorldRenderer {
 
 	/**
 	 * calculate screen shake effect
+	 *
 	 * @param delta time since last tick
 	 */
 	private void shakeScreen(float delta) {
-		if(screenShakeForceX > 0) {
+		if (screenShakeForceX > 0) {
 			screenShakeTimerX += delta * (screenShakeLengthMod + PixelEscape.rand.nextFloat());
 		}
-		if(screenShakeForceY > 0) {
+		if (screenShakeForceY > 0) {
 			screenShakeTimerY += delta * (screenShakeLengthMod + PixelEscape.rand.nextFloat());
 		}
-		if(screenShakeTimerX >= screenShakeForceX) {
+		if (screenShakeTimerX >= screenShakeForceX) {
 			screenShakeX = screenShakeForceX = screenShakeTimerX = 0;
 		} else {
 			float difX = screenShakeForceX - screenShakeTimerX;
 			screenShakeX = (float) (Math.sin(screenShakeTimerX * screenShakeSpeed + world.getRandom().nextFloat() * screenShakeNoise) * difX) * screenShakeForceMult;
 		}
-		if(screenShakeTimerY >= screenShakeForceY) {
+		if (screenShakeTimerY >= screenShakeForceY) {
 			screenShakeY = screenShakeForceY = screenShakeTimerY = 0;
 		} else {
 			float difY = screenShakeForceY - screenShakeTimerY;
@@ -74,14 +74,15 @@ public class WorldRenderer {
 
 	/**
 	 * initiates a screen shake effect
+	 *
 	 * @param x force on x axis
 	 * @param y force on y axis
 	 */
 	public void applyForceToScreen(float x, float y) {
-		if(x * Math.PI > screenShakeForceX) {
+		if (x * Math.PI > screenShakeForceX) {
 			screenShakeForceX = (float) (x * Math.PI);
 		}
-		if(y * Math.PI > screenShakeForceY) {
+		if (y * Math.PI > screenShakeForceY) {
 			screenShakeForceY = (float) (y * Math.PI);
 		}
 	}
@@ -103,8 +104,8 @@ public class WorldRenderer {
 	}
 
 	private void moveScreen(float delta) {
-		if(movementSpeedX != 0 && xOffset != targetX) {
-			if(targetX < xOffset) {
+		if (movementSpeedX != 0 && xOffset != targetX) {
+			if (targetX < xOffset) {
 				xOffset -= Math.min(xOffset - targetX, movementSpeedX * delta);
 			} else {
 				xOffset += Math.min(targetX - xOffset, movementSpeedX * delta);
@@ -116,7 +117,7 @@ public class WorldRenderer {
 	 * Renders the World
 	 */
 	public void render(float delta) {
-		if(game.gameDebugSettings.getBoolean("SCREEN_SHAKE")) {
+		if (game.gameDebugSettings.getBoolean("SCREEN_SHAKE")) {
 			shakeScreen(delta);
 		}
 		moveScreen(delta);
@@ -138,7 +139,7 @@ public class WorldRenderer {
 	 * renders entities in background
 	 */
 	private void renderEntitiesBackground(float delta) {
-		for(Entity e : world.getEntityList()) {
+		for (Entity e : world.getEntityList()) {
 			e.renderBackground(game, this, world.getScreen().getGameMode(), delta);
 		}
 	}
@@ -147,7 +148,7 @@ public class WorldRenderer {
 	 * renders entities
 	 */
 	private void renderEntities(float delta) {
-		for(Entity e : world.getEntityList()) {
+		for (Entity e : world.getEntityList()) {
 			e.render(game, this, world.getScreen().getGameMode(), delta);
 		}
 	}
@@ -168,7 +169,7 @@ public class WorldRenderer {
 
 	/**
 	 * renders a rectangle using {@link com.badlogic.gdx.graphics.glutils.ShapeRenderer} and {@link GameRenderManager}
-	 *
+	 * <p>
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderRect(float x, float y, float width, float height) {
@@ -177,7 +178,7 @@ public class WorldRenderer {
 
 	/**
 	 * same as {@link #renderRect(float, float, float, float)}, but using global coordinates
-	 *
+	 * <p>
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderRectWorld(float x, float y, float width, float height) {
@@ -187,7 +188,7 @@ public class WorldRenderer {
 
 	/**
 	 * renders a {@link Drawable} using {@link GameRenderManager}
-	 *
+	 * <p>
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderDrawable(Drawable drawable, float x, float y, float width, float height) {
@@ -196,7 +197,7 @@ public class WorldRenderer {
 
 	/**
 	 * same as {@link #renderDrawable(Drawable, float, float, float, float)}, but using global coordinates
-	 *
+	 * <p>
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderDrawableWorld(Drawable drawable, float x, float y, float width, float height) {
@@ -205,7 +206,7 @@ public class WorldRenderer {
 
 	/**
 	 * renders a {@link TextureRegion} using {@link GameRenderManager}
-	 *
+	 * <p>
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderTextureRegion(TextureRegion region, float x, float y, float width, float height) {
@@ -214,7 +215,7 @@ public class WorldRenderer {
 
 	/**
 	 * same as {@link #renderTextureRegion(TextureRegion, float, float, float, float)}, but using global coordinates
-	 *
+	 * <p>
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderTextureRegionWorld(TextureRegion region, float x, float y, float width, float height) {
@@ -230,7 +231,7 @@ public class WorldRenderer {
 
 	/**
 	 * draws the given String
-	 *
+	 * <p>
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderText(String text, float x, float y) {
@@ -239,25 +240,25 @@ public class WorldRenderer {
 
 	/**
 	 * draws the given String
-	 *
+	 * <p>
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderText(String text, Color color, float x, float y) {
-		getRenderManager().draw(text, color,  currentTotalXOffset + x, currentTotalYOffset + y);
+		getRenderManager().draw(text, color, currentTotalXOffset + x, currentTotalYOffset + y);
 	}
 
 	/**
 	 * draws the given String
-	 *
+	 * <p>
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderText(String text, Color color, float x, float y, float size) {
-		getRenderManager().draw(text, color,  currentTotalXOffset + x, currentTotalYOffset + y, size);
+		getRenderManager().draw(text, color, currentTotalXOffset + x, currentTotalYOffset + y, size);
 	}
 
 	/**
 	 * same as {@link #renderText(String, float, float)}, but using global coordinates
-	 *
+	 * <p>
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderTextWorld(String text, float x, float y) {
@@ -266,7 +267,7 @@ public class WorldRenderer {
 
 	/**
 	 * same as {@link #renderText(String, Color, float, float)}, but using global coordinates
-	 *
+	 * <p>
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderTextWorld(String text, Color color, float x, float y) {
@@ -275,7 +276,7 @@ public class WorldRenderer {
 
 	/**
 	 * same as {@link #renderText(String, Color, float, float, float)}, but using global coordinates
-	 *
+	 * <p>
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void renderTextWorld(String text, Color color, float x, float y, float size) {

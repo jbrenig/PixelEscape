@@ -19,7 +19,7 @@ public class CycleArray<T> {
 
 
 	public CycleArray(int size) {
-		if(size < 1) {
+		if (size < 1) {
 			throw new IllegalArgumentException("The specified size has to be 1 or greater!");
 		}
 		data = new Object[size];
@@ -27,7 +27,7 @@ public class CycleArray<T> {
 	}
 
 	private int convertToLocalIndex(int globalIndex) {
-		if(globalIndex < 0) {
+		if (globalIndex < 0) {
 			throw new IllegalArgumentException("The index cannot be lower than 0!");
 		}
 		return (index + globalIndex + 1) % data.length;
@@ -74,7 +74,7 @@ public class CycleArray<T> {
 		int i = (index + 1) % data.length;
 		while (data[i] == null) {
 			i = (i + 1) % data.length;
-			if(i == index) {
+			if (i == index) {
 				break;
 			}
 		}
@@ -98,18 +98,19 @@ public class CycleArray<T> {
 	 * resizes the array to the given length<br>
 	 * fields get added at the end of the array, filled with null<br>
 	 * when removing fields the oldest ones get removed first
+	 *
 	 * @param newWidth the new length
 	 */
 	public void resize(int newWidth) {
-		if(newWidth > data.length) {
+		if (newWidth > data.length) {
 			Object[] oldData = data;
 			data = new Object[newWidth];
 			System.arraycopy(oldData, 0, data, 0, index + 1);
-			if(oldData.length > index + 1) {
+			if (oldData.length > index + 1) {
 				final int oldDataRemains = oldData.length - index - 1;
 				System.arraycopy(oldData, index + 1, data, data.length - oldDataRemains, oldDataRemains);
 			}
-		} else if(newWidth < data.length) {
+		} else if (newWidth < data.length) {
 			Object[] oldData = data;
 			int oldIndex = index;
 			data = new Object[newWidth];
@@ -127,6 +128,7 @@ public class CycleArray<T> {
 
 	/**
 	 * cycles the array amount steps forward, putting the oldest elements back to the front
+	 *
 	 * @param amount the amount of entries that get re-added to the front
 	 */
 	public void cycleForward(int amount) {
@@ -139,7 +141,7 @@ public class CycleArray<T> {
 	 * cycles the array 1 step forward, putting the oldest elements back to the front
 	 */
 	public void cycleForward() {
-		index ++;
+		index++;
 		updateIndexBounds();
 		modCount++;
 	}
@@ -149,7 +151,7 @@ public class CycleArray<T> {
 	}
 
 	public void clear() {
-		for(int i = 0; i < data.length; i++) {
+		for (int i = 0; i < data.length; i++) {
 			data[i] = null;
 		}
 	}

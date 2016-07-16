@@ -4,16 +4,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Disposable;
-
 import net.brenig.pixelescape.game.data.GameAssets;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
@@ -67,7 +62,7 @@ public class GameRenderManager implements Disposable {
 	 * initializes SpriteBatch and shape renderer
 	 */
 	public void initializeRendering() {
-		if(state != State.INVALID) {
+		if (state != State.INVALID) {
 			throw new IllegalStateException("Error initializing Rendering!! Already initialized state: " + state);
 		}
 		//initialize drawing area
@@ -119,7 +114,7 @@ public class GameRenderManager implements Disposable {
 	 * prepares batch for drawing
 	 */
 	public void begin() {
-		if(state != State.BATCH) {
+		if (state != State.BATCH) {
 			end();
 			batch.begin();
 			state = State.BATCH;
@@ -163,7 +158,7 @@ public class GameRenderManager implements Disposable {
 				return;
 			default:
 				LogHelper.error("RenderManager in unknown state!");
-				if(batch.isDrawing()) {
+				if (batch.isDrawing()) {
 					batch.end();
 					break;
 				} else {
@@ -176,7 +171,7 @@ public class GameRenderManager implements Disposable {
 
 	/**
 	 * draws the drawable at the given position and size
-	 *
+	 * <p>
 	 * note: the renderer has to be initialized and in the correct state
 	 */
 	public void draw(Drawable drawable, float x, float y, float width, float height) {
@@ -185,7 +180,7 @@ public class GameRenderManager implements Disposable {
 
 	/**
 	 * draws the TextureRegion at the given position and size
-	 *
+	 * <p>
 	 * note: the renderer has to be initialized and in the correct state
 	 */
 	public void draw(TextureRegion drawable, float x, float y, float width, float height) {
@@ -194,7 +189,7 @@ public class GameRenderManager implements Disposable {
 
 	/**
 	 * draws the TextureRegion at the given position
-	 *
+	 * <p>
 	 * note: the renderer has to be initialized and in the correct state
 	 */
 	public void draw(TextureRegion drawable, float x, float y) {
@@ -203,7 +198,7 @@ public class GameRenderManager implements Disposable {
 
 	/**
 	 * draws the Sprite at its position and size
-	 *
+	 * <p>
 	 * note: the renderer has to be initialized and in the correct state
 	 */
 	public void draw(Sprite sprite) {
@@ -212,7 +207,7 @@ public class GameRenderManager implements Disposable {
 
 	/**
 	 * draws the given String
-	 *
+	 * <p>
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void draw(String text, float x, float y) {
@@ -221,7 +216,7 @@ public class GameRenderManager implements Disposable {
 
 	/**
 	 * draws the given String
-	 *
+	 * <p>
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void draw(String text, Color color, float x, float y) {
@@ -231,7 +226,7 @@ public class GameRenderManager implements Disposable {
 
 	/**
 	 * draws the given String
-	 *
+	 * <p>
 	 * note: Renderer has to be initialized and in the right state
 	 */
 	public void draw(String text, Color color, float x, float y, float size) {
@@ -243,7 +238,7 @@ public class GameRenderManager implements Disposable {
 
 	/**
 	 * draws a filled Rectangle at the given position and size using the specified batch
-	 *
+	 * <p>
 	 * note: the batch has to be initialized and in the correct state
 	 */
 	public void rect(Batch batch, float x, float y, float width, float height) {
@@ -253,7 +248,7 @@ public class GameRenderManager implements Disposable {
 
 	/**
 	 * draws a filled Rectangle at the given position and size
-	 *
+	 * <p>
 	 * note: the renderer has to be initialized and in the correct state {@link State#BATCH}
 	 */
 	public void rect(float x, float y, float width, float height, Color color) {
@@ -263,7 +258,7 @@ public class GameRenderManager implements Disposable {
 
 	/**
 	 * draws a filled Rectangle at the given position and size
-	 *
+	 * <p>
 	 * note: the renderer has to be initialized and in the correct state {@link State#BATCH}
 	 */
 	public void rect(float x, float y, float width, float height) {
@@ -274,7 +269,7 @@ public class GameRenderManager implements Disposable {
 
 	/**
 	 * draws a filled line at the given position and size
-	 *
+	 * <p>
 	 * note: the renderer has to be initialized and in the correct state {@link State#BATCH}
 	 */
 	public void line(float x1, float y1, float x2, float y2, int thickness, Color color) {
@@ -284,14 +279,14 @@ public class GameRenderManager implements Disposable {
 
 	/**
 	 * draws a filled line at the given position and size
-	 *
+	 * <p>
 	 * note: the renderer has to be initialized and in the correct state {@link State#BATCH}
 	 */
 	public void line(float x1, float y1, float x2, float y2, int thickness) {
-		float dx = x2-x1;
-		float dy = y2-y1;
-		float dist = (float)Math.sqrt(dx*dx + dy*dy);
-		float rad = (float)Math.atan2(dy, dx);
+		float dx = x2 - x1;
+		float dy = y2 - y1;
+		float dist = (float) Math.sqrt(dx * dx + dy * dy);
+		float rad = (float) Math.atan2(dy, dx);
 		squareDrawable.setBounds(x1, y1, dist, thickness);
 		squareDrawable.setRotation(rad * MathUtils.radiansToDegrees);
 		squareDrawable.draw(batch);
@@ -302,7 +297,7 @@ public class GameRenderManager implements Disposable {
 	 * sets the current color to draw basic shapes in (when not using {@link ShapeRenderer}
 	 */
 	public void setColor(Color color) {
-		if(this.color != color) {
+		if (this.color != color) {
 			squareDrawable.setColor(color);
 			this.color = color;
 		}

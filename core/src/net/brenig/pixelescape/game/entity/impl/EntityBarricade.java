@@ -39,8 +39,8 @@ public class EntityBarricade extends Entity {
 
 	@Override
 	public CollisionType doesAreaCollideWithEntity(float x1, float y1, float x2, float y2) {
-		if(doesAreaIntersectWithEntity(x1, y1, x2, y2)) {
-			if(getMinX() > x1) {
+		if (doesAreaIntersectWithEntity(x1, y1, x2, y2)) {
+			if (getMinX() > x1) {
 				return CollisionType.TERRAIN_RIGHT;
 			} else {
 				return CollisionType.TERRAIN_LEFT;

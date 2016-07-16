@@ -18,12 +18,13 @@ public class SimpleAnimation {
 
 	/**
 	 * renders the animation
+	 *
 	 * @param renderer renderer instance
-	 * @param xPos the x-position on screen
-	 * @param yPos the y-position on screen
-	 * @param width width of the animation
-	 * @param height height of the animation
-	 * @param delta time since last frame
+	 * @param xPos     the x-position on screen
+	 * @param yPos     the y-position on screen
+	 * @param width    width of the animation
+	 * @param height   height of the animation
+	 * @param delta    time since last frame
 	 */
 	public void render(GameRenderManager renderer, float xPos, float yPos, float width, float height, float delta) {
 		frameTime += delta;
@@ -33,10 +34,11 @@ public class SimpleAnimation {
 
 	/**
 	 * renders the animation
+	 *
 	 * @param renderer renderer instance
-	 * @param xPos the x-position on screen
-	 * @param yPos the y-position on screen
-	 * @param delta time since last frame
+	 * @param xPos     the x-position on screen
+	 * @param yPos     the y-position on screen
+	 * @param delta    time since last frame
 	 */
 	public void render(GameRenderManager renderer, float xPos, float yPos, float delta) {
 		frameTime += delta;

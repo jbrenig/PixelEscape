@@ -22,7 +22,7 @@ public class TabbedStack extends Stack {
 
 	@Override
 	public void add(Actor actor) {
-		if(getChildren().size >= 1) {
+		if (getChildren().size >= 1) {
 			actor.setVisible(false);
 		}
 		super.add(actor);

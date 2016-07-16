@@ -2,8 +2,8 @@ package net.brenig.pixelescape.game.worldgen.special;
 
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
-import net.brenig.pixelescape.game.entity.impl.EntityBarricade;
 import net.brenig.pixelescape.game.data.GameMode;
+import net.brenig.pixelescape.game.entity.impl.EntityBarricade;
 import net.brenig.pixelescape.game.worldgen.WorldGenerator;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
@@ -27,8 +27,8 @@ public class BarricadeGenerator implements ISpecialWorldGenerator {
 
 	@Override
 	public void generate(WorldGenerator generator, World world, Random rand, GameMode mode) {
-		if(mode.shouldGenerateBarricades(world)) {
-			if(world.getCurrentScreenEnd() + spawnOffset > nextBarricadePosition) {
+		if (mode.shouldGenerateBarricades(world)) {
+			if (world.getCurrentScreenEnd() + spawnOffset > nextBarricadePosition) {
 				EntityBarricade barricade = world.createEntity(EntityBarricade.class);
 				final int newXPos = nextBarricadePosition;
 				final int newYPos = rand.nextInt(world.getWorldHeight() - Reference.OBSTACLE_MIN_HEIGHT * Reference.BLOCK_WIDTH * 2) + Reference.OBSTACLE_MIN_HEIGHT * Reference.BLOCK_WIDTH;
@@ -44,8 +44,9 @@ public class BarricadeGenerator implements ISpecialWorldGenerator {
 
 	/**
 	 * checks blocks around the Barricade and tries to position the barricade (y-Pos) so that it is possible to get past is on higher player speeds
-	 * @param world world instance
-	 * @param b tha barricade that needs to be moved
+	 *
+	 * @param world    world instance
+	 * @param b        the barricade that needs to be moved
 	 * @param gameMode current gamemode
 	 */
 	private void updateBarricade(World world, EntityBarricade b, GameMode gameMode) {

@@ -24,7 +24,7 @@ public class Utils {
 		//minimize padding
 		table.pad(8, 8, 8, 8);
 		table.defaults().size(getButtonSize());
-		if(game.gameConfig.useBiggerButtons()) {
+		if (game.gameConfig.useBiggerButtons()) {
 			table.defaults().pad(2, 1, 2, 1);
 			table.defaults().expand().fillY();
 			table.setHeight(Reference.GAME_UI_Y_SIZE);
@@ -106,7 +106,7 @@ public class Utils {
 	 * @return the table they got added to
 	 */
 	public static Table addFullScreenButtonToTable(final PixelEscape game, Table layout) {
-		if(game.gameConfig.canGoFullScreen()) {
+		if (game.gameConfig.canGoFullScreen()) {
 			final TwoStateImageButton btnFullScreen = new TwoStateImageButton(game.getSkin(), "fullscreen");
 			btnFullScreen.setState(game.gameSettings.fullscreen);
 			btnFullScreen.addListener(new ClickListener() {
@@ -125,13 +125,13 @@ public class Utils {
 		return layout;
 	}
 
-		/**
-		 * NinePatchDrawables use their total size as minimum size by default
-		 * This helper function resizes them to their minimum, so they can be resized to be smaller than their total size
-		 *
-		 * @param patch The ninepatch to minimize
-		 * @return the given, minimized Ninepatch
-		 */
+	/**
+	 * NinePatchDrawables use their total size as minimum size by default
+	 * This helper function resizes them to their minimum, so they can be resized to be smaller than their total size
+	 *
+	 * @param patch The ninepatch to minimize
+	 * @return the given, minimized Ninepatch
+	 */
 	public static Drawable minimizeNinePatch(NinePatchDrawable patch) {
 		patch.setMinHeight(patch.getPatch().getBottomHeight() + patch.getPatch().getTopHeight());
 		patch.setMinWidth(patch.getPatch().getLeftWidth() + patch.getPatch().getRightWidth());
@@ -151,14 +151,13 @@ public class Utils {
 	}
 
 	public static float easeInAndOut(float timePassed, float maxTime) {
-		if(timePassed > maxTime) {
+		if (timePassed > maxTime) {
 			return 1;
 		}
 		float timeProgress = timePassed / maxTime;
 		if (timeProgress < 0.5) {
 			return 2 * timeProgress * timeProgress;
-		}
-		else {
+		} else {
 			return -1 + (4 - 2 * timeProgress) * timeProgress;
 		}
 	}

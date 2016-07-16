@@ -19,7 +19,7 @@ public interface PlayerMovementController {
 	/**
 	 * update player movement (x and y)
 	 * @param game Game instance
-	 * @param manager inputmanager instnace
+	 * @param manager inputmanager instance
 	 * @param gameMode current GameMode
 	 * @param world Current world
 	 * @param player the player

@@ -84,7 +84,7 @@ public class WorldGenerator {
 				    LogHelper.error("Invalid World Gen!! Generator ignoring MAX! Generator: " + gen);
 			    }
 			    if ((oldTerrainBufferIndexStart + generated) != world.terrainBufferWorldIndex) {
-				    LogHelper.error("Invalid World Gen!! Generator returnvalue invalid! Generator: " + gen + "; generated: " + generated + "; lastGen: " + oldTerrainBufferIndexStart + "; currentGen: " + world.terrainBufferWorldIndex);
+				    LogHelper.error("Invalid World Gen!! Generator return value invalid! Generator: " + gen + "; generated: " + generated + "; lastGen: " + oldTerrainBufferIndexStart + "; currentGen: " + world.terrainBufferWorldIndex);
 			    }
 		    }
 	    }

@@ -170,10 +170,12 @@ public class CycleArray<T> {
 		int lastRet = -1; // index of last element returned; -1 if no such
 		int expectedModCount = modCount;
 
+		@Override
 		public boolean hasNext() {
 			return cursor != data.length;
 		}
 
+		@Override
 		@SuppressWarnings("unchecked")
 		public T next() {
 			checkForComodification();
@@ -188,6 +190,7 @@ public class CycleArray<T> {
 			return (T) elementData[convertToLocalIndex(i)];
 		}
 
+		@Override
 		public void remove() {
 			if (lastRet < 0)
 				throw new IllegalStateException();

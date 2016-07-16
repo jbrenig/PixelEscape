@@ -38,7 +38,7 @@ public class TutorialOverlay extends OverlayWithUi implements SwipeTabbedStack.I
 
 		final GameMode gameMode = screen.getGameMode();
 
-		Table headLayout = stage.createHeadUiLayoutTable();
+		//Table headLayout = stage.createHeadUiLayoutTable();
 		Table contentTable = stage.createContentUiLayoutTable();
 		contentTable.defaults().fill();
 

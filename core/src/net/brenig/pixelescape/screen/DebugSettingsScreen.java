@@ -104,6 +104,7 @@ public class DebugSettingsScreen extends PixelScreen {
 		return chbx;
 	}
 
+	@SuppressWarnings("Duplicates")
 	@Override
 	public void show() {
 		Gdx.input.setInputProcessor(uiStage.getInputProcessor());

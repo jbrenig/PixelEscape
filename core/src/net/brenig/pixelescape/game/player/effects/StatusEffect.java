@@ -41,7 +41,7 @@ public abstract class StatusEffect {
 	public void onEffectAdded(EntityPlayer player) {}
 
 	/**
-	 * @return time remaining, unitl this effect ends (return 0 or less if not applicable)
+	 * @return time remaining, until this effect ends (return 0 or less if not applicable)
 	 */
 	public float getScaledTime() {
 		return 0;

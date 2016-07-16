@@ -22,7 +22,7 @@ public class SimpleAnimation {
 	 * @param xPos the x-position on screen
 	 * @param yPos the y-position on screen
 	 * @param width width of the animation
-	 * @param height height of the animtion
+	 * @param height height of the animation
 	 * @param delta time since last frame
 	 */
 	public void render(GameRenderManager renderer, float xPos, float yPos, float width, float height, float delta) {

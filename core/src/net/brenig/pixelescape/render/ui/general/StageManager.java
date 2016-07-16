@@ -44,7 +44,7 @@ public class StageManager {
 	}
 
 	/**
-	 * @return the rootTable for futher modification
+	 * @return the rootTable for further modification
 	 */
 	public Table getRootTable() {
 		return rootTable;

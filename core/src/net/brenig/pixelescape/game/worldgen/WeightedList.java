@@ -74,6 +74,7 @@ public class WeightedList<T> implements FilteredElementProvider<T> {
 	 *
 	 * @return a random value, null if the list is empty
 	 */
+	@Override
 	public T getRandomValue(Random random) {
 		if(size() == 0) {
 			return null;

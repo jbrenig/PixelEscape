@@ -26,7 +26,7 @@ public class FlashMovementController implements PlayerMovementController {
 		if (manager.isTouched()) {
 			player.setYPosition(world.convertMouseYToWorldCoordinate(game.getScaledMouseY()));
 		}
-		player.modifiyXVelocity(gameMode.getSpeedIncreaseFactor() * deltaTick);
+		player.modifyXVelocity(gameMode.getSpeedIncreaseFactor() * deltaTick);
 	}
 
 	@Override

@@ -55,7 +55,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	private boolean isDead = false;
 
 	private Ability currentAbility;
-	private int remaingAbilityUses;
+	private int remainingAbilityUses;
 
 	private float cooldownRemaining = 0;
 
@@ -135,8 +135,8 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	 */
 	public void useAbility() {
 		if(currentAbility.onActivate(world.getScreen(), world, this)) {
-			remaingAbilityUses--;
-			if(remaingAbilityUses == 0) {
+			remainingAbilityUses--;
+			if(remainingAbilityUses == 0) {
 				currentAbility = null;
 				cooldownRemaining = 0;
 			} else {
@@ -162,7 +162,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		extraLives = gameMode.getExtraLives();
 
 		currentAbility = gameMode.getStartingAbility();
-		remaingAbilityUses = gameMode.getStartingAbilityUses();
+		remainingAbilityUses = gameMode.getStartingAbilityUses();
 		cooldownRemaining = 0;
 
 		for(StatusEffect effect : effects) {
@@ -338,14 +338,14 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	public void addAbility(Ability ability, int uses) {
 		if (this.currentAbility == ability) {
 			if(uses > 0) {
-				this.remaingAbilityUses += uses;
+				this.remainingAbilityUses += uses;
 			} else {
-				this.remaingAbilityUses = uses;
+				this.remainingAbilityUses = uses;
 			}
 		} else {
 			this.cooldownRemaining = 0;
 			this.currentAbility = ability;
-			this.remaingAbilityUses = uses;
+			this.remainingAbilityUses = uses;
 		}
 	}
 
@@ -354,7 +354,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	}
 
 	public boolean hasAbility() {
-		return currentAbility != null && remaingAbilityUses != 0;
+		return currentAbility != null && remainingAbilityUses != 0;
 	}
 
 	public void increaseXPos(float x) {
@@ -382,7 +382,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	/**
 	 * Gets called when player collides<br></br>
-	 * used to spawn explosion and other effects as well as reducing lives/schowing gameover screen
+	 * used to spawn explosion and other effects as well as reducing lives/showing gameover screen
 	 * @param col type of collision
 	 * @param world the world instance
 	 */
@@ -411,7 +411,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 		//play sound
 		if (world.getScreen().game.gameSettings.isSoundEnabled()) {
-			world.getScreen().game.getGameAssets().getPlayerChrashedSound().play(world.getScreen().game.gameSettings.getSoundVolume());
+			world.getScreen().game.getGameAssets().getPlayerCrashedSound().play(world.getScreen().game.gameSettings.getSoundVolume());
 		}
 
 		//explode life icon
@@ -462,7 +462,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	/**
 	 * adds a statuseffect to this player
 	 * <p>
-	 *     also removes existing inscances of this effect (uses {@code instanceof} to find these)
+	 *     also removes existing instances of this effect (uses {@code instanceof} to find these)
 	 * </p>
 	 * <p>
 	 *     DO NOT CALL THIS WITHIN A {@link StatusEffect}!!!
@@ -522,14 +522,14 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	/**
 	 * adds given value to the players x-velocity
 	 */
-	public void modifiyXVelocity(float xVelocity) {
+	public void modifyXVelocity(float xVelocity) {
 		this.xVelocity += xVelocity;
 	}
 
 	/**
 	 * adds given value to the players y-velocity
 	 */
-	public void modifiyYVelocity(float yVelocity) {
+	public void modifyYVelocity(float yVelocity) {
 		this.yVelocity += yVelocity;
 	}
 

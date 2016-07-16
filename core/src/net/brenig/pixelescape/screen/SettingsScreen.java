@@ -69,7 +69,7 @@ public class SettingsScreen extends PixelScreen {
 				public void changed(ChangeEvent event, Actor actor) {
 					game.gameSettings.setSoundVolume(((Slider) actor).getValue());
 					if (!((Slider) actor).isDragging()) {
-						game.getGameAssets().getPlayerChrashedSound().play(game.gameSettings.getSoundVolume());
+						game.getGameAssets().getPlayerCrashedSound().play(game.gameSettings.getSoundVolume());
 					}
 				}
 			});
@@ -219,6 +219,7 @@ public class SettingsScreen extends PixelScreen {
 		uiStage.addActorToStage(uiLayout);
 	}
 
+	@SuppressWarnings("Duplicates")
 	@Override
 	public void show() {
 		Gdx.input.setInputProcessor(uiStage.getInputProcessor());

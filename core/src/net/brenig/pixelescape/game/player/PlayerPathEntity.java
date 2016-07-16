@@ -22,6 +22,7 @@ public class PlayerPathEntity implements IMovingEntity {
 		this.yVelocity = (e.getYPos() - this.getYPos()) * Reference.PATH_ENTITY_ACCELERATION_MOD * playerEntity.getXVelocity();
 	}
 
+	@Override
 	public float getYPos() {
 		return yPos;
 	}

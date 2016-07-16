@@ -85,7 +85,7 @@ public class MainMenuScreen extends PixelScreen {
 		//GameMode Image
 		gmImageStack = new SwipeTabbedStack(SwipeTabbedStack.DEFAULT_ANIMATION_X_OFFSET);
 		//init gamemodes
-		for(GameMode mode : game.gameConfig.getAvailbleGameModes()) {
+		for(GameMode mode : game.gameConfig.getAvailableGameModes()) {
 			Image gameModeImageArcade = new Image(mode.createIcon(game.getGameAssets()));
 //			gameModeImageArcade.setRotation(5);
 			gameModeImageArcade.setScaling(Scaling.fit);
@@ -175,7 +175,7 @@ public class MainMenuScreen extends PixelScreen {
 		if(gmImageStack == null) {
 			return null;
 		}
-		return game.gameConfig.getAvailbleGameModes()[gmImageStack.getCurrentElement()];
+		return game.gameConfig.getAvailableGameModes()[gmImageStack.getCurrentElement()];
 	}
 
 	@Override

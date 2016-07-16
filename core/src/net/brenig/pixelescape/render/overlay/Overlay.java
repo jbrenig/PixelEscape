@@ -42,7 +42,7 @@ public abstract class Overlay {
 	 * @param height new height
 	 */
 	public void onResize(int width, int height) {
-		if (!screen.isFirstUpdate()) {
+		if (screen.isInitialized()) {
 			screen.showGamePausedOverlay();
 		}
 	}

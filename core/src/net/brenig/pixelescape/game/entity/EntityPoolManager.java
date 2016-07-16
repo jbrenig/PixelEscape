@@ -8,7 +8,7 @@ import net.brenig.pixelescape.game.World;
 /**
  * Manages Pools for Entities
  *
- * @see {@link com.badlogic.gdx.utils.Pools}
+ * @see com.badlogic.gdx.utils.Pools
  */
 public class EntityPoolManager {
 

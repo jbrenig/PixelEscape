@@ -149,7 +149,7 @@ public class CurrentHighscoreLabel extends Widget {
 
 		float delta = Gdx.graphics.getDeltaTime();
 		animationTimer += delta;
-		//reset fontsize
+		//reset font size
 		game.getFont().getData().setScale(oldFontSizeX, oldFontSizeY);
 
 	}

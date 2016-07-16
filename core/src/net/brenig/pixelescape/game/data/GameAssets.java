@@ -179,7 +179,7 @@ public class GameAssets {
 		mainUiSkin.add(Textures.ITEM_FRAME, textureAtlas.createSprite("item_frame"));
 
 		mainUiSkin.add(Textures.SLIDER_BACKGROUND, textureAtlas.createSprite("slider_background"));
-		mainUiSkin.add(Textures.SLIDER_KNOB, textureAtlas.createSprite("slider_knop"));
+		mainUiSkin.add(Textures.SLIDER_KNOB, textureAtlas.createSprite("slider_knob"));
 
 		mainUiSkin.add(Textures.CHBX_UNCHECKED, textureAtlas.createSprite("checkbox"));
 		mainUiSkin.add(Textures.CHBX_CHECKED, textureAtlas.createSprite("checkbox_checked"));
@@ -368,7 +368,7 @@ public class GameAssets {
 		return buttonNinePatch;
 	}
 
-	public Sound getPlayerChrashedSound() {
+	public Sound getPlayerCrashedSound() {
 		return gameOverSound;
 	}
 

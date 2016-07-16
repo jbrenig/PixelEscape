@@ -53,11 +53,11 @@ public class Reference {
 	public static final int TERRAIN_BUFFER_LEFT = 2;
 
 	/**
-	 * amount of blocks that is not visible on screen but already generated (needs to be higher that {@link #TERRAIN_GENERATION_THRESHOLD}, otherwise not enough blocks are availbable toe the right of the screen)
+	 * amount of blocks that is not visible on screen but already generated (needs to be higher that {@link #TERRAIN_GENERATION_THRESHOLD}, otherwise not enough blocks are available toe the right of the screen)
 	 */
 	public static final int TERRAIN_BUFFER = 32;
 	/**
-	 * minimum number of blocks to start generating new terain
+	 * minimum number of blocks to start generating new terrain
 	 */
 	public static final int TERRAIN_GENERATION_THRESHOLD = 16;
 
@@ -81,7 +81,7 @@ public class Reference {
 
 	public static final float SCREEN_TINT_STRENGTH = 0.6F;
 
-	public static final boolean SUSPRESS_TUTORIALS = false;
+	public static final boolean SUPPRESS_TUTORIALS = false;
 
 	public static final boolean DEBUG_SETTINGS_AVAILABLE    = true;
 

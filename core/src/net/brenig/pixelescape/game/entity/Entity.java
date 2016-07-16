@@ -124,7 +124,7 @@ public abstract class Entity implements Pool.Poolable {
 	 * used to check for collision (with world or rigid objects)
 	 * @param x1 left x coordinate
 	 * @param y1 bottom y coordinate
-	 * @param x2 right x coorinate
+	 * @param x2 right x coordinate
 	 * @param y2 upper y coordinate
 	 * @return whether the area collides with this entity
 	 */
@@ -136,7 +136,7 @@ public abstract class Entity implements Pool.Poolable {
 	 * returns whether this entity intersects with the given area
 	 * @param x1 left x coordinate
 	 * @param y1 bottom y coordinate
-	 * @param x2 right x coorinate
+	 * @param x2 right x coordinate
 	 * @param y2 upper y coordinate
 	 * @return whether the area intersects with this entity
 	 */

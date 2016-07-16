@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 /**
  * Group that only shows on table at a time.
  * <p/>
- * page can be changed with gestures or programatically
+ * page can be changed with gestures or programmatically
  */
 public class SwipeTabbedStack extends Stack {
 
@@ -323,14 +323,14 @@ public class SwipeTabbedStack extends Stack {
 	}
 
 	/**
-	 * sets factor (in relation to width of this actor) which calulates the amount of screen tre user has to travel to go to the next (or preceeding) element
+	 * sets factor (in relation to width of this actor) which calculates the amount of screen tre user has to travel to go to the next (or preceding) element
 	 */
 	public void setPanXOffsetFactor(float panXOffsetFactor) {
 		this.panXOffsetFactor = panXOffsetFactor;
 	}
 
 	/**
-	 * xOffset used when the next element gets moved in by an animtaion
+	 * xOffset used when the next element gets moved in by an animation
 	 * @see #setElementPadding(int)
 	 */
 	public void setAnimationXOffset(int animationXOffset) {
@@ -338,14 +338,14 @@ public class SwipeTabbedStack extends Stack {
 	}
 
 	/**
-	 * time the swipe in animtion needs to play
+	 * time the swipe in animation needs to play
 	 */
 	public void setAnimationDuration(float animationDuration) {
 		this.animationDuration = animationDuration;
 	}
 
 	/**
-	 * sets the speed the user has to swipe to go to the next (or preceeding) element
+	 * sets the speed the user has to swipe to go to the next (or preceding) element
 	 */
 	public void setFlingVelocity(float flingVelocity) {
 		this.flingVelocity = flingVelocity;

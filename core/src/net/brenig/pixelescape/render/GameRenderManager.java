@@ -36,11 +36,12 @@ public class GameRenderManager implements Disposable {
 	/**
 	 * basic square texture for easy access
 	 */
+	@SuppressWarnings("FieldCanBeLocal")
 	private TextureRegion square;
 
 
 	/**
-	 * current color (for drawing rects, etc.)
+	 * current color (for drawing rectangles, etc.)
 	 */
 	private Color color = Color.BLACK;
 
@@ -63,11 +64,11 @@ public class GameRenderManager implements Disposable {
 	}
 
 	/**
-	 * initializes SpirteBatch and shape renderer
+	 * initializes SpriteBatch and shape renderer
 	 */
 	public void initializeRendering() {
 		if(state != State.INVALID) {
-			throw new IllegalStateException("Error intializing Rendering!! Already initialized state: " + state);
+			throw new IllegalStateException("Error initializing Rendering!! Already initialized state: " + state);
 		}
 		//initialize drawing area
 		batch = new SpriteBatch();

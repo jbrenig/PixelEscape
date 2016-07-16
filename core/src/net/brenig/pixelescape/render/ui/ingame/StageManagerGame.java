@@ -8,7 +8,7 @@ import net.brenig.pixelescape.render.ui.general.StageManager;
 
 /**
  * StageManager that manages ui elements for the GameScreen<br></br>
- * escpecially useful in Overlays
+ * especially useful in Overlays
  */
 public class StageManagerGame extends StageManager {
 

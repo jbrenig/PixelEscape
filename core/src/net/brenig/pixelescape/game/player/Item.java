@@ -27,7 +27,7 @@ public interface Item {
 	/**
 	 * gets called when the player tries to collect the item
 	 *
-	 * note: when false is returned this method may get caled every tick in which the player still collides with the {@link EntityItem}
+	 * note: when false is returned this method may get called every tick in which the player still collides with the {@link EntityItem}
 	 * @return true if item was collected, false otherwise
 	 */
 	boolean onCollect(EntityPlayer player);

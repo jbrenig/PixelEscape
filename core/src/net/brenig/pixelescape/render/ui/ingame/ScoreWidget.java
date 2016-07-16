@@ -11,7 +11,7 @@ import net.brenig.pixelescape.screen.GameScreen;
 
 /**
  * Widget that displays current score<br></br>
- * gets draw on a white backgound texture
+ * gets draw on a white background texture
  */
 public class ScoreWidget extends Widget {
 

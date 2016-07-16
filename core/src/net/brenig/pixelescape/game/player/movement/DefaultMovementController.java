@@ -19,7 +19,7 @@ import net.brenig.pixelescape.render.ui.general.HorizontalSpacer;
 import net.brenig.pixelescape.screen.GameScreen;
 
 /**
- * default implementation of a {@link PlayerMovementController}, standart behaviour
+ * default implementation of a {@link PlayerMovementController}, standard behaviour
  *
  * @see GameMode#CLASSIC
  */
@@ -30,17 +30,17 @@ public class DefaultMovementController implements PlayerMovementController {
 	public void updatePlayerMovement(PixelEscape game, InputManager inputManager, GameMode gameMode, World world, EntityPlayer player, float deltaTick, float yVelocityFactor) {
 		if (inputManager.isTouched() || inputManager.isSpaceDown()) {
 			if(!lastTouched) {
-				player.modifiyYVelocity(Reference.CLICK_ACCELERATION * yVelocityFactor);
+				player.modifyYVelocity(Reference.CLICK_ACCELERATION * yVelocityFactor);
 				lastTouched = true;
 			} else {
-				player.modifiyYVelocity(Reference.TOUCH_ACCELERATION * deltaTick * yVelocityFactor);
+				player.modifyYVelocity(Reference.TOUCH_ACCELERATION * deltaTick * yVelocityFactor);
 				lastTouched = true;
 			}
 		} else {
-			player.modifiyYVelocity(Reference.GRAVITY_ACCELERATION * deltaTick * yVelocityFactor);
+			player.modifyYVelocity(Reference.GRAVITY_ACCELERATION * deltaTick * yVelocityFactor);
 			lastTouched = false;
 		}
-		player.modifiyXVelocity(gameMode.getSpeedIncreaseFactor() * deltaTick);
+		player.modifyXVelocity(gameMode.getSpeedIncreaseFactor() * deltaTick);
 	}
 
 	@Override

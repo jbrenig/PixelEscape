@@ -11,6 +11,7 @@ import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.constants.StyleNames;
 import net.brenig.pixelescape.game.data.constants.Textures;
 import net.brenig.pixelescape.game.player.Item;
+import net.brenig.pixelescape.game.player.abliity.Abilities;
 import net.brenig.pixelescape.game.player.abliity.Ability;
 import net.brenig.pixelescape.game.player.effects.EffectMove;
 import net.brenig.pixelescape.game.player.item.ItemLife;
@@ -142,7 +143,7 @@ public enum GameMode {
 			stack.add(table);
 		}
 	},
-	BLINK("Blink", Names.SCOREBOARD_BLINK, "gamemode_blink", true, Ability.BLINK, -1) {
+	BLINK("Blink", Names.SCOREBOARD_BLINK, "gamemode_blink", true, Abilities.BLINK, -1) {
 		@Override
 		public void registerWorldGenerators(WorldGenerator worldGenerator) {
 			worldGenerator.registerDefaultTerrainGenerators();
@@ -157,7 +158,7 @@ public enum GameMode {
 			table.setBackground(Textures.BUTTON_UP);
 			table.defaults().padBottom(20);
 			{
-				Label lbl = new Label("Like Teleporting? Here you go!", skin, StyleNames.LABEL_WHITE);
+				Label lbl = new Label("Like teleporting? Here you go!", skin, StyleNames.LABEL_WHITE);
 				lbl.setWrap(true);
 				lbl.setAlignment(Align.center);
 				lbl.setColor(Color.NAVY);
@@ -187,7 +188,7 @@ public enum GameMode {
 			table.setBackground(Textures.BUTTON_UP);
 			table.defaults().padBottom(20);
 			{
-				Label lbl = new Label("Just drag along!", skin, StyleNames.LABEL_WHITE);;
+				Label lbl = new Label("Just drag along!", skin, StyleNames.LABEL_WHITE);
 				lbl.setWrap(true);
 				lbl.setAlignment(Align.center);
 				lbl.setColor(Color.FIREBRICK);
@@ -377,8 +378,8 @@ public enum GameMode {
 	 * ability for gamemodes to add custom tutorial pages
 	 * @param skin skin used for ui
 	 * @param stack stack the pages should get added to
-	 * @param contentSizeX
-	 * @param contentSizeY
+	 * @param contentSizeX target X size for the elements added
+	 * @param contentSizeY target Y size for the elements added
 	 */
 	public void createCustomTutorial(Skin skin, SwipeTabbedStack stack, int contentSizeX, int contentSizeY) {}
 

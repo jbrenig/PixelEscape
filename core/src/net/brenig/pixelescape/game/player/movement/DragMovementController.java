@@ -31,8 +31,8 @@ public class DragMovementController implements PlayerMovementController {
 
 	@Override
 	public void updatePlayerMovement(PixelEscape game, InputManager manager, GameMode gameMode, World world, EntityPlayer player, float deltaTick, float yVelocityFactor) {
-		player.modifiyXVelocity(gameMode.getSpeedIncreaseFactor() * deltaTick);
-		player.modifiyYVelocity(acceleration * deltaTick);
+		player.modifyXVelocity(gameMode.getSpeedIncreaseFactor() * deltaTick);
+		player.modifyYVelocity(acceleration * deltaTick);
 		if (isTouched) {
 			if (!manager.isTouched()) {
 				//Confirm

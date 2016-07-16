@@ -3,7 +3,7 @@ package net.brenig.pixelescape.lib;
 import java.util.Random;
 
 /**
- * provides an object based upon an instnace of {@link Random}
+ * provides an object based upon an instance of {@link Random}
  * @see net.brenig.pixelescape.game.worldgen.WeightedList
  */
 public interface FilteredElementProvider<T> {

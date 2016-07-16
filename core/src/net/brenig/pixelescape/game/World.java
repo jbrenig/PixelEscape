@@ -227,7 +227,7 @@ public class World {
 	/**
 	 * generates the world (including special world gen)
 	 *
-	 * @param fillArray set this flag to true if the whole TerrainBuffer should be filled, used to generate Terrain on Gamestart
+	 * @param fillArray set this flag to true if the whole TerrainBuffer should be filled, used to generate Terrain on game start
 	 */
 	public void generateWorld(boolean fillArray) {
 		int blockToGenerate = fillArray ? getBlockBufferSize() : calculateBlocksToGenerate();
@@ -237,7 +237,7 @@ public class World {
 
 	/**
 	 * reuse an available {@link TerrainPair} if possible, creates and register a new one otherwise<br></br>
-	 * the returned {@link TerrainPair} will be added to end of the currently generated terrain and can be modified direcly
+	 * the returned {@link TerrainPair} will be added to end of the currently generated terrain and can be modified directly
 	 */
 	public TerrainPair getCreateTerrainPairForGeneration() {
 		TerrainPair pair = terrain.getOldest();
@@ -355,7 +355,7 @@ public class World {
 
 	/**
 	 * checks collision with terrain<br></br>
-	 * parmetters are world coordinates
+	 * parameters are world coordinates
 	 * <br/>
 	 * note: results are not perfect
 	 */
@@ -441,7 +441,7 @@ public class World {
 	}
 
 	/**
-	 * global world coordinate of the right end of the sceen
+	 * global world coordinate of the right end of the screen
 	 */
 	public float getCurrentScreenEnd() {
 		return screen.worldRenderer.getWorldCameraXPos() + getWorldWidth();

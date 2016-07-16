@@ -90,7 +90,7 @@ public class UserData {
 			return true;
 		}
 		//noinspection PointlessBooleanExpression,ConstantConditions
-		return Reference.SUSPRESS_TUTORIALS || prefs.getBoolean(Keys.tutorial + gameMode.getGameModeName(), Defaults.tutorial);
+		return Reference.SUPPRESS_TUTORIALS || prefs.getBoolean(Keys.tutorial + gameMode.getGameModeName(), Defaults.tutorial);
 	}
 
 	public void setTutorialSeen(GameMode gameMode, boolean value) {
@@ -98,7 +98,7 @@ public class UserData {
 	}
 
 	/**
-	 * updates exsisting data to new format if necessary
+	 * updates existing data to new format if necessary
 	 */
 	public void updateSaveGames() {
 		int savedDataVersion = prefs.getInteger(Keys.savesRevision, -1);

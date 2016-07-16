@@ -4,7 +4,7 @@ import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.entity.impl.EntityItem;
 import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.game.player.Item;
-import net.brenig.pixelescape.game.player.abliity.Ability;
+import net.brenig.pixelescape.game.player.abliity.Abilities;
 import net.brenig.pixelescape.game.player.effects.EffectShield;
 import net.brenig.pixelescape.game.player.effects.EffectSlow;
 import net.brenig.pixelescape.game.player.effects.EffectSmallBarricades;
@@ -70,7 +70,7 @@ public class ItemGenerator implements ISpecialWorldGenerator {
 
 	public static WeightedList<Item> createDefaultItemList() {
 		WeightedList<Item> out = new WeightedList<Item>();
-		out.add(10, Ability.BLINK);
+		out.add(10, Abilities.BLINK);
 		out.add(5, EffectShield.ITEM);
 		out.add(10, EffectSlow.ITEM);
 		out.add(8, EffectSmallBarricades.ITEM);

@@ -44,6 +44,7 @@ public class TwoStateImageButton extends Button {
 		this(new TwoStateImageButtonStyle(null, null, null, image1Up, image1Down, image2Up, image2Down));
 	}
 
+	@Override
 	public void setStyle(ButtonStyle style) {
 		if (!(style instanceof TwoStateImageButtonStyle))
 			throw new IllegalArgumentException("style must be an TwoStateImageButtonStyle.");
@@ -52,6 +53,7 @@ public class TwoStateImageButton extends Button {
 		if (image != null) updateImage();
 	}
 
+	@Override
 	public TwoStateImageButtonStyle getStyle() {
 		return style;
 	}
@@ -82,6 +84,7 @@ public class TwoStateImageButton extends Button {
 		image.setDrawable(drawable);
 	}
 
+	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		updateImage();
 		super.draw(batch, parentAlpha);

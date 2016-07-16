@@ -167,7 +167,7 @@ public class WorldRenderer {
 	}
 
 	/**
-	 * renders a rectangel using {@link com.badlogic.gdx.graphics.glutils.ShapeRenderer} and {@link GameRenderManager}
+	 * renders a rectangle using {@link com.badlogic.gdx.graphics.glutils.ShapeRenderer} and {@link GameRenderManager}
 	 *
 	 * note: Renderer has to be initialized and in the right state
 	 */

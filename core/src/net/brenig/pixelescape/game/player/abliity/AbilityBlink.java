@@ -39,6 +39,7 @@ public class AbilityBlink extends Ability {
 		return true;
 	}
 
+	@Override
 	public Drawable getDrawable(GameAssets assets) {
 		return assets.getItemBlink();
 	}

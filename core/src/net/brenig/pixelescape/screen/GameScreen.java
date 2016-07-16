@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
@@ -21,12 +20,7 @@ import net.brenig.pixelescape.game.worldgen.TerrainPair;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.WorldRenderer;
-import net.brenig.pixelescape.render.overlay.CountDownOverlay;
-import net.brenig.pixelescape.render.overlay.EmptyOverlay;
-import net.brenig.pixelescape.render.overlay.GameOverOverlay;
-import net.brenig.pixelescape.render.overlay.GamePausedOverlay;
-import net.brenig.pixelescape.render.overlay.Overlay;
-import net.brenig.pixelescape.render.overlay.TutorialOverlay;
+import net.brenig.pixelescape.render.overlay.*;
 import net.brenig.pixelescape.render.ui.general.HorizontalSpacer;
 import net.brenig.pixelescape.render.ui.general.VerticalSpacer;
 import net.brenig.pixelescape.render.ui.ingame.AbilityWidget;
@@ -66,7 +60,7 @@ public class GameScreen extends PixelScreen {
 	 */
 	private boolean isScreenPaused = false;
 
-	private boolean firstUpdate = true;
+	private boolean initialized = true;
 
 	private volatile boolean valid = false;
 
@@ -100,7 +94,7 @@ public class GameScreen extends PixelScreen {
 		buttonPause.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
-				setOverlay(new GamePausedOverlay(GameScreen.this));
+				setOverlay(new GamePausedOverlay(GameScreen.this, false));
 			}
 		});
 		table.add(buttonPause);
@@ -126,7 +120,7 @@ public class GameScreen extends PixelScreen {
 
 	@Override
 	public void show() {
-		firstUpdate = true;
+		initialized = false;
 		valid = true;
 		game.gameMusic.playOrFadeInto(getGameMusic());
 		Gdx.input.setInputProcessor(inputMultiplexer);
@@ -144,7 +138,7 @@ public class GameScreen extends PixelScreen {
 
 		if(game.gameConfig.canHideCursor()) inputManager.updateMouseVisibility(delta, game.gameSettings.fullscreen && overlay.canHideCursor());
 
-		if (firstUpdate) {
+		if (!initialized) {
 			init();
 		}
 
@@ -237,7 +231,7 @@ public class GameScreen extends PixelScreen {
 	 * Setup world on first update
 	 */
 	private void init() {
-		firstUpdate = false;
+		initialized = true;
 		if(game.userData.tutorialSeen(gameMode)) {
 			setOverlay(new CountDownOverlay(this));
 		} else {
@@ -375,7 +369,7 @@ public class GameScreen extends PixelScreen {
 	 * Shows GameOver Overlay and registers highscore
 	 */
 	public void onGameOver() {
-		setOverlay(new GameOverOverlay(this));
+		setOverlay(new GamePausedOverlay(this, true));
 		game.userData.updateHighscore(gameMode, world.getPlayer().getScore());
 	}
 
@@ -383,7 +377,7 @@ public class GameScreen extends PixelScreen {
 	 * restarts the game
 	 */
 	public void restart() {
-		firstUpdate = true;
+		initialized = false;
 		resetToEmptyOverlay();
 		world.restart();
 	}
@@ -392,20 +386,21 @@ public class GameScreen extends PixelScreen {
 		return inputManager;
 	}
 
+	@SuppressWarnings("BooleanMethodIsAlwaysInverted")
 	public boolean isGamePaused() {
 		return overlay.doesPauseGame() || isScreenPaused();
 	}
 
 	public void showGamePausedOverlay() {
-		this.setOverlay(new GamePausedOverlay(this));
+		this.setOverlay(new GamePausedOverlay(this, false));
 	}
 
 	public void showMainMenu() {
 		game.showMainMenu();
 	}
 
-	public boolean isFirstUpdate() {
-		return firstUpdate;
+	public boolean isInitialized() {
+		return initialized;
 	}
 
 	public void resetInputManager() {

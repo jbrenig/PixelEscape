@@ -17,7 +17,7 @@ public abstract class EntityMoving extends Entity {
 	}
 
 	/**
-	 * mvoes the entity
+	 * moves the entity
 	 *
 	 * note: does note check velocity limits
 	 * @param delta time passed

@@ -216,4 +216,9 @@ public class TutorialOverlay extends OverlayWithUi implements SwipeTabbedStack.I
 			buttonLeft.setDisabled(false);
 		}
 	}
+
+	@Override
+	protected boolean switchToPausedOverlayOnFocusChange() {
+		return false;
+	}
 }

@@ -68,20 +68,22 @@ public class Utils {
 		});
 		layout.add(btnSound);
 
-		final TwoStateImageButton btnMusic = new TwoStateImageButton(game.getSkin(), "music");
-		btnMusic.setState(!game.gameSettings.isMusicEnabled());
-		btnMusic.addListener(new ClickListener() {
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				//Invert current selection
-				//btn checked --> no music
-				//btn not checked --> music enabled
-				game.gameSettings.setMusicEnabled(btnMusic.getState());
-				btnMusic.setState(!game.gameSettings.isMusicEnabled());
-				game.updateMusicPlaying();
-			}
-		});
-		layout.add(btnMusic);
+		if(Reference.ENABLE_MUSIC) {
+			final TwoStateImageButton btnMusic = new TwoStateImageButton(game.getSkin(), "music");
+			btnMusic.setState(!game.gameSettings.isMusicEnabled());
+			btnMusic.addListener(new ClickListener() {
+				@Override
+				public void clicked(InputEvent event, float x, float y) {
+					//Invert current selection
+					//btn checked --> no music
+					//btn not checked --> music enabled
+					game.gameSettings.setMusicEnabled(btnMusic.getState());
+					btnMusic.setState(!game.gameSettings.isMusicEnabled());
+					game.updateMusicPlaying();
+				}
+			});
+			layout.add(btnMusic);
+		}
 		return layout;
 	}
 

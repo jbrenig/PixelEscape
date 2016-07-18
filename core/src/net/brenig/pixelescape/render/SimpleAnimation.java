@@ -12,8 +12,12 @@ public class SimpleAnimation {
 	private Animation animation;
 
 	public SimpleAnimation(final int cols, final int rows, final TextureRegion texture, final float frameTime) {
+		this(cols, rows, texture, frameTime, Animation.PlayMode.LOOP);
+	}
+
+	public SimpleAnimation(final int cols, final int rows, final TextureRegion texture, final float frameTime, Animation.PlayMode playMode) {
 		animation = createAnimationFromTexture(cols, rows, texture, frameTime);
-		animation.setPlayMode(Animation.PlayMode.LOOP);
+		animation.setPlayMode(playMode);
 	}
 
 	/**

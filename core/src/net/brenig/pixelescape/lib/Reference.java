@@ -30,7 +30,7 @@ public class Reference {
 	public static final int PATH_ENTITY_OFFSET = 16;
 
 	//SIMULATION LIMITS
-	public static final float MAX_FRAME_TIME = 0.4F;
+	public static final float MAX_FRAME_TIME = 0.03F;
 	public static final float MAX_ENTITY_SPEED = 420;
 
 	/**
@@ -82,6 +82,7 @@ public class Reference {
 	public static final float SCREEN_TINT_STRENGTH = 0.6F;
 
 	public static final boolean SUPPRESS_TUTORIALS = false;
+	public static final boolean ENABLE_MUSIC = true;
 
 	public static final boolean DEBUG_SETTINGS_AVAILABLE = true;
 

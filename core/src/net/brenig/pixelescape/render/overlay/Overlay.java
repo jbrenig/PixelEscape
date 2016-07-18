@@ -46,7 +46,9 @@ public abstract class Overlay {
 	 */
 	public void onResize(int width, int height) {
 		if (screen.isInitialized()) {
-			screen.showGamePausedOverlay();
+			if(switchToPausedOverlayOnFocusChange()) {
+				screen.showGamePausedOverlay();
+			}
 		}
 	}
 
@@ -54,14 +56,18 @@ public abstract class Overlay {
 	 * Called when the GameScreen gets paused
 	 */
 	public void pause() {
-		screen.showGamePausedOverlay();
+		if(switchToPausedOverlayOnFocusChange()) {
+			screen.showGamePausedOverlay();
+		}
 	}
 
 	/**
 	 * Gets called when the GameScreen gets resumed
 	 */
 	public void resume() {
-		screen.showGamePausedOverlay();
+		if(switchToPausedOverlayOnFocusChange()) {
+			screen.showGamePausedOverlay();
+		}
 	}
 
 	/**
@@ -129,6 +135,10 @@ public abstract class Overlay {
 	 * @return whether the game should open the game paused overlay when the escape key is pressed
 	 */
 	public boolean shouldPauseOnEscape() {
+		return false;
+	}
+
+	protected boolean switchToPausedOverlayOnFocusChange() {
 		return false;
 	}
 }

@@ -94,8 +94,8 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		//speed update
 		movementController.updatePlayerMovement(world.getScreen().game, inputManager, gameMode, world, this, deltaTick, yVelocityFactor);
 
-		yVelocity = Math.min(gameMode.getMaxEntitySpeed(), yVelocity);
 		xVelocity = Math.min(gameMode.getMaxEntitySpeed(), xVelocity);
+		yVelocity = Math.min(gameMode.getMaxEntitySpeed(), yVelocity);
 
 		//update trail
 		for (int i = 0; i < pathEntities.length; i++) {
@@ -400,7 +400,6 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		}
 		//apply screenshake
 		//increase effect with higher score
-//		final float scoreModifier = 1 - 1 / (getScore() * 0.001F);
 		final float scoreModifier = 1 - 1 / (getXVelocity() * 0.4F);
 		final float forceX = 0.5F + random.nextFloat() * 0.5F * scoreModifier;
 		final float forceY = 0.5F + random.nextFloat() * 0.5F * scoreModifier;

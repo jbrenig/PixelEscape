@@ -2,6 +2,7 @@ package net.brenig.pixelescape.game.data;
 
 import com.badlogic.gdx.audio.Music;
 import net.brenig.pixelescape.PixelEscape;
+import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
 
 /**
@@ -40,8 +41,10 @@ public class GameMusic {
 
 	public void setCurrentMusic(Music m) {
 		stop();
-		currentMusic = m;
-		currentMusic.setVolume(currentVolume);
+		if(Reference.ENABLE_MUSIC) {
+			currentMusic = m;
+			currentMusic.setVolume(currentVolume);
+		}
 	}
 
 	/**
@@ -50,7 +53,7 @@ public class GameMusic {
 	 * @param delta time passed
 	 */
 	public void update(float delta) {
-		if (isFading()) {
+		if (Reference.ENABLE_MUSIC && isFading()) {
 			fadingProgress += delta;
 			if (state == MusicState.FADE_IN) {
 				currentVolume = Utils.easeInAndOut(fadingProgress, fadingTime) * game.gameSettings.getMusicVolume();
@@ -134,34 +137,38 @@ public class GameMusic {
 	}
 
 	public void play(boolean fadeIn, float fadeInTime) {
-		if (currentMusic != null && state != MusicState.PLAYING && game.gameSettings.isMusicEnabled()) {
-			if (fadeIn) {
-				if (!isFading()) {
+		if(Reference.ENABLE_MUSIC) {
+			if (currentMusic != null && state != MusicState.PLAYING && game.gameSettings.isMusicEnabled()) {
+				if (fadeIn) {
+					if (!isFading()) {
+						fadingProgress = 0;
+						currentMusic.setVolume(0);
+					}
+					fadingTime = fadeInTime;
+					state = MusicState.FADE_IN;
+				} else {
+					currentMusic.setVolume(game.gameSettings.getMusicVolume());
 					fadingProgress = 0;
-					currentMusic.setVolume(0);
+					fadingTime = 0;
+					state = MusicState.PLAYING;
 				}
-				fadingTime = fadeInTime;
-				state = MusicState.FADE_IN;
-			} else {
-				currentMusic.setVolume(game.gameSettings.getMusicVolume());
-				fadingProgress = 0;
-				fadingTime = 0;
-				state = MusicState.PLAYING;
+				currentMusic.play();
 			}
-			currentMusic.play();
 		}
 	}
 
 	public void playOrFadeInto(Music music) {
-		if (currentMusic != null && isPlaying()) {
-			if (currentMusic == music) {
-				fadeIn();
-				return;
+		if(Reference.ENABLE_MUSIC) {
+			if (currentMusic != null && isPlaying()) {
+				if (currentMusic == music) {
+					fadeIn();
+					return;
+				}
+				fadeIntoMusic(music);
+			} else {
+				setCurrentMusic(music);
+				play();
 			}
-			fadeIntoMusic(music);
-		} else {
-			setCurrentMusic(music);
-			play();
 		}
 	}
 

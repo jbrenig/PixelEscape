@@ -32,6 +32,7 @@ public abstract class OverlayWithUi extends Overlay {
 	@Override
 	public void onResize(int width, int height) {
 		stage.updateStageToGameBounds(width, height);
+		super.onResize(width, height);
 	}
 
 	@Override

@@ -172,14 +172,6 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 		super.render(delta);
 	}
 
-	@Override
-	public void pause() {
-	}
-
-	@Override
-	public void resume() {
-	}
-
 	private void restartMusic() {
 		if (isGameOver) {
 			screen.game.gameMusic.setCurrentMusic(screen.getGameMusic());
@@ -316,5 +308,10 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 		screen.resetToEmptyOverlay();
 		screen.restart();
 		restartMusic();
+	}
+
+	@Override
+	protected boolean switchToPausedOverlayOnFocusChange() {
+		return false;
 	}
 }

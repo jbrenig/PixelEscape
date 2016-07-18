@@ -154,7 +154,10 @@ public class GameRenderManager implements Disposable {
 				break;
 			case INVALID:
 				LogHelper.warn("RenderManager in invalid state. Initializing...");
-				prepareRender();
+				if(batch != null) {
+					batch.dispose();
+				}
+				initializeRendering();
 				return;
 			default:
 				LogHelper.error("RenderManager in unknown state!");

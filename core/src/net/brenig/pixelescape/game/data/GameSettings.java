@@ -3,6 +3,7 @@ package net.brenig.pixelescape.game.data;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import net.brenig.pixelescape.lib.LogHelper;
+import net.brenig.pixelescape.lib.Reference;
 
 /**
  * Contains information about user preferences and handles loading and saving of those
@@ -46,8 +47,9 @@ public class GameSettings {
 		LogHelper.log("GameSettings", "Settings saved!");
 	}
 
+	@SuppressWarnings("ConstantConditions")
 	public boolean isMusicEnabled() {
-		return prefs.getBoolean(Keys.musicEnabled, Defaults.musicEnabled);
+		return Reference.ENABLE_MUSIC && prefs.getBoolean(Keys.musicEnabled, Defaults.musicEnabled);
 	}
 
 	public void setMusicEnabled(boolean musicEnabled) {

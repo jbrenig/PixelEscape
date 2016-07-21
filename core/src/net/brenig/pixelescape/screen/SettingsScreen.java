@@ -154,6 +154,7 @@ public class SettingsScreen extends PixelScreen {
 					game.showMainMenu();
 				}
 			});
+			btnBack.getLabel().setFontScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 
 			uiLayout.add(btnBack);
 		}

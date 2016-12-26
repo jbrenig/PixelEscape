@@ -8,6 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.entity.Entity;
+import net.brenig.pixelescape.render.background.IBackgroundLayer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Helper class for rendering a {@link World}
@@ -43,9 +47,15 @@ public class WorldRenderer {
 	private static final float screenShakeForceMult = 6;
 	private static final float screenShakeNoise = 1.4F;
 
+	private List<IBackgroundLayer> backgroundLayers = new ArrayList<>();
+
 	public WorldRenderer(final PixelEscape game, World world) {
 		this.world = world;
 		this.game = game;
+	}
+
+	public void addBackgroundLayer(IBackgroundLayer layer) {
+		backgroundLayers.add(layer);
 	}
 
 	/**
@@ -133,6 +143,7 @@ public class WorldRenderer {
 	 * renders terrain background
 	 */
 	private void renderWorldBackground() {
+
 	}
 
 	/**
@@ -342,5 +353,9 @@ public class WorldRenderer {
 
 	public float getCurrentTotalYOffset() {
 		return currentTotalYOffset;
+	}
+
+	public World getWorld() {
+		return world;
 	}
 }

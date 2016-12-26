@@ -94,8 +94,7 @@ public class InputManager implements InputProcessor {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		cursorIdleTimer = 0;
-		updateMouseVisibility();
+		if(isTouched) return true;
 		return false;
 	}
 

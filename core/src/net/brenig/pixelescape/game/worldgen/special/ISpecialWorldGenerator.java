@@ -14,15 +14,17 @@ public interface ISpecialWorldGenerator {
 
 	/**
 	 * generate this element
+	 *
 	 * @param generator current worldgenerator
-	 * @param world current world
-	 * @param rand Random instance to use
-	 * @param mode current gamemode
+	 * @param world     current world
+	 * @param rand      Random instance to use
+	 * @param mode      current gamemode
 	 */
 	void generate(WorldGenerator generator, World world, Random rand, GameMode mode);
 
 	/**
 	 * reset worldgenerator (--> eg. on game restart)
+	 *
 	 * @param world the new world
 	 */
 	void reset(World world);

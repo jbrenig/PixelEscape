@@ -3,15 +3,9 @@ package net.brenig.pixelescape.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Scaling;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.lib.Reference;
@@ -85,7 +79,7 @@ public class MainMenuScreen extends PixelScreen {
 		//GameMode Image
 		gmImageStack = new SwipeTabbedStack(SwipeTabbedStack.DEFAULT_ANIMATION_X_OFFSET);
 		//init gamemodes
-		for(GameMode mode : game.gameConfig.getAvailbleGameModes()) {
+		for (GameMode mode : game.gameConfig.getAvailableGameModes()) {
 			Image gameModeImageArcade = new Image(mode.createIcon(game.getGameAssets()));
 //			gameModeImageArcade.setRotation(5);
 			gameModeImageArcade.setScaling(Scaling.fit);
@@ -116,7 +110,7 @@ public class MainMenuScreen extends PixelScreen {
 		centerButtons.add(btnStart).padBottom(40).fillX();
 
 		//Quit Button
-		if(game.gameConfig.canQuitGame()) {
+		if (game.gameConfig.canQuitGame()) {
 			TextButton btnQuit = new TextButton("Quit game", game.getSkin());
 			btnQuit.addListener(new ClickListener() {
 				@Override
@@ -172,10 +166,10 @@ public class MainMenuScreen extends PixelScreen {
 	}
 
 	private GameMode getGameMode() {
-		if(gmImageStack == null) {
+		if (gmImageStack == null) {
 			return null;
 		}
-		return game.gameConfig.getAvailbleGameModes()[gmImageStack.getCurrentElement()];
+		return game.gameConfig.getAvailableGameModes()[gmImageStack.getCurrentElement()];
 	}
 
 	@Override

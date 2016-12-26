@@ -2,7 +2,6 @@ package net.brenig.pixelescape.game.entity.impl;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.data.GameMode;
@@ -13,7 +12,7 @@ import net.brenig.pixelescape.render.WorldRenderer;
 /**
  * Entity that contains one {@link net.brenig.pixelescape.game.player.Item}
  * <p>
- *     when the player collects the item effects will be handled by {@link net.brenig.pixelescape.game.player.Item#onCollect(EntityPlayer)}
+ * when the player collects the item effects will be handled by {@link net.brenig.pixelescape.game.player.Item#onCollect(EntityPlayer)}
  * </p>
  */
 public class EntityItem extends Entity {
@@ -54,7 +53,7 @@ public class EntityItem extends Entity {
 
 	@Override
 	public void renderBackground(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta) {
-		if(isDead) {
+		if (isDead) {
 			return;
 		}
 		game.getRenderManager().begin();
@@ -65,8 +64,8 @@ public class EntityItem extends Entity {
 
 	@Override
 	public boolean update(float delta, InputManager inputManager, GameMode gameMode) {
-		if(!isDead && doesEntityIntersectWithEntity(world.getPlayer())) {
-			if(item.onCollect(world.getPlayer())) {
+		if (!isDead && doesEntityIntersectWithEntity(world.getPlayer())) {
+			if (item.onCollect(world.getPlayer())) {
 				this.isDead = true;
 				LogHelper.debug("Player collected item: " + item);
 			}

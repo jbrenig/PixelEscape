@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.utils.Align;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.lib.LogHelper;
@@ -121,7 +120,7 @@ public class CurrentHighscoreLabel extends Widget {
 			}
 			break;
 			case GM_BLEND_IN:
-				if(animationTimer == 0) {
+				if (animationTimer == 0) {
 					updateText();
 				}
 				alpha = animationTimer / animationDuration;
@@ -149,7 +148,7 @@ public class CurrentHighscoreLabel extends Widget {
 
 		float delta = Gdx.graphics.getDeltaTime();
 		animationTimer += delta;
-		//reset fontsize
+		//reset font size
 		game.getFont().getData().setScale(oldFontSizeX, oldFontSizeY);
 
 	}

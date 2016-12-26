@@ -1,14 +1,13 @@
 package net.brenig.pixelescape.render.ui.ingame;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-
 import net.brenig.pixelescape.lib.Reference;
-import net.brenig.pixelescape.screen.GameScreen;
 import net.brenig.pixelescape.render.ui.general.StageManager;
+import net.brenig.pixelescape.screen.GameScreen;
 
 /**
  * StageManager that manages ui elements for the GameScreen<br></br>
- * escpecially useful in Overlays
+ * especially useful in Overlays
  */
 public class StageManagerGame extends StageManager {
 
@@ -36,6 +35,7 @@ public class StageManagerGame extends StageManager {
 
 	/**
 	 * creates a new table that should be used for the main menu bar and adds it to the stage
+	 *
 	 * @return the table created
 	 */
 	public Table createHeadUiLayoutTable() {
@@ -51,6 +51,7 @@ public class StageManagerGame extends StageManager {
 	 * creates a new table that should be used for the main content and adds it to the stage
 	 * <p/>
 	 * this should be created AFTER the head layout menu bar was added
+	 *
 	 * @return the table created
 	 */
 	public Table createContentUiLayoutTable() {

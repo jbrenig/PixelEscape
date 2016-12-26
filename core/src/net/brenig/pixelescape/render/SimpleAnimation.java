@@ -12,18 +12,23 @@ public class SimpleAnimation {
 	private Animation animation;
 
 	public SimpleAnimation(final int cols, final int rows, final TextureRegion texture, final float frameTime) {
+		this(cols, rows, texture, frameTime, Animation.PlayMode.LOOP);
+	}
+
+	public SimpleAnimation(final int cols, final int rows, final TextureRegion texture, final float frameTime, Animation.PlayMode playMode) {
 		animation = createAnimationFromTexture(cols, rows, texture, frameTime);
-		animation.setPlayMode(Animation.PlayMode.LOOP);
+		animation.setPlayMode(playMode);
 	}
 
 	/**
 	 * renders the animation
+	 *
 	 * @param renderer renderer instance
-	 * @param xPos the x-position on screen
-	 * @param yPos the y-position on screen
-	 * @param width width of the animation
-	 * @param height height of the animtion
-	 * @param delta time since last frame
+	 * @param xPos     the x-position on screen
+	 * @param yPos     the y-position on screen
+	 * @param width    width of the animation
+	 * @param height   height of the animation
+	 * @param delta    time since last frame
 	 */
 	public void render(GameRenderManager renderer, float xPos, float yPos, float width, float height, float delta) {
 		frameTime += delta;
@@ -33,10 +38,11 @@ public class SimpleAnimation {
 
 	/**
 	 * renders the animation
+	 *
 	 * @param renderer renderer instance
-	 * @param xPos the x-position on screen
-	 * @param yPos the y-position on screen
-	 * @param delta time since last frame
+	 * @param xPos     the x-position on screen
+	 * @param yPos     the y-position on screen
+	 * @param delta    time since last frame
 	 */
 	public void render(GameRenderManager renderer, float xPos, float yPos, float delta) {
 		frameTime += delta;

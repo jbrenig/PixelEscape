@@ -1,7 +1,6 @@
 package net.brenig.pixelescape.render.overlay;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.ui.ingame.StageManagerGame;
 import net.brenig.pixelescape.screen.GameScreen;
@@ -33,6 +32,7 @@ public abstract class OverlayWithUi extends Overlay {
 	@Override
 	public void onResize(int width, int height) {
 		stage.updateStageToGameBounds(width, height);
+		super.onResize(width, height);
 	}
 
 	@Override

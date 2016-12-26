@@ -5,26 +5,14 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.NinePatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-
 import net.brenig.pixelescape.game.data.constants.StyleNames;
 import net.brenig.pixelescape.game.data.constants.Textures;
+import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.SimpleAnimation;
 import net.brenig.pixelescape.render.ui.general.TwoStateImageButton;
 import net.brenig.pixelescape.render.ui.ingame.AbilityWidget;
@@ -70,10 +58,12 @@ public class GameAssets {
 
 	public void disposeAll() {
 		font.dispose();
-		gameOverSound.dispose();
-		mainMenuMusic.dispose();
-		snpMusic.dispose();
-		sslMusic.dispose();
+		if(Reference.ENABLE_MUSIC) {
+			gameOverSound.dispose();
+			mainMenuMusic.dispose();
+			snpMusic.dispose();
+			sslMusic.dispose();
+		}
 
 		textureAtlas.dispose();
 
@@ -95,14 +85,16 @@ public class GameAssets {
 	}
 
 	private void initMusic() {
-		mainMenuMusic = Gdx.audio.newMusic(Gdx.files.internal("music/SynthPower.ogg"));
-		mainMenuMusic.setLooping(true);
+		if(Reference.ENABLE_MUSIC) {
+			mainMenuMusic = Gdx.audio.newMusic(Gdx.files.internal("music/SynthPower.ogg"));
+			mainMenuMusic.setLooping(true);
 
-		snpMusic = Gdx.audio.newMusic(Gdx.files.internal("music/SynthNPiano.ogg"));
-		snpMusic.setLooping(true);
+			snpMusic = Gdx.audio.newMusic(Gdx.files.internal("music/SynthNPiano.ogg"));
+			snpMusic.setLooping(true);
 
-		sslMusic = Gdx.audio.newMusic(Gdx.files.internal("music/SawSquareLoop.ogg"));
-		sslMusic.setLooping(true);
+			sslMusic = Gdx.audio.newMusic(Gdx.files.internal("music/SawSquareLoop.ogg"));
+			sslMusic.setLooping(true);
+		}
 	}
 
 	private void initFont() {
@@ -136,7 +128,7 @@ public class GameAssets {
 		effect_item_shield = textureAtlas.findRegion("effect_item_shield");
 
 		item_frame = textureAtlas.findRegion(Textures.ITEM_FRAME);
-		itemAnimatedBackground = new SimpleAnimation(3, 2, textureAtlas.findRegion("item_blob_filled"), 0.5F);
+		itemAnimatedBackground = new SimpleAnimation(3, 2, textureAtlas.findRegion("item_blob_filled"), 0.16F, Animation.PlayMode.LOOP_PINGPONG);
 
 		missingTexture = new TextureRegionDrawable(textureAtlas.findRegion("fullscreen_hover"));
 
@@ -179,7 +171,7 @@ public class GameAssets {
 		mainUiSkin.add(Textures.ITEM_FRAME, textureAtlas.createSprite("item_frame"));
 
 		mainUiSkin.add(Textures.SLIDER_BACKGROUND, textureAtlas.createSprite("slider_background"));
-		mainUiSkin.add(Textures.SLIDER_KNOB, textureAtlas.createSprite("slider_knop"));
+		mainUiSkin.add(Textures.SLIDER_KNOB, textureAtlas.createSprite("slider_knob"));
 
 		mainUiSkin.add(Textures.CHBX_UNCHECKED, textureAtlas.createSprite("checkbox"));
 		mainUiSkin.add(Textures.CHBX_CHECKED, textureAtlas.createSprite("checkbox_checked"));
@@ -368,7 +360,7 @@ public class GameAssets {
 		return buttonNinePatch;
 	}
 
-	public Sound getPlayerChrashedSound() {
+	public Sound getPlayerCrashedSound() {
 		return gameOverSound;
 	}
 

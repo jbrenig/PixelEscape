@@ -29,11 +29,11 @@ public class TerrainOpening implements ITerrainGenerator {
 
 	@Override
 	public int generate(World world, TerrainPair lastPair, int blocksToGenerate, int generatedBlocksIndex, Random random) {
-		int max = Math.min(blocksToGenerate,  MIN_GENERATION_LENGTH + random.nextInt(MAX_GENERATION_LENGTH - MIN_GENERATION_LENGTH + 1));
+		int max = Math.min(blocksToGenerate, MIN_GENERATION_LENGTH + random.nextInt(MAX_GENERATION_LENGTH - MIN_GENERATION_LENGTH + 1));
 		int generated = 0;
 		int bot = lastPair.getTop();
 		int top = lastPair.getBot();
-		while(bot >= Reference.MIN_HEIGHT && top >= Reference.MIN_HEIGHT && bot + top >= MAX_CORRIDOR_HEIGHT && generated < max) {
+		while (bot >= Reference.MIN_HEIGHT && top >= Reference.MIN_HEIGHT && bot + top >= MAX_CORRIDOR_HEIGHT && generated < max) {
 			TerrainPair pair = world.getCreateTerrainPairForGeneration();
 			pair.setBot(top);
 			pair.setTop(bot);
@@ -47,8 +47,8 @@ public class TerrainOpening implements ITerrainGenerator {
 	@Override
 	public int getMinGenerationLength(TerrainPair last) {
 		int bot = last.getTop() - MIN_GENERATION_LENGTH + 1;
-		int top = last.getBot() -  MIN_GENERATION_LENGTH + 1;
-		if(bot < Reference.MIN_HEIGHT || top < Reference.MIN_HEIGHT || bot + top < MAX_CORRIDOR_HEIGHT) {
+		int top = last.getBot() - MIN_GENERATION_LENGTH + 1;
+		if (bot < Reference.MIN_HEIGHT || top < Reference.MIN_HEIGHT || bot + top < MAX_CORRIDOR_HEIGHT) {
 			return 0;
 		}
 		return MIN_GENERATION_LENGTH;

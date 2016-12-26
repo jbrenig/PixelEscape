@@ -1,7 +1,6 @@
 package net.brenig.pixelescape.game.entity.impl.particle;
 
 import com.badlogic.gdx.graphics.Color;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.CollisionType;
 import net.brenig.pixelescape.game.data.GameMode;
@@ -31,7 +30,7 @@ public class EntityCrashParticle extends Entity {
 	private final static float BOUNCE_X = 0.4F;
 	private final static float BOUNCE_Y = 0.1F;
 
-	private final static float ANTI_BOUNCE_X= 10;
+	private final static float ANTI_BOUNCE_X = 10;
 	private final static float ANTI_BOUNCE_Y = 20;
 
 
@@ -46,7 +45,7 @@ public class EntityCrashParticle extends Entity {
 
 	@Override
 	public void render(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta) {
-		if(isDead()) {
+		if (isDead()) {
 			return;
 		}
 		//Move
@@ -56,29 +55,29 @@ public class EntityCrashParticle extends Entity {
 		//Accelerate and collide
 		switch (doesCollide()) {
 			case TERRAIN_BOT_RIGHT:
-				if(xVel > 0) bounceX();
+				if (xVel > 0) bounceX();
 				else slowDownX(delta);
 
-				if(yVel <= 0) bounceY();
+				if (yVel <= 0) bounceY();
 				else gravityY(delta);
 
 				break;
 			case TERRAIN_BOT_LEFT:
-				if(xVel < 0) bounceX();
+				if (xVel < 0) bounceX();
 				else slowDownX(delta);
 
-				if(yVel <= 0) bounceY();
+				if (yVel <= 0) bounceY();
 				else gravityY(delta);
 
 				break;
 			case TERRAIN_BOTTOM:
 
-				if(yVel <= 0) {
+				if (yVel <= 0) {
 					bounceY();
-					if(yVel != 0) {
+					if (yVel != 0) {
 						slowDownX(delta * 10);
 					} else {
-						if(xVel > ANTI_BOUNCE_X) {
+						if (xVel > ANTI_BOUNCE_X) {
 							slowDownX(delta * 10);
 						} else {
 							xVel = 0;
@@ -91,21 +90,21 @@ public class EntityCrashParticle extends Entity {
 
 				break;
 			case TERRAIN_RIGHT:
-				if(xVel > 0) bounceX();
-				else  slowDownX(delta);
+				if (xVel > 0) bounceX();
+				else slowDownX(delta);
 
 				gravityY(delta);
 
 				break;
 			case TERRAIN_LEFT:
-				if(xVel < 0) bounceX();
-				else  slowDownX(delta);
+				if (xVel < 0) bounceX();
+				else slowDownX(delta);
 
 				gravityY(delta);
 
 				break;
 			case TERRAIN_TOP:
-				if(collideTop) {
+				if (collideTop) {
 					slowDownX(delta);
 
 					if (yVel > 0) bounceY();
@@ -114,14 +113,14 @@ public class EntityCrashParticle extends Entity {
 					break;
 				}
 			case ENTITY:
-				if(xVel > 0) bounceX();
+				if (xVel > 0) bounceX();
 				else slowDownX(delta);
 //				gravityY(delta);
 //				yVel = collisionSpeed * delta;
 //				xVel = 0;
 				break;
 			case TERRAIN_TOP_RIGHT:
-				if(collideTop) {
+				if (collideTop) {
 					if (xVel > 0) bounceX();
 					else slowDownX(delta);
 
@@ -131,7 +130,7 @@ public class EntityCrashParticle extends Entity {
 					break;
 				}
 			case TERRAIN_TOP_LEFT:
-				if(collideTop) {
+				if (collideTop) {
 					if (xVel < 0) bounceX();
 					else slowDownX(delta);
 
@@ -163,7 +162,7 @@ public class EntityCrashParticle extends Entity {
 	}
 
 	private void bounceX() {
-		if(Math.abs(xVel) > ANTI_BOUNCE_X) {
+		if (Math.abs(xVel) > ANTI_BOUNCE_X) {
 			this.xVel = -xVel * BOUNCE_X;
 		} else {
 			xVel = 0;
@@ -171,7 +170,7 @@ public class EntityCrashParticle extends Entity {
 	}
 
 	private void bounceY() {
-		if(Math.abs(yVel) > ANTI_BOUNCE_Y) {
+		if (Math.abs(yVel) > ANTI_BOUNCE_Y) {
 			this.yVel = -yVel * BOUNCE_Y;
 		} else {
 			yVel = 0;
@@ -180,7 +179,7 @@ public class EntityCrashParticle extends Entity {
 
 	@Override
 	public boolean isDead() {
-		if(dead) return true;
+		if (dead) return true;
 		float renderX = world.convertWorldCoordToScreenCoord(xPos);
 		return dead = (yPos - radius >= world.getWorldHeight() || yPos + radius <= 0 || renderX - radius >= world.getWorldWidth() || renderX + radius <= 0);
 	}

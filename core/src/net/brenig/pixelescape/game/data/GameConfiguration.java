@@ -36,7 +36,7 @@ public class GameConfiguration {
 	}
 
 	/**
-	 * @return whether debugsettings should be enabled
+	 * @return whether debug settings should be enabled
 	 */
 	public boolean debugSettingsAvailable() {
 		return Reference.DEBUG_SETTINGS_AVAILABLE;
@@ -45,7 +45,7 @@ public class GameConfiguration {
 	/**
 	 * @return the gamemodes playable on this platform
 	 */
-	public GameMode[] getAvailbleGameModes() {
+	public GameMode[] getAvailableGameModes() {
 		return GameMode.values();
 	}
 }

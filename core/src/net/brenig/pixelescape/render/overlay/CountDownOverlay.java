@@ -42,7 +42,7 @@ public class CountDownOverlay extends Overlay {
 		}
 
 		int fractionOfCurrentSecond = ((int) (timePassed % 1000L)) + 1; //fraction of the current second
-		if(fractionOfCurrentSecond <= 0) {
+		if (fractionOfCurrentSecond <= 0) {
 			LogHelper.error("Unknown error when calculating passed time!!, / by zero");
 			LogHelper.error("timePassed: " + timePassed);
 			LogHelper.error("secondsPassed: " + secondsPassed);
@@ -65,7 +65,7 @@ public class CountDownOverlay extends Overlay {
 
 		if (secondsRemaining <= 0) {
 			screen.getFontLayout().setText(screen.game.getFont(), GO_TEXT);
-		} else if(!isShort) {
+		} else if (!isShort) {
 			screen.getFontLayout().setText(screen.game.getFont(), "" + secondsRemaining);
 		} else {
 			screen.getFontLayout().setText(screen.game.getFont(), READY_TEXT);

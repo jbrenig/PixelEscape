@@ -1,6 +1,6 @@
 package net.brenig.pixelescape.game.player;
 
-import net.brenig.pixelescape.game.entity.*;
+import net.brenig.pixelescape.game.entity.IMovingEntity;
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
 import net.brenig.pixelescape.lib.Reference;
 
@@ -22,6 +22,7 @@ public class PlayerPathEntity implements IMovingEntity {
 		this.yVelocity = (e.getYPos() - this.getYPos()) * Reference.PATH_ENTITY_ACCELERATION_MOD * playerEntity.getXVelocity();
 	}
 
+	@Override
 	public float getYPos() {
 		return yPos;
 	}

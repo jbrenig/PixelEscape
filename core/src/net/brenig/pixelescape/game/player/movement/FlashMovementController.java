@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
@@ -26,7 +25,7 @@ public class FlashMovementController implements PlayerMovementController {
 		if (manager.isTouched()) {
 			player.setYPosition(world.convertMouseYToWorldCoordinate(game.getScaledMouseY()));
 		}
-		player.modifiyXVelocity(gameMode.getSpeedIncreaseFactor() * deltaTick);
+		player.modifyXVelocity(gameMode.getSpeedIncreaseFactor() * deltaTick);
 	}
 
 	@Override

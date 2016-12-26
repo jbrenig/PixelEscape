@@ -54,11 +54,11 @@ public class WeightedList<T> implements FilteredElementProvider<T> {
 	 * @return a value which totalWeight is more of equal to the given parameter (ceil)
 	 */
 	public T get(int value) {
-		if(value > totalWeight) {
+		if (value > totalWeight) {
 			throw new IllegalArgumentException("the given value has to be less that the total weight");
 		}
 		int remainingWeight = value;
-		for(Map.Entry<T, Integer> entry : values.entrySet()) {
+		for (Map.Entry<T, Integer> entry : values.entrySet()) {
 			remainingWeight -= entry.getValue();
 			if (remainingWeight <= 0) {
 				return entry.getKey();
@@ -71,11 +71,11 @@ public class WeightedList<T> implements FilteredElementProvider<T> {
 	 * get a random value of this list (taking weight into consideration)
 	 *
 	 * @param random used {@link Random} instance
-	 *
 	 * @return a random value, null if the list is empty
 	 */
+	@Override
 	public T getRandomValue(Random random) {
-		if(size() == 0) {
+		if (size() == 0) {
 			return null;
 		}
 		return get(random.nextInt(getTotalWeight()));
@@ -87,7 +87,7 @@ public class WeightedList<T> implements FilteredElementProvider<T> {
 	public WeightedList<T> createFilteredList(Filter<T> filter) {
 		WeightedList<T> list = new WeightedList<T>();
 		for (Map.Entry<T, Integer> entry : values.entrySet()) {
-			if(filter.isValid(entry.getKey())) {
+			if (filter.isValid(entry.getKey())) {
 				list.add(entry.getValue(), entry.getKey());
 			}
 		}
@@ -104,7 +104,6 @@ public class WeightedList<T> implements FilteredElementProvider<T> {
 	public T getRandomValueWithFilter(Random random, Filter<T> filter) {
 		return createFilteredList(filter).getRandomValue(random);
 	}
-
 
 
 	private class EntryIterator implements Iterator<Map.Entry<T, Integer>> {

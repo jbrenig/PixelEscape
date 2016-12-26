@@ -1,8 +1,6 @@
 package net.brenig.pixelescape.game;
 
 import com.badlogic.gdx.Gdx;
-
-import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.game.entity.EntityPoolManager;
 import net.brenig.pixelescape.game.entity.impl.EntityHighscore;
@@ -14,12 +12,7 @@ import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.screen.GameScreen;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Main World class, handling game logic
@@ -63,12 +56,6 @@ public class World {
 	 */
 	private final GameScreen screen;
 
-	//DEUBG Code
-	//TODO remove
-	private int lastIndex = -1;
-	private int lastTop = -1;
-	private int lastBot = -1;
-
 	public World(GameScreen screen) {
 		this(screen, Reference.TARGET_RESOLUTION_X);
 	}
@@ -80,7 +67,7 @@ public class World {
 		player = new EntityPlayer(this, screen.getGameMode());
 		terrain = new CycleArray<TerrainPair>(calculateWorldBufferSize(worldWidth));
 		//fill terrain buffer
-		for(int i = 0; i < terrain.size(); i++) {
+		for (int i = 0; i < terrain.size(); i++) {
 			terrain.add(new TerrainPair(Reference.FALLBACK_TERRAIN_HEIGHT, Reference.FALLBACK_TERRAIN_HEIGHT));
 		}
 
@@ -121,7 +108,7 @@ public class World {
 				iterator.remove();
 				entityPoolManager.free(e);
 			} else {
-				if(e.update(deltaTick, screen.getInput(), screen.getGameMode())) {
+				if (e.update(deltaTick, screen.getInput(), screen.getGameMode())) {
 					break;
 				}
 			}
@@ -131,7 +118,7 @@ public class World {
 
 	public void spawnEntities() {
 		//Spawn Entities
-		for(Entity e : entitySpawnQueue) {
+		for (Entity e : entitySpawnQueue) {
 			spawnEntityDo(e);
 		}
 		entitySpawnQueue.clear();
@@ -139,31 +126,6 @@ public class World {
 
 	public void spawnEntityDo(Entity e) {
 		entityList.add(e);
-	}
-
-	@Deprecated
-	private void debugValidateWorldGen() {
-		//TODO: remove legacy debug options
-		//DEBUG Code
-		if (GameDebugSettings.get("DEBUG_WORLD_GEN_VALIDATE")) {
-			int index = convertScreenCoordToWorldBlockIndex(player.getXPosScreen());
-			if ((index - 5) <= lastIndex && index >= lastIndex) {
-				int local = convertWorldBlockToLocalBlockIndex(lastIndex);
-				int top = getTopBlockHeight(local);
-				int bot = getBotBlockHeight(local);
-				if (top != lastTop || bot != lastBot) {
-					LogHelper.debug("WorldGen", "BlocksGenerated: " + getTerrainBufferWorldIndex() + "; BlocksRequested: " + terrainBufferWorldIndex, null);
-					LogHelper.error("Error in WorldGen!");
-					LogHelper.error("TerrainBuffer:");
-					LogHelper.error(terrain.toString());
-				}
-			} else {
-				int local = convertWorldBlockToLocalBlockIndex(index);
-				lastIndex = index;
-				lastTop = getTopBlockHeight(local);
-				lastBot = getBotBlockHeight(local);
-			}
-		}
 	}
 
 	/**
@@ -186,10 +148,10 @@ public class World {
 		this.worldWidth = newWidth;
 		final int oldSize = terrain.size();
 		terrain.resize(calculateWorldBufferSize(newWidth));
-		if(oldSize < terrain.size()) {
+		if (oldSize < terrain.size()) {
 			//fill new entries
-			for(int i = 0; i < terrain.size(); i++) {
-				if(terrain.get(i) == null) {
+			for (int i = 0; i < terrain.size(); i++) {
+				if (terrain.get(i) == null) {
 					terrain.set(i, new TerrainPair(Reference.FALLBACK_TERRAIN_HEIGHT, Reference.FALLBACK_TERRAIN_HEIGHT));
 				}
 			}
@@ -253,16 +215,13 @@ public class World {
 
 	@SuppressWarnings("SameReturnValue")
 	public int getWorldHeight() {
-		/*
-	  The height of the world in pixels
-	 */
 		return Reference.GAME_RESOLUTION_Y;
 	}
 
 	/**
 	 * generates the world (including special world gen)
 	 *
-	 * @param fillArray set this flag to true if the whole TerrainBuffer should be filled, used to generate Terrain on Gamestart
+	 * @param fillArray set this flag to true if the whole TerrainBuffer should be filled, used to generate Terrain on game start
 	 */
 	public void generateWorld(boolean fillArray) {
 		int blockToGenerate = fillArray ? getBlockBufferSize() : calculateBlocksToGenerate();
@@ -272,11 +231,11 @@ public class World {
 
 	/**
 	 * reuse an available {@link TerrainPair} if possible, creates and register a new one otherwise<br></br>
-	 * the returned {@link TerrainPair} will be added to end of the currently generated terrain and can be modified direcly
+	 * the returned {@link TerrainPair} will be added to end of the currently generated terrain and can be modified directly
 	 */
 	public TerrainPair getCreateTerrainPairForGeneration() {
 		TerrainPair pair = terrain.getOldest();
-		if(pair == null) {
+		if (pair == null) {
 			LogHelper.warn("Invalid TerrainPair! (null)");
 			pair = new TerrainPair(Reference.FALLBACK_TERRAIN_HEIGHT, Reference.FALLBACK_TERRAIN_HEIGHT);
 			terrain.set(0, pair);
@@ -311,7 +270,7 @@ public class World {
 	 */
 	private int calculateBlocksToGenerate() {
 		int blocksLeftOfVision = getCameraLeftLocalIndex() - Reference.TERRAIN_BUFFER_LEFT - 1;
-		if(blocksLeftOfVision > Reference.TERRAIN_GENERATION_THRESHOLD) {
+		if (blocksLeftOfVision > Reference.TERRAIN_GENERATION_THRESHOLD) {
 			return blocksLeftOfVision;
 		}
 		return 0;
@@ -346,7 +305,7 @@ public class World {
 
 		//respawn player entity
 		spawnEntityDo(player);
-		if(screen.game.gameSettings.showHighScoreInWorld() && screen.game.userData.getHighScore(screen.getGameMode()) > 0) {
+		if (screen.game.gameSettings.showHighScoreInWorld() && screen.game.userData.getHighScore(screen.getGameMode()) > 0) {
 			final EntityHighscore entityHighscore = createEntity(EntityHighscore.class);
 			spawnEntityDo(entityHighscore);
 		}
@@ -379,9 +338,9 @@ public class World {
 	 * parameters are world coordinates
 	 */
 	private CollisionType doesAreaCollideWithEntities(float x1, float y1, float x2, float y2) {
-		for(Entity entity : entityList) {
+		for (Entity entity : entityList) {
 			CollisionType col = entity.doesAreaCollideWithEntity(x1, y1, x2, y2);
-			if(col != CollisionType.NONE) {
+			if (col != CollisionType.NONE) {
 				return col;
 			}
 		}
@@ -390,7 +349,7 @@ public class World {
 
 	/**
 	 * checks collision with terrain<br></br>
-	 * parmetters are world coordinates
+	 * parameters are world coordinates
 	 * <br/>
 	 * note: results are not perfect
 	 */
@@ -405,10 +364,10 @@ public class World {
 
 		//collide
 		if (y1 < frontBot) { //right bot
-			if(y1 < backBot) { //left bot
-				if(y2 < frontBot) { // front bot top
+			if (y1 < backBot) { //left bot
+				if (y2 < frontBot) { // front bot top
 					return CollisionType.TERRAIN_BOT_RIGHT;
-				} else if(y2 < backBot) {
+				} else if (y2 < backBot) {
 					return CollisionType.TERRAIN_BOT_LEFT;
 				} else {
 					return CollisionType.TERRAIN_BOTTOM;
@@ -422,9 +381,9 @@ public class World {
 		}
 		if (y2 > frontTop) {
 			if (y2 > backTop) {
-				if(y1 > frontTop) {
+				if (y1 > frontTop) {
 					return CollisionType.TERRAIN_TOP_RIGHT;
-				} else if(y1 > backTop) {
+				} else if (y1 > backTop) {
 					return CollisionType.TERRAIN_TOP_LEFT;
 				} else {
 					return CollisionType.TERRAIN_TOP;
@@ -476,7 +435,7 @@ public class World {
 	}
 
 	/**
-	 * global world coordinate of the right end of the sceen
+	 * global world coordinate of the right end of the screen
 	 */
 	public float getCurrentScreenEnd() {
 		return screen.worldRenderer.getWorldCameraXPos() + getWorldWidth();
@@ -507,7 +466,7 @@ public class World {
 
 	/**
 	 * Converts a World index to a local (or generator) index
-	 * note: local BlockIndex starts with the newest block --> right to left
+	 * note: local BlockIndex starts with the newest block --> left to right
 	 */
 	public int convertWorldBlockToLocalBlockIndex(int i) {
 		return i - terrainBufferWorldIndex;
@@ -515,7 +474,7 @@ public class World {
 
 	/**
 	 * Converts a local (or generator) index to a World index
-	 * note: local BlockIndex starts with the newest block --> right to left
+	 * note: local BlockIndex starts with the newest block --> left to right
 	 */
 	public int convertLocalBlockToWorldBlockIndex(int i) {
 		return terrainBufferWorldIndex + i;
@@ -527,7 +486,6 @@ public class World {
 	public EntityPlayer getPlayer() {
 		return player;
 	}
-
 
 
 	/**

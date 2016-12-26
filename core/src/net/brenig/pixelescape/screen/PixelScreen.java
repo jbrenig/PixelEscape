@@ -1,7 +1,6 @@
 package net.brenig.pixelescape.screen;
 
 import com.badlogic.gdx.Screen;
-
 import net.brenig.pixelescape.PixelEscape;
 
 /**
@@ -15,7 +14,7 @@ public abstract class PixelScreen implements Screen {
 	}
 
 	public void updateMusic(boolean play) {
-		if(play) {
+		if (play) {
 			game.gameMusic.play(true);
 		}
 	}

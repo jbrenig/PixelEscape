@@ -1,7 +1,6 @@
 package net.brenig.pixelescape.game.player;
 
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-
 import net.brenig.pixelescape.game.data.GameAssets;
 import net.brenig.pixelescape.game.entity.impl.EntityItem;
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
@@ -10,10 +9,10 @@ import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
 /**
  * Interface to be implemented by all kinds of items
  * <p>
- *     used to let the player collect items via {@link EntityItem}
+ * used to let the player collect items via {@link EntityItem}
  * </p>
  * <p>
- *     classes implementing this interface should usually ba singletons
+ * classes implementing this interface should usually ba singletons
  * </p>
  */
 public interface Item {
@@ -26,8 +25,9 @@ public interface Item {
 
 	/**
 	 * gets called when the player tries to collect the item
+	 * <p>
+	 * note: when false is returned this method may get called every tick in which the player still collides with the {@link EntityItem}
 	 *
-	 * note: when false is returned this method may get caled every tick in which the player still collides with the {@link EntityItem}
 	 * @return true if item was collected, false otherwise
 	 */
 	boolean onCollect(EntityPlayer player);

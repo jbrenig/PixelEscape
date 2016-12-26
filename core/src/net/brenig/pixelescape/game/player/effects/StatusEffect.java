@@ -22,10 +22,12 @@ public abstract class StatusEffect {
 	/**
 	 * called when effect gets removed from the player
 	 */
-	public void onEffectRemove(EntityPlayer player) {}
+	public void onEffectRemove(EntityPlayer player) {
+	}
 
 	/**
 	 * will get called when player collides
+	 *
 	 * @return false when player doesn't collide due to this statuseffect
 	 */
 	public boolean onPlayerCollide() {
@@ -35,13 +37,14 @@ public abstract class StatusEffect {
 	/**
 	 * called when the effect gets added to the player
 	 * <p>
-	 *     make changes to {@link EntityPlayer} here
+	 * make changes to {@link EntityPlayer} here
 	 * </p>
 	 */
-	public void onEffectAdded(EntityPlayer player) {}
+	public void onEffectAdded(EntityPlayer player) {
+	}
 
 	/**
-	 * @return time remaining, unitl this effect ends (return 0 or less if not applicable)
+	 * @return time remaining, until this effect ends (return 0 or less if not applicable)
 	 */
 	public float getScaledTime() {
 		return 0;
@@ -50,9 +53,11 @@ public abstract class StatusEffect {
 	/**
 	 * updates shaperenderer to a custom color if needed
 	 * <p>
-	 *     used for rendering remaining duration
+	 * used for rendering remaining duration
 	 * </p>
+	 *
 	 * @param renderer current renderer instance
 	 */
-	public void updateRenderColor(GameRenderManager renderer) {}
+	public void updateRenderColor(GameRenderManager renderer) {
+	}
 }

@@ -2,7 +2,6 @@ package net.brenig.pixelescape.game.data;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-
 import net.brenig.pixelescape.PixelEscape;
 
 import java.util.Collections;
@@ -18,7 +17,6 @@ public class GameDebugSettings {
 	private static final String PREF_DEBUG_SETTINGS = "PixelEscape_Debug_Preferences";
 
 	private static final Map<String, Boolean> defaults = createDefaults();
-
 
 
 	private final Preferences prefs;
@@ -49,11 +47,11 @@ public class GameDebugSettings {
 
 	public boolean getBoolean(String s) {
 		Boolean def = defaults.get(s);
-		if(!PixelEscape.getPixelEscape().gameConfig.debugSettingsAvailable()) {
+		if (!PixelEscape.getPixelEscape().gameConfig.debugSettingsAvailable()) {
 			//return default if debug settings are deactivated
 			return def == null ? false : def;
 		}
-		if(def == null) {
+		if (def == null) {
 			return prefs.getBoolean(s);
 		}
 		return prefs.getBoolean(s, def);

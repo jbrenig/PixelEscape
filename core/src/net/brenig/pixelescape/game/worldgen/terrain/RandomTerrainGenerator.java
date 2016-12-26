@@ -22,7 +22,7 @@ public class RandomTerrainGenerator extends AbstractTerrainGenerator {
 		TerrainPair pair = world.getCreateTerrainPairForGeneration();
 		pair.setBot(Math.max(Reference.MIN_HEIGHT, Math.min(Reference.MAX_HEIGHT, lastPair.getBot() + random.nextInt(3) - 1)));
 		pair.setTop(Math.max(Reference.MIN_HEIGHT, Math.min(Reference.MAX_HEIGHT, lastPair.getTop() + random.nextInt(3) - 1)));
-		while(pair.getTop() + pair.getBot() > Reference.MAX_TERRAIN_SUM) {
+		while (pair.getTop() + pair.getBot() > Reference.MAX_TERRAIN_SUM) {
 			pair.setTop(pair.getTop() - 1);
 			pair.setBot(pair.getBot() - 1);
 		}

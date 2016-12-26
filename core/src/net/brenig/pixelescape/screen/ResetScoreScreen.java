@@ -3,14 +3,9 @@ package net.brenig.pixelescape.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.lib.Utils;
@@ -28,7 +23,6 @@ public class ResetScoreScreen extends PixelScreen {
 
 	private final StageManager uiStage;
 	private final Table headLayout;
-	private final Table uiLayout;
 	private final Table contentLayout;
 	private final ScrollPane pane;
 
@@ -44,7 +38,7 @@ public class ResetScoreScreen extends PixelScreen {
 		game.getRenderManager().resetFontSize();
 
 		//configure main layout
-		uiLayout = new Table();
+		Table uiLayout = new Table();
 		uiLayout.setFillParent(true);
 		uiLayout.setPosition(0, 0);
 		uiLayout.center();
@@ -66,13 +60,13 @@ public class ResetScoreScreen extends PixelScreen {
 		uiStage.add(headLayout);
 
 		//content (scrollpane)
-		gamemodeCheckboxes =  new HashMap<CheckBox, GameMode>(game.gameConfig.getAvailbleGameModes().length);
+		gamemodeCheckboxes = new HashMap<CheckBox, GameMode>(game.gameConfig.getAvailableGameModes().length);
 
 		final ChangeListener chbxListener = new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				for(CheckBox chbx : gamemodeCheckboxes.keySet()) {
-					if(!chbx.isChecked()) {
+				for (CheckBox chbx : gamemodeCheckboxes.keySet()) {
+					if (!chbx.isChecked()) {
 						resetAllCheckBox.setChecked(false);
 						return;
 					}
@@ -89,22 +83,22 @@ public class ResetScoreScreen extends PixelScreen {
 		resetAllCheckBox.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				for(CheckBox chbx : gamemodeCheckboxes.keySet()) {
+				for (CheckBox chbx : gamemodeCheckboxes.keySet()) {
 					chbx.setChecked(resetAllCheckBox.isChecked());
 				}
 			}
 		});
-		//suspress events caused by setChecked()
+		//suppress events caused by setChecked()
 		resetAllCheckBox.setProgrammaticChangeEvents(false);
 		contentLayout.add(resetAllCheckBox).padBottom(20).left().row();
 
-		for(GameMode mode : game.gameConfig.getAvailbleGameModes()) {
+		for (GameMode mode : game.gameConfig.getAvailableGameModes()) {
 			CheckBox chbx = new CheckBox(mode.getGameModeName(), game.getSkin());
 			chbx.setChecked(false);
 			chbx.getImageCell().padBottom(8).padRight(10).size(32);
 			chbx.getLabel().setFontScale(0.7F);
 			chbx.addListener(chbxListener);
-			//suspress events caused by setChecked()
+			//suppress events caused by setChecked()
 			chbx.setProgrammaticChangeEvents(false);
 			gamemodeCheckboxes.put(chbx, mode);
 			contentLayout.add(chbx).left();
@@ -117,7 +111,7 @@ public class ResetScoreScreen extends PixelScreen {
 		//configure scollpane
 		pane = new ScrollPane(contentLayout, game.getSkin());
 		uiLayout.add(pane).expand().fillX().padTop(8).padLeft(20).padRight(20).center().row();
-		//set scrol focus
+		//set scroll focus
 		uiStage.getUiStage().setScrollFocus(pane);
 
 		Table buttonLayout = new Table();
@@ -171,8 +165,8 @@ public class ResetScoreScreen extends PixelScreen {
 	}
 
 	private void apply() {
-		for(Map.Entry<CheckBox, GameMode> entry : gamemodeCheckboxes.entrySet()) {
-			if(entry.getKey().isChecked()) {
+		for (Map.Entry<CheckBox, GameMode> entry : gamemodeCheckboxes.entrySet()) {
+			if (entry.getKey().isChecked()) {
 				game.userData.setHighScore(entry.getValue(), 0);
 				game.userData.setTutorialSeen(entry.getValue(), false);
 			}
@@ -180,6 +174,7 @@ public class ResetScoreScreen extends PixelScreen {
 	}
 
 
+	@SuppressWarnings("Duplicates")
 	@Override
 	public void show() {
 		Gdx.input.setInputProcessor(uiStage.getInputProcessor());

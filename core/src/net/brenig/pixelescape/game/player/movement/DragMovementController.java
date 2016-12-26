@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
@@ -31,14 +30,14 @@ public class DragMovementController implements PlayerMovementController {
 
 	@Override
 	public void updatePlayerMovement(PixelEscape game, InputManager manager, GameMode gameMode, World world, EntityPlayer player, float deltaTick, float yVelocityFactor) {
-		player.modifiyXVelocity(gameMode.getSpeedIncreaseFactor() * deltaTick);
-		player.modifiyYVelocity(acceleration * deltaTick);
+		player.modifyXVelocity(gameMode.getSpeedIncreaseFactor() * deltaTick);
+		player.modifyYVelocity(acceleration * deltaTick);
 		if (isTouched) {
 			if (!manager.isTouched()) {
 				//Confirm
 				if (touchX > 0) {
 					acceleration = world.convertMouseYToScreenCoordinate(game.getScaledMouseY()) - touchY;
-					if(acceleration > 0) {
+					if (acceleration > 0) {
 						acceleration = Math.max(0, acceleration - DEAD_ZONE);
 					} else {
 						acceleration = Math.min(0, acceleration + DEAD_ZONE);

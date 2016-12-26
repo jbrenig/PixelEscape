@@ -17,9 +17,10 @@ public abstract class EntityMoving extends Entity {
 	}
 
 	/**
-	 * mvoes the entity
-	 *
+	 * moves the entity
+	 * <p>
 	 * note: does note check velocity limits
+	 *
 	 * @param delta time passed
 	 */
 	protected void move(float delta) {

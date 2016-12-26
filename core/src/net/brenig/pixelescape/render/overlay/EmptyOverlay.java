@@ -33,7 +33,7 @@ public final class EmptyOverlay extends Overlay {
 
 	@Override
 	public void onResize(int width, int height) {
-		if (!screen.isFirstUpdate() && GameDebugSettings.get("AUTO_PAUSE")) {
+		if (screen.isInitialized() && GameDebugSettings.get("AUTO_PAUSE")) {
 			screen.showGamePausedOverlay();
 		}
 	}

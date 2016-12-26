@@ -3,7 +3,7 @@ package net.brenig.pixelescape.game.worldgen.terrain;
 import net.brenig.pixelescape.game.worldgen.ITerrainGenerator;
 
 /**
- * Basic terrian generator functionality
+ * Basic terrain generator functionality
  */
 public abstract class AbstractTerrainGenerator implements ITerrainGenerator {
 
@@ -13,6 +13,7 @@ public abstract class AbstractTerrainGenerator implements ITerrainGenerator {
 		this.weight = weight;
 	}
 
+	@Override
 	public int getWeight() {
 		return weight;
 	}

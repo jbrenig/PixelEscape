@@ -392,7 +392,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 			final float y = (float) Math.cos(i) + (random.nextFloat() - 0.5F);
 			EntityCrashParticle e = world.createEntity(EntityCrashParticle.class);
 			e.setPosition(getXPos() - getXVelocity() * Gdx.graphics.getDeltaTime() + x, getYPos() - getYVelocity() * Gdx.graphics.getDeltaTime() + y);
-			e.setColor(world.getScreen().game.gameDebugSettings.getBoolean("PLAYER_EXPLOSION_RED") ? Color.RED : Color.BLACK);
+			e.setColor(world.getScreen().game.getGameDebugSettings().getBoolean("PLAYER_EXPLOSION_RED") ? Color.RED : Color.BLACK);
 			final float xVel = (x * 2 + (random.nextFloat() - 0.5F)) * 70 + getXVelocity() * 0.4F;
 			final float yVel = (y * 2 + (random.nextFloat() - 0.5F)) * 70;
 			e.setVelocity(xVel, yVel);
@@ -407,14 +407,14 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		world.getScreen().worldRenderer.applyForceToScreen(col.doesCollideHorizontally() ? forceX : 0, col.doesCollideVertically() ? forceY : 0);
 
 		//play sound
-		if (world.getScreen().game.gameSettings.isSoundEnabled()) {
-			world.getScreen().game.getGameAssets().getPlayerCrashedSound().play(world.getScreen().game.gameSettings.getSoundVolume());
+		if (world.getScreen().game.getGameSettings().isSoundEnabled()) {
+			world.getScreen().game.getGameAssets().getPlayerCrashedSound().play(world.getScreen().game.getGameSettings().getSoundVolume());
 		}
 
 		//explode life icon
 		if (world.getScreen().getGameMode().getExtraLives() > 0) {
 			//We have a live system (and therefor have a lives icon)
-			final float lifeX = world.convertScreenToWorldCoordinate(world.getScreen().game.gameSizeX - 36 * getExtraLives() - 16);
+			final float lifeX = world.convertScreenToWorldCoordinate(world.getScreen().game.getGameSizeX() - 36 * getExtraLives() - 16);
 			final float lifeY = world.getWorldHeight() - 28 + 16;
 			//Spawn crash particles
 			for (int i = 0; i < 60; i++) {

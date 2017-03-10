@@ -119,7 +119,7 @@ public abstract class Overlay {
 	protected void renderScreenTint(float r, float g, float b, float a) {
 		screen.game.getRenderManager().begin();
 		screen.game.getRenderManager().setColor(r, g, b, a);
-		screen.game.getRenderManager().rect(0, 0, screen.game.gameSizeX, screen.game.gameSizeY);
+		screen.game.getRenderManager().rect(0, 0, screen.game.getGameSizeX(), screen.game.getGameSizeY());
 	}
 
 	/**

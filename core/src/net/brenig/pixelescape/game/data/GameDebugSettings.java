@@ -47,7 +47,7 @@ public class GameDebugSettings {
 
 	public boolean getBoolean(String s) {
 		Boolean def = defaults.get(s);
-		if (!PixelEscape.getPixelEscape().gameConfig.debugSettingsAvailable()) {
+		if (!PixelEscape.getPixelEscape().getGameConfig().debugSettingsAvailable()) {
 			//return default if debug settings are deactivated
 			return def == null ? false : def;
 		}
@@ -62,10 +62,10 @@ public class GameDebugSettings {
 	}
 
 	public static boolean get(String s) {
-		return PixelEscape.getPixelEscape().gameDebugSettings.getBoolean(s);
+		return PixelEscape.getPixelEscape().getGameDebugSettings().getBoolean(s);
 	}
 
 	public static void set(String s, boolean b) {
-		PixelEscape.getPixelEscape().gameDebugSettings.setBoolean(s, b);
+		PixelEscape.getPixelEscape().getGameDebugSettings().setBoolean(s, b);
 	}
 }

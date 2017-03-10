@@ -166,7 +166,7 @@ public class CurrentHighscoreLabel extends Widget {
 	}
 
 	private void updateText() {
-		text = SCORE_TEXT + game.userData.getHighScore(gameMode);
+		text = SCORE_TEXT + game.getUserData().getHighScore(gameMode);
 	}
 
 	private void updateAnimation() {

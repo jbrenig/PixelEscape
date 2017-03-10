@@ -79,14 +79,14 @@ public class MainMenuScreen extends PixelScreen {
 		//GameMode Image
 		gmImageStack = new SwipeTabbedStack(SwipeTabbedStack.DEFAULT_ANIMATION_X_OFFSET);
 		//init gamemodes
-		for (GameMode mode : game.gameConfig.getAvailableGameModes()) {
+		for (GameMode mode : game.getGameConfig().getAvailableGameModes()) {
 			Image gameModeImageArcade = new Image(mode.createIcon(game.getGameAssets()));
 //			gameModeImageArcade.setRotation(5);
 			gameModeImageArcade.setScaling(Scaling.fit);
 			gmImageStack.add(gameModeImageArcade);
 		}
 
-		gmImageStack.setCurrentElement(game.userData.getLastGameMode());
+		gmImageStack.setCurrentElement(game.getUserData().getLastGameMode());
 		centerTable.add(gmImageStack).pad(20, 0, 10, 0).height(48).fillX();
 		centerTable.row();
 
@@ -110,7 +110,7 @@ public class MainMenuScreen extends PixelScreen {
 		centerButtons.add(btnStart).padBottom(40).fillX();
 
 		//Quit Button
-		if (game.gameConfig.canQuitGame()) {
+		if (game.getGameConfig().canQuitGame()) {
 			TextButton btnQuit = new TextButton("Quit game", game.getSkin());
 			btnQuit.addListener(new ClickListener() {
 				@Override
@@ -169,7 +169,7 @@ public class MainMenuScreen extends PixelScreen {
 		if (gmImageStack == null) {
 			return null;
 		}
-		return game.gameConfig.getAvailableGameModes()[gmImageStack.getCurrentElement()];
+		return game.getGameConfig().getAvailableGameModes()[gmImageStack.getCurrentElement()];
 	}
 
 	@Override
@@ -178,7 +178,7 @@ public class MainMenuScreen extends PixelScreen {
 		uiStage.updateViewportToScreen();
 		mainUiLayout.invalidateHierarchy();
 		buttonPanelLayout.invalidateHierarchy();
-		game.gameMusic.playOrFadeInto(game.getGameAssets().getMainMenuMusic());
+		game.getGameMusic().playOrFadeInto(game.getGameAssets().getMainMenuMusic());
 		Gdx.input.setInputProcessor(uiStage.getInputProcessor());
 	}
 
@@ -211,7 +211,7 @@ public class MainMenuScreen extends PixelScreen {
 
 	@Override
 	public void dispose() {
-		game.userData.setLastGameMode(gmImageStack.getCurrentElement());
+		game.getUserData().setLastGameMode(gmImageStack.getCurrentElement());
 		uiStage.dispose();
 	}
 }

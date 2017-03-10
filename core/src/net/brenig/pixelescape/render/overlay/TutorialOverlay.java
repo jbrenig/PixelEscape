@@ -190,7 +190,7 @@ public class TutorialOverlay extends OverlayWithUi implements SwipeTabbedStack.I
 		screen.setOverlayInputProcessor(null);
 		controls.addAction(Actions.parallel(Actions.moveBy(0, -90, timer_amount), Actions.alpha(0.2F, timer_amount)));
 		timer = timer_amount;
-		screen.game.userData.setTutorialSeen(screen.getGameMode(), true);
+		screen.game.getUserData().setTutorialSeen(screen.getGameMode(), true);
 	}
 
 	@Override

@@ -5,21 +5,31 @@ package net.brenig.pixelescape.lib;
  */
 public class Reference {
 
-	/**
-	 * this is the targeted x-axis world length, this value may be different on other devices
-	 */
-	public static final int TARGET_RESOLUTION_X = 800;
-	public static final int TARGET_RESOLUTION_Y = 480;
+	//SCREEN SIZING & UI LAYOUT CONSTANTS
+
 	/**
 	 * this is the y-axis world height
 	 */
 	public static final int GAME_RESOLUTION_Y = 400;
+
+	/**
+	 * ingame-UI-Bar height
+	 */
 	public static final int GAME_UI_Y_SIZE = 80;
 	public static final float GAME_UI_Y_PADDING = 4;
+
+	/**
+	 * this is the targeted x-axis world length, this value may be different on other devices
+	 */
+	public static final int TARGET_RESOLUTION_X = 800;
+	public static final int TARGET_RESOLUTION_Y = GAME_RESOLUTION_Y + GAME_UI_Y_SIZE;
 
 	public static final int GAME_UI_SCORE_SCREEN_SIZE_BUFFER = 20;
 	public static final float GAME_UI_MAIN_MENU_FONT_SIZE = 0.8F;
 
+	public static final float SCREEN_TINT_STRENGTH = 0.6F;
+
+	//DEFAULT SPEED MODIFIERS
 	public static final float STARTING_SPEED = 100F;
 	public static final float SPEED_MODIFIER = 3F;
 
@@ -79,13 +89,13 @@ public class Reference {
 	public static final float TOUCH_ACCELERATION = 12 * BLOCK_WIDTH;
 	public static final float CLICK_ACCELERATION = 3 * BLOCK_WIDTH;
 
-	public static final float SCREEN_TINT_STRENGTH = 0.6F;
-
+	//DEBUG FLAGS
 	public static final boolean SUPPRESS_TUTORIALS = false;
 	public static final boolean ENABLE_MUSIC = true;
 
 	public static final boolean DEBUG_SETTINGS_AVAILABLE = true;
 
+	//VERSION CONSTANTS
 	/**
 	 * current version of saved data<br></br>
 	 * changes every time a breaking change happens to the way data is saved on disk

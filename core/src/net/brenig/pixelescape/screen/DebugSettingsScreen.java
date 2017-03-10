@@ -76,7 +76,7 @@ public class DebugSettingsScreen extends PixelScreen {
 			btnBack.addListener(new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
-					game.gameDebugSettings.saveToDisk();
+					game.getGameDebugSettings().saveToDisk();
 					game.setScreen(new SettingsScreen(game));
 				}
 			});
@@ -87,11 +87,11 @@ public class DebugSettingsScreen extends PixelScreen {
 
 	private CheckBox createDebugSettingCheckBox(String text, final String property) {
 		CheckBox chbx = new CheckBox(text, game.getSkin());
-		chbx.setChecked(game.gameDebugSettings.getBoolean(property));
+		chbx.setChecked(game.getGameDebugSettings().getBoolean(property));
 		chbx.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-				game.gameDebugSettings.setBoolean(property, ((CheckBox) actor).isChecked());
+				game.getGameDebugSettings().setBoolean(property, ((CheckBox) actor).isChecked());
 			}
 		});
 		chbx.getImageCell().padBottom(8).padRight(10).size(32);

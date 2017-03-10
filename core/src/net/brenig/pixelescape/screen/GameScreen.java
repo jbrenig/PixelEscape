@@ -78,7 +78,7 @@ public class GameScreen extends PixelScreen {
 
 		this.gameMode = gameMode;
 		//init world and renderer
-		this.world = new World(this, game.gameSizeX);
+		this.world = new World(this, game.getGameSizeX());
 		this.worldRenderer = new WorldRenderer(game, world);
 		//create default overlay
 		this.emptyOverlay = new EmptyOverlay(this);
@@ -122,7 +122,7 @@ public class GameScreen extends PixelScreen {
 	public void show() {
 		initialized = false;
 		valid = true;
-		game.gameMusic.playOrFadeInto(getGameMusic());
+		game.getGameMusic().playOrFadeInto(getGameMusic());
 		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 
@@ -136,8 +136,8 @@ public class GameScreen extends PixelScreen {
 		//Game will be slowed down if the frames don't get processed fast enough
 		delta = Math.min(Reference.MAX_FRAME_TIME, delta);
 
-		if (game.gameConfig.canHideCursor())
-			inputManager.updateMouseVisibility(delta, game.gameSettings.fullscreen && overlay.canHideCursor());
+		if (game.getGameConfig().canHideCursor())
+			inputManager.updateMouseVisibility(delta, game.getGameSettings().fullscreen && overlay.canHideCursor());
 
 		if (!initialized) {
 			init();
@@ -223,7 +223,7 @@ public class GameScreen extends PixelScreen {
 		if (gameMode.getExtraLives() > 0) {
 			game.getRenderManager().begin();
 			for (int index = 1; index <= world.getPlayer().getExtraLives() + 1; index++) {
-				game.getRenderManager().getBatch().draw(game.getGameAssets().getHeart(), game.gameSizeX - 36 * index, uiPos + world.getWorldHeight() - 28);
+				game.getRenderManager().getBatch().draw(game.getGameAssets().getHeart(), game.getGameSizeX() - 36 * index, uiPos + world.getWorldHeight() - 28);
 			}
 		}
 	}
@@ -233,7 +233,7 @@ public class GameScreen extends PixelScreen {
 	 */
 	private void init() {
 		initialized = true;
-		if (game.userData.tutorialSeen(gameMode)) {
+		if (game.getUserData().tutorialSeen(gameMode)) {
 			setOverlay(new CountDownOverlay(this));
 		} else {
 			setOverlay(new TutorialOverlay(this));
@@ -276,7 +276,7 @@ public class GameScreen extends PixelScreen {
 			game.getRenderManager().begin();
 			game.getFont().setColor(Color.LIGHT_GRAY);
 			game.getFont().getData().setScale(0.5F);
-			fontLayout.setText(game.getFont(), "Music state: " + game.gameMusic.getState());
+			fontLayout.setText(game.getFont(), "Music state: " + game.getGameMusic().getState());
 			float pos = 5 + fontLayout.height;
 			game.getFont().draw(game.getBatch(), fontLayout, 5, pos);
 			game.getFont().getData().setScale(1F);
@@ -287,8 +287,8 @@ public class GameScreen extends PixelScreen {
 	public void resize(int width, int height) {
 		//update viewports and world size
 		final int targetHeight = Reference.GAME_RESOLUTION_Y + Reference.GAME_UI_Y_SIZE;
-		uiPos = (int) Math.ceil((game.gameSizeY - targetHeight) / 2);
-		world.resize(game.gameSizeX);
+		uiPos = (int) Math.ceil((game.getGameSizeY() - targetHeight) / 2);
+		world.resize(game.getGameSizeX());
 //		worldRenderer.setPositionAbsolute(/*-world.getWorldWidth() / 4*/ 0, uiPos);
 		worldRenderer.setWorldRendererYOffset(uiPos);
 		//Update UI
@@ -372,7 +372,7 @@ public class GameScreen extends PixelScreen {
 	 */
 	public void onGameOver() {
 		setOverlay(new GamePausedOverlay(this, true));
-		game.userData.updateHighscore(gameMode, world.getPlayer().getScore());
+		game.getUserData().updateHighscore(gameMode, world.getPlayer().getScore());
 	}
 
 	/**

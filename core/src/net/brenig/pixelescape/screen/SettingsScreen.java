@@ -56,14 +56,14 @@ public class SettingsScreen extends PixelScreen {
 			soundControl.add(txtSound).padRight(8.0F);
 
 			Slider sliderSound = new Slider(0, 1F, 0.01F, false, game.getSkin(), "default");
-			sliderSound.setValue(game.gameSettings.getSoundVolume());
+			sliderSound.setValue(game.getGameSettings().getSoundVolume());
 			sliderSound.setAnimateDuration(0.2F);
 			sliderSound.addListener(new ChangeListener() {
 				@Override
 				public void changed(ChangeEvent event, Actor actor) {
-					game.gameSettings.setSoundVolume(((Slider) actor).getValue());
+					game.getGameSettings().setSoundVolume(((Slider) actor).getValue());
 					if (!((Slider) actor).isDragging()) {
-						game.getGameAssets().getPlayerCrashedSound().play(game.gameSettings.getSoundVolume());
+						game.getGameAssets().getPlayerCrashedSound().play(game.getGameSettings().getSoundVolume());
 					}
 				}
 			});
@@ -82,13 +82,13 @@ public class SettingsScreen extends PixelScreen {
 			txtMusic.setFontScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 			musicControl.add(txtMusic).padRight(8.0F);
 			Slider sliderMusic = new Slider(0, 1F, 0.01F, false, game.getSkin(), "default");
-			sliderMusic.setValue(game.gameSettings.getMusicVolume());
+			sliderMusic.setValue(game.getGameSettings().getMusicVolume());
 			sliderMusic.setAnimateDuration(0.2F);
 			sliderMusic.addListener(new ChangeListener() {
 				@Override
 				public void changed(ChangeEvent event, Actor actor) {
-					game.gameSettings.setMusicVolume(((Slider) actor).getValue());
-					game.gameMusic.updateMusicVolume();
+					game.getGameSettings().setMusicVolume(((Slider) actor).getValue());
+					game.getGameMusic().updateMusicVolume();
 				}
 			});
 			musicControl.add(sliderMusic).fillX().padBottom(4.0F);
@@ -100,11 +100,11 @@ public class SettingsScreen extends PixelScreen {
 		//Short Countdown
 		{
 			CheckBox chbx = new CheckBox("Short Countdown", game.getSkin());
-			chbx.setChecked(game.gameSettings.shortCountdownEnabled());
+			chbx.setChecked(game.getGameSettings().shortCountdownEnabled());
 			chbx.addListener(new ChangeListener() {
 				@Override
 				public void changed(ChangeEvent event, Actor actor) {
-					game.gameSettings.setCountdownEnabled(((CheckBox) actor).isChecked());
+					game.getGameSettings().setCountdownEnabled(((CheckBox) actor).isChecked());
 				}
 			});
 			chbx.getImageCell().padBottom(8).padRight(10).size(32);
@@ -117,11 +117,11 @@ public class SettingsScreen extends PixelScreen {
 		//Highscore in world
 		{
 			CheckBox chbx = new CheckBox("Show Highscore in world", game.getSkin());
-			chbx.setChecked(game.gameSettings.showHighScoreInWorld());
+			chbx.setChecked(game.getGameSettings().showHighScoreInWorld());
 			chbx.addListener(new ChangeListener() {
 				@Override
 				public void changed(ChangeEvent event, Actor actor) {
-					game.gameSettings.setShowHighScoreInWorld(((CheckBox) actor).isChecked());
+					game.getGameSettings().setShowHighScoreInWorld(((CheckBox) actor).isChecked());
 				}
 			});
 			chbx.getImageCell().padBottom(8).padRight(10).size(32);
@@ -166,7 +166,7 @@ public class SettingsScreen extends PixelScreen {
 
 		Utils.addSoundAndMusicControllerToLayout(game, headLayout);
 
-		if (game.gameConfig.debugSettingsAvailable()) {
+		if (game.getGameConfig().debugSettingsAvailable()) {
 			final ImageButton btnSettings = new ImageButton(game.getSkin(), "settings");
 			btnSettings.addListener(new ClickListener() {
 				@Override
@@ -249,7 +249,7 @@ public class SettingsScreen extends PixelScreen {
 	@Override
 	public void hide() {
 		dispose();
-		game.gameSettings.saveToDisk();
+		game.getGameSettings().saveToDisk();
 	}
 
 	@Override

@@ -1,9 +1,6 @@
 package net.brenig.pixelescape;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
@@ -18,26 +15,39 @@ import net.brenig.pixelescape.screen.PixelScreen;
 
 import java.util.Random;
 
+/**
+ * Main Game class
+ */
 public class PixelEscape extends Game {
-
-	private static PixelEscape instance;
-
+	/**
+	 * general Random instance
+	 */
 	public static final Random rand = new Random();
 
+	/**
+	 * singleton static instance
+	 */
+	private static PixelEscape instance;
+
+	/**
+	 * true if assets are loaded. Used for unloading when paused and in background
+	 */
 	private boolean assetsLoaded = false;
 
 	private GameRenderManager renderManager;
-
-
 	private GameAssets gameAssets;
-	public GameSettings gameSettings;
-	public GameDebugSettings gameDebugSettings;
-	public UserData userData;
-	public final GameConfiguration gameConfig;
-	public GameMusic gameMusic;
+	private GameMusic gameMusic;
+	private GameSettings gameSettings;
+	private GameDebugSettings gameDebugSettings;
+	private UserData userData;
 
-	public int gameSizeX = Reference.TARGET_RESOLUTION_X;
-	public int gameSizeY = Reference.GAME_RESOLUTION_Y + Reference.GAME_UI_Y_SIZE;
+	/**
+	 * Platform dependent GameConfiguration
+	 */
+	private final GameConfiguration gameConfig;
+
+	private int gameSizeX = Reference.TARGET_RESOLUTION_X;
+	private int gameSizeY = Reference.GAME_RESOLUTION_Y + Reference.GAME_UI_Y_SIZE;
 
 	public PixelEscape() {
 		//set default config
@@ -51,7 +61,8 @@ public class PixelEscape extends Game {
 
 	@Override
 	public void create() {
-		LogHelper.log("Main", "Starting up...");
+		LogHelper.setGDXLogLevel(Application.LOG_DEBUG);
+		LogHelper.info("Main", "Starting up...");
 		if (instance != null) {
 			if (instance.assetsLoaded) {
 				instance.dispose(); //needed?
@@ -76,7 +87,7 @@ public class PixelEscape extends Game {
 		//currently only highscore
 		userData = new UserData();
 		//convert legacy savedata
-		userData.updateSaveGames();
+		getUserData().updateSaveGames();
 
 		//open main menu
 		showMainMenu();
@@ -101,14 +112,17 @@ public class PixelEscape extends Game {
 
 	@Override
 	public void render() {
-		gameMusic.update(Gdx.graphics.getDeltaTime());
+		// update game music
+		getGameMusic().update(Gdx.graphics.getDeltaTime());
+
+		// render frame
 		renderManager.prepareRender();
 		super.render();
 		if (GameDebugSettings.get("SHOW_FPS")) {
 			renderManager.begin();
 			getFont().setColor(Color.RED);
 			getRenderManager().resetFontSize();
-			getFont().draw(getBatch(), "FPS " + Gdx.graphics.getFramesPerSecond(), 10, gameSizeY - 10);
+			getFont().draw(getBatch(), "FPS " + Gdx.graphics.getFramesPerSecond(), 10, getGameSizeY() - 10);
 		}
 		renderManager.end();
 	}
@@ -121,8 +135,8 @@ public class PixelEscape extends Game {
 	}
 
 	public void saveUserData() {
-		gameSettings.saveToDisk();
-		userData.saveToDisk();
+		getGameSettings().saveToDisk();
+		getUserData().saveToDisk();
 	}
 
 	public void unloadAssets() {
@@ -139,6 +153,9 @@ public class PixelEscape extends Game {
 		super.resume();
 	}
 
+	/**
+	 * loads game assets and initializes rendering
+	 */
 	private void initializeRendering() {
 
 		renderManager.initializeRendering();
@@ -166,9 +183,9 @@ public class PixelEscape extends Game {
 		gameSizeX = (int) Math.ceil(width * scale);
 		gameSizeY = (int) Math.ceil(height * scale);
 
-		renderManager.onResize(gameSizeX, gameSizeY);
+		renderManager.onResize(getGameSizeX(), getGameSizeY());
 
-		LogHelper.log("Main", "new width: " + gameSizeX + ", new height: " + gameSizeY);
+		LogHelper.log("Main", "new width: " + getGameSizeX() + ", new height: " + getGameSizeY());
 
 		super.resize(width, height);
 	}
@@ -178,12 +195,12 @@ public class PixelEscape extends Game {
 	}
 
 	public float getScaledMouseX() {
-		final float scale = (float) gameSizeX / Gdx.graphics.getWidth();
+		final float scale = (float) getGameSizeX() / Gdx.graphics.getWidth();
 		return Gdx.input.getX() * scale;
 	}
 
 	public float getScaledMouseY() {
-		final float scale = (float) gameSizeY / Gdx.graphics.getHeight();
+		final float scale = (float) getGameSizeY() / Gdx.graphics.getHeight();
 		return Gdx.input.getY() * scale;
 	}
 
@@ -191,11 +208,11 @@ public class PixelEscape extends Game {
 	 * stops or starts music if settings have changed
 	 */
 	public void updateMusicPlaying() {
-		if (!gameSettings.isMusicEnabled()) {
-			gameMusic.fadeOutToStop(0.5F);
+		if (!getGameSettings().isMusicEnabled()) {
+			getGameMusic().fadeOutToStop(0.5F);
 		}
 		if (screen instanceof PixelScreen) {
-			((PixelScreen) screen).updateMusic(gameSettings.isMusicEnabled());
+			((PixelScreen) screen).updateMusic(getGameSettings().isMusicEnabled());
 		}
 	}
 
@@ -203,8 +220,8 @@ public class PixelEscape extends Game {
 	 * goes or leaves fullscreen
 	 */
 	public void updateFullscreen() {
-		if (gameConfig.canGoFullScreen()) {
-			if (gameSettings.fullscreen) {
+		if (getGameConfig().canGoFullScreen()) {
+			if (getGameSettings().fullscreen) {
 				final Graphics.DisplayMode oldMode = Gdx.graphics.getDisplayMode();
 				Gdx.graphics.setFullscreenMode(oldMode);
 			} else {
@@ -246,5 +263,33 @@ public class PixelEscape extends Game {
 	 */
 	public GameRenderManager getRenderManager() {
 		return renderManager;
+	}
+
+	public GameSettings getGameSettings() {
+		return gameSettings;
+	}
+
+	public GameDebugSettings getGameDebugSettings() {
+		return gameDebugSettings;
+	}
+
+	public UserData getUserData() {
+		return userData;
+	}
+
+	public GameConfiguration getGameConfig() {
+		return gameConfig;
+	}
+
+	public GameMusic getGameMusic() {
+		return gameMusic;
+	}
+
+	public int getGameSizeX() {
+		return gameSizeX;
+	}
+
+	public int getGameSizeY() {
+		return gameSizeY;
 	}
 }

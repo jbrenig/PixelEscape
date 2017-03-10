@@ -127,7 +127,7 @@ public class WorldRenderer {
 	 * Renders the World
 	 */
 	public void render(float delta) {
-		if (game.gameDebugSettings.getBoolean("SCREEN_SHAKE")) {
+		if (game.getGameDebugSettings().getBoolean("SCREEN_SHAKE")) {
 			shakeScreen(delta);
 		}
 		moveScreen(delta);

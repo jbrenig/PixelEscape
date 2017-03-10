@@ -35,7 +35,7 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 
 	public GamePausedOverlay(final GameScreen screen, final boolean isGameOver) {
 		super(screen);
-		highscore = screen.game.userData.getHighScore(screen.getGameMode());
+		highscore = screen.game.getUserData().getHighScore(screen.getGameMode());
 		this.isGameOver = isGameOver;
 
 		screen.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
@@ -108,9 +108,9 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 	public void show() {
 		screen.setOverlayInputProcessor(new InputMultiplexer(stage.getInputProcessor(), this));
 		if (isGameOver) {
-			screen.game.gameMusic.fadeOutToStop(0.6F);
+			screen.game.getGameMusic().fadeOutToStop(0.6F);
 		} else {
-			screen.game.gameMusic.fadeOutToPause();
+			screen.game.getGameMusic().fadeOutToPause();
 		}
 	}
 
@@ -174,9 +174,9 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 
 	private void restartMusic() {
 		if (isGameOver) {
-			screen.game.gameMusic.setCurrentMusic(screen.getGameMusic());
+			screen.game.getGameMusic().setCurrentMusic(screen.getGameMusic());
 		}
-		screen.game.gameMusic.play(true);
+		screen.game.getGameMusic().play(true);
 	}
 
 	@Override

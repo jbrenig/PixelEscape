@@ -47,7 +47,7 @@ public class EntityHighscore extends Entity {
 	@Override
 	public void setWorld(World world) {
 		super.setWorld(world);
-		xPos = world.getScreen().game.userData.getHighScore(world.getScreen().getGameMode()) + world.player.getXPosScreen();
+		xPos = world.getScreen().game.getUserData().getHighScore(world.getScreen().getGameMode()) + world.player.getXPosScreen();
 		yPos = 0;
 	}
 

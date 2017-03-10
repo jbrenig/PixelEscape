@@ -60,7 +60,7 @@ public class ResetScoreScreen extends PixelScreen {
 		uiStage.add(headLayout);
 
 		//content (scrollpane)
-		gamemodeCheckboxes = new HashMap<CheckBox, GameMode>(game.gameConfig.getAvailableGameModes().length);
+		gamemodeCheckboxes = new HashMap<CheckBox, GameMode>(game.getGameConfig().getAvailableGameModes().length);
 
 		final ChangeListener chbxListener = new ChangeListener() {
 			@Override
@@ -92,7 +92,7 @@ public class ResetScoreScreen extends PixelScreen {
 		resetAllCheckBox.setProgrammaticChangeEvents(false);
 		contentLayout.add(resetAllCheckBox).padBottom(20).left().row();
 
-		for (GameMode mode : game.gameConfig.getAvailableGameModes()) {
+		for (GameMode mode : game.getGameConfig().getAvailableGameModes()) {
 			CheckBox chbx = new CheckBox(mode.getGameModeName(), game.getSkin());
 			chbx.setChecked(false);
 			chbx.getImageCell().padBottom(8).padRight(10).size(32);
@@ -102,7 +102,7 @@ public class ResetScoreScreen extends PixelScreen {
 			chbx.setProgrammaticChangeEvents(false);
 			gamemodeCheckboxes.put(chbx, mode);
 			contentLayout.add(chbx).left();
-			Label lbl = new Label("" + game.userData.getHighScore(mode), game.getSkin());
+			Label lbl = new Label("" + game.getUserData().getHighScore(mode), game.getSkin());
 			lbl.setFontScale(0.7F);
 			contentLayout.add(lbl);
 			contentLayout.row();
@@ -167,8 +167,8 @@ public class ResetScoreScreen extends PixelScreen {
 	private void apply() {
 		for (Map.Entry<CheckBox, GameMode> entry : gamemodeCheckboxes.entrySet()) {
 			if (entry.getKey().isChecked()) {
-				game.userData.setHighScore(entry.getValue(), 0);
-				game.userData.setTutorialSeen(entry.getValue(), false);
+				game.getUserData().setHighScore(entry.getValue(), 0);
+				game.getUserData().setTutorialSeen(entry.getValue(), false);
 			}
 		}
 	}

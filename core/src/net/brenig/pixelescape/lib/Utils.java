@@ -23,7 +23,7 @@ public class Utils {
 		//minimize padding
 		table.pad(8, 8, 8, 8);
 		table.defaults().size(getButtonSize());
-		if (game.gameConfig.useBiggerButtons()) {
+		if (game.getGameConfig().useBiggerButtons()) {
 			table.defaults().pad(2, 1, 2, 1);
 			table.defaults().expand().fillY();
 			table.setHeight(Reference.GAME_UI_Y_SIZE);
@@ -55,30 +55,30 @@ public class Utils {
 	 */
 	public static Table addSoundAndMusicControllerToLayout(final PixelEscape game, Table layout) {
 		final TwoStateImageButton btnSound = new TwoStateImageButton(game.getSkin(), "sound");
-		btnSound.setState(!game.gameSettings.isSoundEnabled());
+		btnSound.setState(!game.getGameSettings().isSoundEnabled());
 		btnSound.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 				//Invert current selection
 				//btn checked --> no sound
 				//btn not checked --> sound enabled
-				game.gameSettings.setSoundEnabled(btnSound.getState());
-				btnSound.setState(!game.gameSettings.isSoundEnabled());
+				game.getGameSettings().setSoundEnabled(btnSound.getState());
+				btnSound.setState(!game.getGameSettings().isSoundEnabled());
 			}
 		});
 		layout.add(btnSound);
 
 		if(Reference.ENABLE_MUSIC) {
 			final TwoStateImageButton btnMusic = new TwoStateImageButton(game.getSkin(), "music");
-			btnMusic.setState(!game.gameSettings.isMusicEnabled());
+			btnMusic.setState(!game.getGameSettings().isMusicEnabled());
 			btnMusic.addListener(new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
 					//Invert current selection
 					//btn checked --> no music
 					//btn not checked --> music enabled
-					game.gameSettings.setMusicEnabled(btnMusic.getState());
-					btnMusic.setState(!game.gameSettings.isMusicEnabled());
+					game.getGameSettings().setMusicEnabled(btnMusic.getState());
+					btnMusic.setState(!game.getGameSettings().isMusicEnabled());
 					game.updateMusicPlaying();
 				}
 			});
@@ -107,17 +107,17 @@ public class Utils {
 	 * @return the table they got added to
 	 */
 	public static Table addFullScreenButtonToTable(final PixelEscape game, Table layout) {
-		if (game.gameConfig.canGoFullScreen()) {
+		if (game.getGameConfig().canGoFullScreen()) {
 			final TwoStateImageButton btnFullScreen = new TwoStateImageButton(game.getSkin(), "fullscreen");
-			btnFullScreen.setState(game.gameSettings.fullscreen);
+			btnFullScreen.setState(game.getGameSettings().fullscreen);
 			btnFullScreen.addListener(new ClickListener() {
 				@Override
 				public void clicked(InputEvent event, float x, float y) {
 					//Invert current selection
 					//btn checked --> fullscreen
 					//btn not checked --> no fullscreen
-					game.gameSettings.fullscreen = !btnFullScreen.getState();
-					btnFullScreen.setState(game.gameSettings.fullscreen);
+					game.getGameSettings().fullscreen = !btnFullScreen.getState();
+					btnFullScreen.setState(game.getGameSettings().fullscreen);
 					game.updateFullscreen();
 				}
 			});
@@ -164,7 +164,7 @@ public class Utils {
 	}
 
 	public static float getButtonSize() {
-		return PixelEscape.getPixelEscape().gameConfig.useBiggerButtons() ? 48 : 32;
+		return PixelEscape.getPixelEscape().getGameConfig().useBiggerButtons() ? 48 : 32;
 	}
 
 }

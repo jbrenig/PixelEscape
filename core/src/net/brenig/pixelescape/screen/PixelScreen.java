@@ -15,7 +15,7 @@ public abstract class PixelScreen implements Screen {
 
 	public void updateMusic(boolean play) {
 		if (play) {
-			game.gameMusic.play(true);
+			game.getGameMusic().play(true);
 		}
 	}
 }

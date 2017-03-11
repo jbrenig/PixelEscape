@@ -4,6 +4,8 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import net.brenig.pixelescape.game.data.GameDebugSettings;
 
+import javax.annotation.Nullable;
+
 public final class LogHelper {
 
 	public enum LogLevel {
@@ -52,7 +54,7 @@ public final class LogHelper {
 		log(level, tag, msg, null);
 	}
 
-	public static void log(LogLevel level, String tag, String msg, Throwable t) {
+	public static void log(LogLevel level, @Nullable String tag, String msg, @Nullable Throwable t) {
 		StringBuilder builder = new StringBuilder();
 		//level
 		builder.append(LOG_LEVEL_BRACKET_OPEN).append(level.tag).append(LOG_LEVEL_BRACKET_CLOSE);
@@ -75,11 +77,11 @@ public final class LogHelper {
 		debug(null, msg, null);
 	}
 
-	public static void debug(String tag, String msg) {
+	public static void debug(@Nullable String tag, String msg) {
 		debug(tag, msg, null);
 	}
 
-	public static void debug(String tag, String msg, Throwable t) {
+	public static void debug(@Nullable String tag, String msg, @Nullable Throwable t) {
 		if (GameDebugSettings.get("DEBUG_LOGGING")) {
 			log(LogLevel.DEBUG, tag, msg, t);
 		}
@@ -89,11 +91,11 @@ public final class LogHelper {
 		log(LogLevel.ERROR, null, msg, null);
 	}
 
-	public static void error(String tag, String msg) {
+	public static void error(@Nullable String tag, String msg) {
 		log(LogLevel.ERROR, tag, msg, null);
 	}
 
-	public static void error(String tag, String msg, Throwable t) {
+	public static void error(@Nullable String tag, String msg, @Nullable Throwable t) {
 		log(LogLevel.ERROR, tag, msg, t);
 	}
 
@@ -101,11 +103,11 @@ public final class LogHelper {
 		log(LogLevel.WARNING, null, msg, null);
 	}
 
-	public static void warn(String tag, String msg) {
+	public static void warn(@Nullable String tag, String msg) {
 		log(LogLevel.WARNING, tag, msg, null);
 	}
 
-	public static void warn(String tag, String msg, Throwable t) {
+	public static void warn(@Nullable String tag, String msg, @Nullable Throwable t) {
 		log(LogLevel.WARNING, tag, msg, t);
 	}
 
@@ -113,11 +115,11 @@ public final class LogHelper {
 		log(LogLevel.INFO, null, msg, null);
 	}
 
-	public static void info(String tag, String msg) {
+	public static void info(@Nullable String tag, String msg) {
 		log(LogLevel.INFO, tag, msg, null);
 	}
 
-	public static void info(String tag, String msg, Throwable t) {
+	public static void info(@Nullable String tag, String msg, @Nullable Throwable t) {
 		log(LogLevel.INFO, tag, msg, t);
 	}
 

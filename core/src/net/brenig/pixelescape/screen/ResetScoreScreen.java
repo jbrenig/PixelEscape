@@ -60,7 +60,7 @@ public class ResetScoreScreen extends PixelScreen {
 		uiStage.add(headLayout);
 
 		//content (scrollpane)
-		gamemodeCheckboxes = new HashMap<CheckBox, GameMode>(game.getGameConfig().getAvailableGameModes().length);
+		gamemodeCheckboxes = new HashMap<>(game.getGameConfig().getAvailableGameModes().length);
 
 		final ChangeListener chbxListener = new ChangeListener() {
 			@Override

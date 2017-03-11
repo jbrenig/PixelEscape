@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Scaling;
 
+import javax.annotation.Nullable;
+
 /**
  * ImageButton that can have two states<br></br>
  * draws different texture depending on state
@@ -119,7 +121,9 @@ public class TwoStateImageButton extends Button {
 		public TwoStateImageButtonStyle() {
 		}
 
-		public TwoStateImageButtonStyle(Drawable up, Drawable down, Drawable checked, Drawable imageUp, Drawable imageDown, Drawable image2Up, Drawable image2Down) {
+		public TwoStateImageButtonStyle(@Nullable Drawable up, @Nullable Drawable down, @Nullable Drawable checked,
+		                                @Nullable Drawable imageUp, @Nullable Drawable imageDown,
+		                                @Nullable Drawable image2Up, @Nullable Drawable image2Down) {
 			super(up, down, checked);
 			this.imageUp = imageUp;
 			this.imageDown = imageDown;

@@ -9,7 +9,6 @@ import com.badlogic.gdx.utils.Align;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.constants.StyleNames;
 import net.brenig.pixelescape.game.data.constants.Textures;
-import net.brenig.pixelescape.game.player.Item;
 import net.brenig.pixelescape.game.player.abliity.Abilities;
 import net.brenig.pixelescape.game.player.abliity.Ability;
 import net.brenig.pixelescape.game.player.effects.EffectMove;
@@ -54,9 +53,9 @@ public enum GameMode {
 		public void registerWorldGenerators(WorldGenerator worldGenerator) {
 			super.registerWorldGenerators(worldGenerator);
 			worldGenerator.addSpecialGenerator(new ItemGenerator(600, 1000, 800, 1600, ItemGenerator.createDefaultItemList()));
-			worldGenerator.addSpecialGenerator(new ItemGenerator(20000, 25000, 30000, 35000, new FilteredElementProvider.SingleElementProvider<Item>(ItemLife.ITEM)));
-			worldGenerator.addSpecialGenerator(new ItemGenerator(25000, 30000, 50000, 60000, new FilteredElementProvider.SingleElementProvider<Item>(EffectMove.ITEM)));
-			worldGenerator.addSpecialGenerator(new ItemGenerator(25000, 50000, 60000, 70000, new FilteredElementProvider.SingleElementProvider<Item>(ItemScoreDynamic.ITEM)));
+			worldGenerator.addSpecialGenerator(new ItemGenerator(20000, 25000, 30000, 35000, new FilteredElementProvider.SingleElementProvider<>(ItemLife.ITEM)));
+			worldGenerator.addSpecialGenerator(new ItemGenerator(25000, 30000, 50000, 60000, new FilteredElementProvider.SingleElementProvider<>(EffectMove.ITEM)));
+			worldGenerator.addSpecialGenerator(new ItemGenerator(25000, 50000, 60000, 70000, new FilteredElementProvider.SingleElementProvider<>(ItemScoreDynamic.ITEM)));
 		}
 
 		@Override

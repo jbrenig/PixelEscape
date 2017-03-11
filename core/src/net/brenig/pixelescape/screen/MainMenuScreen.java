@@ -167,7 +167,7 @@ public class MainMenuScreen extends PixelScreen {
 
 	private GameMode getGameMode() {
 		if (gmImageStack == null) {
-			return null;
+			throw new IllegalStateException("GameMode select UI not initialized!");
 		}
 		return game.getGameConfig().getAvailableGameModes()[gmImageStack.getCurrentElement()];
 	}

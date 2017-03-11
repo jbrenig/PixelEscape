@@ -26,7 +26,7 @@ public class GameDebugSettings {
 	}
 
 	private static Map<String, Boolean> createDefaults() {
-		Map<String, Boolean> result = new HashMap<String, Boolean>();
+		Map<String, Boolean> result = new HashMap<>();
 		result.put("SHOW_FPS", false);
 		result.put("AUTO_PAUSE", true);
 		result.put("DEBUG_MODE_COORDS", false);

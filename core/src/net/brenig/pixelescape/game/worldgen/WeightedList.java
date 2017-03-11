@@ -2,6 +2,7 @@ package net.brenig.pixelescape.game.worldgen;
 
 import net.brenig.pixelescape.lib.FilteredElementProvider;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -17,7 +18,7 @@ public class WeightedList<T> implements FilteredElementProvider<T> {
 	private final Map<T, Integer> values;
 
 	public WeightedList() {
-		values = new HashMap<T, Integer>();
+		values = new HashMap<>();
 	}
 
 	public void add(int weight, T value) {
@@ -36,7 +37,7 @@ public class WeightedList<T> implements FilteredElementProvider<T> {
 	 * creates a copy of this instance
 	 */
 	public WeightedList<T> createCopy() {
-		WeightedList<T> out = new WeightedList<T>();
+		WeightedList<T> out = new WeightedList<>();
 		out.values.putAll(values);
 		out.totalWeight = totalWeight;
 		return out;
@@ -74,6 +75,7 @@ public class WeightedList<T> implements FilteredElementProvider<T> {
 	 * @return a random value, null if the list is empty
 	 */
 	@Override
+	@Nullable
 	public T getRandomValue(Random random) {
 		if (size() == 0) {
 			return null;
@@ -85,7 +87,7 @@ public class WeightedList<T> implements FilteredElementProvider<T> {
 	 * creates a new {@link WeightedList} containing all elements of this list, that are validated by the {@link net.brenig.pixelescape.game.worldgen.WeightedList.Filter}
 	 */
 	public WeightedList<T> createFilteredList(Filter<T> filter) {
-		WeightedList<T> list = new WeightedList<T>();
+		WeightedList<T> list = new WeightedList<>();
 		for (Map.Entry<T, Integer> entry : values.entrySet()) {
 			if (filter.isValid(entry.getKey())) {
 				list.add(entry.getValue(), entry.getKey());
@@ -101,6 +103,7 @@ public class WeightedList<T> implements FilteredElementProvider<T> {
 	 * @param random used {@link Random} instance
 	 * @param filter filter do exclude some values
 	 */
+	@Nullable
 	public T getRandomValueWithFilter(Random random, Filter<T> filter) {
 		return createFilteredList(filter).getRandomValue(random);
 	}

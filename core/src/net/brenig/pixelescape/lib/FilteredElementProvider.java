@@ -1,5 +1,6 @@
 package net.brenig.pixelescape.lib;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 /**
@@ -15,17 +16,19 @@ public interface FilteredElementProvider<T> {
 	 * @param rand used {@link Random} instance
 	 * @return a random value, null if no element was found
 	 */
+	@Nullable
 	T getRandomValue(Random rand);
 
 	class SingleElementProvider<T> implements FilteredElementProvider<T> {
 		private T element;
 
 
-		public SingleElementProvider(T element) {
+		public SingleElementProvider(@Nullable T element) {
 			this.element = element;
 		}
 
 		@Override
+		@Nullable
 		public T getRandomValue(Random rand) {
 			return element;
 		}

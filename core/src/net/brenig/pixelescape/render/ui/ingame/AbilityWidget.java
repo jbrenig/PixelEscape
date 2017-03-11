@@ -74,9 +74,7 @@ public class AbilityWidget extends Button {
 		if (player.hasAbility()) {
 			final float itemFrame = getWidth() * item_frame_border;
 			final Drawable abilityIcon = player.getCurrentAbility().getDrawable(gameScreen.game.getGameAssets());
-			if (abilityIcon != null) {
-				abilityIcon.draw(batch, getX() + itemFrame, getY() + itemFrame, getWidth() - itemFrame * 2, getHeight() - itemFrame * 2);
-			}
+			abilityIcon.draw(batch, getX() + itemFrame, getY() + itemFrame, getWidth() - itemFrame * 2, getHeight() - itemFrame * 2);
 			if (player.getCooldownRemaining() != 0) {
 				animCounter = ANIM_DURATION;
 				gameScreen.game.getRenderManager().setColor(0.7F, 0.7F, 1, 0.4F);

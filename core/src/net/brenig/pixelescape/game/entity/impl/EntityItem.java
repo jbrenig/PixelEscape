@@ -6,8 +6,11 @@ import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.game.entity.Entity;
+import net.brenig.pixelescape.game.player.Item;
 import net.brenig.pixelescape.lib.LogHelper;
 import net.brenig.pixelescape.render.WorldRenderer;
+
+import javax.annotation.Nullable;
 
 /**
  * Entity that contains one {@link net.brenig.pixelescape.game.player.Item}
@@ -47,7 +50,7 @@ public class EntityItem extends Entity {
 		return yPos + RADIUS;
 	}
 
-	public void setItem(net.brenig.pixelescape.game.player.Item item) {
+	public void setItem(@Nullable Item item) {
 		this.item = item;
 	}
 

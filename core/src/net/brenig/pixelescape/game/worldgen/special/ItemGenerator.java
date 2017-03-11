@@ -69,7 +69,7 @@ public class ItemGenerator implements ISpecialWorldGenerator {
 	}
 
 	public static WeightedList<Item> createDefaultItemList() {
-		WeightedList<Item> out = new WeightedList<Item>();
+		WeightedList<Item> out = new WeightedList<>();
 		out.add(10, Abilities.BLINK);
 		out.add(5, EffectShield.ITEM);
 		out.add(10, EffectSlow.ITEM);

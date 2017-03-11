@@ -21,11 +21,11 @@ public class WorldGenerator {
 	private final World world;
 	private final GameMode gameMode;
 
-	private final WeightedList<ITerrainGenerator> terrainGenerators = new WeightedList<ITerrainGenerator>();
+	private final WeightedList<ITerrainGenerator> terrainGenerators = new WeightedList<>();
 
-	private List<ISpecialWorldGenerator> specialGenerators = new ArrayList<ISpecialWorldGenerator>();
+	private List<ISpecialWorldGenerator> specialGenerators = new ArrayList<>();
 	@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
-	private List<IScoreWorldFeature> specialPredefinedGenerators = new ArrayList<IScoreWorldFeature>();
+	private List<IScoreWorldFeature> specialPredefinedGenerators = new ArrayList<>();
 
 	////////////////////////////////////////////////
 	// Worldgen effects (--> eg. items/Gamemodes) //

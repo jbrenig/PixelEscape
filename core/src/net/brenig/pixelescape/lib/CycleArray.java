@@ -1,5 +1,6 @@
 package net.brenig.pixelescape.lib;
 
+import javax.annotation.Nullable;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -42,29 +43,32 @@ public class CycleArray<T> {
 	 * an index of 0 returns the oldest object, an index of size - 1 the newest
 	 */
 	@SuppressWarnings("unchecked")
+	@Nullable
 	public T get(int index) {
 		return (T) data[convertToLocalIndex(index)];
 	}
 
 
-	public void add(T element) {
+	public void add(@Nullable T element) {
 		index++;
 		updateIndexBounds();
 		data[index] = element;
 		modCount++;
 	}
 
-	public void set(int index, T element) {
+	public void set(int index, @Nullable T element) {
 		data[convertToLocalIndex(index)] = element;
 		modCount++;
 	}
 
 	@SuppressWarnings("unchecked")
+	@Nullable
 	public T getNewest() {
 		return (T) data[index];
 	}
 
 	@SuppressWarnings("unchecked")
+	@Nullable
 	public T getOldest() {
 		return get(0);
 	}

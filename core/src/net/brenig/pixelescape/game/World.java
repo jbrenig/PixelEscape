@@ -65,14 +65,14 @@ public class World {
 		this.worldWidth = worldWidth;
 
 		player = new EntityPlayer(this, screen.getGameMode());
-		terrain = new CycleArray<TerrainPair>(calculateWorldBufferSize(worldWidth));
+		terrain = new CycleArray<>(calculateWorldBufferSize(worldWidth));
 		//fill terrain buffer
 		for (int i = 0; i < terrain.size(); i++) {
 			terrain.add(new TerrainPair(Reference.FALLBACK_TERRAIN_HEIGHT, Reference.FALLBACK_TERRAIN_HEIGHT));
 		}
 
-		entityList = new ArrayList<Entity>();
-		entitySpawnQueue = new HashSet<Entity>();
+		entityList = new ArrayList<>();
+		entitySpawnQueue = new HashSet<>();
 		player.setXPosScreen(worldWidth / 4);
 
 		//load world generators
@@ -185,12 +185,7 @@ public class World {
 			return Reference.FALLBACK_TERRAIN_HEIGHT;
 		}
 		TerrainPair pair = getTerrainPairForIndex(index);
-		if (pair == null) {
-			Gdx.app.error("PixelEscape | World", "Requested Terrain is not available! Falling back to Default!");
-			return Reference.FALLBACK_TERRAIN_HEIGHT;
-		} else {
-			return pair.getTop();
-		}
+		return pair.getTop();
 	}
 
 	/**
@@ -202,11 +197,7 @@ public class World {
 			return Reference.FALLBACK_TERRAIN_HEIGHT;
 		}
 		TerrainPair pair = getTerrainPairForIndex(index);
-		if (pair == null) {
-			return Reference.FALLBACK_TERRAIN_HEIGHT;
-		} else {
-			return pair.getBot();
-		}
+		return pair.getBot();
 	}
 
 	public int getWorldWidth() {

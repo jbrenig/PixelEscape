@@ -144,7 +144,7 @@ public class TutorialOverlay extends OverlayWithUi implements SwipeTabbedStack.I
 
 		controls.add(buttonLeft).padLeft(40);
 
-		controls.add(new Container<TextButton>(btnMainMenu)).fillX().expandX().center();
+		controls.add(new Container<>(btnMainMenu)).fillX().expandX().center();
 		controls.add(buttonRight).padRight(40);
 
 		contentTable.add(new VerticalSpacer());

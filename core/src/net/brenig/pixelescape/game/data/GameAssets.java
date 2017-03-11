@@ -17,6 +17,7 @@ import net.brenig.pixelescape.render.SimpleAnimation;
 import net.brenig.pixelescape.render.ui.general.TwoStateImageButton;
 import net.brenig.pixelescape.render.ui.ingame.AbilityWidget;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 /**
@@ -376,6 +377,7 @@ public class GameAssets {
 		return sslMusic;
 	}
 
+	@Nullable
 	public Music getRandomGameMusic(Random random) {
 		switch (random.nextInt(2)) {
 			case 0:

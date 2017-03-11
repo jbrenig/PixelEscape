@@ -6,7 +6,7 @@ import net.brenig.pixelescape.render.WorldRenderer;
 /**
  * Responsible for drawing a layer of the game's background
  */
-public class DrawableBackgroundLayer implements IBackgroundLayer {
+public class DrawableBackgroundLayer extends AbstractBackgroundLayer {
 
 	private int width;
 	private float scrollSpeed;

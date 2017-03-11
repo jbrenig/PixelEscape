@@ -19,6 +19,7 @@ import net.brenig.pixelescape.game.player.movement.PlayerMovementController;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.WorldRenderer;
 
+import javax.annotation.Nullable;
 import java.util.*;
 
 /**
@@ -54,7 +55,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 
 	private float cooldownRemaining = 0;
 
-	private Set<StatusEffect> effects = new HashSet<StatusEffect>();
+	private Set<StatusEffect> effects = new HashSet<>();
 
 	public EntityPlayer(World world, GameMode gameMode) {
 		movementController = gameMode.createPlayerMovementController();
@@ -489,6 +490,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	 * @return found statuseffect, null if none was found
 	 * @throws java.util.ConcurrentModificationException when access while player is updating status effects
 	 */
+	@Nullable
 	public StatusEffect tryGetStatusEffect(Class<? extends StatusEffect> clazz) {
 		for (StatusEffect effect : effects) {
 			if (clazz.equals(effect.getClass())) {

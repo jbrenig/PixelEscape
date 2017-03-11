@@ -5,6 +5,8 @@ import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
 
+import javax.annotation.Nullable;
+
 /**
  * Music wrapper with additional features such as fading and queueing
  */
@@ -39,11 +41,13 @@ public class GameMusic {
 		return state;
 	}
 
-	public void setCurrentMusic(Music m) {
+	public void setCurrentMusic(@Nullable Music m) {
 		stop();
 		if(Reference.ENABLE_MUSIC) {
 			currentMusic = m;
-			currentMusic.setVolume(currentVolume);
+			if (currentMusic != null) {
+				currentMusic.setVolume(currentVolume);
+			}
 		}
 	}
 
@@ -157,9 +161,11 @@ public class GameMusic {
 		}
 	}
 
-	public void playOrFadeInto(Music music) {
+	public void playOrFadeInto(@Nullable Music music) {
 		if(Reference.ENABLE_MUSIC) {
-			if (currentMusic != null && isPlaying()) {
+			if (music == null) {
+				stop();
+			} else if (currentMusic != null && isPlaying()) {
 				if (currentMusic == music) {
 					fadeIn();
 					return;

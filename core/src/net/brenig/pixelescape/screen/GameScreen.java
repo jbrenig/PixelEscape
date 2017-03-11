@@ -27,6 +27,7 @@ import net.brenig.pixelescape.render.ui.ingame.AbilityWidget;
 import net.brenig.pixelescape.render.ui.ingame.ScoreWidget;
 import net.brenig.pixelescape.render.ui.ingame.StageManagerGame;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
 
 
@@ -126,6 +127,7 @@ public class GameScreen extends PixelScreen {
 		Gdx.input.setInputProcessor(inputMultiplexer);
 	}
 
+	@Nullable
 	public Music getGameMusic() {
 		return game.getGameAssets().getRandomGameMusic(PixelEscape.rand);
 	}
@@ -330,7 +332,7 @@ public class GameScreen extends PixelScreen {
 		overlay.dispose();
 	}
 
-	public void setOverlayInputProcessor(InputProcessor processor) {
+	public void setOverlayInputProcessor(@Nullable InputProcessor processor) {
 		if (valid) {
 			Gdx.input.setInputProcessor(processor);
 		}

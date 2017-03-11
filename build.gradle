@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
-        classpath 'com.android.tools.build:gradle:2.1.2'
+        classpath 'com.android.tools.build:gradle:2.2.0'
         classpath 'org.robovm:robovm-gradle-plugin:1.9.0'
         classpath 'com.badlogicgames.gdx:gdx-tools:1.9.2'
     }
@@ -101,6 +101,7 @@ project(":core") {
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        compile 'com.google.code.findbugs:jsr305:3.0.1'
     }
 }
 

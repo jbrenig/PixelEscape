@@ -9,29 +9,18 @@ import javax.annotation.Nullable;
 public final class LogHelper {
 
 	public enum LogLevel {
-		DEBUG("DEBUG", Application.LOG_DEBUG, Gdx.app::debug, Gdx.app::debug),
-		INFO("INFO", Application.LOG_INFO, Gdx.app::log, Gdx.app::log),
-		WARNING("WARN", Application.LOG_ERROR, Gdx.app::error, Gdx.app::error),
-		ERROR("ERROR", Application.LOG_ERROR, Gdx.app::error, Gdx.app::error);
+		DEBUG("DEBUG", Application.LOG_DEBUG),
+		INFO("INFO", Application.LOG_INFO),
+		WARNING("WARN", Application.LOG_ERROR),
+		ERROR("ERROR", Application.LOG_ERROR);
 
 		String tag;
 		int level;
-		NormalLogger normalLogger;
-		ExceptionLogger exceptionLogger;
 
-		LogLevel(String tag, int level, NormalLogger normalLogger, ExceptionLogger exceptionLogger) {
+		LogLevel(String tag, int level) {
 			this.tag = tag;
 			this.level = level;
-			this.normalLogger = normalLogger;
-			this.exceptionLogger = exceptionLogger;
 		}
-	}
-
-	public interface NormalLogger {
-		void log(String tag, String msg);
-	}
-	public interface ExceptionLogger {
-		void log(String tag, String msg, Throwable t);
 	}
 
 	private static final String LOG_TAG_BRACKET_OPEN = "[";
@@ -67,9 +56,35 @@ public final class LogHelper {
 		builder.append(LOG_TAG_BRACKET_CLOSE);
 
 		if (t != null) {
-			level.exceptionLogger.log(builder.toString(), msg, t);
+			switch (level) {
+				case DEBUG:
+					Gdx.app.debug(builder.toString(), msg, t);
+					break;
+				case INFO:
+					Gdx.app.log(builder.toString(), msg, t);
+					Gdx.app.log(builder.toString(), msg, t);
+					break;
+				case WARNING:
+				case ERROR:
+					Gdx.app.error(builder.toString(), msg, t);
+					Gdx.app.error(builder.toString(), msg, t);
+					break;
+			}
 		} else {
-			level.normalLogger.log(builder.toString(), msg);
+			switch (level) {
+				case DEBUG:
+					Gdx.app.debug(builder.toString(), msg);
+					break;
+				case INFO:
+					Gdx.app.log(builder.toString(), msg);
+					Gdx.app.log(builder.toString(), msg);
+					break;
+				case WARNING:
+				case ERROR:
+					Gdx.app.error(builder.toString(), msg);
+					Gdx.app.error(builder.toString(), msg);
+					break;
+			}
 		}
 	}
 

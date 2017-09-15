@@ -18,7 +18,7 @@ public class WeightedList<T> implements FilteredElementProvider<T> {
 	private final Map<T, Integer> values;
 
 	public WeightedList() {
-		values = new HashMap<>();
+		values = new HashMap<T, Integer>();
 	}
 
 	public void add(int weight, T value) {
@@ -37,7 +37,7 @@ public class WeightedList<T> implements FilteredElementProvider<T> {
 	 * creates a copy of this instance
 	 */
 	public WeightedList<T> createCopy() {
-		WeightedList<T> out = new WeightedList<>();
+		WeightedList<T> out = new WeightedList<T>();
 		out.values.putAll(values);
 		out.totalWeight = totalWeight;
 		return out;
@@ -87,7 +87,7 @@ public class WeightedList<T> implements FilteredElementProvider<T> {
 	 * creates a new {@link WeightedList} containing all elements of this list, that are validated by the {@link net.brenig.pixelescape.game.worldgen.WeightedList.Filter}
 	 */
 	public WeightedList<T> createFilteredList(Filter<T> filter) {
-		WeightedList<T> list = new WeightedList<>();
+		WeightedList<T> list = new WeightedList<T>();
 		for (Map.Entry<T, Integer> entry : values.entrySet()) {
 			if (filter.isValid(entry.getKey())) {
 				list.add(entry.getValue(), entry.getKey());

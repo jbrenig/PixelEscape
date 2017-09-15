@@ -159,10 +159,10 @@ public class GameScreen extends PixelScreen {
 
 		//black background
 		game.getRenderManager().disableBlending();
-		renderBackground();
+		renderUIBackground();
+		game.getRenderManager().enableBlending();
 
 		//render world
-		game.getRenderManager().enableBlending();
 		worldRenderer.render(delta);
 
 		//draw ui
@@ -188,7 +188,7 @@ public class GameScreen extends PixelScreen {
 		renderDebugInformation();
 	}
 
-	private void renderBackground() {
+	private void renderUIBackground() {
 		game.getRenderManager().begin();
 
 		if (GameDebugSettings.get("DEBUG_SCREEN_BOUNDS")) {
@@ -290,9 +290,10 @@ public class GameScreen extends PixelScreen {
 		//update viewports and world size
 		final int targetHeight = Reference.GAME_RESOLUTION_Y + Reference.GAME_UI_Y_SIZE;
 		uiPos = (int) Math.ceil((game.getGameSizeY() - targetHeight) / 2);
+
 		world.resize(game.getGameSizeX());
-//		worldRenderer.setPositionAbsolute(/*-world.getWorldWidth() / 4*/ 0, uiPos);
 		worldRenderer.setWorldRendererYOffset(uiPos);
+		worldRenderer.onResize();
 		//Update UI
 		stage.updateStageToGameBounds(width, height);
 		//update Overlay

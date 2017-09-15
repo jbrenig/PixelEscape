@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class SimpleAnimation {
 
 	private float frameTime = 0;
-	private Animation animation;
+	private Animation<TextureRegion> animation;
 
 	public SimpleAnimation(final int cols, final int rows, final TextureRegion texture, final float frameTime) {
 		this(cols, rows, texture, frameTime, Animation.PlayMode.LOOP);
@@ -58,14 +58,14 @@ public class SimpleAnimation {
 		return animation.getKeyFrame(frameTime);
 	}
 
-	public Animation getAnimation() {
+	public Animation<TextureRegion> getAnimation() {
 		return animation;
 	}
 
 	/**
 	 * creates an {@link Animation} from the given texture
 	 */
-	public static Animation createAnimationFromTexture(final int cols, final int rows, final TextureRegion texture, final float frameTime) {
+	public static Animation<TextureRegion> createAnimationFromTexture(final int cols, final int rows, final TextureRegion texture, final float frameTime) {
 		TextureRegion[][] tmp = texture.split(texture.getRegionWidth() / cols, texture.getRegionHeight() / rows);
 		TextureRegion[] frames = new TextureRegion[cols * rows];
 		int index = 0;
@@ -74,6 +74,6 @@ public class SimpleAnimation {
 				frames[index++] = tmp[y][x];
 			}
 		}
-		return new Animation(frameTime, frames);
+		return new Animation<TextureRegion>(frameTime, frames);
 	}
 }

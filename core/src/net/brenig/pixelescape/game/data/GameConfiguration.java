@@ -48,4 +48,8 @@ public class GameConfiguration {
 	public GameMode[] getAvailableGameModes() {
 		return GameMode.values();
 	}
+
+	public boolean loggingEnabled() {
+		return true;
+	}
 }

@@ -6,7 +6,8 @@
 
 	<inherits name='PixelEscape' />
 	<entry-point class='net.brenig.pixelescape.client.HtmlLauncher' />
-	
+
+	<set-configuration-property name='xsiframe.failIfScriptTag' value='FALSE'/>
 	<set-configuration-property name="gdx.assetpath" value="../android/assets" />
 
 	<extend-configuration-property name="gdx.reflect.include" value="net.brenig.pixelescape.game.entity.impl" />

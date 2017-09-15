@@ -231,6 +231,7 @@ public class SwipeTabbedStack extends Stack {
 		if (cycle || hasNextElement()) {
 			final int nextElement = (currentElement + 1) % getChildren().size;
 			final Actor next = setupNextElement();
+			next.clearActions();
 			next.addAction(Actions.parallel(Actions.moveTo(0, 0, animationDuration, Interpolation.pow2In), Actions.fadeIn(animationDuration)));
 
 			final Actor old = getChildren().get(currentElement);
@@ -252,6 +253,7 @@ public class SwipeTabbedStack extends Stack {
 		if (cycle || hasLastElement()) {
 			final int nextElement = (currentElement - 1 + getChildren().size) % getChildren().size;
 			final Actor next = setupLastElement();
+			next.clearActions();
 			next.addAction(Actions.parallel(Actions.moveTo(0, 0, animationDuration, Interpolation.pow2In), Actions.fadeIn(animationDuration)));
 
 			final Actor old = getChildren().get(currentElement);

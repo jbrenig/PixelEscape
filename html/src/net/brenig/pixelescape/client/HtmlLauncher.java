@@ -35,5 +35,10 @@ public class HtmlLauncher extends GwtApplication {
 		public boolean canHideCursor() {
 			return false;
 		}
+
+		@Override
+		public boolean loggingEnabled() {
+			return Reference.DEBUG_SETTINGS_AVAILABLE;
+		}
 	}
 }

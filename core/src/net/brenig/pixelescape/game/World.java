@@ -65,14 +65,14 @@ public class World {
 		this.worldWidth = worldWidth;
 
 		player = new EntityPlayer(this, screen.getGameMode());
-		terrain = new CycleArray<>(calculateWorldBufferSize(worldWidth));
+		terrain = new CycleArray<TerrainPair>(calculateWorldBufferSize(worldWidth));
 		//fill terrain buffer
 		for (int i = 0; i < terrain.size(); i++) {
 			terrain.add(new TerrainPair(Reference.FALLBACK_TERRAIN_HEIGHT, Reference.FALLBACK_TERRAIN_HEIGHT));
 		}
 
-		entityList = new ArrayList<>();
-		entitySpawnQueue = new HashSet<>();
+		entityList = new ArrayList<Entity>();
+		entitySpawnQueue = new HashSet<Entity>();
 		player.setXPosScreen(worldWidth / 4);
 
 		//load world generators

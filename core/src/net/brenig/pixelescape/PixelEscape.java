@@ -61,7 +61,11 @@ public class PixelEscape extends Game {
 
 	@Override
 	public void create() {
-		LogHelper.setGDXLogLevel(Application.LOG_DEBUG);
+		if (gameConfig.loggingEnabled()) {
+			LogHelper.setGDXLogLevel(Application.LOG_DEBUG);
+		} else {
+			LogHelper.setGDXLogLevel(Application.LOG_NONE);
+		}
 		LogHelper.info("Main", "Starting up...");
 		if (instance != null) {
 			if (instance.assetsLoaded) {

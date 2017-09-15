@@ -45,7 +45,7 @@ public class WorldRenderer {
 	private static final float screenShakeForceMult = 6;
 	private static final float screenShakeNoise = 1.4F;
 
-	private List<IBackgroundLayer> backgroundLayers = new ArrayList<>();
+	private List<IBackgroundLayer> backgroundLayers = new ArrayList<IBackgroundLayer>();
 
 	public WorldRenderer(final PixelEscape game, World world) {
 		this.world = world;
@@ -144,7 +144,9 @@ public class WorldRenderer {
 	 * renders terrain background
 	 */
 	private void renderWorldBackground() {
-
+		for (IBackgroundLayer layer : backgroundLayers) {
+			layer.draw(this);
+		}
 	}
 
 	/**
@@ -358,5 +360,11 @@ public class WorldRenderer {
 
 	public World getWorld() {
 		return world;
+	}
+
+	public void onResize() {
+		for (IBackgroundLayer layer : backgroundLayers) {
+			layer.onResize(this);
+		}
 	}
 }

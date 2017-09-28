@@ -1,6 +1,7 @@
 package net.brenig.pixelescape.render.overlay;
 
 import net.brenig.pixelescape.lib.LogHelper;
+import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.screen.GameScreen;
 
 /**
@@ -53,15 +54,29 @@ public class CountDownOverlay extends Overlay {
 			fractionOfCurrentSecond = 1;
 		}
 		float fontScale = 5F;
-		if (fractionOfCurrentSecond < 100) {
-			fontScale = (2 / (fractionOfCurrentSecond * 10)) + 5;
-		} else if (fractionOfCurrentSecond > 900) {
-			fontScale = (1 / ((fractionOfCurrentSecond - 900) * 10)) + 3;
+		float alpha = 1F;
+		if (fractionOfCurrentSecond < 200)
+		{
+			// big "entry" font scale (15 to 5)
+			float anim = Utils.easeOut((float) fractionOfCurrentSecond, 200F);
+			fontScale = 15 - anim * 10;
+			alpha = 0.75F + anim / 4F;
+		}
+		else if (fractionOfCurrentSecond > 700)
+		{
+			// small "vanish" font scale (5 to 2)
+			float anim = Utils.easeIn(fractionOfCurrentSecond - 700, 300);
+			fontScale = 5 - anim * 3;
+			alpha = 1 - anim / 2F;
+		}
+		if (isShort)
+		{
+			fontScale *= 0.7F;
 		}
 
 		screen.game.getRenderManager().begin();
-		screen.game.getFont().setColor(0.2F, 0.8F, 0, 1000 / (fractionOfCurrentSecond));
-		screen.game.getFont().getData().setScale(isShort ? fontScale * 0.7F : fontScale);
+		screen.game.getFont().setColor(0.2F, 0.8F, 0, alpha);
+		screen.game.getFont().getData().setScale(fontScale);
 
 		if (secondsRemaining <= 0) {
 			screen.getFontLayout().setText(screen.game.getFont(), GO_TEXT);

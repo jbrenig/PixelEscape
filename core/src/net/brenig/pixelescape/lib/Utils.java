@@ -140,6 +140,10 @@ public class Utils {
 	}
 
 
+	public static float easeOut(float timePassed, float maxTime) {
+		return easeOut(timePassed, maxTime, 3);
+	}
+
 	public static float easeOut(float timePassed, float maxTime, int intensity, float target) {
 		return easeOut(timePassed, maxTime, intensity) * target;
 	}
@@ -163,8 +167,24 @@ public class Utils {
 		}
 	}
 
+	public static float easeIn(float timePassed, float maxTime) {
+		return easeIn(timePassed, maxTime, 2);
+	}
+
+	public static float easeIn(float timePassed, float maxTime, int intensity)
+	{
+		if (timePassed > maxTime)
+		{
+			return 1;
+		}
+		return (float) Math.pow(timePassed / maxTime, intensity);
+	}
+
+	public static float EaseIn(float timePassed, float maxTime, int intensity, float target) {
+		return easeIn(timePassed, maxTime, intensity) * target;
+	}
+
 	public static float getButtonSize() {
 		return PixelEscape.getPixelEscape().getGameConfig().useBiggerButtons() ? 48 : 32;
 	}
-
 }

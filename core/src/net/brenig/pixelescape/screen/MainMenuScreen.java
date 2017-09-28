@@ -11,7 +11,6 @@ import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.render.ui.CurrentHighscoreLabel;
-import net.brenig.pixelescape.render.ui.general.HorizontalSpacer;
 import net.brenig.pixelescape.render.ui.general.StageManager;
 import net.brenig.pixelescape.render.ui.general.SwipeTabbedStack;
 
@@ -80,10 +79,10 @@ public class MainMenuScreen extends PixelScreen {
 		gmImageStack = new SwipeTabbedStack(SwipeTabbedStack.DEFAULT_ANIMATION_X_OFFSET);
 		//init gamemodes
 		for (GameMode mode : game.getGameConfig().getAvailableGameModes()) {
-			Image gameModeImageArcade = new Image(mode.createIcon(game.getGameAssets()));
-//			gameModeImageArcade.setRotation(5);
-			gameModeImageArcade.setScaling(Scaling.fit);
-			gmImageStack.add(gameModeImageArcade);
+			Image gameModeImage = new Image(mode.createIcon(game.getGameAssets()));
+//			gameModeImage.setRotation(PixelEscape.rand.nextFloat() * 10 - 5F);
+			gameModeImage.setScaling(Scaling.fit);
+			gmImageStack.add(gameModeImage);
 		}
 
 		gmImageStack.setCurrentElement(game.getUserData().getLastGameMode());
@@ -107,7 +106,7 @@ public class MainMenuScreen extends PixelScreen {
 			}
 		});
 		btnStart.getLabel().setFontScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
-		centerButtons.add(btnStart).padBottom(40).fillX();
+		centerButtons.add(btnStart).padBottom(8).fillX();
 
 		//Quit Button
 		if (game.getGameConfig().canQuitGame()) {
@@ -123,9 +122,6 @@ public class MainMenuScreen extends PixelScreen {
 			centerButtons.add(btnQuit).fillX();
 		}
 		centerTable.add(centerButtons);
-
-		//Left spacer
-		mainUiLayout.add(new HorizontalSpacer());
 
 		//Left Arrow
 		Button arrow_left = new Button(game.getSkin(), "arrow_left");
@@ -151,9 +147,6 @@ public class MainMenuScreen extends PixelScreen {
 			}
 		});
 		mainUiLayout.add(arrow_right).size(96, 256);
-
-		//Right spacer
-		mainUiLayout.add(new HorizontalSpacer());
 
 		//Move Arrows to front
 		arrow_left.toFront();

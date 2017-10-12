@@ -138,7 +138,7 @@ public class GameScreen extends PixelScreen {
 		//Game will be slowed down if the frames don't get processed fast enough
 		delta = Math.min(Reference.MAX_FRAME_TIME, delta);
 
-		if (game.getGameConfig().canHideCursor())
+		if (game.getGameConfig().getCanHideCursor())
 			inputManager.updateMouseVisibility(delta, game.getGameSettings().fullscreen && overlay.canHideCursor());
 
 		if (!initialized) {

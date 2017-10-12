@@ -109,7 +109,7 @@ public class MainMenuScreen extends PixelScreen {
 		centerButtons.add(btnStart).padBottom(8).fillX();
 
 		//Quit Button
-		if (game.getGameConfig().canQuitGame()) {
+		if (game.getGameConfig().getCanQuitGame()) {
 			TextButton btnQuit = new TextButton("Quit game", game.getSkin());
 			btnQuit.addListener(new ClickListener() {
 				@Override
@@ -162,7 +162,7 @@ public class MainMenuScreen extends PixelScreen {
 		if (gmImageStack == null) {
 			throw new IllegalStateException("GameMode select UI not initialized!");
 		}
-		return game.getGameConfig().getAvailableGameModes()[gmImageStack.getCurrentElement()];
+		return game.getGameConfig().getAvailableGameModes().get(gmImageStack.getCurrentElement());
 	}
 
 	@Override

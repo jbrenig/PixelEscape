@@ -23,7 +23,7 @@ public class Utils {
 		//minimize padding
 		table.pad(8, 8, 8, 8);
 		table.defaults().size(getButtonSize());
-		if (game.getGameConfig().useBiggerButtons()) {
+		if (game.getGameConfig().getUseBiggerButtons()) {
 			table.defaults().pad(2, 1, 2, 1);
 			table.defaults().expand().fillY();
 			table.setHeight(Reference.GAME_UI_Y_SIZE);
@@ -107,7 +107,7 @@ public class Utils {
 	 * @return the table they got added to
 	 */
 	public static Table addFullScreenButtonToTable(final PixelEscape game, Table layout) {
-		if (game.getGameConfig().canGoFullScreen()) {
+		if (game.getGameConfig().getCanGoFullScreen()) {
 			final TwoStateImageButton btnFullScreen = new TwoStateImageButton(game.getSkin(), "fullscreen");
 			btnFullScreen.setState(game.getGameSettings().fullscreen);
 			btnFullScreen.addListener(new ClickListener() {
@@ -185,6 +185,6 @@ public class Utils {
 	}
 
 	public static float getButtonSize() {
-		return PixelEscape.getPixelEscape().getGameConfig().useBiggerButtons() ? 48 : 32;
+		return PixelEscape.getPixelEscape().getGameConfig().getUseBiggerButtons() ? 48 : 32;
 	}
 }

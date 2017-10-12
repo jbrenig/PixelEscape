@@ -166,7 +166,7 @@ public class SettingsScreen extends PixelScreen {
 
 		Utils.addSoundAndMusicControllerToLayout(game, headLayout);
 
-		if (game.getGameConfig().debugSettingsAvailable()) {
+		if (game.getGameConfig().getDebugSettingsAvailable()) {
 			final ImageButton btnSettings = new ImageButton(game.getSkin(), "settings");
 			btnSettings.addListener(new ClickListener() {
 				@Override

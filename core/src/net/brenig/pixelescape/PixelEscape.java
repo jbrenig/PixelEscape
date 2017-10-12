@@ -61,7 +61,7 @@ public class PixelEscape extends Game {
 
 	@Override
 	public void create() {
-		if (gameConfig.loggingEnabled()) {
+		if (gameConfig.getLoggingEnabled()) {
 			LogHelper.setGDXLogLevel(Application.LOG_DEBUG);
 		} else {
 			LogHelper.setGDXLogLevel(Application.LOG_NONE);
@@ -224,7 +224,7 @@ public class PixelEscape extends Game {
 	 * goes or leaves fullscreen
 	 */
 	public void updateFullscreen() {
-		if (getGameConfig().canGoFullScreen()) {
+		if (getGameConfig().getCanGoFullScreen()) {
 			if (getGameSettings().fullscreen) {
 				final Graphics.DisplayMode oldMode = Gdx.graphics.getDisplayMode();
 				Gdx.graphics.setFullscreenMode(oldMode);

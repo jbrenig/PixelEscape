@@ -93,7 +93,7 @@ public class Reference {
 	public static final boolean SUPPRESS_TUTORIALS = false;
 	public static final boolean ENABLE_MUSIC = true;
 
-	public static final boolean DEBUG_SETTINGS_AVAILABLE = false;
+	public static final boolean DEBUG_SETTINGS_AVAILABLE = true;
 
 	//VERSION CONSTANTS
 	/**

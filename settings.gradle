@@ -1,1 +1,1 @@
-include 'desktop', 'android', 'ios', 'html', 'core'
+include 'desktop', 'android', 'ios', 'core' //, 'html' (disabled because kotlin is not supported by gwt

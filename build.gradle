@@ -1,4 +1,5 @@
 buildscript {
+    ext.kotlinVersion = '1.1.51'
     repositories {
         mavenLocal()
         mavenCentral()
@@ -6,6 +7,7 @@ buildscript {
         jcenter()
     }
     dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
         classpath 'com.android.tools.build:gradle:2.2.2'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.0'
@@ -36,7 +38,7 @@ allprojects {
 }
 
 project(":desktop") {
-    apply plugin: "java"
+    apply plugin: "kotlin"
 
 
     dependencies {
@@ -50,6 +52,7 @@ project(":desktop") {
 
 project(":android") {
     apply plugin: "android"
+    apply plugin: "kotlin-android"
 
     configurations { natives }
 
@@ -71,7 +74,7 @@ project(":android") {
 }
 
 project(":ios") {
-    apply plugin: "java"
+    apply plugin: "kotlin"
     apply plugin: "robovm"
 
 
@@ -85,29 +88,33 @@ project(":ios") {
     }
 }
 
-project(":html") {
-    apply plugin: "gwt"
-    apply plugin: "war"
-
-
-    dependencies {
-        compile project(":core")
-        compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
-        compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
-        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion:sources"
-        compile "com.badlogicgames.gdx:gdx-box2d-gwt:$gdxVersion:sources"
-    }
-}
+/////////////////////////////////////////////
+// Disabled as gwt does not support kotlin //
+/////////////////////////////////////////////
+//project(":html") {
+//    apply plugin: "gwt"
+//    apply plugin: "war"
+//
+//
+//    dependencies {
+//        compile project(":core")
+//        compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion"
+//        compile "com.badlogicgames.gdx:gdx:$gdxVersion:sources"
+//        compile "com.badlogicgames.gdx:gdx-backend-gwt:$gdxVersion:sources"
+//        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion:sources"
+//        compile "com.badlogicgames.gdx:gdx-box2d-gwt:$gdxVersion:sources"
+//    }
+//}
 
 project(":core") {
-    apply plugin: "java"
+    apply plugin: "kotlin"
 
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile 'com.google.code.findbugs:jsr305:3.0.1'
+        compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
     }
 }
 

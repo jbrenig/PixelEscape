@@ -101,7 +101,7 @@ public class GameRenderManager implements Disposable {
 	}
 
 	public BitmapFont getFont() {
-		return gameAssets.getFont();
+		return gameAssets.getDefaultFont();
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Scaling;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.data.GameMode;
+import net.brenig.pixelescape.game.data.constants.StyleNames;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.render.ui.CurrentHighscoreLabel;
@@ -124,7 +125,7 @@ public class MainMenuScreen extends PixelScreen {
 		centerTable.add(centerButtons);
 
 		//Left Arrow
-		Button arrow_left = new Button(game.getSkin(), "arrow_left");
+		Button arrow_left = new Button(game.getSkin(), StyleNames.BUTTON_ARROW_LEFT);
 		arrow_left.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -138,7 +139,7 @@ public class MainMenuScreen extends PixelScreen {
 		mainUiLayout.add(centerTable);
 
 		//Right Arrow
-		Button arrow_right = new Button(game.getSkin(), "arrow_right");
+		Button arrow_right = new Button(game.getSkin(), StyleNames.BUTTON_ARROW_RIGHT);
 		arrow_right.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {

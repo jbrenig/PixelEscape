@@ -238,7 +238,7 @@ public class PixelEscape extends Game {
 	 * Main BitMap Font
 	 */
 	public BitmapFont getFont() {
-		return getGameAssets().getFont();
+		return getGameAssets().getDefaultFont();
 	}
 
 	/**

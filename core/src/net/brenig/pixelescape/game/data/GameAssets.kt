@@ -6,7 +6,9 @@ import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.*
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
@@ -244,11 +246,11 @@ class GameAssets {
                 disabledFontColor = Color.GRAY
             }
 
-            imageTextButton(name = StyleNames.BUTTON_PAUSE) {
+            addStyle(name = StyleNames.BUTTON_PAUSE, style = ImageTextButton.ImageTextButtonStyle(it.get(TextButton.TextButtonStyle::class.java))) {
                 imageUp = it.newDrawable(Textures.BUTTON_PAUSE)
             }
 
-            imageTextButton(name = StyleNames.BUTTON_RESUME) {
+            addStyle(name = StyleNames.BUTTON_RESUME, style = ImageTextButton.ImageTextButtonStyle(it.get(TextButton.TextButtonStyle::class.java))) {
                 imageUp = it.newDrawable(Textures.BUTTON_RESUME)
             }
 

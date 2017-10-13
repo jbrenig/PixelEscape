@@ -15,6 +15,7 @@ import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameDebugSettings;
 import net.brenig.pixelescape.game.data.GameMode;
+import net.brenig.pixelescape.game.data.constants.StyleNames;
 import net.brenig.pixelescape.game.player.effects.StatusEffect;
 import net.brenig.pixelescape.game.worldgen.TerrainPair;
 import net.brenig.pixelescape.lib.LogHelper;
@@ -90,7 +91,7 @@ public class GameScreen extends PixelScreen {
 		Table table = stage.createHeadUiLayoutTable();
 
 		game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
-		ImageTextButton buttonPause = new ImageTextButton("Pause", this.game.getSkin(), "pause");
+		ImageTextButton buttonPause = new ImageTextButton("Pause", this.game.getSkin(), StyleNames.BUTTON_PAUSE);
 		buttonPause.getImageCell().padRight(6).padBottom(4);
 		buttonPause.addListener(new ClickListener() {
 			@Override

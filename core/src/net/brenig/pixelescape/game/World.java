@@ -296,7 +296,7 @@ public class World {
 
 		//respawn player entity
 		spawnEntityDo(player);
-		if (screen.game.getGameSettings().showHighScoreInWorld() && screen.game.getUserData().getHighScore(screen.getGameMode()) > 0) {
+		if (screen.game.getGameSettings().getShowHighscoreInWorld() && screen.game.getUserData().getHighScore(screen.getGameMode()) > 0) {
 			final EntityHighscore entityHighscore = createEntity(EntityHighscore.class);
 			spawnEntityDo(entityHighscore);
 		}

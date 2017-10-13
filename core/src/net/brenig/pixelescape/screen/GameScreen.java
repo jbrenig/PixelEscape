@@ -140,7 +140,7 @@ public class GameScreen extends PixelScreen {
 		delta = Math.min(Reference.MAX_FRAME_TIME, delta);
 
 		if (game.getGameConfig().getCanHideCursor())
-			inputManager.updateMouseVisibility(delta, game.getGameSettings().fullscreen && overlay.canHideCursor());
+			inputManager.updateMouseVisibility(delta, game.getGameSettings().getFullscreen() && overlay.canHideCursor());
 
 		if (!initialized) {
 			init();

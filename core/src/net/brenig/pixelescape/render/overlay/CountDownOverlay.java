@@ -22,7 +22,7 @@ public class CountDownOverlay extends Overlay {
 
 	public CountDownOverlay(GameScreen screen) {
 		super(screen);
-		isShort = screen.game.getGameSettings().shortCountdownEnabled();
+		isShort = screen.game.getGameSettings().getShortCountdownEnabled();
 	}
 
 	@Override

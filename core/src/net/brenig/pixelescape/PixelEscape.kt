@@ -206,11 +206,11 @@ class PixelEscape @JvmOverloads constructor(
      * stops or starts music if settings have changed
      */
     fun updateMusicPlaying() {
-        if (!gameSettings.isMusicEnabled()) {
+        if (!gameSettings.isMusicEnabled) {
             gameMusic.fadeOutToStop(0.5f)
         }
         if (screen is PixelScreen) {
-            (screen as PixelScreen).updateMusic(gameSettings.isMusicEnabled())
+            (screen as PixelScreen).updateMusic(gameSettings.isMusicEnabled)
         }
     }
 

@@ -100,11 +100,11 @@ public class SettingsScreen extends PixelScreen {
 		//Short Countdown
 		{
 			CheckBox chbx = new CheckBox("Short Countdown", game.getSkin());
-			chbx.setChecked(game.getGameSettings().shortCountdownEnabled());
+			chbx.setChecked(game.getGameSettings().getShortCountdownEnabled());
 			chbx.addListener(new ChangeListener() {
 				@Override
 				public void changed(ChangeEvent event, Actor actor) {
-					game.getGameSettings().setCountdownEnabled(((CheckBox) actor).isChecked());
+					game.getGameSettings().setShortCountdownEnabled(((CheckBox) actor).isChecked());
 				}
 			});
 			chbx.getImageCell().padBottom(8).padRight(10).size(32);
@@ -117,11 +117,11 @@ public class SettingsScreen extends PixelScreen {
 		//Highscore in world
 		{
 			CheckBox chbx = new CheckBox("Show Highscore in world", game.getSkin());
-			chbx.setChecked(game.getGameSettings().showHighScoreInWorld());
+			chbx.setChecked(game.getGameSettings().getShowHighscoreInWorld());
 			chbx.addListener(new ChangeListener() {
 				@Override
 				public void changed(ChangeEvent event, Actor actor) {
-					game.getGameSettings().setShowHighScoreInWorld(((CheckBox) actor).isChecked());
+					game.getGameSettings().setShowHighscoreInWorld(((CheckBox) actor).isChecked());
 				}
 			});
 			chbx.getImageCell().padBottom(8).padRight(10).size(32);

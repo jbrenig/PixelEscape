@@ -18,7 +18,7 @@ public class StageManagerGame extends StageManager {
 		this.screen = screen;
 		rootTable.setFillParent(false);
 		rootTable.setPosition(0, screen.getUiPos());
-		rootTable.setSize(screen.world.getWorldWidth(), screen.world.getWorldHeight() + Reference.GAME_UI_Y_SIZE);
+		rootTable.setSize(screen.getWorld().getWorldWidth(), screen.getWorld().getWorldHeight() + Reference.GAME_UI_Y_SIZE);
 		rootTable.left().top();
 	}
 
@@ -29,7 +29,7 @@ public class StageManagerGame extends StageManager {
 		updateViewport(width, height, true);
 
 		rootTable.setPosition(0, screen.getUiPos());
-		rootTable.setSize(screen.world.getWorldWidth(), screen.world.getWorldHeight() + Reference.GAME_UI_Y_SIZE);
+		rootTable.setSize(screen.getWorld().getWorldWidth(), screen.getWorld().getWorldHeight() + Reference.GAME_UI_Y_SIZE);
 		rootTable.invalidateHierarchy();
 	}
 
@@ -59,7 +59,7 @@ public class StageManagerGame extends StageManager {
 		table.pad(screen.getUiPadding(), screen.getUiPadding(), screen.getUiPadding(), screen.getUiPadding()); //top, left, bottom, right
 		table.top().left();
 		row();
-		add(table).height(Reference.GAME_RESOLUTION_Y).maxHeight(Reference.GAME_RESOLUTION_Y).maxWidth(screen.world.getWorldWidth()).fill().expand();
+		add(table).height(Reference.GAME_RESOLUTION_Y).maxHeight(Reference.GAME_RESOLUTION_Y).maxWidth(screen.getWorld().getWorldWidth()).fill().expand();
 		return table;
 	}
 }

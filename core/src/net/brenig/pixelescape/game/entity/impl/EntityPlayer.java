@@ -404,7 +404,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 		final float forceX = 0.5F + random.nextFloat() * 0.5F * scoreModifier;
 		final float forceY = 0.5F + random.nextFloat() * 0.5F * scoreModifier;
 		//when colliding with Barricades, shake horizontally
-		world.getScreen().worldRenderer.applyForceToScreen(col.doesCollideHorizontally() ? forceX : 0, col.doesCollideVertically() ? forceY : 0);
+		world.getScreen().getWorldRenderer().applyForceToScreen(col.doesCollideHorizontally() ? forceX : 0, col.doesCollideVertically() ? forceY : 0);
 
 		//play sound
 		if (world.getScreen().game.getGameSettings().isSoundEnabled()) {

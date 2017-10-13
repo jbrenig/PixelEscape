@@ -137,23 +137,23 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 		}
 
 		//Slide in
-		float gameOverAnim = isGameOver ? Math.max(0, screen.world.getWorldHeight() / 2 - screen.world.getWorldHeight() / 2 * Utils.easeOut(animationProgress, ANIM_TIME_GAME_OVER, 2)) : 0;
-		float xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
+		float gameOverAnim = isGameOver ? Math.max(0, screen.getWorld().getWorldHeight() / 2 - screen.getWorld().getWorldHeight() / 2 * Utils.easeOut(animationProgress, ANIM_TIME_GAME_OVER, 2)) : 0;
+		float xPos = screen.getWorld().getWorldWidth() / 2 - screen.getFontLayout().width / 2;
 		float txtGameOverHeight = screen.getFontLayout().height / 2;
-		float yPos = ((2 * screen.world.getWorldHeight()) / 3) + screen.getUiPos() + txtGameOverHeight + gameOverAnim;
+		float yPos = ((2 * screen.getWorld().getWorldHeight()) / 3) + screen.getUiPos() + txtGameOverHeight + gameOverAnim;
 		screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
 
 		//Score
 		screen.game.getFont().setColor(0, 1, 0, 1);
 		screen.game.getFont().getData().setScale(1.2F);
-		screen.getFontLayout().setText(screen.game.getFont(), "Your score: " + screen.world.getPlayer().getScore());
-		xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
+		screen.getFontLayout().setText(screen.game.getFont(), "Your score: " + screen.getWorld().getPlayer().getScore());
+		xPos = screen.getWorld().getWorldWidth() / 2 - screen.getFontLayout().width / 2;
 		float txtScoreHeight = screen.getFontLayout().height / 2;
 		yPos -= txtGameOverHeight + screen.game.getFont().getLineHeight() + txtScoreHeight;
 		screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
 
 		//Highscore
-		if (isGameOver && highscore < screen.world.getPlayer().getScore()) {
+		if (isGameOver && highscore < screen.getWorld().getPlayer().getScore()) {
 			screen.game.getFont().setColor(0, 1, 0, 1);
 			screen.game.getFont().getData().setScale(1.2F);
 			screen.getFontLayout().setText(screen.game.getFont(), "New Highscore!");
@@ -162,7 +162,7 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 			screen.game.getFont().getData().setScale(1.0F);
 			screen.getFontLayout().setText(screen.game.getFont(), "Highscore: " + highscore);
 		}
-		xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
+		xPos = screen.getWorld().getWorldWidth() / 2 - screen.getFontLayout().width / 2;
 		float txtHighscoreHeight = screen.getFontLayout().height / 2;
 		yPos -= screen.game.getFont().getLineHeight() + txtHighscoreHeight;
 		screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);

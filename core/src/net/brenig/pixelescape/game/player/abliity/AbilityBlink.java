@@ -32,9 +32,9 @@ public class AbilityBlink extends Ability {
 		}
 		player.increaseXPos(range);
 
-		final float oldX = screen.worldRenderer.getTargetX();
-		screen.worldRenderer.setCameraXPosition(screen.worldRenderer.getXPos() + range);
-		screen.worldRenderer.moveScreenTo(oldX, Reference.BLOCK_WIDTH * 4);
+		final float oldX = screen.getWorldRenderer().getTargetX();
+		screen.getWorldRenderer().setCameraXPosition(screen.getWorldRenderer().getXPos() + range);
+		screen.getWorldRenderer().moveScreenTo(oldX, Reference.BLOCK_WIDTH * 4);
 		return true;
 	}
 

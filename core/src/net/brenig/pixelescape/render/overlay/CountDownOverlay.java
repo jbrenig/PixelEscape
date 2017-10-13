@@ -86,8 +86,8 @@ public class CountDownOverlay extends Overlay {
 			screen.getFontLayout().setText(screen.game.getFont(), READY_TEXT);
 		}
 
-		final float xPos = screen.world.getWorldWidth() / 2 - screen.getFontLayout().width / 2;
-		final float yPos = screen.world.getWorldHeight() / 2 + screen.getFontLayout().height / 2 + screen.getUiPos();
+		final float xPos = screen.getWorld().getWorldWidth() / 2 - screen.getFontLayout().width / 2;
+		final float yPos = screen.getWorld().getWorldHeight() / 2 + screen.getFontLayout().height / 2 + screen.getUiPos();
 
 		screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
 	}

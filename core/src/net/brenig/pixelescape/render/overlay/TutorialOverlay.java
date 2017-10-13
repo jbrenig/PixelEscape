@@ -36,15 +36,15 @@ public class TutorialOverlay extends OverlayWithUi implements SwipeTabbedStack.I
 		Table contentTable = stage.createContentUiLayoutTable();
 		contentTable.defaults().fill();
 
-		final int contentSizeX = screen.world.getWorldWidth() - 40;
-		final int contentSizeY = screen.world.getWorldHeight() - 40;
+		final int contentSizeX = screen.getWorld().getWorldWidth() - 40;
+		final int contentSizeY = screen.getWorld().getWorldHeight() - 40;
 		stack = new SwipeTabbedStack();
 		stack.setOverSwipeListener(this);
 		stack.setElementChangedListener(this);
 		stack.setCycle(false);
 		stack.setAllowLeftOverdraw(false);
 
-		stack.add(screen.world.getPlayer().getMovementController().createTutorialWindow(getSkin(), screen, contentSizeX, contentSizeY));
+		stack.add(screen.getWorld().getPlayer().getMovementController().createTutorialWindow(getSkin(), screen, contentSizeX, contentSizeY));
 
 		final int maxLabelWidth = contentSizeX - 60;
 		if (gameMode.itemsEnabled()) {

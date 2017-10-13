@@ -422,14 +422,14 @@ public class World {
 	 * @return global coordinate of the left screen edge
 	 */
 	public float getCurrentScreenStart() {
-		return screen.worldRenderer.getWorldCameraXPos();
+		return screen.getWorldRenderer().getWorldCameraXPos();
 	}
 
 	/**
 	 * global world coordinate of the right end of the screen
 	 */
 	public float getCurrentScreenEnd() {
-		return screen.worldRenderer.getWorldCameraXPos() + getWorldWidth();
+		return screen.getWorldRenderer().getWorldCameraXPos() + getWorldWidth();
 	}
 
 	/**
@@ -447,11 +447,11 @@ public class World {
 	}
 
 	public int getCameraLeftLocalIndex() {
-		return ((int) (screen.worldRenderer.getWorldCameraXPos() / Reference.BLOCK_WIDTH)) - terrainBufferWorldIndex;
+		return ((int) (screen.getWorldRenderer().getWorldCameraXPos() / Reference.BLOCK_WIDTH)) - terrainBufferWorldIndex;
 	}
 
 	public int getCameraRightLocalIndex() {
-		return ((int) ((screen.worldRenderer.getWorldCameraXPos() + getWorldWidth()) / Reference.BLOCK_WIDTH)) - terrainBufferWorldIndex;
+		return ((int) ((screen.getWorldRenderer().getWorldCameraXPos() + getWorldWidth()) / Reference.BLOCK_WIDTH)) - terrainBufferWorldIndex;
 	}
 
 

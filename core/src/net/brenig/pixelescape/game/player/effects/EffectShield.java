@@ -47,11 +47,11 @@ public class EffectShield extends StatusEffectTimed {
 			World world = player.getWorld();
 			for (int i = 0; i < 20; i++) {
 				EntityFadingParticle entity = world.createEntity(EntityFadingParticle.class);
-				entity.setPosition(player.getXPos() + PixelEscape.rand.nextFloat() * 20 - 10, player.getYPos() + PixelEscape.rand.nextFloat() * 40 - 20);
+				entity.setPosition(player.getXPos() + PixelEscape.Companion.getRand().nextFloat() * 20 - 10, player.getYPos() + PixelEscape.Companion.getRand().nextFloat() * 40 - 20);
 				entity.setColor(Color.LIGHT_GRAY);
 				entity.setFadeDuration(0.4F);
 				entity.setAccelerationFactor(0.99F, 0.99F);
-				entity.setVelocity(PixelEscape.rand.nextFloat() * 10 - 0.5F, (PixelEscape.rand.nextFloat() * 20 + 20) * (entity.getYPos() > player.getYPos() ? 1 : -1));
+				entity.setVelocity(PixelEscape.Companion.getRand().nextFloat() * 10 - 0.5F, (PixelEscape.Companion.getRand().nextFloat() * 20 + 20) * (entity.getYPos() > player.getYPos() ? 1 : -1));
 				world.spawnEntity(entity);
 			}
 			return false;

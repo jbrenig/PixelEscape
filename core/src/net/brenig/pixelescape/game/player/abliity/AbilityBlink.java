@@ -23,11 +23,11 @@ public class AbilityBlink extends Ability {
 	public boolean onActivate(GameScreen screen, World world, EntityPlayer player) {
 		for (int i = 0; i < 60; i++) {
 			EntityFadingParticle e = world.createEntity(EntityFadingParticle.class);
-			e.setPosition(player.getXPos() + PixelEscape.rand.nextFloat() * 20 - 10, player.getYPos() + PixelEscape.rand.nextFloat() * 40 - 20);
+			e.setPosition(player.getXPos() + PixelEscape.Companion.getRand().nextFloat() * 20 - 10, player.getYPos() + PixelEscape.Companion.getRand().nextFloat() * 40 - 20);
 			e.setColor(Color.BLUE);
 			e.setFadeDuration(0.4F);
 			e.setAccelerationFactor(0.99F, 0.99F);
-			e.setVelocity(PixelEscape.rand.nextFloat() * 10 - 0.5F, (PixelEscape.rand.nextFloat() * 20 + 20) * (e.getYPos() > player.getYPos() ? 1 : -1));
+			e.setVelocity(PixelEscape.Companion.getRand().nextFloat() * 10 - 0.5F, (PixelEscape.Companion.getRand().nextFloat() * 20 + 20) * (e.getYPos() > player.getYPos() ? 1 : -1));
 			world.spawnEntity(e);
 		}
 		player.increaseXPos(range);

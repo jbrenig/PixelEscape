@@ -63,10 +63,10 @@ public class WorldRenderer {
 	 */
 	private void shakeScreen(float delta) {
 		if (screenShakeForceX > 0) {
-			screenShakeTimerX += delta * (screenShakeLengthMod + PixelEscape.rand.nextFloat());
+			screenShakeTimerX += delta * (screenShakeLengthMod + PixelEscape.Companion.getRand().nextFloat());
 		}
 		if (screenShakeForceY > 0) {
-			screenShakeTimerY += delta * (screenShakeLengthMod + PixelEscape.rand.nextFloat());
+			screenShakeTimerY += delta * (screenShakeLengthMod + PixelEscape.Companion.getRand().nextFloat());
 		}
 		if (screenShakeTimerX >= screenShakeForceX) {
 			screenShakeX = screenShakeForceX = screenShakeTimerX = 0;

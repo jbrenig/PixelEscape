@@ -62,7 +62,7 @@ public class CurrentHighscoreLabel extends Widget {
 
 	public CurrentHighscoreLabel(GameMode gameMode) {
 		super();
-		game = PixelEscape.getPixelEscape();
+		game = PixelEscape.Companion.getINSTANCE();
 		state = Animations.WAIT;
 		this.gameMode = gameMode;
 		updateText();
@@ -172,21 +172,21 @@ public class CurrentHighscoreLabel extends Widget {
 	private void updateAnimation() {
 		if (state == Animations.GM_BLEND_OUT) {
 			state = Animations.GM_BLEND_IN;
-		} else if (PixelEscape.rand.nextInt(10) < 4) {
-			state = Animations.values()[PixelEscape.rand.nextInt(Animations.values().length)];
+		} else if (PixelEscape.Companion.getRand().nextInt(10) < 4) {
+			state = Animations.values()[PixelEscape.Companion.getRand().nextInt(Animations.values().length)];
 		} else {
 			state = Animations.WAIT;
 		}
 		animationTimer = 0;
 		animationData = 0;
-		animationDuration = state.getDuration(PixelEscape.rand);
+		animationDuration = state.getDuration(PixelEscape.Companion.getRand());
 
 		switch (state) {
 			case MOVE_X:
-				animationData = 1 + PixelEscape.rand.nextInt(4);
+				animationData = 1 + PixelEscape.Companion.getRand().nextInt(4);
 				break;
 			case MOVE_Y:
-				animationData = 1 + PixelEscape.rand.nextInt(3);
+				animationData = 1 + PixelEscape.Companion.getRand().nextInt(3);
 				break;
 			case BLEND:
 //				Gdx.gl.glDisable(GL20.GL_BLEND);

@@ -130,7 +130,7 @@ public class GameScreen extends PixelScreen {
 
 	@Nullable
 	public Music getGameMusic() {
-		return game.getGameAssets().getRandomGameMusic(PixelEscape.rand);
+		return game.getGameAssets().getRandomGameMusic(PixelEscape.Companion.getRand());
 	}
 
 	@Override

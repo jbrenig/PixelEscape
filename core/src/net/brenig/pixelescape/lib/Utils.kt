@@ -13,7 +13,7 @@ import net.brenig.pixelescape.render.ui.general.TwoStateImageButton
  */
 object Utils {
 
-    private val buttonSize = (if (PixelEscape.getPixelEscape().gameConfig.useBiggerButtons) 48F else 32F)
+    private val buttonSize = (if (PixelEscape.INSTANCE.gameConfig.useBiggerButtons) 48F else 32F)
 
     /**
      * creates an instance of Table to use for sound and music controls (unnecessary)
@@ -36,7 +36,7 @@ object Utils {
 
     @JvmStatic
     fun createDefaultUIHeadControls(): Table {
-        val game = PixelEscape.getPixelEscape()
+        val game = PixelEscape.INSTANCE
         return Utils.addFullScreenButtonToTable(game, Utils.addSoundAndMusicControllerToLayout(game, createUIHeadLayout(game)))
     }
 
@@ -90,7 +90,7 @@ object Utils {
      */
     @JvmStatic
     fun addFullScreenButtonToTable(layout: Table): Table {
-        return addFullScreenButtonToTable(PixelEscape.getPixelEscape(), layout)
+        return addFullScreenButtonToTable(PixelEscape.INSTANCE, layout)
     }
 
     /**

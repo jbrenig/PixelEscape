@@ -35,13 +35,13 @@ public class InputManager implements InputProcessor {
 
 
 	private void updateMouseVisibility() {
-		if (PixelEscape.getPixelEscape().getGameConfig().getCanHideCursor()) {
+		if (PixelEscape.Companion.getINSTANCE().getGameConfig().getCanHideCursor()) {
 			Gdx.input.setCursorCatched(cursorIdleTimer < 0);
 		}
 	}
 
 	public void resetMouseVisibility() {
-		if (PixelEscape.getPixelEscape().getGameConfig().getCanHideCursor()) {
+		if (PixelEscape.Companion.getINSTANCE().getGameConfig().getCanHideCursor()) {
 			cursorIdleTimer = 0;
 			Gdx.input.setCursorCatched(false);
 		}

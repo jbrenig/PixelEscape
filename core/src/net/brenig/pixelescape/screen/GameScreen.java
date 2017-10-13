@@ -192,7 +192,7 @@ public class GameScreen extends PixelScreen {
 	private void renderUIBackground() {
 		game.getRenderManager().begin();
 
-		if (GameDebugSettings.get("DEBUG_SCREEN_BOUNDS")) {
+		if (GameDebugSettings.Companion.get("DEBUG_SCREEN_BOUNDS")) {
 			game.getRenderManager().setColor(1, 0, 0, 0);
 		} else {
 			game.getRenderManager().setColor(0, 0, 0, 1);
@@ -246,7 +246,7 @@ public class GameScreen extends PixelScreen {
 	}
 
 	private void renderDebugInformation() {
-		if (GameDebugSettings.get("DEBUG_MODE_COORDS")) {
+		if (GameDebugSettings.Companion.get("DEBUG_MODE_COORDS")) {
 			float x = game.getScaledMouseX();
 			float y = game.getScaledMouseY();
 			float worldY = world.convertMouseYToWorldCoordinate(y);
@@ -275,7 +275,7 @@ public class GameScreen extends PixelScreen {
 			game.getFont().draw(game.getBatch(), fontLayout, 5, pos);
 			//End draw
 			game.getFont().getData().setScale(1F);
-		} else if (GameDebugSettings.get("DEBUG_MUSIC")) {
+		} else if (GameDebugSettings.Companion.get("DEBUG_MUSIC")) {
 			game.getRenderManager().begin();
 			game.getFont().setColor(Color.LIGHT_GRAY);
 			game.getFont().getData().setScale(0.5F);
@@ -303,7 +303,7 @@ public class GameScreen extends PixelScreen {
 
 	@Override
 	public void pause() {
-		if (GameDebugSettings.get("AUTO_PAUSE")) {
+		if (GameDebugSettings.Companion.get("AUTO_PAUSE")) {
 			isScreenPaused = true;
 			overlay.pause();
 		}
@@ -311,7 +311,7 @@ public class GameScreen extends PixelScreen {
 
 	@Override
 	public void resume() {
-		if (GameDebugSettings.get("AUTO_PAUSE")) {
+		if (GameDebugSettings.Companion.get("AUTO_PAUSE")) {
 			isScreenPaused = false;
 			overlay.resume();
 		}

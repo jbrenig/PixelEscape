@@ -68,7 +68,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 	@Override
 	public boolean update(float deltaTick, InputManager inputManager, GameMode gameMode) {
 		xPos += deltaTick * (xVelocity + xVelocityModifier);
-		if (!GameDebugSettings.get("DEBUG_GOD_MODE")) {
+		if (!GameDebugSettings.Companion.get("DEBUG_GOD_MODE")) {
 			yPos += deltaTick * yVelocity;
 			//make sure player doesn't leave the screen
 			if (yPos < getPlayerSizeRadius()) {
@@ -116,7 +116,7 @@ public class EntityPlayer extends Entity implements IMovingEntity {
 			}
 		}
 		if (immortal <= 0) {
-			if (!GameDebugSettings.get("DEBUG_GOD_MODE") && collide()) {
+			if (!GameDebugSettings.Companion.get("DEBUG_GOD_MODE") && collide()) {
 				return true;
 			}
 		} else {

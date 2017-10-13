@@ -32,7 +32,7 @@ public class StageManager {
 
 	public StageManager(Viewport view) {
 		uiStage = new Stage(view);
-		uiStage.setDebugAll(GameDebugSettings.get("DEBUG_UI"));
+		uiStage.setDebugAll(GameDebugSettings.Companion.get("DEBUG_UI"));
 
 		rootTable = new Table();
 		rootTable.setFillParent(true);

@@ -8,7 +8,7 @@ import net.brenig.pixelescape.game.entity.impl.EntityPlayer;
 import net.brenig.pixelescape.game.worldgen.TerrainPair;
 import net.brenig.pixelescape.game.worldgen.WorldGenerator;
 import net.brenig.pixelescape.lib.CycleArray;
-import net.brenig.pixelescape.lib.LogHelper;
+import net.brenig.pixelescape.lib.LogHelperKt;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.screen.GameScreen;
 
@@ -227,7 +227,7 @@ public class World {
 	public TerrainPair getCreateTerrainPairForGeneration() {
 		TerrainPair pair = terrain.getOldest();
 		if (pair == null) {
-			LogHelper.warn("Invalid TerrainPair! (null)");
+			LogHelperKt.warn("Invalid TerrainPair! (null)");
 			pair = new TerrainPair(Reference.FALLBACK_TERRAIN_HEIGHT, Reference.FALLBACK_TERRAIN_HEIGHT);
 			terrain.set(0, pair);
 		}
@@ -241,11 +241,11 @@ public class World {
 	 */
 	public TerrainPair getTerrainPairForIndex(int i) {
 		if (i < 0) {
-			LogHelper.error("World", "Invalid World index ( " + i + " )! Must be greater than -1!");
+			LogHelperKt.error("World", "Invalid World index ( " + i + " )! Must be greater than -1!");
 			return BACKUP_TERRAIN_PAIR;
 		}
 		if (i >= terrain.size()) {
-			LogHelper.error("World", "Invalid World index ( " + i + " )! Out of Bounds! (array size: " + terrain.size() + ")");
+			LogHelperKt.error("World", "Invalid World index ( " + i + " )! Out of Bounds! (array size: " + terrain.size() + ")");
 			return BACKUP_TERRAIN_PAIR;
 		}
 		TerrainPair pair = terrain.get(i);

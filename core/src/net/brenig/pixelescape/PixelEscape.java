@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import net.brenig.pixelescape.game.data.*;
-import net.brenig.pixelescape.lib.LogHelper;
+import net.brenig.pixelescape.lib.LogHelperKt;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.GameRenderManager;
 import net.brenig.pixelescape.screen.MainMenuScreen;
@@ -62,16 +62,16 @@ public class PixelEscape extends Game {
 	@Override
 	public void create() {
 		if (gameConfig.getLoggingEnabled()) {
-			LogHelper.setGDXLogLevel(Application.LOG_DEBUG);
+			LogHelperKt.setGDXLogLevel(Application.LOG_DEBUG);
 		} else {
-			LogHelper.setGDXLogLevel(Application.LOG_NONE);
+			LogHelperKt.setGDXLogLevel(Application.LOG_NONE);
 		}
-		LogHelper.info("Main", "Starting up...");
+		LogHelperKt.info("Main", "Starting up...");
 		if (instance != null) {
 			if (instance.assetsLoaded) {
 				instance.dispose(); //needed?
 			}
-			LogHelper.warn("Critical Error! Game already initialized!");
+			LogHelperKt.warn("Critical Error! Game already initialized!");
 		}
 		instance = this;
 
@@ -96,7 +96,7 @@ public class PixelEscape extends Game {
 		//open main menu
 		showMainMenu();
 
-		LogHelper.log("Main", "Finished loading!");
+		LogHelperKt.log("Main", "Finished loading!");
 	}
 
 	public static PixelEscape getPixelEscape() {
@@ -177,7 +177,7 @@ public class PixelEscape extends Game {
 
 	@Override
 	public void resize(int width, int height) {
-		LogHelper.log("Main", "Resizing...");
+		LogHelperKt.log("Main", "Resizing...");
 
 		final float targetHeight = Reference.GAME_RESOLUTION_Y + Reference.GAME_UI_Y_SIZE;
 		final float targetWidth = Reference.TARGET_RESOLUTION_X;
@@ -189,7 +189,7 @@ public class PixelEscape extends Game {
 
 		renderManager.onResize(getGameSizeX(), getGameSizeY());
 
-		LogHelper.log("Main", "new width: " + getGameSizeX() + ", new height: " + getGameSizeY());
+		LogHelperKt.log("Main", "new width: " + getGameSizeX() + ", new height: " + getGameSizeY());
 
 		super.resize(width, height);
 	}

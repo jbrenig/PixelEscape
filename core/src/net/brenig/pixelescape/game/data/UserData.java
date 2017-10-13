@@ -2,7 +2,7 @@ package net.brenig.pixelescape.game.data;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import net.brenig.pixelescape.lib.LogHelper;
+import net.brenig.pixelescape.lib.LogHelperKt;
 import net.brenig.pixelescape.lib.Names;
 import net.brenig.pixelescape.lib.Reference;
 
@@ -37,7 +37,7 @@ public class UserData {
 
 	public void saveToDisk() {
 		prefs.flush();
-		LogHelper.log("UserData", "User progress saved!");
+		LogHelperKt.log("UserData", "User progress saved!");
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class UserData {
 	public void updateSaveGames() {
 		int savedDataVersion = prefs.getInteger(Keys.savesRevision, -1);
 		if (savedDataVersion < Reference.PREFS_REVISION) {
-			LogHelper.log("UserData", "converting old save data!");
+			LogHelperKt.log("UserData", "converting old save data!");
 			switch (savedDataVersion) {
 				case -1:
 					int oldHighScore = prefs.getInteger(Keys.highScore, Defaults.highScore);

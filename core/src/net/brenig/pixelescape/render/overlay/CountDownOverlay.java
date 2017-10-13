@@ -1,6 +1,6 @@
 package net.brenig.pixelescape.render.overlay;
 
-import net.brenig.pixelescape.lib.LogHelper;
+import net.brenig.pixelescape.lib.LogHelperKt;
 import net.brenig.pixelescape.lib.Utils;
 import net.brenig.pixelescape.screen.GameScreen;
 
@@ -44,11 +44,11 @@ public class CountDownOverlay extends Overlay {
 
 		int fractionOfCurrentSecond = ((int) (timePassed % 1000L)) + 1; //fraction of the current second
 		if (fractionOfCurrentSecond <= 0) {
-			LogHelper.error("Unknown error when calculating passed time!!, / by zero");
-			LogHelper.error("timePassed: " + timePassed);
-			LogHelper.error("secondsPassed: " + secondsPassed);
-			LogHelper.error("secondsRemaining: " + secondsRemaining);
-			LogHelper.error("fractionOfCurrentSecond: " + fractionOfCurrentSecond);
+			LogHelperKt.error("Unknown error when calculating passed time!!, / by zero");
+			LogHelperKt.error("timePassed: " + timePassed);
+			LogHelperKt.error("secondsPassed: " + secondsPassed);
+			LogHelperKt.error("secondsRemaining: " + secondsRemaining);
+			LogHelperKt.error("fractionOfCurrentSecond: " + fractionOfCurrentSecond);
 			//restore time
 			startedAt = System.currentTimeMillis();
 			fractionOfCurrentSecond = 1;

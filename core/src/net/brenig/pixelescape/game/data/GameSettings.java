@@ -2,7 +2,7 @@ package net.brenig.pixelescape.game.data;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import net.brenig.pixelescape.lib.LogHelper;
+import net.brenig.pixelescape.lib.LogHelperKt;
 import net.brenig.pixelescape.lib.Reference;
 
 /**
@@ -44,7 +44,7 @@ public class GameSettings {
 
 	public void saveToDisk() {
 		prefs.flush();
-		LogHelper.log("GameSettings", "Settings saved!");
+		LogHelperKt.log("GameSettings", "Settings saved!");
 	}
 
 	@SuppressWarnings("ConstantConditions")

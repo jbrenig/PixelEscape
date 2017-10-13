@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Disposable;
 import net.brenig.pixelescape.game.data.GameAssets;
-import net.brenig.pixelescape.lib.LogHelper;
+import net.brenig.pixelescape.lib.LogHelperKt;
 import net.brenig.pixelescape.lib.Reference;
 
 
@@ -153,19 +153,19 @@ public class GameRenderManager implements Disposable {
 				batch.end();
 				break;
 			case INVALID:
-				LogHelper.warn("RenderManager in invalid state. Initializing...");
+				LogHelperKt.warn("RenderManager in invalid state. Initializing...");
 				if(batch != null) {
 					batch.dispose();
 				}
 				initializeRendering();
 				return;
 			default:
-				LogHelper.error("RenderManager in unknown state!");
+				LogHelperKt.error("RenderManager in unknown state!");
 				if (batch.isDrawing()) {
 					batch.end();
 					break;
 				} else {
-					LogHelper.error("Unable to reconstruct state!!");
+					LogHelperKt.error("Unable to reconstruct state!!");
 				}
 				break;
 		}

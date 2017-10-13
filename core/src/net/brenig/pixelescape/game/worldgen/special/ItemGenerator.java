@@ -11,7 +11,7 @@ import net.brenig.pixelescape.game.player.effects.EffectSmallBarricades;
 import net.brenig.pixelescape.game.worldgen.WeightedList;
 import net.brenig.pixelescape.game.worldgen.WorldGenerator;
 import net.brenig.pixelescape.lib.FilteredElementProvider;
-import net.brenig.pixelescape.lib.LogHelper;
+import net.brenig.pixelescape.lib.LogHelperKt;
 
 import java.util.Random;
 
@@ -53,7 +53,7 @@ public class ItemGenerator implements ISpecialWorldGenerator {
 
 			world.spawnEntity(entity);
 
-			LogHelper.debug("Item spawned: " + entity.getItem() + ", @x: " + entity.getXPos() + ", y: " + entity.getYPos());
+			LogHelperKt.debug("Item spawned: " + entity.getItem() + ", @x: " + entity.getXPos() + ", y: " + entity.getYPos());
 
 			calculateNextItemXPos(rand);
 		}

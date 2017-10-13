@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget;
 import com.badlogic.gdx.utils.Align;
 import net.brenig.pixelescape.PixelEscape;
 import net.brenig.pixelescape.game.data.GameMode;
-import net.brenig.pixelescape.lib.LogHelper;
+import net.brenig.pixelescape.lib.LogHelperKt;
 import net.brenig.pixelescape.lib.Utils;
 
 import java.util.Random;
@@ -135,11 +135,11 @@ public class CurrentHighscoreLabel extends Widget {
 		//Score text
 		setColor(0, 0, 0, alpha);
 		if (fontSizeX <= 0) {
-			LogHelper.error("Invalid text scale in score widget animation");
+			LogHelperKt.error("Invalid text scale in score widget animation");
 			fontSizeX = font_size_x;
 		}
 		if (fontSizeY <= 0) {
-			LogHelper.error("Invalid text scale in score widget animation");
+			LogHelperKt.error("Invalid text scale in score widget animation");
 			fontSizeY = font_size_y;
 		}
 		game.getFont().getData().setScale(fontSizeX, fontSizeY);

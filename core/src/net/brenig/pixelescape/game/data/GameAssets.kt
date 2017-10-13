@@ -16,6 +16,7 @@ import ktx.style.*
 import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.game.data.constants.Textures
 import net.brenig.pixelescape.lib.Reference
+import net.brenig.pixelescape.lib.info
 import net.brenig.pixelescape.render.SimpleAnimation
 import net.brenig.pixelescape.render.ui.general.TwoStateImageButton
 import net.brenig.pixelescape.render.ui.ingame.AbilityWidget
@@ -79,6 +80,7 @@ class GameAssets {
         initSkin()
         initSounds()
         initMusic()
+        info("Game assets loaded!")
     }
 
     private fun initSounds() {

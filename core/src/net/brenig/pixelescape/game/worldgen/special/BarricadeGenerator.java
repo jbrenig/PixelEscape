@@ -5,7 +5,7 @@ import net.brenig.pixelescape.game.World;
 import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.game.entity.impl.EntityBarricade;
 import net.brenig.pixelescape.game.worldgen.WorldGenerator;
-import net.brenig.pixelescape.lib.LogHelper;
+import net.brenig.pixelescape.lib.LogHelperKt;
 import net.brenig.pixelescape.lib.Reference;
 
 import java.util.Random;
@@ -65,13 +65,13 @@ public class BarricadeGenerator implements ISpecialWorldGenerator {
 			//Leave gap for player
 			int checkRadius = (int) ((world.getPlayer().getXVelocity() / gameMode.getMaxEntitySpeed()) * Reference.OBSTACLE_X_CHECK_RADIUS_MAX);
 			if (PixelEscape.rand.nextBoolean()) {
-				LogHelper.debug("Correcting Barricade leaving bottom gap @ x: " + b.getXPos() + "(" + world.convertWorldCoordinateToLocalBlockIndex(b.getXPos()) + ") y: " + b.getYPos());
+				LogHelperKt.debug("Correcting Barricade leaving bottom gap @ x: " + b.getXPos() + "(" + world.convertWorldCoordinateToLocalBlockIndex(b.getXPos()) + ") y: " + b.getYPos());
 				b.setYPos(b.getYPos() + getAmountToCorrectBottom(world, b, checkRadius));
-				LogHelper.debug("Corrected to y: " + b.getYPos());
+				LogHelperKt.debug("Corrected to y: " + b.getYPos());
 			} else {
-				LogHelper.debug("Correcting Barricade leaving top gap @ x: " + b.getXPos() + "(" + world.convertWorldCoordinateToLocalBlockIndex(b.getXPos()) + ") y: " + b.getYPos());
+				LogHelperKt.debug("Correcting Barricade leaving top gap @ x: " + b.getXPos() + "(" + world.convertWorldCoordinateToLocalBlockIndex(b.getXPos()) + ") y: " + b.getYPos());
 				b.setYPos(b.getYPos() + getAmountToCorrectTop(world, b, checkRadius));
-				LogHelper.debug("Corrected to y: " + b.getYPos());
+				LogHelperKt.debug("Corrected to y: " + b.getYPos());
 			}
 		}
 	}
@@ -90,7 +90,7 @@ public class BarricadeGenerator implements ISpecialWorldGenerator {
 			float neededCorrection = (blockHeight + Reference.OBSTACLE_MIN_SPACE) - posY;
 			if (neededCorrection > correction) {
 				correction = neededCorrection;
-				LogHelper.debug("Correction for: x: " + b.getXPos() + ", y: " + posY + ", amount: " + correction + ", blockHeight: " + blockHeight);
+				LogHelperKt.debug("Correction for: x: " + b.getXPos() + ", y: " + posY + ", amount: " + correction + ", blockHeight: " + blockHeight);
 			}
 		}
 		return correction;
@@ -110,7 +110,7 @@ public class BarricadeGenerator implements ISpecialWorldGenerator {
 			float neededCorrection = (blockHeight - Reference.OBSTACLE_MIN_SPACE) - posY;
 			if (neededCorrection < correction) {
 				correction = neededCorrection;
-				LogHelper.debug("Correction for: x: " + b.getXPos() + ", y: " + posY + ", amount: " + correction + ", blockHeight: " + blockHeight);
+				LogHelperKt.debug("Correction for: x: " + b.getXPos() + ", y: " + posY + ", amount: " + correction + ", blockHeight: " + blockHeight);
 			}
 		}
 		return correction;

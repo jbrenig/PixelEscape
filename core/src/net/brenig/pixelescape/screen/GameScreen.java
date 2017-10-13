@@ -18,7 +18,7 @@ import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.game.data.constants.StyleNames;
 import net.brenig.pixelescape.game.player.effects.StatusEffect;
 import net.brenig.pixelescape.game.worldgen.TerrainPair;
-import net.brenig.pixelescape.lib.LogHelper;
+import net.brenig.pixelescape.lib.LogHelperKt;
 import net.brenig.pixelescape.lib.Reference;
 import net.brenig.pixelescape.render.WorldRenderer;
 import net.brenig.pixelescape.render.overlay.*;
@@ -76,7 +76,7 @@ public class GameScreen extends PixelScreen {
 
 	public GameScreen(final PixelEscape game, GameMode gameMode) {
 		super(game);
-		LogHelper.log("GameScreen", "Initializing game. GameMode: " + gameMode.getGameModeName());
+		LogHelperKt.log("GameScreen", "Initializing game. GameMode: " + gameMode.getGameModeName());
 
 		this.gameMode = gameMode;
 		//init world and renderer
@@ -116,7 +116,7 @@ public class GameScreen extends PixelScreen {
 		//set default overlay
 		overlay = emptyOverlay;
 
-		LogHelper.log("GameScreen", "Game initialized.");
+		LogHelperKt.log("GameScreen", "Game initialized.");
 
 	}
 

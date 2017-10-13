@@ -7,7 +7,7 @@ import net.brenig.pixelescape.game.InputManager;
 import net.brenig.pixelescape.game.data.GameMode;
 import net.brenig.pixelescape.game.entity.Entity;
 import net.brenig.pixelescape.game.player.Item;
-import net.brenig.pixelescape.lib.LogHelper;
+import net.brenig.pixelescape.lib.LogHelperKt;
 import net.brenig.pixelescape.render.WorldRenderer;
 
 import javax.annotation.Nullable;
@@ -70,7 +70,7 @@ public class EntityItem extends Entity {
 		if (!isDead && doesEntityIntersectWithEntity(world.getPlayer())) {
 			if (item.onCollect(world.getPlayer())) {
 				this.isDead = true;
-				LogHelper.debug("Player collected item: " + item);
+				LogHelperKt.debug("Player collected item: " + item);
 			}
 		}
 		return false;

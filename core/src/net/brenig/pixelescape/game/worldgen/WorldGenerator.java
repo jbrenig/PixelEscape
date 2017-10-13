@@ -6,7 +6,7 @@ import net.brenig.pixelescape.game.worldgen.predefined.IScoreWorldFeature;
 import net.brenig.pixelescape.game.worldgen.special.BarricadeGenerator;
 import net.brenig.pixelescape.game.worldgen.special.ISpecialWorldGenerator;
 import net.brenig.pixelescape.game.worldgen.terrain.*;
-import net.brenig.pixelescape.lib.LogHelper;
+import net.brenig.pixelescape.lib.LogHelperKt;
 import net.brenig.pixelescape.lib.Reference;
 
 import java.util.ArrayList;
@@ -77,10 +77,10 @@ public class WorldGenerator {
 				blockToGenerate -= generated;
 				generationPasses--;
 				if (blockToGenerate < 0) {
-					LogHelper.error("Invalid World Gen!! Generator ignoring MAX! Generator: " + gen);
+					LogHelperKt.error("Invalid World Gen!! Generator ignoring MAX! Generator: " + gen);
 				}
 				if ((oldTerrainBufferIndexStart + generated) != world.terrainBufferWorldIndex) {
-					LogHelper.error("Invalid World Gen!! Generator return value invalid! Generator: " + gen + "; generated: " + generated + "; lastGen: " + oldTerrainBufferIndexStart + "; currentGen: " + world.terrainBufferWorldIndex);
+					LogHelperKt.error("Invalid World Gen!! Generator return value invalid! Generator: " + gen + "; generated: " + generated + "; lastGen: " + oldTerrainBufferIndexStart + "; currentGen: " + world.terrainBufferWorldIndex);
 				}
 			}
 		}

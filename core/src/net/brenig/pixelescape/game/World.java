@@ -296,7 +296,7 @@ public class World {
 
 		//respawn player entity
 		spawnEntityDo(player);
-		if (screen.game.getGameSettings().getShowHighscoreInWorld() && screen.game.getUserData().getHighScore(screen.getGameMode()) > 0) {
+		if (screen.getGame().getGameSettings().getShowHighscoreInWorld() && screen.getGame().getUserData().getHighScore(screen.getGameMode()) > 0) {
 			final EntityHighscore entityHighscore = createEntity(EntityHighscore.class);
 			spawnEntityDo(entityHighscore);
 		}
@@ -407,7 +407,7 @@ public class World {
 	}
 
 	public float convertMouseYToScreenCoordinate(float mouseY) {
-		return screen.game.getGameSizeY() - mouseY;
+		return screen.getGame().getGameSizeY() - mouseY;
 	}
 
 	public float convertMouseYToWorldCoordinate(float screenY) {

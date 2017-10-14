@@ -54,7 +54,7 @@ public class TutorialOverlay extends OverlayWithUi implements SwipeTabbedStack.I
 			{
 				Table row1 = new Table();
 				{
-					Image image = new Image(new AnimationDrawable(screen.game.getGameAssets().getItemAnimatedBackground()));
+					Image image = new Image(new AnimationDrawable(screen.getGame().getGameAssets().getItemAnimatedBackground()));
 					row1.add(image).size(64);
 				}
 				{
@@ -65,7 +65,7 @@ public class TutorialOverlay extends OverlayWithUi implements SwipeTabbedStack.I
 					row1.add(lbl).left();
 				}
 				{
-					Image image = new Image(new AnimationDrawable(screen.game.getGameAssets().getItemAnimatedBackground()));
+					Image image = new Image(new AnimationDrawable(screen.getGame().getGameAssets().getItemAnimatedBackground()));
 					row1.add(image).size(64);
 				}
 				table.add(row1).width(maxLabelWidth).center().fillX();
@@ -133,7 +133,7 @@ public class TutorialOverlay extends OverlayWithUi implements SwipeTabbedStack.I
 		});
 		buttonLeft.padLeft(40).padRight(40);
 
-		TextButton btnMainMenu = new TextButton("Main Menu", screen.game.getSkin());
+		TextButton btnMainMenu = new TextButton("Main Menu", screen.getGame().getSkin());
 		btnMainMenu.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -190,7 +190,7 @@ public class TutorialOverlay extends OverlayWithUi implements SwipeTabbedStack.I
 		screen.setOverlayInputProcessor(null);
 		controls.addAction(Actions.parallel(Actions.moveBy(0, -90, timer_amount), Actions.alpha(0.2F, timer_amount)));
 		timer = timer_amount;
-		screen.game.getUserData().setTutorialSeen(screen.getGameMode(), true);
+		screen.getGame().getUserData().setTutorialSeen(screen.getGameMode(), true);
 	}
 
 	@Override

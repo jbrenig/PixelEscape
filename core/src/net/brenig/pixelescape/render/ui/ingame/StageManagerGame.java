@@ -14,7 +14,7 @@ public class StageManagerGame extends StageManager {
 	private final GameScreen screen;
 
 	public StageManagerGame(GameScreen screen) {
-		super(screen.game.getRenderManager());
+		super(screen.getGame().getRenderManager());
 		this.screen = screen;
 		rootTable.setFillParent(false);
 		rootTable.setPosition(0, screen.getUiPos());
@@ -24,7 +24,7 @@ public class StageManagerGame extends StageManager {
 
 	public void updateStageToGameBounds(int width, int height) {
 		//reset font size for measuring
-		screen.game.getRenderManager().resetFontSizeToDefaultGuiSize();
+		screen.getGame().getRenderManager().resetFontSizeToDefaultGuiSize();
 
 		updateViewport(width, height, true);
 

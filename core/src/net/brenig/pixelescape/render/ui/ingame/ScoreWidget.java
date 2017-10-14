@@ -22,7 +22,7 @@ public class ScoreWidget extends Widget {
 	private float lastScoreScreenWidth = 0;
 
 	public ScoreWidget(GameScreen screen) {
-		this(screen.getWorld().getPlayer(), screen.getFontLayout(), screen.game);
+		this(screen.getWorld().getPlayer(), screen.getFontLayout(), screen.getGame());
 	}
 
 	public ScoreWidget(EntityPlayer player, GlyphLayout fontLayout, PixelEscape game) {

@@ -117,9 +117,9 @@ public abstract class Overlay {
 	 * Renders a coloured overlay in the given color
 	 */
 	protected void renderScreenTint(float r, float g, float b, float a) {
-		screen.game.getRenderManager().begin();
-		screen.game.getRenderManager().setColor(r, g, b, a);
-		screen.game.getRenderManager().rect(0, 0, screen.game.getGameSizeX(), screen.game.getGameSizeY());
+		screen.getGame().getRenderManager().begin();
+		screen.getGame().getRenderManager().setColor(r, g, b, a);
+		screen.getGame().getRenderManager().rect(0, 0, screen.getGame().getGameSizeX(), screen.getGame().getGameSizeY());
 	}
 
 	/**

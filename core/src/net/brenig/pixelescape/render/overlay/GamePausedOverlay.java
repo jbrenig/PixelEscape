@@ -35,15 +35,15 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 
 	public GamePausedOverlay(final GameScreen screen, final boolean isGameOver) {
 		super(screen);
-		highscore = screen.game.getUserData().getHighScore(screen.getGameMode());
+		highscore = screen.getGame().getUserData().getHighScore(screen.getGameMode());
 		this.isGameOver = isGameOver;
 
-		screen.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
+		screen.getGame().getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 
 		Table table = stage.createHeadUiLayoutTable();
 
 		if (!isGameOver) {
-			ImageTextButton btnResume = new ImageTextButton("Resume", screen.game.getSkin(), "resume");
+			ImageTextButton btnResume = new ImageTextButton("Resume", screen.getGame().getSkin(), "resume");
 			btnResume.getImageCell().padRight(6).padBottom(4);
 			btnResume.addListener(new ClickListener() {
 				@Override
@@ -55,7 +55,7 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 		}
 
 		table.add(new HorizontalSpacer());
-		table.add(Utils.addFullScreenButtonToTable(Utils.addSoundAndMusicControllerToLayout(screen.game, Utils.createUIHeadLayout(screen.game))));
+		table.add(Utils.addFullScreenButtonToTable(Utils.addSoundAndMusicControllerToLayout(screen.getGame(), Utils.createUIHeadLayout(screen.getGame()))));
 
 		if (!isGameOver) {
 			table.add(new ScoreWidget(screen));
@@ -65,7 +65,7 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 		content.add(new VerticalSpacer());
 		content.row().expandX().center();
 
-		TextButton btnMainMenu = new TextButton("Main Menu", screen.game.getSkin());
+		TextButton btnMainMenu = new TextButton("Main Menu", screen.getGame().getSkin());
 		btnMainMenu.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -75,7 +75,7 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 		});
 		content.add(btnMainMenu).right().bottom().padBottom(40).padRight(10);
 
-		TextButton btnRestartGame = new TextButton("Retry", screen.game.getSkin());
+		TextButton btnRestartGame = new TextButton("Retry", screen.getGame().getSkin());
 		btnRestartGame.addListener(new ClickListener() {
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -108,9 +108,9 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 	public void show() {
 		screen.setOverlayInputProcessor(new InputMultiplexer(stage.getInputProcessor(), this));
 		if (isGameOver) {
-			screen.game.getGameMusic().fadeOutToStop(0.6F);
+			screen.getGame().getGameMusic().fadeOutToStop(0.6F);
 		} else {
-			screen.game.getGameMusic().fadeOutToPause();
+			screen.getGame().getGameMusic().fadeOutToPause();
 		}
 	}
 
@@ -126,14 +126,14 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 	@Override
 	public void render(float delta) {
 		//Game Paused
-		screen.game.getRenderManager().begin();
-		screen.game.getFont().getData().setScale(2, 4);
+		screen.getGame().getRenderManager().begin();
+		screen.getGame().getFont().getData().setScale(2, 4);
 		if (isGameOver) {
-			screen.game.getFont().setColor(1, 0, 0, 1);
-			screen.getFontLayout().setText(screen.game.getFont(), "Game Over!");
+			screen.getGame().getFont().setColor(1, 0, 0, 1);
+			screen.getFontLayout().setText(screen.getGame().getFont(), "Game Over!");
 		} else {
-			screen.game.getFont().setColor(0, 0, 1, 1);
-			screen.getFontLayout().setText(screen.game.getFont(), "Game Paused!");
+			screen.getGame().getFont().setColor(0, 0, 1, 1);
+			screen.getFontLayout().setText(screen.getGame().getFont(), "Game Paused!");
 		}
 
 		//Slide in
@@ -141,31 +141,31 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 		float xPos = screen.getWorld().getWorldWidth() / 2 - screen.getFontLayout().width / 2;
 		float txtGameOverHeight = screen.getFontLayout().height / 2;
 		float yPos = ((2 * screen.getWorld().getWorldHeight()) / 3) + screen.getUiPos() + txtGameOverHeight + gameOverAnim;
-		screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
+		screen.getGame().getFont().draw(screen.getGame().getBatch(), screen.getFontLayout(), xPos, yPos);
 
 		//Score
-		screen.game.getFont().setColor(0, 1, 0, 1);
-		screen.game.getFont().getData().setScale(1.2F);
-		screen.getFontLayout().setText(screen.game.getFont(), "Your score: " + screen.getWorld().getPlayer().getScore());
+		screen.getGame().getFont().setColor(0, 1, 0, 1);
+		screen.getGame().getFont().getData().setScale(1.2F);
+		screen.getFontLayout().setText(screen.getGame().getFont(), "Your score: " + screen.getWorld().getPlayer().getScore());
 		xPos = screen.getWorld().getWorldWidth() / 2 - screen.getFontLayout().width / 2;
 		float txtScoreHeight = screen.getFontLayout().height / 2;
-		yPos -= txtGameOverHeight + screen.game.getFont().getLineHeight() + txtScoreHeight;
-		screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
+		yPos -= txtGameOverHeight + screen.getGame().getFont().getLineHeight() + txtScoreHeight;
+		screen.getGame().getFont().draw(screen.getGame().getBatch(), screen.getFontLayout(), xPos, yPos);
 
 		//Highscore
 		if (isGameOver && highscore < screen.getWorld().getPlayer().getScore()) {
-			screen.game.getFont().setColor(0, 1, 0, 1);
-			screen.game.getFont().getData().setScale(1.2F);
-			screen.getFontLayout().setText(screen.game.getFont(), "New Highscore!");
+			screen.getGame().getFont().setColor(0, 1, 0, 1);
+			screen.getGame().getFont().getData().setScale(1.2F);
+			screen.getFontLayout().setText(screen.getGame().getFont(), "New Highscore!");
 		} else {
-			screen.game.getFont().setColor(0, 0, 1, 1);
-			screen.game.getFont().getData().setScale(1.0F);
-			screen.getFontLayout().setText(screen.game.getFont(), "Highscore: " + highscore);
+			screen.getGame().getFont().setColor(0, 0, 1, 1);
+			screen.getGame().getFont().getData().setScale(1.0F);
+			screen.getFontLayout().setText(screen.getGame().getFont(), "Highscore: " + highscore);
 		}
 		xPos = screen.getWorld().getWorldWidth() / 2 - screen.getFontLayout().width / 2;
 		float txtHighscoreHeight = screen.getFontLayout().height / 2;
-		yPos -= screen.game.getFont().getLineHeight() + txtHighscoreHeight;
-		screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
+		yPos -= screen.getGame().getFont().getLineHeight() + txtHighscoreHeight;
+		screen.getGame().getFont().draw(screen.getGame().getBatch(), screen.getFontLayout(), xPos, yPos);
 
 		animationProgress += delta;
 
@@ -174,9 +174,9 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 
 	private void restartMusic() {
 		if (isGameOver) {
-			screen.game.getGameMusic().setCurrentMusic(screen.getGameMusic());
+			screen.getGame().getGameMusic().setCurrentMusic(screen.getGameMusic());
 		}
-		screen.game.getGameMusic().play(true);
+		screen.getGame().getGameMusic().play(true);
 	}
 
 	@Override
@@ -252,7 +252,7 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 		if (isGameOver) {
 			screen.showMainMenu();
 		} else {
-			final PixelDialog dialog = new PixelDialog("Sure?", screen.game.getSkin());
+			final PixelDialog dialog = new PixelDialog("Sure?", screen.getGame().getSkin());
 			dialog.setMovable(false);
 			dialog.setModal(true);
 			dialog.setPrefWidth(stage.getStageViewport().getWorldWidth() * 0.7F);
@@ -280,7 +280,7 @@ public class GamePausedOverlay extends OverlayWithUi implements InputProcessor {
 		if (isGameOver) {
 			restartGameDo();
 		} else {
-			final PixelDialog dialog = new PixelDialog("Sure?", screen.game.getSkin());
+			final PixelDialog dialog = new PixelDialog("Sure?", screen.getGame().getSkin());
 			dialog.setMovable(false);
 			dialog.setModal(true);
 			dialog.setPrefWidth(stage.getStageViewport().getWorldWidth() * 0.7F);

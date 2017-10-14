@@ -19,9 +19,9 @@ public abstract class OverlayWithUi extends Overlay {
 
 	@Override
 	public void render(float delta) {
-		screen.game.getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
+		screen.getGame().getFont().getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
 		stage.act(delta);
-		stage.draw(screen.game.getRenderManager());
+		stage.draw(screen.getGame().getRenderManager());
 	}
 
 	@Override
@@ -46,6 +46,6 @@ public abstract class OverlayWithUi extends Overlay {
 	}
 
 	protected Skin getSkin() {
-		return screen.game.getSkin();
+		return screen.getGame().getSkin();
 	}
 }

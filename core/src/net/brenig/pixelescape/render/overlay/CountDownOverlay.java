@@ -22,7 +22,7 @@ public class CountDownOverlay extends Overlay {
 
 	public CountDownOverlay(GameScreen screen) {
 		super(screen);
-		isShort = screen.game.getGameSettings().getShortCountdownEnabled();
+		isShort = screen.getGame().getGameSettings().getShortCountdownEnabled();
 	}
 
 	@Override
@@ -74,22 +74,22 @@ public class CountDownOverlay extends Overlay {
 			fontScale *= 0.7F;
 		}
 
-		screen.game.getRenderManager().begin();
-		screen.game.getFont().setColor(0.2F, 0.8F, 0, alpha);
-		screen.game.getFont().getData().setScale(fontScale);
+		screen.getGame().getRenderManager().begin();
+		screen.getGame().getFont().setColor(0.2F, 0.8F, 0, alpha);
+		screen.getGame().getFont().getData().setScale(fontScale);
 
 		if (secondsRemaining <= 0) {
-			screen.getFontLayout().setText(screen.game.getFont(), GO_TEXT);
+			screen.getFontLayout().setText(screen.getGame().getFont(), GO_TEXT);
 		} else if (!isShort) {
-			screen.getFontLayout().setText(screen.game.getFont(), "" + secondsRemaining);
+			screen.getFontLayout().setText(screen.getGame().getFont(), "" + secondsRemaining);
 		} else {
-			screen.getFontLayout().setText(screen.game.getFont(), READY_TEXT);
+			screen.getFontLayout().setText(screen.getGame().getFont(), READY_TEXT);
 		}
 
 		final float xPos = screen.getWorld().getWorldWidth() / 2 - screen.getFontLayout().width / 2;
 		final float yPos = screen.getWorld().getWorldHeight() / 2 + screen.getFontLayout().height / 2 + screen.getUiPos();
 
-		screen.game.getFont().draw(screen.game.getBatch(), screen.getFontLayout(), xPos, yPos);
+		screen.getGame().getFont().draw(screen.getGame().getBatch(), screen.getFontLayout(), xPos, yPos);
 	}
 
 	@Override

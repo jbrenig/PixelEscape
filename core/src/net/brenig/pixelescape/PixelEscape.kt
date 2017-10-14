@@ -191,7 +191,7 @@ class PixelEscape @JvmOverloads constructor(
         gameSizeX = Math.ceil((width * scale).toDouble()).toInt()
         gameSizeY = Math.ceil((height * scale).toDouble()).toInt()
 
-        renderManager!!.onResize(gameSizeX.toFloat(), gameSizeY.toFloat())
+        renderManager.onResize(gameSizeX.toFloat(), gameSizeY.toFloat())
 
         log("Main", "new width: $gameSizeX, new height: $gameSizeY")
 

@@ -36,11 +36,11 @@ public class EffectSmallBarricades extends StatusEffectTimed {
 
 	@Override
 	public void onEffectAdded(EntityPlayer player) {
-		player.getWorld().getWorldGenerator().obstacleSizeModifier -= 0.2F;
+		player.getWorld().getWorldGenerator().setObstacleSizeModifier(player.getWorld().getWorldGenerator().getObstacleSizeModifier() - 0.2F);
 	}
 
 	@Override
 	public void onEffectRemove(EntityPlayer player) {
-		player.getWorld().getWorldGenerator().obstacleSizeModifier += 0.2F;
+		player.getWorld().getWorldGenerator().setObstacleSizeModifier(player.getWorld().getWorldGenerator().getObstacleSizeModifier() + 0.2F);
 	}
 }

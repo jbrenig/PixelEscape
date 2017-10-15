@@ -55,7 +55,7 @@ class WorldRenderer(private val game: PixelEscape, val world: World) {
      * @return global coordinate of this worldrenderer (left screen edge)
      */
     val worldCameraXPos: Float
-        get() = -xPos - screenShakeX + world.getPlayer().progress
+        get() = -xPos - screenShakeX + world.player.progress
 
     fun addBackgroundLayer(layer: IBackgroundLayer) {
         backgroundLayers.add(layer)

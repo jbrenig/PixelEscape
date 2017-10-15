@@ -20,8 +20,8 @@ public class EntityHighscore extends Entity {
 	@Override
 	public void renderBackground(PixelEscape game, WorldRenderer renderer, GameMode gameMode, float delta) {
 		if (getMinX() < world.getCurrentScreenEnd()) {
-			final float pos = xPos - world.player.getBonusScore();
-			if (world.player.getXPos() > pos) {
+			final float pos = xPos - world.getPlayer().getBonusScore();
+			if (world.getPlayer().getXPos() > pos) {
 				final Random random = world.getRandom();
 				final int yEnd = world.getTerrainTopHeightRealForCoord((int) pos);
 				final int yStart = world.getTerrainBotHeightRealForCoord((int) pos);
@@ -35,7 +35,7 @@ public class EntityHighscore extends Entity {
 					e.setVelocity((random.nextFloat() - 0.5F) * 80, (random.nextFloat() - 0.5F) * 40);
 					world.spawnEntity(e);
 				}
-				final float scoreModifier = 1 - 1 / (world.player.getXVelocity() * 0.1F);
+				final float scoreModifier = 1 - 1 / (world.getPlayer().getXVelocity() * 0.1F);
 				renderer.applyForceToScreen((2 + random.nextFloat()) * scoreModifier * 0.2F, 0);
 				isDead = true;
 			}
@@ -47,7 +47,7 @@ public class EntityHighscore extends Entity {
 	@Override
 	public void setWorld(World world) {
 		super.setWorld(world);
-		xPos = world.getScreen().getGame().getUserData().getHighScore(world.getScreen().getGameMode()) + world.player.getXPosScreen();
+		xPos = world.getScreen().getGame().getUserData().getHighScore(world.getScreen().getGameMode()) + world.getPlayer().getXPosScreen();
 		yPos = 0;
 	}
 

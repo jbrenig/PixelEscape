@@ -107,12 +107,12 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : PixelScreen(game) 
         })
         table.add(buttonPause)
         table.add(HorizontalSpacer())
-        table.add(ScoreWidget(world.getPlayer(), fontLayout, game))
+        table.add(ScoreWidget(world.player, fontLayout, game))
         if (gameMode.abilitiesEnabled()) {
             stage.row()
             stage.add(VerticalSpacer())
             stage.row()
-            stage.add(AbilityWidget(game.skin, world.getPlayer(), this)).bottom().right().size(128f).pad(0f, 0f, 32f, (uiPos + 32).toFloat())
+            stage.add(AbilityWidget(game.skin, world.player, this)).bottom().right().size(128f).pad(0f, 0f, 32f, (uiPos + 32).toFloat())
         }
 
         //init input
@@ -224,7 +224,7 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : PixelScreen(game) 
     private fun renderLives() {
         if (gameMode.extraLives > 0) {
             game.renderManager.begin()
-            for (index in 1..world.getPlayer().extraLives + 1) {
+            for (index in 1..world.player.extraLives + 1) {
                 game.renderManager.batch.draw(game.gameAssets.heart, (game.gameSizeX - 36 * index).toFloat(), (uiPos + world.worldHeight - 28).toFloat())
             }
         }
@@ -249,11 +249,11 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : PixelScreen(game) 
             val x = game.scaledMouseX
             val y = game.scaledMouseY
             val worldY = world.convertMouseYToWorldCoordinate(y)
-            val screenTxt = "Screen: X: " + x.toInt() + ", Y: " + world.convertMouseYToScreenCoordinate(y).toInt() + "(" + y.toInt() + " / raw: " + Gdx.input.y + "), Player speed: " + world.getPlayer().xVelocity.toInt()
+            val screenTxt = "Screen: X: " + x.toInt() + ", Y: " + world.convertMouseYToScreenCoordinate(y).toInt() + "(" + y.toInt() + " / raw: " + Gdx.input.y + "), Player speed: " + world.player.xVelocity.toInt()
             val worldTxt = "World: X: " + world.convertScreenToWorldCoordinate(x).toInt() + ", Y: " + worldY.toInt() + ", Block: " + world.convertScreenCoordToWorldBlockIndex(x) + " (" + world.convertWorldBlockToLocalBlockIndex(world.convertScreenCoordToWorldBlockIndex(x)) + ")"
             val terrain = world.getTerrainPairForIndex(world.convertScreenCoordToLocalBlockIndex(x))
             val isTerrain = terrain.bot * Reference.BLOCK_WIDTH >= worldY || world.worldHeight - terrain.top * Reference.BLOCK_WIDTH <= worldY
-            val blockInfoTxt = "Info: IsTerrain: " + isTerrain + ", BlocksGenerated: " + world.getTerrainBufferWorldIndex()
+            val blockInfoTxt = "Info: IsTerrain: " + isTerrain + ", BlocksGenerated: " + world.terrainBufferWorldIndex
 
             //Begin draw
             game.renderManager.begin()
@@ -364,7 +364,7 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : PixelScreen(game) 
      */
     fun onGameOver() {
         setOverlay(GamePausedOverlay(this, true))
-        game.userData.updateHighscore(gameMode, world.getPlayer().score)
+        game.userData.updateHighscore(gameMode, world.player.score)
     }
 
     /**

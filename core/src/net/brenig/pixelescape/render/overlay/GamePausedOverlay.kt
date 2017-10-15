@@ -130,14 +130,14 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
         //Score
         screen.game.font.setColor(0f, 1f, 0f, 1f)
         screen.game.font.data.setScale(1.2f)
-        screen.fontLayout.setText(screen.game.font, "Your score: " + screen.world.getPlayer().score)
+        screen.fontLayout.setText(screen.game.font, "Your score: " + screen.world.player.score)
         xPos = screen.world.worldWidth / 2 - screen.fontLayout.width / 2
         val txtScoreHeight = screen.fontLayout.height / 2
         yPos -= txtGameOverHeight + screen.game.font.lineHeight + txtScoreHeight
         screen.game.font.draw(screen.game.batch, screen.fontLayout, xPos, yPos)
 
         //Highscore
-        if (isGameOver && highscore < screen.world.getPlayer().score) {
+        if (isGameOver && highscore < screen.world.player.score) {
             screen.game.font.setColor(0f, 1f, 0f, 1f)
             screen.game.font.data.setScale(1.2f)
             screen.fontLayout.setText(screen.game.font, "New Highscore!")

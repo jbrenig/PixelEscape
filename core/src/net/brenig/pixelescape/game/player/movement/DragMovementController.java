@@ -59,7 +59,7 @@ public class DragMovementController implements PlayerMovementController {
 		renderer.getRenderManager().begin();
 		final float ySize = Reference.PLAYER_ENTITY_SIZE * acceleration / 40;
 		renderer.getRenderManager().setColor(Color.GRAY);
-		renderer.renderRect(world.player.getXPosScreen() - Reference.PATH_ENTITY_SIZE / 2, world.player.getYPos() + (ySize > 0 ? Reference.PLAYER_ENTITY_SIZE / 2 : -Reference.PLAYER_ENTITY_SIZE / 2), Reference.PATH_ENTITY_SIZE, ySize);
+		renderer.renderRect(world.getPlayer().getXPosScreen() - Reference.PATH_ENTITY_SIZE / 2, world.getPlayer().getYPos() + (ySize > 0 ? Reference.PLAYER_ENTITY_SIZE / 2 : -Reference.PLAYER_ENTITY_SIZE / 2), Reference.PATH_ENTITY_SIZE, ySize);
 
 	}
 

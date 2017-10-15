@@ -41,7 +41,7 @@ class TutorialOverlay(screen: GameScreen) : OverlayWithUi(screen), SwipeTabbedSt
         stack.setCycle(false)
         stack.setAllowLeftOverdraw(false)
 
-        stack.add(screen.world.getPlayer().movementController.createTutorialWindow(skin, screen, contentSizeX, contentSizeY))
+        stack.add(screen.world.player.movementController.createTutorialWindow(skin, screen, contentSizeX, contentSizeY))
 
         val maxLabelWidth = contentSizeX - 60
         if (gameMode.itemsEnabled()) {

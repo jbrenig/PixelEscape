@@ -38,9 +38,9 @@ public class FlashMovementController implements PlayerMovementController {
 		if (world.getScreen().getInput().isTouched()) {
 			renderer.getRenderManager().begin();
 			renderer.getRenderManager().setColor(Color.CYAN);
-			renderer.renderRect(world.player.getXPosScreen(), world.player.getYPos() - Reference.PATH_ENTITY_SIZE / 2, game.getScaledMouseX() - world.player.getXPosScreen(), Reference.PATH_ENTITY_SIZE);
+			renderer.renderRect(world.getPlayer().getXPosScreen(), world.getPlayer().getYPos() - Reference.PATH_ENTITY_SIZE / 2, game.getScaledMouseX() - world.getPlayer().getXPosScreen(), Reference.PATH_ENTITY_SIZE);
 			renderer.getRenderManager().setColor(Color.GRAY);
-			renderer.renderRect(game.getScaledMouseX() - Reference.PLAYER_ENTITY_SIZE / 2, world.player.getYPos() - Reference.PLAYER_ENTITY_SIZE / 2, Reference.PLAYER_ENTITY_SIZE, Reference.PLAYER_ENTITY_SIZE);
+			renderer.renderRect(game.getScaledMouseX() - Reference.PLAYER_ENTITY_SIZE / 2, world.getPlayer().getYPos() - Reference.PLAYER_ENTITY_SIZE / 2, Reference.PLAYER_ENTITY_SIZE, Reference.PLAYER_ENTITY_SIZE);
 		}
 	}
 

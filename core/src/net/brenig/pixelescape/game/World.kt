@@ -1,6 +1,5 @@
 package net.brenig.pixelescape.game
 
-import com.badlogic.gdx.Gdx
 import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.game.entity.Entity
 import net.brenig.pixelescape.game.entity.EntityPoolManager
@@ -11,14 +10,13 @@ import net.brenig.pixelescape.game.worldgen.WorldGenerator
 import net.brenig.pixelescape.lib.CycleArray
 import net.brenig.pixelescape.lib.error
 import net.brenig.pixelescape.lib.utils.MathUtils
-import net.brenig.pixelescape.lib.warn
 import net.brenig.pixelescape.screen.GameScreen
 import java.util.*
 
 /**
  * Main World class, handling game logic
  */
-class World @JvmOverloads constructor(val screen: GameScreen, worldWidth: Int = Reference.TARGET_RESOLUTION_X) {
+class World constructor(val screen: GameScreen, worldWidth: Int = Reference.TARGET_RESOLUTION_X) {
 
     /**
      * The width of the world in pixels
@@ -69,12 +67,7 @@ class World @JvmOverloads constructor(val screen: GameScreen, worldWidth: Int = 
      */
     val createTerrainPairForGeneration: TerrainPair
         get() {
-            var pair = terrain.oldest
-            if (pair == null) {
-                warn("Invalid TerrainPair! (null)")
-                pair = TerrainPair(Reference.FALLBACK_TERRAIN_HEIGHT, Reference.FALLBACK_TERRAIN_HEIGHT)
-                terrain[0] = pair
-            }
+            val pair = terrain.oldest
             terrainBufferWorldIndex++
             terrain.cycleForward()
             return pair
@@ -105,11 +98,7 @@ class World @JvmOverloads constructor(val screen: GameScreen, worldWidth: Int = 
         this.worldWidth = worldWidth
 
         player = EntityPlayer(this, screen.gameMode)
-        terrain = CycleArray(calculateWorldBufferSize(worldWidth))
-        //fill terrain buffer
-        for (i in 0 until terrain.size()) {
-            terrain.add(TerrainPair(Reference.FALLBACK_TERRAIN_HEIGHT, Reference.FALLBACK_TERRAIN_HEIGHT))
-        }
+        terrain = CycleArray(calculateWorldBufferSize(worldWidth), {_ -> TerrainPair(Reference.FALLBACK_TERRAIN_HEIGHT, Reference.FALLBACK_TERRAIN_HEIGHT) })
 
         player.xPosScreen = worldWidth / 4
 
@@ -180,16 +169,7 @@ class World @JvmOverloads constructor(val screen: GameScreen, worldWidth: Int = 
      */
     fun resize(newWidth: Int) {
         this.worldWidth = newWidth
-        val oldSize = terrain.size()
         terrain.resize(calculateWorldBufferSize(newWidth))
-        if (oldSize < terrain.size()) {
-            //fill new entries
-            for (i in 0 until terrain.size()) {
-                if (terrain[i] == null) {
-                    terrain[i] = TerrainPair(Reference.FALLBACK_TERRAIN_HEIGHT, Reference.FALLBACK_TERRAIN_HEIGHT)
-                }
-            }
-        }
         player.xPosScreen = worldWidth / 4
     }
 
@@ -198,7 +178,7 @@ class World @JvmOverloads constructor(val screen: GameScreen, worldWidth: Int = 
      */
     fun getTopBlockHeight(index: Int): Int {
         if (terrain.size() < index) {
-            Gdx.app.error("PixelEscape | World", "Requested world Block index is out of Bounds! ($index)")
+            error("PixelEscape | World", "Requested world Block index is out of Bounds! ($index)")
             return Reference.FALLBACK_TERRAIN_HEIGHT
         }
         val pair = getTerrainPairForIndex(index)
@@ -210,7 +190,7 @@ class World @JvmOverloads constructor(val screen: GameScreen, worldWidth: Int = 
      */
     fun getBotBlockHeight(index: Int): Int {
         if (terrain.size() < index) {
-            Gdx.app.error("PixelEscape | World", "Requested world Block index is out of Bounds! ($index)")
+            error("PixelEscape | World", "Requested world Block index is out of Bounds! ($index)")
             return Reference.FALLBACK_TERRAIN_HEIGHT
         }
         val pair = getTerrainPairForIndex(index)
@@ -240,8 +220,7 @@ class World @JvmOverloads constructor(val screen: GameScreen, worldWidth: Int = 
             error("World", "Invalid World index ( " + i + " )! Out of Bounds! (array size: " + terrain.size() + ")")
             return BACKUP_TERRAIN_PAIR
         }
-        val pair = terrain[i]
-        return pair ?: BACKUP_TERRAIN_PAIR
+        return terrain[i]
     }
 
     /**

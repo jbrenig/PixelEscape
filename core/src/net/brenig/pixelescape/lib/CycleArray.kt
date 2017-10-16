@@ -7,37 +7,24 @@ import java.util.*
  * Array that is arranged in a Ring<br></br>
  * when new elements get added the oldest elements get lost
  */
-class CycleArray<T>(size: Int) {
+class CycleArray<T>(size: Int, private val constructor: (Int) -> Any) {
 
-    private var data: Array<Any?>
+    private var data: Array<T>
     /**
      * index of the last added object
      */
     private var index: Int = 0
     private var modCount = 0
 
-    val newest: T? get() = data[index] as T
+    val newest: T get() = data[index] as T
 
-    val oldest: T? get() = get(0)
-
-    val oldestNonNull: T
-        get() {
-            var i = (index + 1) % data.size
-            while (data[i] == null) {
-                i = (i + 1) % data.size
-                if (i == index) {
-                    break
-                }
-            }
-            return data[i] as T
-        }
-
+    val oldest: T get() = get(0)
 
     init {
         if (size < 1) {
             throw IllegalArgumentException("The specified size has to be 1 or greater!")
         }
-        data = arrayOfNulls(size)
+        data = Array(size, constructor) as Array<T>
         index = size - 1
     }
 
@@ -56,19 +43,19 @@ class CycleArray<T>(size: Int) {
      * returns the object at the given index
      * an index of 0 returns the oldest object, an index of size - 1 the newest
      */
-    operator fun get(index: Int): T? {
-        return data[convertToLocalIndex(index)] as T?
+    operator fun get(index: Int): T {
+        return data[convertToLocalIndex(index)]
     }
 
 
-    fun add(element: T?) {
+    fun add(element: T) {
         index++
         updateIndexBounds()
         data[index] = element
         modCount++
     }
 
-    operator fun set(index: Int, element: T?) {
+    operator fun set(index: Int, element: T) {
         data[convertToLocalIndex(index)] = element
         modCount++
     }
@@ -97,7 +84,7 @@ class CycleArray<T>(size: Int) {
     fun resize(newWidth: Int) {
         if (newWidth > data.size) {
             val oldData = data
-            data = arrayOfNulls(newWidth)
+            data = Array(newWidth, constructor) as Array<T>
             System.arraycopy(oldData, 0, data, 0, index + 1)
             if (oldData.size > index + 1) {
                 val oldDataRemains = oldData.size - index - 1
@@ -106,7 +93,7 @@ class CycleArray<T>(size: Int) {
         } else if (newWidth < data.size) {
             val oldData = data
             val oldIndex = index
-            data = arrayOfNulls(newWidth)
+            data = Array(newWidth, constructor) as Array<T>
             index = newWidth - 1
             val dif = newWidth - oldIndex - 1
             if (dif <= 0) {
@@ -143,14 +130,10 @@ class CycleArray<T>(size: Int) {
         return data.size
     }
 
-    fun clear() {
+    fun refill() {
         for (i in data.indices) {
-            data[i] = null
+            data[i] = constructor as T
         }
-    }
-
-    fun remove(i: Int) {
-        set(i, null)
     }
 
     operator fun iterator(): Iterator<*> {
@@ -160,7 +143,7 @@ class CycleArray<T>(size: Int) {
     /**
      * An optimized version of AbstractList.Itr
      */
-    private inner class Itr : MutableIterator<T> {
+    private inner class Itr : Iterator<T> {
         internal var cursor: Int = 0       // index of next element to return (unshifted / relative)
         internal var lastRet = -1 // index of last element returned; -1 if no such
         internal var expectedModCount = modCount
@@ -179,23 +162,7 @@ class CycleArray<T>(size: Int) {
                 throw ConcurrentModificationException()
             cursor = i + 1
             lastRet = i
-            return elementData[convertToLocalIndex(i)] as T
-        }
-
-        override fun remove() {
-            if (lastRet < 0)
-                throw IllegalStateException()
-            checkForComodification()
-
-            try {
-                this@CycleArray.remove(lastRet)
-                cursor = lastRet
-                lastRet = -1
-                expectedModCount = modCount
-            } catch (ex: IndexOutOfBoundsException) {
-                throw ConcurrentModificationException()
-            }
-
+            return elementData[convertToLocalIndex(i)]
         }
 
         internal fun checkForComodification() {

@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer
-import net.brenig.pixelescape.lib.utils.Utils
+import net.brenig.pixelescape.lib.utils.AnimationUtils
 import net.brenig.pixelescape.screen.GameScreen
 
 /**
@@ -70,7 +70,7 @@ class AbilityWidget : Button {
                 gameScreen.game.renderManager.rect(batch, x + itemFrame, y + itemFrame, width - itemFrame * 2, (height - itemFrame * 2) * player.cooldownRemainingScaled)
             } else if (animCounter > 0) {
                 animCounter -= Gdx.graphics.deltaTime
-                val alpha = Utils.easeInAndOut(animCounter, ANIM_DURATION) * 0.7f
+                val alpha = AnimationUtils.easeInAndOut(animCounter, ANIM_DURATION) * 0.7f
                 gameScreen.game.renderManager.setColor(1f, 1f, 1f, alpha)
                 gameScreen.game.renderManager.rect(batch, x + itemFrame, y + itemFrame, width - itemFrame * 2, height - itemFrame * 2)
             }

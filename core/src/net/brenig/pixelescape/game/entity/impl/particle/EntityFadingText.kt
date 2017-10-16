@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.GL20
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.GameMode
 import net.brenig.pixelescape.game.entity.Entity
-import net.brenig.pixelescape.lib.utils.Utils
+import net.brenig.pixelescape.lib.utils.AnimationUtils
 import net.brenig.pixelescape.render.WorldRenderer
 
 /**
@@ -42,7 +42,7 @@ class EntityFadingText : Entity() {
 
 
         Gdx.gl.glEnable(GL20.GL_BLEND)
-        val currentAlpha = 1 - Utils.easeOut(timePassed, fadeDuration, 2)
+        val currentAlpha = 1 - AnimationUtils.easeOut(timePassed, fadeDuration, 2)
         renderer.renderManager.font.setColor(color_r, color_g, color_b, currentAlpha)
         renderer.renderManager.setFontScale(0.5f)
         renderer.renderTextWorld(text!!, xPos, yPos)

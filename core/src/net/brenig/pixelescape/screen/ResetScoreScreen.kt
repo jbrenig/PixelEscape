@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.GameMode
-import net.brenig.pixelescape.lib.utils.Utils
+import net.brenig.pixelescape.lib.utils.UiUtils
 import net.brenig.pixelescape.render.ui.general.HorizontalSpacer
 import net.brenig.pixelescape.render.ui.general.PixelDialog
 import net.brenig.pixelescape.render.ui.general.StageManager
@@ -52,7 +52,7 @@ class ResetScoreScreen(game: PixelEscape) : PixelScreen(game) {
 
         //Head controls
         uiStage.rootTable.top().right().pad(4f)
-        headLayout = Utils.createDefaultUIHeadControls()
+        headLayout = UiUtils.createDefaultUIHeadControls()
         uiStage.add(headLayout)
 
         //content (scrollpane)

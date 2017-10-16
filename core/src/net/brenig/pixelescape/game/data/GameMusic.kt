@@ -3,7 +3,7 @@ package net.brenig.pixelescape.game.data
 import com.badlogic.gdx.audio.Music
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.constants.Reference
-import net.brenig.pixelescape.lib.utils.Utils
+import net.brenig.pixelescape.lib.utils.AnimationUtils
 
 /**
  * Music wrapper with additional features such as fading and queueing
@@ -53,12 +53,12 @@ class GameMusic(private val game: PixelEscape) {
         if (Reference.ENABLE_MUSIC && isFading) {
             fadingProgress += delta
             if (state == MusicState.FADE_IN) {
-                currentVolume = Utils.easeInAndOut(fadingProgress, fadingTime) * game.gameSettings.musicVolume
+                currentVolume = AnimationUtils.easeInAndOut(fadingProgress, fadingTime) * game.gameSettings.musicVolume
                 if (fadingProgress > fadingTime) {
                     state = MusicState.PLAYING
                 }
             } else {
-                currentVolume = game.gameSettings.musicVolume - Utils.easeInAndOut(fadingProgress, fadingTime) * game.gameSettings.musicVolume
+                currentVolume = game.gameSettings.musicVolume - AnimationUtils.easeInAndOut(fadingProgress, fadingTime) * game.gameSettings.musicVolume
                 if (fadingProgress > fadingTime) {
                     fadingProgress = 0f
                     if (state == MusicState.FADE_OUT_PAUSE) {

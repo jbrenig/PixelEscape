@@ -10,7 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import net.brenig.pixelescape.game.data.constants.Reference
-import net.brenig.pixelescape.lib.utils.Utils
+import net.brenig.pixelescape.lib.utils.AnimationUtils
+import net.brenig.pixelescape.lib.utils.UiUtils
 import net.brenig.pixelescape.render.ui.general.HorizontalSpacer
 import net.brenig.pixelescape.render.ui.general.PixelDialog
 import net.brenig.pixelescape.render.ui.general.VerticalSpacer
@@ -44,7 +45,7 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
         }
 
         table.add(HorizontalSpacer())
-        table.add(Utils.addFullScreenButtonToTable(Utils.addSoundAndMusicControllerToLayout(screen.game, Utils.createUIHeadLayout(screen.game))))
+        table.add(UiUtils.addFullScreenButtonToTable(UiUtils.addSoundAndMusicControllerToLayout(screen.game, UiUtils.createUIHeadLayout(screen.game))))
 
         if (!isGameOver) {
             table.add(ScoreWidget(screen))
@@ -104,7 +105,7 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
     override fun renderFirst(delta: Float) {
         //noinspection PointlessBooleanExpression,ConstantConditions
         if (Reference.SCREEN_TINT_STRENGTH > 0 && animationProgress > 0) {
-            renderScreenTint(Utils.easeOut(animationProgress, if (isGameOver) ANIM_TIME_GAME_OVER else ANIM_TIME_PAUSED, 2) * Reference.SCREEN_TINT_STRENGTH)
+            renderScreenTint(AnimationUtils.easeOut(animationProgress, if (isGameOver) ANIM_TIME_GAME_OVER else ANIM_TIME_PAUSED, 2) * Reference.SCREEN_TINT_STRENGTH)
         }
     }
 
@@ -121,7 +122,7 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
         }
 
         //Slide in
-        val gameOverAnim = if (isGameOver) Math.max(0f, screen.world.worldHeight / 2 - screen.world.worldHeight / 2 * Utils.easeOut(animationProgress, ANIM_TIME_GAME_OVER, 2)) else 0F
+        val gameOverAnim = if (isGameOver) Math.max(0f, screen.world.worldHeight / 2 - screen.world.worldHeight / 2 * AnimationUtils.easeOut(animationProgress, ANIM_TIME_GAME_OVER, 2)) else 0F
         var xPos = screen.world.worldWidth / 2 - screen.fontLayout.width / 2
         val txtGameOverHeight = screen.fontLayout.height / 2
         var yPos = (2 * screen.world.worldHeight / 3).toFloat() + screen.uiPos.toFloat() + txtGameOverHeight + gameOverAnim

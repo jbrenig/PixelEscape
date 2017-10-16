@@ -1,7 +1,7 @@
 package net.brenig.pixelescape.render.overlay
 
-import net.brenig.pixelescape.lib.utils.Utils
 import net.brenig.pixelescape.lib.error
+import net.brenig.pixelescape.lib.utils.AnimationUtils
 import net.brenig.pixelescape.screen.GameScreen
 
 /**
@@ -43,12 +43,12 @@ class CountDownOverlay(screen: GameScreen) : Overlay(screen) {
         var alpha = 1f
         if (fractionOfCurrentSecond < 200) {
             // big "entry" font scale (15 to 5)
-            val anim = Utils.easeOut(fractionOfCurrentSecond.toFloat(), 200f)
+            val anim = AnimationUtils.easeOut(fractionOfCurrentSecond.toFloat(), 200f)
             fontScale = 15 - anim * 10
             alpha = 0.75f + anim / 4f
         } else if (fractionOfCurrentSecond > 700) {
             // small "vanish" font scale (5 to 2)
-            val anim = Utils.easeIn((fractionOfCurrentSecond - 700).toFloat(), 300f)
+            val anim = AnimationUtils.easeIn((fractionOfCurrentSecond - 700).toFloat(), 300f)
             fontScale = 5 - anim * 3
             alpha = 1 - anim / 2f
         }

@@ -8,8 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.badlogic.gdx.utils.Align
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.GameMode
-import net.brenig.pixelescape.lib.utils.Utils
 import net.brenig.pixelescape.lib.error
+import net.brenig.pixelescape.lib.utils.AnimationUtils
 import java.util.*
 
 /**
@@ -53,11 +53,11 @@ class CurrentHighscoreLabel(private var gameMode: GameMode?) : Widget() {
             CurrentHighscoreLabel.Animations.BLEND -> {
                 val part = animationDuration / 3
                 if (animationTimer < part) {
-                    alpha = 1 - Utils.easeOut(animationTimer, part, 2)
+                    alpha = 1 - AnimationUtils.easeOut(animationTimer, part, 2)
                 } else if (animationTimer < part * 2) {
                     alpha = 0f
                 } else {
-                    alpha = Utils.easeInAndOut(animationTimer - part * 2, part)
+                    alpha = AnimationUtils.easeInAndOut(animationTimer - part * 2, part)
                 }
                 Gdx.gl.glEnable(GL20.GL_BLEND)
             }
@@ -68,11 +68,11 @@ class CurrentHighscoreLabel(private var gameMode: GameMode?) : Widget() {
             CurrentHighscoreLabel.Animations.SIZE -> {
                 val part = animationTimer / animationDuration
                 if (part < 0.5) {
-                    val ease = Utils.easeInAndOut(part, 0.5f) * font_scaling_strength
+                    val ease = AnimationUtils.easeInAndOut(part, 0.5f) * font_scaling_strength
                     fontSizeX = font_size_x - ease * font_size_x
                     fontSizeY = font_size_y - ease * font_size_y
                 } else {
-                    val ease = Utils.easeInAndOut(part - 0.5f, 0.5f) * font_scaling_strength
+                    val ease = AnimationUtils.easeInAndOut(part - 0.5f, 0.5f) * font_scaling_strength
                     fontSizeX = font_size_x - font_scaling_strength * font_size_x + ease * font_size_x
                     fontSizeY = font_size_y - font_scaling_strength * font_size_y + ease * font_size_y
                 }

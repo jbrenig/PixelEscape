@@ -8,9 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Scaling
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.GameMode
-import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.game.data.constants.Reference
-import net.brenig.pixelescape.lib.utils.Utils
+import net.brenig.pixelescape.game.data.constants.StyleNames
+import net.brenig.pixelescape.lib.utils.UiUtils
 import net.brenig.pixelescape.render.ui.CurrentHighscoreLabel
 import net.brenig.pixelescape.render.ui.general.StageManager
 import net.brenig.pixelescape.render.ui.general.SwipeTabbedStack
@@ -30,7 +30,7 @@ class MainMenuScreen(game: PixelEscape) : PixelScreen(game) {
     /**
      * layout used to group setting buttons
      */
-    private val buttonPanelLayout: Table = Utils.createUIHeadLayout(game)
+    private val buttonPanelLayout: Table = UiUtils.createUIHeadLayout(game)
     private val highscoreLabel: CurrentHighscoreLabel
     private val gmImageStack: SwipeTabbedStack?
 
@@ -45,7 +45,7 @@ class MainMenuScreen(game: PixelEscape) : PixelScreen(game) {
     init {
         //Settings Button Panel
         //music and sound
-        Utils.addSoundAndMusicControllerToLayout(game, buttonPanelLayout)
+        UiUtils.addSoundAndMusicControllerToLayout(game, buttonPanelLayout)
         //settings
         val btnSettings = ImageButton(game.skin, "settings")
         btnSettings.addListener(object : ClickListener() {
@@ -57,7 +57,7 @@ class MainMenuScreen(game: PixelEscape) : PixelScreen(game) {
         buttonPanelLayout.add(btnSettings)
         buttonPanelLayout.invalidateHierarchy()
         //fullscreen
-        Utils.addFullScreenButtonToTable(game, buttonPanelLayout)
+        UiUtils.addFullScreenButtonToTable(game, buttonPanelLayout)
 
         //Main UI Table
         mainUiLayout = Table()

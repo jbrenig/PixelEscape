@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.constants.Reference
-import net.brenig.pixelescape.lib.utils.Utils
+import net.brenig.pixelescape.lib.utils.UiUtils
 import net.brenig.pixelescape.render.ui.general.PixelDialog
 import net.brenig.pixelescape.render.ui.general.StageManager
 
@@ -154,9 +154,9 @@ class SettingsScreen(game: PixelEscape) : PixelScreen(game) {
 
         //Head controls
         uiStage.rootTable.top().right().pad(4f)
-        headLayout = Utils.createUIHeadLayout(game)
+        headLayout = UiUtils.createUIHeadLayout(game)
 
-        Utils.addSoundAndMusicControllerToLayout(game, headLayout)
+        UiUtils.addSoundAndMusicControllerToLayout(game, headLayout)
 
         if (game.gameConfig.debugSettingsAvailable) {
             val btnSettings = ImageButton(game.skin, "settings")
@@ -197,7 +197,7 @@ class SettingsScreen(game: PixelEscape) : PixelScreen(game) {
 
         }
 
-        Utils.addFullScreenButtonToTable(game, headLayout)
+        UiUtils.addFullScreenButtonToTable(game, headLayout)
         uiStage.add(headLayout)
         //Main Layout
         uiStage.addActorToStage(uiLayout)

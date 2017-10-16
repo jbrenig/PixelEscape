@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.GameMode
 import net.brenig.pixelescape.game.entity.Entity
-import net.brenig.pixelescape.lib.utils.Utils
+import net.brenig.pixelescape.lib.utils.AnimationUtils
 import net.brenig.pixelescape.render.WorldRenderer
 
 class EntityFadingParticle : Entity() {
@@ -62,7 +62,7 @@ class EntityFadingParticle : Entity() {
 
         fadeTimePassed += delta
 
-        val currentAlpha = 1 - Utils.easeInAndOut(fadeTimePassed, fadeDuration)
+        val currentAlpha = 1 - AnimationUtils.easeInAndOut(fadeTimePassed, fadeDuration)
 
         game.renderManager.begin()
         game.renderManager.setColor(color_r, color_g, color_b, currentAlpha)

@@ -11,26 +11,6 @@ enum class CollisionType constructor(val collideRight: Boolean, val collideLeft:
     constructor(collides: Boolean) : this(collides, collides, collides, collides)
 
 
-    fun doesCollideRight(): Boolean {
-        return collideRight
-    }
-
-    fun doesCollideLeft(): Boolean {
-        return collideLeft
-    }
-
-    fun doesCollideTop(): Boolean {
-        return collideTop
-    }
-
-    fun doesCollideBot(): Boolean {
-        return collideBot
-    }
-
-    fun doesCollide(): Boolean {
-        return collideBot || collideLeft || collideRight || collideTop
-    }
-
     fun doesCollideHorizontally(): Boolean {
         return collideRight || collideLeft
     }

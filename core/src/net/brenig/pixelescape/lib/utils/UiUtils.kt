@@ -59,6 +59,7 @@ object UiUtils {
         })
         layout.add(btnSound)
 
+        @Suppress("ConstantConditionIf")
         if (Reference.ENABLE_MUSIC) {
             val btnMusic = TwoStateImageButton(game.skin, "music")
             btnMusic.state = !game.gameSettings.isMusicEnabled

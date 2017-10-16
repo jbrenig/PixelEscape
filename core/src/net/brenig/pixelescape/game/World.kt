@@ -277,6 +277,7 @@ class World constructor(val screen: GameScreen, worldWidth: Int = Reference.TARG
      * parameters are world coordinates
      */
     private fun doesAreaCollideWithEntities(x1: Float, y1: Float, x2: Float, y2: Float): CollisionType {
+        @Suppress("LoopToCallChain")
         for (entity in entityList) {
             val col = entity.doesAreaCollideWithEntity(x1, y1, x2, y2)
             if (col !== CollisionType.NONE) {

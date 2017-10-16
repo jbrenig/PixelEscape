@@ -16,7 +16,7 @@ class CycleArray<T>(size: Int, private val constructor: (Int) -> Any) {
     private var index: Int = 0
     private var modCount = 0
 
-    val newest: T get() = data[index] as T
+    val newest: T get() = data[index]
 
     val oldest: T get() = get(0)
 

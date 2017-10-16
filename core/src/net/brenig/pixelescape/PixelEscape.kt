@@ -11,7 +11,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import net.brenig.pixelescape.game.data.*
 import net.brenig.pixelescape.game.data.constants.Reference
-import net.brenig.pixelescape.lib.*
+import net.brenig.pixelescape.lib.info
+import net.brenig.pixelescape.lib.log
+import net.brenig.pixelescape.lib.setGDXLogLevel
+import net.brenig.pixelescape.lib.warn
 import net.brenig.pixelescape.render.GameRenderManager
 import net.brenig.pixelescape.screen.MainMenuScreen
 import net.brenig.pixelescape.screen.PixelScreen
@@ -132,7 +135,7 @@ class PixelEscape @JvmOverloads constructor(
         // render frame
         renderManager.prepareRender()
         super.render()
-        if (GameDebugSettings.get("SHOW_FPS")) {
+        if (GameDebugSettings["SHOW_FPS"]) {
             renderManager.begin()
             font.color = Color.RED
             renderManager.resetFontSize()

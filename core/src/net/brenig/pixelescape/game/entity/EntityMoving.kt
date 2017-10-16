@@ -2,7 +2,7 @@ package net.brenig.pixelescape.game.entity
 
 import net.brenig.pixelescape.game.data.GameMode
 
-abstract class EntityMoving() : Entity() {
+abstract class EntityMoving : Entity() {
 
     protected open var xVel: Float = 0F
     protected open var yVel: Float = 0F

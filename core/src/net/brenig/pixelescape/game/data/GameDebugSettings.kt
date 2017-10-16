@@ -23,7 +23,7 @@ class GameDebugSettings {
         val def = defaults[s]
         if (!PixelEscape.INSTANCE.gameConfig.debugSettingsAvailable) {
             //return default if debug settings are deactivated
-            return def ?: false
+            return def == true
         }
         return if (def == null) {
             prefs.getBoolean(s)

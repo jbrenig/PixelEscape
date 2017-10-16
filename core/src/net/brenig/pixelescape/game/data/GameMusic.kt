@@ -32,10 +32,11 @@ class GameMusic(private val game: PixelEscape) {
     val isPlaying: Boolean
         get() = state != MusicState.STOPPED && state != MusicState.PAUSED
 
-    fun getState() = state.toString();
+    fun getState() = state.toString()
 
     fun setCurrentMusic(m: Music?) {
         stop()
+        @Suppress("ConstantConditionIf")
         if (Reference.ENABLE_MUSIC) {
             currentMusic = m
             if (currentMusic != null) {
@@ -61,13 +62,13 @@ class GameMusic(private val game: PixelEscape) {
                 currentVolume = game.gameSettings.musicVolume - AnimationUtils.easeInAndOut(fadingProgress, fadingTime) * game.gameSettings.musicVolume
                 if (fadingProgress > fadingTime) {
                     fadingProgress = 0f
-                    if (state == MusicState.FADE_OUT_PAUSE) {
-                        pause()
-                    } else if (state == MusicState.FADE_OUT_INTO) {
-                        setFadeInMusicCurrent()
-                        fadeIn()
-                    } else {
-                        stop()
+                    when (state) {
+                        MusicState.FADE_OUT_PAUSE -> pause()
+                        MusicState.FADE_OUT_INTO -> {
+                            setFadeInMusicCurrent()
+                            fadeIn()
+                        }
+                        else -> stop()
                     }
                 }
             }
@@ -124,6 +125,7 @@ class GameMusic(private val game: PixelEscape) {
 
     @JvmOverloads
     fun play(fadeIn: Boolean, fadeInTime: Float = defaultFadingTime) {
+        @Suppress("ConstantConditionIf")
         if (Reference.ENABLE_MUSIC) {
             if (currentMusic != null && state != MusicState.PLAYING && game.gameSettings.isMusicEnabled) {
                 if (fadeIn) {
@@ -145,6 +147,7 @@ class GameMusic(private val game: PixelEscape) {
     }
 
     fun playOrFadeInto(music: Music?) {
+        @Suppress("ConstantConditionIf")
         if (Reference.ENABLE_MUSIC) {
             if (music == null) {
                 stop()

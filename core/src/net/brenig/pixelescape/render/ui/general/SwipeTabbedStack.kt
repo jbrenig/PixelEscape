@@ -101,24 +101,26 @@ class SwipeTabbedStack @JvmOverloads constructor(touchEnabled: Boolean = true) :
                 }
 
                 override fun touchUp(event: InputEvent, x: Float, y: Float, pointer: Int, button: Int) {
-                    if (currentOffsetX > panXOffset) {
-                        if (cycle || hasLastElement()) {
-                            //swipe to last
-                            last()
-                        } else {
-                            resetPositions()
+                    when {
+                        currentOffsetX > panXOffset -> {
+                            if (cycle || hasLastElement()) {
+                                //swipe to last
+                                last()
+                            } else {
+                                resetPositions()
+                            }
+                            checkBeforeFirst()
                         }
-                        checkBeforeFirst()
-                    } else if (currentOffsetX < panXOffset * -1) {
-                        if (cycle || hasNextElement()) {
-                            //swipe to next
-                            next()
-                        } else {
-                            resetPositions()
+                        currentOffsetX < panXOffset * -1 -> {
+                            if (cycle || hasNextElement()) {
+                                //swipe to next
+                                next()
+                            } else {
+                                resetPositions()
+                            }
+                            checkAfterLast()
                         }
-                        checkAfterLast()
-                    } else {
-                        resetPositions()
+                        else -> resetPositions()
                     }
                     currentOffsetX = 0
                 }

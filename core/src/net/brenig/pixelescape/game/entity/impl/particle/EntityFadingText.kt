@@ -18,19 +18,19 @@ class EntityFadingText : Entity() {
     private var timePassed: Float = 0.toFloat()
     private var text: String? = null
 
-    private var color_r = 0f
-    private var color_g = 0f
-    private var color_b = 0f
+    private var colorRed = 0f
+    private var colorGreen = 0f
+    private var colorBlue = 0f
 
 
     override val isDead: Boolean
         get() = timePassed > fadeDuration || super.isDead
 
 
-    fun setColor(color_r: Float, color_g: Float, color_b: Float) {
-        this.color_r = color_r
-        this.color_g = color_g
-        this.color_b = color_b
+    fun setColor(colorRed: Float, colorGreen: Float, colorBlue: Float) {
+        this.colorRed = colorRed
+        this.colorGreen = colorGreen
+        this.colorBlue = colorBlue
     }
 
     fun setColor(color: Color) {
@@ -43,7 +43,7 @@ class EntityFadingText : Entity() {
 
         Gdx.gl.glEnable(GL20.GL_BLEND)
         val currentAlpha = 1 - AnimationUtils.easeOut(timePassed, fadeDuration, 2)
-        renderer.renderManager.font.setColor(color_r, color_g, color_b, currentAlpha)
+        renderer.renderManager.font.setColor(colorRed, colorGreen, colorBlue, currentAlpha)
         renderer.renderManager.setFontScale(0.5f)
         renderer.renderTextWorld(text!!, xPos, yPos)
 

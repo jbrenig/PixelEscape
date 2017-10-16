@@ -35,7 +35,7 @@ open class StageManager(view: Viewport) {
      *
      * @param renderManager game rendermanager
      */
-    constructor(renderManager: GameRenderManager) : this(ExtendViewport(Reference.TARGET_RESOLUTION_X.toFloat(), Reference.TARGET_RESOLUTION_Y.toFloat(), renderManager.camera)) {}
+    constructor(renderManager: GameRenderManager) : this(ExtendViewport(Reference.TARGET_RESOLUTION_X.toFloat(), Reference.TARGET_RESOLUTION_Y.toFloat(), renderManager.camera))
 
     init {
         uiStage.setDebugAll(GameDebugSettings["DEBUG_UI"])

@@ -8,10 +8,10 @@ import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.InputManager
 import net.brenig.pixelescape.game.World
 import net.brenig.pixelescape.game.data.GameMode
+import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.game.data.constants.Textures
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer
-import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.render.WorldRenderer
 import net.brenig.pixelescape.screen.GameScreen
 
@@ -26,6 +26,7 @@ class DragMovementController : PlayerMovementController {
     private var touchX: Float = 0.toFloat()
     private var touchY: Float = 0.toFloat()
 
+    @Suppress("LiftReturnOrAssignment")
     override fun updatePlayerMovement(game: PixelEscape, manager: InputManager, gameMode: GameMode, world: World, player: EntityPlayer, deltaTick: Float, yVelocityFactor: Float) {
         player.modifyXVelocity(gameMode.speedIncreaseFactor * deltaTick)
         player.modifyYVelocity(acceleration * deltaTick)
@@ -85,14 +86,14 @@ class DragMovementController : PlayerMovementController {
         lbl.color = Color.GREEN
         lbl.pack()
 
-        val lbl2_1 = Label("Be careful, you need to react fast!", skin, StyleNames.LABEL_WHITE)
-        lbl2_1.setWrap(true)
-        lbl2_1.color = Color.GREEN
-        lbl2_1.pack()
+        val lbl2 = Label("Be careful, you need to react fast!", skin, StyleNames.LABEL_WHITE)
+        lbl2.setWrap(true)
+        lbl2.color = Color.GREEN
+        lbl2.pack()
 
         table.add(lbl).center().width(maxLabelWidth.toFloat())
         table.row()
-        table.add(lbl2_1).center().width(maxLabelWidth.toFloat())
+        table.add(lbl2).center().width(maxLabelWidth.toFloat())
         return table
     }
 

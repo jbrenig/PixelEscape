@@ -13,7 +13,7 @@ object Reference {
     const val GAME_RESOLUTION_Y = 400
 
     /**
-     * ingame-UI-Bar height
+     * in-game-UI-Bar height
      */
     const val GAME_UI_Y_SIZE = 80
     const val GAME_UI_Y_PADDING = 4f
@@ -84,13 +84,14 @@ object Reference {
     const val OBSTACLE_MIN_SPACE = BLOCK_WIDTH * 2f
     const val OBSTACLE_X_CHECK_RADIUS_MAX = 12
 
-    const val GRAVITY_ACCELERATION = (-8 * BLOCK_WIDTH).toFloat()
+    const val GRAVITY_ACCELERATION = -8f * BLOCK_WIDTH
 
-    const val TOUCH_ACCELERATION = (12 * BLOCK_WIDTH).toFloat()
-    const val CLICK_ACCELERATION = (3 * BLOCK_WIDTH).toFloat()
+    const val TOUCH_ACCELERATION = 12f * BLOCK_WIDTH
+    const val CLICK_ACCELERATION = 3f * BLOCK_WIDTH
 
     //DEBUG FLAGS
     const val SUPPRESS_TUTORIALS = false
+
     const val ENABLE_MUSIC = true
 
     const val DEBUG_SETTINGS_AVAILABLE = true

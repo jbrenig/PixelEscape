@@ -30,9 +30,11 @@ class EntityBarricade : Entity() {
     override val maxY: Float
         get() = this.yPos + sizeY / 2
 
+    @Suppress("RedundantVisibilityModifier", "RedundantSetter")
     override var xPos = 0F
         public set
 
+    @Suppress("RedundantVisibilityModifier", "RedundantSetter")
     override var yPos = 0F
         public set
 

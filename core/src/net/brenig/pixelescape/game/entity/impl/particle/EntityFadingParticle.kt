@@ -18,17 +18,17 @@ class EntityFadingParticle : Entity() {
     private var xAccelerationFactor = 1f
     private var yAccelerationFactor = 1f
 
-    private var color_r = 0f
-    private var color_g = 0f
-    private var color_b = 0f
+    private var colorRed = 0f
+    private var colorGreen = 0f
+    private var colorBlue = 0f
 
     override val isDead: Boolean
         get() = fadeTimePassed >= fadeDuration
 
-    fun setColor(color_r: Float, color_g: Float, color_b: Float) {
-        this.color_r = color_r
-        this.color_g = color_g
-        this.color_b = color_b
+    fun setColor(colorRed: Float, colorGreen: Float, colorBlue: Float) {
+        this.colorRed = colorRed
+        this.colorGreen = colorGreen
+        this.colorBlue = colorBlue
     }
 
     fun setColor(color: Color) {
@@ -65,16 +65,16 @@ class EntityFadingParticle : Entity() {
         val currentAlpha = 1 - AnimationUtils.easeInAndOut(fadeTimePassed, fadeDuration)
 
         game.renderManager.begin()
-        game.renderManager.setColor(color_r, color_g, color_b, currentAlpha)
+        game.renderManager.setColor(colorRed, colorGreen, colorBlue, currentAlpha)
         renderer.renderRectWorld(xPos - radius, yPos - radius, size.toFloat(), size.toFloat())
     }
 
 
     override fun reset() {
         super.reset()
-        color_r = 0f
-        color_g = 0f
-        color_b = 0f
+        colorRed = 0f
+        colorGreen = 0f
+        colorBlue = 0f
         xVel = 0f
         yVel = 0f
         fadeDuration = 0.5f

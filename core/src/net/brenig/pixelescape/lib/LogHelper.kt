@@ -27,7 +27,6 @@ fun log(tag: String, msg: String) {
     log(LogLevel.INFO, tag, msg, null)
 }
 
-@JvmOverloads
 fun log(level: LogLevel, tag: String?, msg: String, t: Throwable? = null) {
     val builder = StringBuilder()
     //level
@@ -61,7 +60,7 @@ fun debug(msg: String) {
 
 @JvmOverloads
 fun debug(tag: String?, msg: String, t: Throwable? = null) {
-    if (GameDebugSettings.get("DEBUG_LOGGING")) {
+    if (GameDebugSettings["DEBUG_LOGGING"]) {
         log(LogLevel.DEBUG, tag, msg, t)
     }
 }
@@ -70,7 +69,6 @@ fun error(msg: String) {
     log(LogLevel.ERROR, null, msg, null)
 }
 
-@JvmOverloads
 fun error(tag: String?, msg: String, t: Throwable? = null) {
     log(LogLevel.ERROR, tag, msg, t)
 }
@@ -79,7 +77,6 @@ fun warn(msg: String) {
     log(LogLevel.WARNING, null, msg, null)
 }
 
-@JvmOverloads
 fun warn(tag: String?, msg: String, t: Throwable? = null) {
     log(LogLevel.WARNING, tag, msg, t)
 }
@@ -88,11 +85,14 @@ fun info(msg: String) {
     log(LogLevel.INFO, null, msg, null)
 }
 
-@JvmOverloads
 fun info(tag: String?, msg: String, t: Throwable? = null) {
     log(LogLevel.INFO, tag, msg, t)
 }
 
 fun setGDXLogLevel(level: Int) {
     Gdx.app.logLevel = level
+}
+
+fun setGDXLogLevel(level: LogLevel) {
+    Gdx.app.logLevel = level.level
 }

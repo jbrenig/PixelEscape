@@ -15,7 +15,7 @@ import net.brenig.pixelescape.screen.GameScreen
 class ScoreWidget(private val player: EntityPlayer, private val fontLayout: GlyphLayout, private val game: PixelEscape) : Widget() {
     private var lastScoreScreenWidth = 0f
 
-    constructor(screen: GameScreen) : this(screen.world.player, screen.fontLayout, screen.game) {}
+    constructor(screen: GameScreen) : this(screen.world.player, screen.fontLayout, screen.game)
 
     override fun draw(batch: Batch, parentAlpha: Float) {
         //validate layout

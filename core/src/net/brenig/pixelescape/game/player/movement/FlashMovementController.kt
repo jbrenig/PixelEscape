@@ -8,10 +8,10 @@ import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.InputManager
 import net.brenig.pixelescape.game.World
 import net.brenig.pixelescape.game.data.GameMode
+import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.game.data.constants.Textures
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer
-import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.render.WorldRenderer
 import net.brenig.pixelescape.screen.GameScreen
 
@@ -57,14 +57,14 @@ class FlashMovementController : PlayerMovementController {
         lbl.setWrap(true)
         lbl.pack()
 
-        val lbl2_1 = Label("You will always be at the position of your finger", skin, StyleNames.LABEL_WHITE)
-        lbl2_1.setWrap(true)
-        lbl2_1.color = Color.BLUE
-        lbl2_1.pack()
+        val lbl2 = Label("You will always be at the position of your finger", skin, StyleNames.LABEL_WHITE)
+        lbl2.setWrap(true)
+        lbl2.color = Color.BLUE
+        lbl2.pack()
 
         table.add(lbl).center().width(maxLabelWidth.toFloat())
         table.row()
-        table.add(lbl2_1).center().width(maxLabelWidth.toFloat())
+        table.add(lbl2).center().width(maxLabelWidth.toFloat())
         return table
     }
 }

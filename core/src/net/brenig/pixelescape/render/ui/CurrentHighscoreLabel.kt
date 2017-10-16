@@ -52,12 +52,10 @@ class CurrentHighscoreLabel(private var gameMode: GameMode?) : Widget() {
         when (state) {
             CurrentHighscoreLabel.Animations.BLEND -> {
                 val part = animationDuration / 3
-                if (animationTimer < part) {
-                    alpha = 1 - AnimationUtils.easeOut(animationTimer, part, 2)
-                } else if (animationTimer < part * 2) {
-                    alpha = 0f
-                } else {
-                    alpha = AnimationUtils.easeInAndOut(animationTimer - part * 2, part)
+                alpha = when {
+                    animationTimer < part -> 1 - AnimationUtils.easeOut(animationTimer, part, 2)
+                    animationTimer < part * 2 -> 0f
+                    else -> AnimationUtils.easeInAndOut(animationTimer - part * 2, part)
                 }
                 Gdx.gl.glEnable(GL20.GL_BLEND)
             }
@@ -145,7 +143,7 @@ class CurrentHighscoreLabel(private var gameMode: GameMode?) : Widget() {
             CurrentHighscoreLabel.Animations.BLEND -> {
                 //				Gdx.gl.glDisable(GL20.GL_BLEND);
             }
-            else -> { } // NOOP
+            else -> { }
         }
     }
 

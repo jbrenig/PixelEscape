@@ -13,9 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import ktx.style.*
+import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.game.data.constants.Textures
-import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.lib.info
 import net.brenig.pixelescape.render.SimpleAnimation
 import net.brenig.pixelescape.render.ui.general.TwoStateImageButton
@@ -61,6 +61,7 @@ class GameAssets {
 
     fun disposeAll() {
         defaultFont.dispose()
+        @Suppress("ConstantConditionIf")
         if (Reference.ENABLE_MUSIC) {
             playerCrashedSound.dispose()
             mainMenuMusic.dispose()
@@ -89,6 +90,7 @@ class GameAssets {
     }
 
     private fun initMusic() {
+        @Suppress("ConstantConditionIf")
         if (Reference.ENABLE_MUSIC) {
             mainMenuMusic = Gdx.audio.newMusic(Gdx.files.internal("music/SynthPower.ogg"))
             mainMenuMusic.isLooping = true

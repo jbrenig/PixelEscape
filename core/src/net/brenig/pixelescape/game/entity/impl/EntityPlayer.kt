@@ -9,6 +9,7 @@ import net.brenig.pixelescape.game.InputManager
 import net.brenig.pixelescape.game.World
 import net.brenig.pixelescape.game.data.GameDebugSettings
 import net.brenig.pixelescape.game.data.GameMode
+import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.game.entity.Entity
 import net.brenig.pixelescape.game.entity.IMovingEntity
 import net.brenig.pixelescape.game.entity.impl.particle.EntityCrashParticle
@@ -16,9 +17,7 @@ import net.brenig.pixelescape.game.player.PlayerPathEntity
 import net.brenig.pixelescape.game.player.abliity.Ability
 import net.brenig.pixelescape.game.player.effects.StatusEffect
 import net.brenig.pixelescape.game.player.movement.PlayerMovementController
-import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.render.WorldRenderer
-
 import java.util.*
 
 /**
@@ -244,6 +243,7 @@ class EntityPlayer(world: World, gameMode: GameMode) : Entity(), IMovingEntity {
         val col = world.doesAreaCollideWithWorld(xPos - playerSizeRadius, yPos - playerSizeRadius, xPos + playerSizeRadius, yPos + playerSizeRadius)
         if (col !== CollisionType.NONE) {
             var collide = true
+            @Suppress("LoopToCallChain")
             for (effect in effects) {
                 if (!effect.onPlayerCollide()) {
                     collide = false
@@ -378,6 +378,7 @@ class EntityPlayer(world: World, gameMode: GameMode) : Entity(), IMovingEntity {
             }
         }
         //use lives
+        @Suppress("LiftReturnOrAssignment")
         if (extraLives > 0) {
             extraLives--
             setImmortal(3f)
@@ -405,7 +406,7 @@ class EntityPlayer(world: World, gameMode: GameMode) : Entity(), IMovingEntity {
     /**
      * adds a statuseffect to this player
      *
-     * also removes existing instances of this effect (uses `instanceof` to find these)
+     * also removes existing instances of this effect (instances of the same class)
      *
      * DO NOT CALL THIS WITHIN A [StatusEffect]!!!
      *

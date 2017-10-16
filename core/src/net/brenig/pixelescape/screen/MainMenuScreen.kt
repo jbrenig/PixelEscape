@@ -124,31 +124,31 @@ class MainMenuScreen(game: PixelEscape) : PixelScreen(game) {
         centerTable.add(centerButtons)
 
         //Left Arrow
-        val arrow_left = Button(game.skin, StyleNames.BUTTON_ARROW_LEFT)
-        arrow_left.addListener(object : ClickListener() {
+        val arrowLeft = Button(game.skin, StyleNames.BUTTON_ARROW_LEFT)
+        arrowLeft.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 gmImageStack.last()
                 highscoreLabel.setGameMode(gameMode)
             }
         })
-        mainUiLayout.add(arrow_left).size(96f, 256f)
+        mainUiLayout.add(arrowLeft).size(96f, 256f)
 
         //Main UI
         mainUiLayout.add(centerTable)
 
         //Right Arrow
-        val arrow_right = Button(game.skin, StyleNames.BUTTON_ARROW_RIGHT)
-        arrow_right.addListener(object : ClickListener() {
+        val arrowRight = Button(game.skin, StyleNames.BUTTON_ARROW_RIGHT)
+        arrowRight.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 gmImageStack.next()
                 highscoreLabel.setGameMode(gameMode)
             }
         })
-        mainUiLayout.add(arrow_right).size(96f, 256f)
+        mainUiLayout.add(arrowRight).size(96f, 256f)
 
         //Move Arrows to front
-        arrow_left.toFront()
-        arrow_right.toFront()
+        arrowLeft.toFront()
+        arrowRight.toFront()
 
         //Add ui elements to stage
         uiStage.rootTable.top().right().pad(4f)

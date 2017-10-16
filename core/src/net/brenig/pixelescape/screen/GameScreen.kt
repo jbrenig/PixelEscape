@@ -15,7 +15,7 @@ import net.brenig.pixelescape.game.World
 import net.brenig.pixelescape.game.data.GameDebugSettings
 import net.brenig.pixelescape.game.data.GameMode
 import net.brenig.pixelescape.game.data.constants.StyleNames
-import net.brenig.pixelescape.lib.Reference
+import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.lib.log
 import net.brenig.pixelescape.render.WorldRenderer
 import net.brenig.pixelescape.render.overlay.*

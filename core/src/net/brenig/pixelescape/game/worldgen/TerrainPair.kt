@@ -2,7 +2,7 @@ package net.brenig.pixelescape.game.worldgen
 
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.World
-import net.brenig.pixelescape.lib.Reference
+import net.brenig.pixelescape.game.data.constants.Reference
 
 /**
  * Used to store terrain

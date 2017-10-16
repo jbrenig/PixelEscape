@@ -23,15 +23,15 @@ import net.brenig.pixelescape.game.worldgen.WorldGenerator
 import net.brenig.pixelescape.game.worldgen.special.BarricadeGenerator
 import net.brenig.pixelescape.game.worldgen.special.ItemGenerator
 import net.brenig.pixelescape.lib.FilteredElementProvider
-import net.brenig.pixelescape.lib.Names
-import net.brenig.pixelescape.lib.Reference
+import net.brenig.pixelescape.game.data.constants.ScoreboardNames
+import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.render.ui.general.SwipeTabbedStack
 
 /**
  * GameMode information
  */
 enum class GameMode {
-    CLASSIC("Classic", Names.SCOREBOARD_CLASSIC, "gamemode_classic") {
+    CLASSIC("Classic", ScoreboardNames.SCOREBOARD_CLASSIC, "gamemode_classic") {
         override fun createCustomTutorial(skin: Skin, stack: SwipeTabbedStack, contentSizeX: Int, contentSizeY: Int) {
             val maxLabelWidth = contentSizeX - 60
             val table = Table(skin)
@@ -48,7 +48,7 @@ enum class GameMode {
             stack.add(table)
         }
     },
-    ARCADE("Arcade", Names.SCOREBOARD_ARCADE, "gamemode_arcade", true, extraLives = 2) {
+    ARCADE("Arcade", ScoreboardNames.SCOREBOARD_ARCADE, "gamemode_arcade", true, extraLives = 2) {
         override fun registerWorldGenerators(worldGenerator: WorldGenerator) {
             super.registerWorldGenerators(worldGenerator)
             worldGenerator.addSpecialGenerator(ItemGenerator(600, 1000, 800, 1600, ItemGenerator.createDefaultItemList()))
@@ -78,7 +78,7 @@ enum class GameMode {
             stack.add(table)
         }
     },
-    SPEED("Speed", Names.SCOREBOARD_SPEED, "gamemode_speed",
+    SPEED("Speed", ScoreboardNames.SCOREBOARD_SPEED, "gamemode_speed",
             maxEntitySpeed = Reference.MAX_ENTITY_SPEED * 1.2f,
             startingSpeed = Reference.STARTING_SPEED * 2,
             speedIncreaseFactor = Reference.SPEED_MODIFIER * 3) {
@@ -99,7 +99,7 @@ enum class GameMode {
             stack.add(table)
         }
     },
-    FLASH("Flash", Names.SCOREBOARD_FLASH, "gamemode_flash",
+    FLASH("Flash", ScoreboardNames.SCOREBOARD_FLASH, "gamemode_flash",
             maxEntitySpeed = Reference.MAX_ENTITY_SPEED * 1.4f,
             startingSpeed = Reference.STARTING_SPEED * 4,
             speedIncreaseFactor = Reference.SPEED_MODIFIER * 4) {
@@ -139,7 +139,7 @@ enum class GameMode {
             stack.add(table)
         }
     },
-    BLINK("Blink", Names.SCOREBOARD_BLINK, "gamemode_blink", true, Abilities.BLINK, -1) {
+    BLINK("Blink", ScoreboardNames.SCOREBOARD_BLINK, "gamemode_blink", true, Abilities.BLINK, -1) {
         override fun registerWorldGenerators(worldGenerator: WorldGenerator) {
             worldGenerator.registerDefaultTerrainGenerators()
             worldGenerator.addSpecialGenerator(BarricadeGenerator(400))
@@ -163,7 +163,7 @@ enum class GameMode {
             stack.add(table)
         }
     },
-    DRAG("Drag", Names.SCOREBOARD_DRAG, "gamemode_drag") {
+    DRAG("Drag", ScoreboardNames.SCOREBOARD_DRAG, "gamemode_drag") {
         override fun createPlayerMovementController(): PlayerMovementController {
             return DragMovementController()
         }
@@ -232,15 +232,15 @@ enum class GameMode {
     val speedIncreaseFactor: Float
 
     constructor(name: String,
-                        scoreBoardName: String,
-                        iconTexture: String,
-                        abilitiesEnabled: Boolean = false,
-                        startingAbility: Ability? = null,
-                        startingAbilityUses: Int = -1,
-                        extraLives: Int = 0,
-                        maxEntitySpeed: Float = Reference.MAX_ENTITY_SPEED,
-                        startingSpeed: Float = Reference.STARTING_SPEED,
-                        speedIncreaseFactor: Float = Reference.SPEED_MODIFIER) {
+                scoreBoardName: String,
+                iconTexture: String,
+                abilitiesEnabled: Boolean = false,
+                startingAbility: Ability? = null,
+                startingAbilityUses: Int = -1,
+                extraLives: Int = 0,
+                maxEntitySpeed: Float = Reference.MAX_ENTITY_SPEED,
+                startingSpeed: Float = Reference.STARTING_SPEED,
+                speedIncreaseFactor: Float = Reference.SPEED_MODIFIER) {
         this.gameModeName = name
         this.scoreboardName = scoreBoardName
         this.iconTexture = iconTexture

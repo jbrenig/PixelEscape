@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.NinePatch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import net.brenig.pixelescape.game.data.*
+import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.lib.*
 import net.brenig.pixelescape.render.GameRenderManager
 import net.brenig.pixelescape.screen.MainMenuScreen

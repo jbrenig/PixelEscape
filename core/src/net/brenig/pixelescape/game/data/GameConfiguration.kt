@@ -1,6 +1,6 @@
 package net.brenig.pixelescape.game.data
 
-import net.brenig.pixelescape.lib.Reference
+import net.brenig.pixelescape.game.data.constants.Reference
 
 /**
  * Allows for platform specific game settings

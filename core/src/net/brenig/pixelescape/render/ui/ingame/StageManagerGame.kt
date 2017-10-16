@@ -1,7 +1,7 @@
 package net.brenig.pixelescape.render.ui.ingame
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table
-import net.brenig.pixelescape.lib.Reference
+import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.render.ui.general.StageManager
 import net.brenig.pixelescape.screen.GameScreen
 

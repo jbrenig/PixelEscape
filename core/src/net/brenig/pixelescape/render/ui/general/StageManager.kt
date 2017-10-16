@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.Viewport
 import net.brenig.pixelescape.game.data.GameDebugSettings
-import net.brenig.pixelescape.lib.Reference
+import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.render.GameRenderManager
 
 /**

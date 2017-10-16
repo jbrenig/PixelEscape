@@ -9,8 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
-import net.brenig.pixelescape.lib.Reference
-import net.brenig.pixelescape.lib.Utils
+import net.brenig.pixelescape.game.data.constants.Reference
+import net.brenig.pixelescape.lib.utils.Utils
 import net.brenig.pixelescape.render.ui.general.HorizontalSpacer
 import net.brenig.pixelescape.render.ui.general.PixelDialog
 import net.brenig.pixelescape.render.ui.general.VerticalSpacer

@@ -6,7 +6,7 @@ import net.brenig.pixelescape.game.worldgen.predefined.IScoreWorldFeature
 import net.brenig.pixelescape.game.worldgen.special.BarricadeGenerator
 import net.brenig.pixelescape.game.worldgen.special.ISpecialWorldGenerator
 import net.brenig.pixelescape.game.worldgen.terrain.*
-import net.brenig.pixelescape.lib.Reference
+import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.lib.error
 import java.util.*
 

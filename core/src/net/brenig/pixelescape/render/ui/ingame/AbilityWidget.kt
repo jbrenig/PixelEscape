@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer
-import net.brenig.pixelescape.lib.Utils
+import net.brenig.pixelescape.lib.utils.Utils
 import net.brenig.pixelescape.screen.GameScreen
 
 /**
@@ -18,7 +18,7 @@ class AbilityWidget : Button {
 
 
     private val gameScreen: GameScreen
-    private var player: EntityPlayer? = null
+    private lateinit var player: EntityPlayer
 
     private var animCounter = 0f
 
@@ -44,8 +44,8 @@ class AbilityWidget : Button {
     private fun initialize() {
         addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
-                if (!gameScreen.isGamePaused && player!!.hasAbility() && player!!.cooldownRemaining == 0f) {
-                    player!!.useAbility()
+                if (!gameScreen.isGamePaused && player.hasAbility() && player.cooldownRemaining == 0f) {
+                    player.useAbility()
                 }
             }
         })
@@ -60,14 +60,14 @@ class AbilityWidget : Button {
 
     override fun draw(batch: Batch, parentAlpha: Float) {
         super.draw(batch, parentAlpha)
-        if (player!!.hasAbility()) {
+        if (player.hasAbility()) {
             val itemFrame = width * item_frame_border
-            val abilityIcon = player!!.currentAbility.getDrawable(gameScreen.game.gameAssets)
+            val abilityIcon = player.currentAbility!!.getDrawable(gameScreen.game.gameAssets)
             abilityIcon.draw(batch, x + itemFrame, y + itemFrame, width - itemFrame * 2, height - itemFrame * 2)
-            if (player!!.cooldownRemaining != 0f) {
+            if (player.cooldownRemaining != 0f) {
                 animCounter = ANIM_DURATION
                 gameScreen.game.renderManager.setColor(0.7f, 0.7f, 1f, 0.4f)
-                gameScreen.game.renderManager.rect(batch, x + itemFrame, y + itemFrame, width - itemFrame * 2, (height - itemFrame * 2) * player!!.cooldownRemainingScaled)
+                gameScreen.game.renderManager.rect(batch, x + itemFrame, y + itemFrame, width - itemFrame * 2, (height - itemFrame * 2) * player.cooldownRemainingScaled)
             } else if (animCounter > 0) {
                 animCounter -= Gdx.graphics.deltaTime
                 val alpha = Utils.easeInAndOut(animCounter, ANIM_DURATION) * 0.7f

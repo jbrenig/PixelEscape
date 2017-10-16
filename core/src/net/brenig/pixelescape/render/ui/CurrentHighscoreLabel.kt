@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.badlogic.gdx.utils.Align
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.GameMode
-import net.brenig.pixelescape.lib.Utils
+import net.brenig.pixelescape.lib.utils.Utils
 import net.brenig.pixelescape.lib.error
 import java.util.*
 

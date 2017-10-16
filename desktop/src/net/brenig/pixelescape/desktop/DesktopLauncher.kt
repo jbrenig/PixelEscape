@@ -5,7 +5,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
 
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.GameConfiguration
-import net.brenig.pixelescape.lib.Reference
+import net.brenig.pixelescape.game.data.constants.Reference
 
 object DesktopLauncher {
     @JvmStatic

@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import com.badlogic.gdx.utils.Disposable
 import net.brenig.pixelescape.game.data.GameAssets
-import net.brenig.pixelescape.lib.Reference
+import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.lib.error
 import net.brenig.pixelescape.lib.warn
 

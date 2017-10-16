@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Align
 import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.game.data.constants.Textures
-import net.brenig.pixelescape.lib.Reference
+import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.render.ui.general.AnimationDrawable
 import net.brenig.pixelescape.render.ui.general.SwipeTabbedStack
 import net.brenig.pixelescape.render.ui.general.VerticalSpacer

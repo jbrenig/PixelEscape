@@ -1,6 +1,7 @@
 package net.brenig.pixelescape.game
 
 import com.badlogic.gdx.Gdx
+import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.game.entity.Entity
 import net.brenig.pixelescape.game.entity.EntityPoolManager
 import net.brenig.pixelescape.game.entity.impl.EntityHighscore
@@ -8,8 +9,8 @@ import net.brenig.pixelescape.game.entity.impl.EntityPlayer
 import net.brenig.pixelescape.game.worldgen.TerrainPair
 import net.brenig.pixelescape.game.worldgen.WorldGenerator
 import net.brenig.pixelescape.lib.CycleArray
-import net.brenig.pixelescape.lib.Reference
 import net.brenig.pixelescape.lib.error
+import net.brenig.pixelescape.lib.utils.MathUtils
 import net.brenig.pixelescape.lib.warn
 import net.brenig.pixelescape.screen.GameScreen
 import java.util.*
@@ -312,9 +313,9 @@ class World @JvmOverloads constructor(val screen: GameScreen, worldWidth: Int = 
      * <br></br>
      * note: results are not perfect
      */
-    fun doesAreaCollideWithTerrain(x1: Float, y1: Float, x2: Float, y2: Float): CollisionType {
-        val back = this.getBlockForWorldCoordinate(x1.toInt().toFloat())
-        val front = this.getBlockForWorldCoordinate(x2.toInt().toFloat())
+    fun doesAreaCollideWithTerrain(minX: Float, minY: Float, maxX: Float, maxY: Float): CollisionType {
+        val back = this.getBlockForWorldCoordinate(MathUtils.floorF(minX))
+        val front = this.getBlockForWorldCoordinate(MathUtils.floorF(maxX))
 
         val frontBot = front.bot * Reference.BLOCK_WIDTH
         val backBot = back.bot * Reference.BLOCK_WIDTH
@@ -322,33 +323,42 @@ class World @JvmOverloads constructor(val screen: GameScreen, worldWidth: Int = 
         val backTop = this.worldHeight - back.top * Reference.BLOCK_WIDTH
 
         //collide
-        if (y1 < frontBot) { //right bot
-            return if (y1 < backBot) { //left bot
-                when {
-                    y2 < frontBot -> CollisionType.TERRAIN_BOT_RIGHT
-                    y2 < backBot -> CollisionType.TERRAIN_BOT_LEFT
-                    else -> CollisionType.TERRAIN_BOTTOM
-                }
-            } else {
-                CollisionType.TERRAIN_RIGHT
+        // collide bot
+        if (minY < frontBot) {
+            return when {
+                minY < backBot ->
+                    when {
+                        maxY < frontBot -> CollisionType.TERRAIN_BOT_RIGHT // at least three corners
+                        maxY < backBot -> CollisionType.TERRAIN_BOT_LEFT   // left three corners
+                        else -> CollisionType.TERRAIN_BOTTOM               // bottom edge
+                    }
+                maxY < frontBot -> CollisionType.TERRAIN_RIGHT // complete right edge
+                else -> CollisionType.TERRAIN_BOT_RIGHT        // only bottom right corner
             }
         }
-        if (y1 < backBot) {
-            return CollisionType.TERRAIN_LEFT
-        }
-        if (y2 > frontTop) {
-            return if (y2 > backTop) {
-                when {
-                    y1 > frontTop -> CollisionType.TERRAIN_TOP_RIGHT
-                    y1 > backTop -> CollisionType.TERRAIN_TOP_LEFT
-                    else -> CollisionType.TERRAIN_TOP
-                }
-            } else {
-                CollisionType.TERRAIN_RIGHT
+        if (minY < backBot) {
+            return when {
+                maxY < backBot -> CollisionType.TERRAIN_LEFT // complete left edge
+                else -> CollisionType.TERRAIN_BOT_LEFT       // only bottom left corner
             }
         }
-        return if (y2 > backTop) {
-            CollisionType.TERRAIN_LEFT
+        // collide top
+        if (maxY > frontTop) {
+            return when {
+                maxY > backTop -> when {
+                    minY > frontTop -> CollisionType.TERRAIN_TOP_RIGHT // at least three corners
+                    minY > backTop -> CollisionType.TERRAIN_TOP_LEFT   // left three corners
+                    else -> CollisionType.TERRAIN_TOP                  // top edge
+                }
+                minY > frontTop -> CollisionType.TERRAIN_RIGHT // complete right edge
+                else -> CollisionType.TERRAIN_TOP_RIGHT        // only top right corner
+            }
+        }
+        return if (maxY > backTop) {
+            when {
+                minY > backTop -> CollisionType.TERRAIN_LEFT // complete left edge
+                else -> CollisionType.TERRAIN_TOP_LEFT       // only top left corner
+            }
         } else CollisionType.NONE
     }
 

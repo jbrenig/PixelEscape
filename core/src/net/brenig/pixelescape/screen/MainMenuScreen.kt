@@ -9,8 +9,8 @@ import com.badlogic.gdx.utils.Scaling
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.GameMode
 import net.brenig.pixelescape.game.data.constants.StyleNames
-import net.brenig.pixelescape.lib.Reference
-import net.brenig.pixelescape.lib.Utils
+import net.brenig.pixelescape.game.data.constants.Reference
+import net.brenig.pixelescape.lib.utils.Utils
 import net.brenig.pixelescape.render.ui.CurrentHighscoreLabel
 import net.brenig.pixelescape.render.ui.general.StageManager
 import net.brenig.pixelescape.render.ui.general.SwipeTabbedStack

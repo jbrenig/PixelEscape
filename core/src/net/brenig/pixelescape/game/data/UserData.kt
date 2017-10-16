@@ -2,8 +2,8 @@ package net.brenig.pixelescape.game.data
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Preferences
-import net.brenig.pixelescape.lib.Names
-import net.brenig.pixelescape.lib.Reference
+import net.brenig.pixelescape.game.data.constants.ScoreboardNames
+import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.lib.log
 
 /**
@@ -87,10 +87,10 @@ class UserData {
             when (savedDataVersion) {
                 -1 -> {
                     val oldHighScore = prefs.getInteger(Keys.highScore, Defaults.highScore)
-                    prefs.putInteger(Keys.highScore + Names.SCOREBOARD_CLASSIC, oldHighScore)
-                    prefs.putInteger(Keys.highScore + Names.SCOREBOARD_ARCADE, 0)
+                    prefs.putInteger(Keys.highScore + ScoreboardNames.SCOREBOARD_CLASSIC, oldHighScore)
+                    prefs.putInteger(Keys.highScore + ScoreboardNames.SCOREBOARD_ARCADE, 0)
                 }
-                1 -> prefs.putInteger(Keys.highScore + Names.SCOREBOARD_ARCADE, 0)
+                1 -> prefs.putInteger(Keys.highScore + ScoreboardNames.SCOREBOARD_ARCADE, 0)
             }
             prefs.putInteger(Keys.savesRevision, Reference.PREFS_REVISION)
             saveToDisk()

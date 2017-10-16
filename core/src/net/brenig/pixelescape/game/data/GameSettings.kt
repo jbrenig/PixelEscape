@@ -2,7 +2,7 @@ package net.brenig.pixelescape.game.data
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Preferences
-import net.brenig.pixelescape.lib.Reference
+import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.lib.log
 
 /**

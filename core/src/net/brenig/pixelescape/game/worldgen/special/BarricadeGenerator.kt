@@ -5,7 +5,7 @@ import net.brenig.pixelescape.game.World
 import net.brenig.pixelescape.game.data.GameMode
 import net.brenig.pixelescape.game.entity.impl.EntityBarricade
 import net.brenig.pixelescape.game.worldgen.WorldGenerator
-import net.brenig.pixelescape.lib.Reference
+import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.lib.debug
 import java.util.*
 
@@ -113,6 +113,6 @@ class BarricadeGenerator
 
     companion object {
 
-        private val spawnOffset = 40
+        private const val spawnOffset = 40
     }
 }

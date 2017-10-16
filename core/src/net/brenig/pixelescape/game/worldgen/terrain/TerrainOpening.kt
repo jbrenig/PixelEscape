@@ -3,7 +3,7 @@ package net.brenig.pixelescape.game.worldgen.terrain
 import net.brenig.pixelescape.game.World
 import net.brenig.pixelescape.game.worldgen.ITerrainGenerator
 import net.brenig.pixelescape.game.worldgen.TerrainPair
-import net.brenig.pixelescape.lib.Reference
+import net.brenig.pixelescape.game.data.constants.Reference
 import java.util.*
 
 /**

@@ -1,6 +1,6 @@
 package net.brenig.pixelescape.render.overlay
 
-import net.brenig.pixelescape.lib.Utils
+import net.brenig.pixelescape.lib.utils.Utils
 import net.brenig.pixelescape.lib.error
 import net.brenig.pixelescape.screen.GameScreen
 

@@ -2,8 +2,8 @@ package net.brenig.pixelescape.game.data
 
 import com.badlogic.gdx.audio.Music
 import net.brenig.pixelescape.PixelEscape
-import net.brenig.pixelescape.lib.Reference
-import net.brenig.pixelescape.lib.Utils
+import net.brenig.pixelescape.game.data.constants.Reference
+import net.brenig.pixelescape.lib.utils.Utils
 
 /**
  * Music wrapper with additional features such as fading and queueing

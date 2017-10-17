@@ -71,7 +71,8 @@ class SettingsScreen(game: PixelEscape) : PixelScreen(game) {
         }
 
         //Music
-        run {
+        @Suppress("ConstantConditionIf")
+        if (Reference.ENABLE_MUSIC) {
             val musicControl = Table()
             musicControl.pad(4f)
 

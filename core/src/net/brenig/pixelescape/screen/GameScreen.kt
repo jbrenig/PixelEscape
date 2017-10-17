@@ -14,8 +14,8 @@ import net.brenig.pixelescape.game.InputManager
 import net.brenig.pixelescape.game.World
 import net.brenig.pixelescape.game.data.GameDebugSettings
 import net.brenig.pixelescape.game.data.GameMode
-import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.game.data.constants.Reference
+import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.lib.log
 import net.brenig.pixelescape.render.WorldRenderer
 import net.brenig.pixelescape.render.overlay.*
@@ -72,7 +72,7 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : PixelScreen(game) 
 
     private var overlay: Overlay
 
-    val gameMusic: Music?
+    val gameMusic: Music
         get() = game.gameAssets.getRandomGameMusic(PixelEscape.rand)
 
     val isGamePaused: Boolean
@@ -129,7 +129,8 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : PixelScreen(game) 
     override fun show() {
         isInitialized = false
         valid = true
-        game.gameMusic.playOrFadeInto(gameMusic)
+        @Suppress("ConstantConditionIf")
+        if (Reference.ENABLE_MUSIC) game.gameMusic.playOrFadeInto(gameMusic)
         Gdx.input.inputProcessor = inputMultiplexer
     }
 

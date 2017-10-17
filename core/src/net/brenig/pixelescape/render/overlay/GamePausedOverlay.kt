@@ -159,7 +159,8 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
 
     private fun restartMusic() {
         if (isGameOver) {
-            screen.game.gameMusic.setCurrentMusic(screen.gameMusic)
+            @Suppress("ConstantConditionIf")
+            if (Reference.ENABLE_MUSIC) screen.game.gameMusic.setCurrentMusic(screen.gameMusic)
         }
         screen.game.gameMusic.play(true)
     }

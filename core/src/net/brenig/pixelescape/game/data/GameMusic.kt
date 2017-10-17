@@ -146,12 +146,10 @@ class GameMusic(private val game: PixelEscape) {
         }
     }
 
-    fun playOrFadeInto(music: Music?) {
+    fun playOrFadeInto(music: Music) {
         @Suppress("ConstantConditionIf")
         if (Reference.ENABLE_MUSIC) {
-            if (music == null) {
-                stop()
-            } else if (currentMusic != null && isPlaying) {
+            if (currentMusic != null && isPlaying) {
                 if (currentMusic === music) {
                     fadeIn()
                     return

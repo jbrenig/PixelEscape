@@ -161,7 +161,8 @@ class MainMenuScreen(game: PixelEscape) : PixelScreen(game) {
         uiStage.updateViewportToScreen()
         mainUiLayout.invalidateHierarchy()
         buttonPanelLayout.invalidateHierarchy()
-        game.gameMusic.playOrFadeInto(game.gameAssets.mainMenuMusic)
+        @Suppress("ConstantConditionIf")
+        if (Reference.ENABLE_MUSIC) game.gameMusic.playOrFadeInto(game.gameAssets.mainMenuMusic)
         Gdx.input.inputProcessor = uiStage.inputProcessor
     }
 

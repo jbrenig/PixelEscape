@@ -301,11 +301,11 @@ class GameAssets {
         }
     }
 
-    fun getRandomGameMusic(random: Random): Music? {
+    fun getRandomGameMusic(random: Random): Music {
         when (random.nextInt(2)) {
             0 -> return snpMusic
             1 -> return sslMusic
         }
-        return null
+        throw IllegalStateException()
     }
 }

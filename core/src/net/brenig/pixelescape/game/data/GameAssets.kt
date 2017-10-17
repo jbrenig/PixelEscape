@@ -251,11 +251,13 @@ class GameAssets {
             }
 
             addStyle(name = StyleNames.BUTTON_PAUSE, style = ImageTextButton.ImageTextButtonStyle(it.get(TextButton.TextButtonStyle::class.java))) {
-                imageUp = it.newDrawable(Textures.BUTTON_PAUSE)
+                imageUp = it.newDrawable(Textures.BUTTON_PAUSE, Color.BLACK)
+                imageDown = it.getDrawable(Textures.BUTTON_PAUSE)
             }
 
             addStyle(name = StyleNames.BUTTON_RESUME, style = ImageTextButton.ImageTextButtonStyle(it.get(TextButton.TextButtonStyle::class.java))) {
-                imageUp = it.newDrawable(Textures.BUTTON_RESUME)
+                imageUp = it.newDrawable(Textures.BUTTON_RESUME, Color.BLACK)
+                imageDown = it.getDrawable(Textures.BUTTON_RESUME)
             }
 
             addStyle(name = StyleNames.DEFAULT, style = AbilityWidget.AbilityButtonStyle()) {

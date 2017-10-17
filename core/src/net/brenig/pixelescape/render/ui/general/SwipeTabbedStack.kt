@@ -14,18 +14,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener
  *
  * page can be changed with gestures or programmatically
  */
-class SwipeTabbedStack @JvmOverloads constructor(touchEnabled: Boolean = true) : Stack() {
+class SwipeTabbedStack(touchEnabled: Boolean = true) : Stack() {
 
 
     private var flingVelocity = DEFAULT_FLING_VELOCITY
 
     var currentElement = 0
-        set(value) {
-            children.get(field).isVisible = false
-            field = value
-            children.get(field).isVisible = true
-            fireElementChanged()
-        }
+        private set
 
     private var currentOffsetX = 0
 
@@ -138,6 +133,14 @@ class SwipeTabbedStack @JvmOverloads constructor(touchEnabled: Boolean = true) :
         }
     }
 
+    fun replaceCurrentELement(element: Int) {
+        children.get(this.currentElement).isVisible = false
+        this.currentElement = currentElement
+        children.get(this.currentElement).isVisible = true
+
+        fireElementChanged()
+    }
+
     fun swipeOut(direction: Boolean) {
         val old = children.get(currentElement)
         old.clearActions()
@@ -225,6 +228,7 @@ class SwipeTabbedStack @JvmOverloads constructor(touchEnabled: Boolean = true) :
 
             val old = children.get(currentElement)
             old.clearActions()
+            old.isVisible = true
             old.addAction(Actions.sequence(Actions.parallel(Actions.moveTo((-animationXOffset).toFloat(), 0f, animationDuration, Interpolation.pow2In), Actions.fadeOut(animationDuration)), Actions.visible(false)))
 
             currentElement = nextElement
@@ -247,6 +251,7 @@ class SwipeTabbedStack @JvmOverloads constructor(touchEnabled: Boolean = true) :
 
             val old = children.get(currentElement)
             old.clearActions()
+            old.isVisible = true
             old.addAction(Actions.sequence(Actions.parallel(Actions.moveTo(animationXOffset.toFloat(), 0f, animationDuration, Interpolation.pow2In), Actions.fadeOut(animationDuration)), Actions.visible(false)))
 
             currentElement = nextElement

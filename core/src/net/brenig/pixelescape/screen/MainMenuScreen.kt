@@ -87,7 +87,7 @@ class MainMenuScreen(game: PixelEscape) : PixelScreen(game) {
             gmImageStack.add(gameModeImage)
         }
 
-        gmImageStack.currentElement = game.userData.lastGameMode
+        gmImageStack.replaceCurrentELement(game.userData.lastGameMode)
         centerTable.add(gmImageStack).pad(20f, 0f, 10f, 0f).height(48f).fillX()
         centerTable.row()
 

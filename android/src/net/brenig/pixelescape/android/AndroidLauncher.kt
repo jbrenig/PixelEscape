@@ -9,7 +9,7 @@ import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.GameConfiguration
 
 class AndroidLauncher : AndroidApplication() {
-    override fun onCreate(savedInstanceState: Bundle) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val config = AndroidApplicationConfiguration()
         config.useAccelerometer = false

@@ -90,11 +90,11 @@ object Reference {
     const val CLICK_ACCELERATION = 3f * BLOCK_WIDTH
 
     //DEBUG FLAGS
-    const val SUPPRESS_TUTORIALS = false
+    const val SUPPRESS_TUTORIALS = true
 
-    const val ENABLE_MUSIC = true
+    const val ENABLE_MUSIC = false
 
-    const val DEBUG_SETTINGS_AVAILABLE = true
+    const val DEBUG_SETTINGS_AVAILABLE = false
 
     //VERSION CONSTANTS
     /**

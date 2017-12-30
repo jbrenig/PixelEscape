@@ -176,7 +176,6 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : PixelScreen(game) 
 
             //Draw lives
             renderLives()
-            renderEffectTime()
 
             this.game.font.data.setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)
             stage.draw(game.renderManager)
@@ -199,27 +198,6 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : PixelScreen(game) 
         }
         game.renderManager.rect(0f, 0f, world.worldWidth.toFloat(), uiPos.toFloat())
         game.renderManager.rect(0f, (world.worldHeight + uiPos).toFloat(), world.worldWidth.toFloat(), (uiPos + Reference.GAME_UI_Y_SIZE).toFloat())
-    }
-
-    private fun renderEffectTime() {
-        val effects = world.player.statusEffects
-        if (!effects.isEmpty()) {
-            game.renderManager.begin()
-            var index = 0
-            val yPos = world.worldHeight + uiPos - 6
-            val xPos = 10
-            val xSize = 16
-            val ySize = 32
-            for (effect in effects) {
-                val timeRemaining = effect.scaledTime
-                if (timeRemaining > 0) {
-                    val timeRemainingScaled = timeRemaining * ySize
-                    effect.updateRenderColor(game.renderManager)
-                    game.renderManager.rect((xPos + index * xSize).toFloat(), yPos - timeRemainingScaled, xSize.toFloat(), timeRemainingScaled)
-                    index++
-                }
-            }
-        }
     }
 
     private fun renderLives() {

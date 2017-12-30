@@ -1,5 +1,6 @@
 package net.brenig.pixelescape.lib.utils
 
+import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 
@@ -23,3 +24,9 @@ fun NinePatchDrawable.minimize(): Drawable {
     this.minWidth = this.patch.leftWidth + this.patch.rightWidth
     return this
 }
+
+val Rectangle.right get() = this.x + this.width
+val Rectangle.left get() = this.x
+
+val Rectangle.bottom get()  = this.y + this.height
+val Rectangle.top get() = this.y

@@ -19,6 +19,7 @@ import net.brenig.pixelescape.game.player.effects.StatusEffect
 import net.brenig.pixelescape.game.player.movement.PlayerMovementController
 import net.brenig.pixelescape.render.WorldRenderer
 import java.util.*
+import kotlin.math.PI
 
 /**
  * the Player
@@ -258,7 +259,16 @@ class EntityPlayer(world: World, gameMode: GameMode) : Entity(), IMovingEntity {
         if (this.isDead) {
             return
         }
+        renderStatusEffectTimes(game, renderer)
         movementController.renderBackground(game, renderer, world, delta)
+    }
+
+    private fun renderStatusEffectTimes(game: PixelEscape, renderer: WorldRenderer) {
+        val thickness = 2
+        for ((index, effect) in statusEffects.sortedBy(StatusEffect::scaledTime).reversed().withIndex()) {
+            effect.updateRenderColor(game.renderManager)
+            renderer.renderRectangularCircle(xPosScreen.toFloat(), yPos, (this.playerSizeRadius + index * thickness).toFloat(), thickness.toFloat(), (2 * PI * effect.scaledTime).toFloat())
+        }
     }
 
     override fun render(game: PixelEscape, renderer: WorldRenderer, gameMode: GameMode, delta: Float) {

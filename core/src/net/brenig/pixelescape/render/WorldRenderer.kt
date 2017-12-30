@@ -310,6 +310,38 @@ class WorldRenderer(private val game: PixelEscape, val world: World) {
         renderText(text, color, world.convertWorldCoordToScreenCoord(x), y, size)
     }
 
+    /**
+     * draw a rectangle around a rectangle
+     * @param start Start drawing circle at x degrees (0 to 2pi)
+     * @param arc Draw partial circle (0 to 2 pi)
+     */
+    fun renderRectangularCircle(x: Float, y: Float, innerRadius: Float, thickness: Float, arc: Float, start: Float = 0F) {
+        if (start != 0F) {
+            throw UnsupportedOperationException("starting arc not xet implemented!");
+        }
+        val maxLength = innerRadius * 2 + thickness
+        val progress = Math.min(1F, (arc / (Math.PI * 2F)).toFloat())
+
+        var partProgress = Math.min(0.25F, progress) * 4 * maxLength
+        renderRect(x + innerRadius, y - innerRadius - thickness + maxLength - partProgress, thickness, partProgress)
+
+        if (progress > 0.25F) {
+            partProgress = Math.min(0.25F, progress - 0.25F) * 4 * maxLength
+            renderRect(x - innerRadius - thickness + maxLength - partProgress, y - innerRadius - thickness, partProgress, thickness )
+        }
+
+        if (progress > 0.5F) {
+            partProgress = Math.min(0.25F, progress - 0.5F) * 4 * maxLength
+            renderRect(x - innerRadius - thickness, y - innerRadius, thickness, partProgress)
+
+        }
+
+        if (progress > 0.75F) {
+            partProgress = Math.min(0.25F, progress - 0.75F) * 4 * maxLength
+            renderRect(x - innerRadius, y + innerRadius, partProgress, thickness)
+        }
+    }
+
     private fun getBlockPositionFromLocalIndex(index: Int): Float {
         return world.convertWorldIndexToScreenCoordinate(world.convertLocalBlockToWorldBlockIndex(index))
     }

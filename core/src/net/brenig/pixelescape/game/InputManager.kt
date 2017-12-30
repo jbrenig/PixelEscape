@@ -25,6 +25,8 @@ class InputManager : InputProcessor {
      */
     private var cursorIdleTimer = 0f
 
+    var keyHandler : ((Char) -> (Unit))? = null
+
     fun updateMouseVisibility(delta: Float, canHide: Boolean) {
         if (canHide && cursorIdleTimer >= 0) {
             cursorIdleTimer += delta
@@ -76,6 +78,7 @@ class InputManager : InputProcessor {
     }
 
     override fun keyTyped(character: Char): Boolean {
+        keyHandler?.invoke(character)
         return false
     }
 

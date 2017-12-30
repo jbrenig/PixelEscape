@@ -1,10 +1,19 @@
 package net.brenig.pixelescape.game
 
+import net.brenig.pixelescape.game.data.GameDebugSettings
 import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.game.entity.Entity
 import net.brenig.pixelescape.game.entity.EntityPoolManager
 import net.brenig.pixelescape.game.entity.impl.EntityHighscore
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer
+import net.brenig.pixelescape.game.player.abliity.Abilities
+import net.brenig.pixelescape.game.player.effects.EffectMove
+import net.brenig.pixelescape.game.player.effects.EffectShield
+import net.brenig.pixelescape.game.player.effects.EffectSlow
+import net.brenig.pixelescape.game.player.effects.EffectSmallBarricades
+import net.brenig.pixelescape.game.player.item.ItemLife
+import net.brenig.pixelescape.game.player.item.ItemScore
+import net.brenig.pixelescape.game.player.item.ItemScoreDynamic
 import net.brenig.pixelescape.game.worldgen.TerrainPair
 import net.brenig.pixelescape.game.worldgen.WorldGenerator
 import net.brenig.pixelescape.lib.CycleArray
@@ -137,6 +146,33 @@ class World constructor(val screen: GameScreen, worldWidth: Int = Reference.TARG
             }
         }
         spawnEntities()
+    }
+
+
+
+    fun applyCheat(keyTyped: Char) {
+        if (GameDebugSettings[GameDebugSettings.ENABLE_CHEATS]) {
+            if (screen.gameMode.itemsEnabled()) {
+                when(keyTyped) {
+                    'y' -> EffectSlow.ITEM.onCollect(player)
+                    'x' -> EffectSmallBarricades.ITEM.onCollect(player)
+                    'c' -> EffectShield.ITEM.onCollect(player)
+                    'v' -> EffectMove.ITEM.onCollect(player)
+                    'b' -> Abilities.BLINK.onCollect(player)
+                }
+            }
+            if (screen.gameMode.extraLives > 0) {
+                when(keyTyped) {
+                    'n' -> ItemLife.ITEM.onCollect(player)
+                }
+            }
+
+            when(keyTyped) {
+                's' -> ItemScore.ITEM.onCollect(player)
+                'd' -> ItemScoreDynamic.ITEM.onCollect(player)
+                'g' -> GameDebugSettings.toggle("DEBUG_GOD_MODE")
+            }
+        }
     }
 
     fun spawnEntities() {

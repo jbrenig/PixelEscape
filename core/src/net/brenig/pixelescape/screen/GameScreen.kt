@@ -221,6 +221,9 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : PixelScreen(game) 
         }
         world.generateWorld(true)
         world.spawnEntities()
+        if (GameDebugSettings[GameDebugSettings.ENABLE_CHEATS]) {
+            input.keyHandler = world::applyCheat
+        }
     }
 
     private fun renderDebugInformation() {
@@ -342,6 +345,7 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : PixelScreen(game) 
      * Shows GameOver Overlay and registers highscore
      */
     fun onGameOver() {
+        input.keyHandler = null
         setOverlay(GamePausedOverlay(this, true))
         game.userData.updateHighscore(gameMode, world.player.score)
     }

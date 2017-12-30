@@ -37,6 +37,8 @@ class GameDebugSettings {
     companion object {
         private const val PREF_DEBUG_SETTINGS = "PixelEscape_Debug_Preferences"
 
+        const val ENABLE_CHEATS = "CHEATS"
+
         private val defaults = createDefaults()
 
         private fun createDefaults(): Map<String, Boolean> {
@@ -52,6 +54,7 @@ class GameDebugSettings {
             result.put("DEBUG_MUSIC", false)
             result.put("SCREEN_SHAKE", true)
             result.put("FORCE_TUTORIALS", false)
+            result.put(ENABLE_CHEATS, false)
             return Collections.unmodifiableMap(result)
         }
 
@@ -61,6 +64,10 @@ class GameDebugSettings {
 
         operator fun set(s: String, b: Boolean) {
             PixelEscape.INSTANCE.gameDebugSettings.setBoolean(s, b)
+        }
+
+        fun toggle(s: String) {
+            this[s] = !this[s]
         }
     }
 }

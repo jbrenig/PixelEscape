@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import net.brenig.pixelescape.PixelEscape
+import net.brenig.pixelescape.game.data.GameDebugSettings
 import net.brenig.pixelescape.lib.utils.UiUtils
 import net.brenig.pixelescape.render.ui.general.HorizontalSpacer
 import net.brenig.pixelescape.render.ui.general.StageManager
@@ -42,6 +43,7 @@ class DebugSettingsScreen(game: PixelEscape) : PixelScreen(game) {
         uiLayout.add(createDebugSettingCheckBox("Enable Godmode", "DEBUG_GOD_MODE")).left().row()
         uiLayout.add(createDebugSettingCheckBox("Show music Debug information", "DEBUG_MUSIC")).left().row()
         uiLayout.add(createDebugSettingCheckBox("Enable Screen-Shake", "SCREEN_SHAKE")).left().row()
+        uiLayout.add(createDebugSettingCheckBox("Enable Cheats", GameDebugSettings.ENABLE_CHEATS)).left().row()
 
 
         //Add ui elements to stage

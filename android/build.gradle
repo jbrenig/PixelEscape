@@ -19,8 +19,8 @@ android {
     }
     defaultConfig {
         applicationId "net.brenig.pixelescape"
-        minSdkVersion 9
-        targetSdkVersion 23
+        minSdkVersion 15
+        targetSdkVersion 26
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7

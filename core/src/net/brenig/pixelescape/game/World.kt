@@ -107,7 +107,7 @@ class World constructor(val screen: GameScreen, worldWidth: Int = Reference.TARG
         this.worldWidth = worldWidth
 
         player = EntityPlayer(this, screen.gameMode)
-        terrain = CycleArray(calculateWorldBufferSize(worldWidth), {_ -> TerrainPair(Reference.FALLBACK_TERRAIN_HEIGHT, Reference.FALLBACK_TERRAIN_HEIGHT) })
+        terrain = CycleArray(calculateWorldBufferSize(worldWidth), { _ -> TerrainPair(Reference.FALLBACK_TERRAIN_HEIGHT, Reference.FALLBACK_TERRAIN_HEIGHT) })
 
         player.xPosScreen = worldWidth / 4
 
@@ -148,12 +148,10 @@ class World constructor(val screen: GameScreen, worldWidth: Int = Reference.TARG
         spawnEntities()
     }
 
-
-
     fun applyCheat(keyTyped: Char) {
         if (GameDebugSettings[GameDebugSettings.ENABLE_CHEATS]) {
             if (screen.gameMode.itemsEnabled()) {
-                when(keyTyped) {
+                when (keyTyped) {
                     'y' -> EffectSlow.ITEM.onCollect(player)
                     'x' -> EffectSmallBarricades.ITEM.onCollect(player)
                     'c' -> EffectShield.ITEM.onCollect(player)
@@ -162,12 +160,12 @@ class World constructor(val screen: GameScreen, worldWidth: Int = Reference.TARG
                 }
             }
             if (screen.gameMode.extraLives > 0) {
-                when(keyTyped) {
+                when (keyTyped) {
                     'n' -> ItemLife.ITEM.onCollect(player)
                 }
             }
 
-            when(keyTyped) {
+            when (keyTyped) {
                 's' -> ItemScore.ITEM.onCollect(player)
                 'd' -> ItemScoreDynamic.ITEM.onCollect(player)
                 'g' -> GameDebugSettings.toggle("DEBUG_GOD_MODE")
@@ -183,7 +181,7 @@ class World constructor(val screen: GameScreen, worldWidth: Int = Reference.TARG
         entitySpawnQueue.clear()
     }
 
-    fun spawnEntityDo(e: Entity) {
+    private fun spawnEntityDo(e: Entity) {
         entityList.add(e)
     }
 

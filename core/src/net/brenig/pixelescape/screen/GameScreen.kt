@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import de.golfgl.gdxgamesvcs.IGameServiceListener
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.InputManager
 import net.brenig.pixelescape.game.World
@@ -30,7 +31,7 @@ import net.brenig.pixelescape.render.ui.ingame.StageManagerGame
  * Main Game Screen<br></br>
  * Displays the game. Provides overlays for GamePaused, GameOver etc.
  */
-class GameScreen(game: PixelEscape, val gameMode: GameMode) : PixelScreen(game) {
+class GameScreen(game: PixelEscape, val gameMode: GameMode) : ScreenWithUi(game) {
 
     /**
      * The game world
@@ -64,9 +65,10 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : PixelScreen(game) 
 
     @Volatile private var valid = false
 
-    //Game UI
+    // Game UI
     private val emptyOverlay: EmptyOverlay
-    private val stage: StageManagerGame
+    override val uiStage: StageManagerGame
+    // Input
     val input: InputManager
     private val inputMultiplexer: InputMultiplexer
 
@@ -93,13 +95,13 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : PixelScreen(game) 
         this.emptyOverlay = EmptyOverlay(this)
 
         //init ui
-        stage = StageManagerGame(this)
+        uiStage = StageManagerGame(this)
 
-        val table = stage.createHeadUiLayoutTable()
+        val table = uiStage.createHeadUiLayoutTable()
 
         game.font.data.setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)
         val buttonPause = ImageTextButton("Pause", this.game.skin, StyleNames.BUTTON_PAUSE)
-        buttonPause.imageCell.padRight(6f).padBottom(4f)
+        buttonPause.imageCell.padRight(6f)
         buttonPause.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 setOverlay(GamePausedOverlay(this@GameScreen, false))
@@ -109,15 +111,15 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : PixelScreen(game) 
         table.add(HorizontalSpacer())
         table.add(ScoreWidget(world.player, fontLayout, game))
         if (gameMode.abilitiesEnabled()) {
-            stage.row()
-            stage.add(VerticalSpacer())
-            stage.row()
-            stage.add(AbilityWidget(game.skin, world.player, this)).bottom().right().size(128f).pad(0f, 0f, 32f, (uiPos + 32).toFloat())
+            uiStage.row()
+            uiStage.add(VerticalSpacer())
+            uiStage.row()
+            uiStage.add(AbilityWidget(game.skin, world.player, this)).bottom().right().size(128f).pad(0f, 0f, 32f, (uiPos + 32).toFloat())
         }
 
         //init input
         input = InputManager()
-        inputMultiplexer = InputMultiplexer(stage.inputProcessor, input)
+        inputMultiplexer = InputMultiplexer(uiStage.inputProcessor, input)
 
         //set default overlay
         overlay = emptyOverlay
@@ -178,8 +180,8 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : PixelScreen(game) 
             renderLives()
 
             this.game.font.data.setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)
-            stage.draw(game.renderManager)
-            stage.act(gameDelta)
+            uiStage.draw(game.renderManager)
+            uiStage.act(gameDelta)
         }
 
         //Overlay
@@ -275,7 +277,7 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : PixelScreen(game) 
         worldRenderer.setWorldRendererYOffset(uiPos.toFloat())
         worldRenderer.onResize()
         //Update UI
-        stage.updateStageToGameBounds(width, height)
+        uiStage.updateStageToGameBounds(width, height)
         //update Overlay
         overlay.onResize(width, height)
     }
@@ -371,7 +373,12 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : PixelScreen(game) 
         if (valid) {
             Gdx.input.inputProcessor = inputMultiplexer
             input.refreshButtonState()
-            stage.inputProcessor.mouseMoved(Gdx.input.x, Gdx.input.y)
+            uiStage.inputProcessor.mouseMoved(Gdx.input.x, Gdx.input.y)
         }
+    }
+
+    override fun gsShowErrorToUser(et: IGameServiceListener.GsErrorType?, msg: String?, t: Throwable?) {
+        showGamePausedOverlay()
+        super.gsShowErrorToUser(et, msg, t)
     }
 }

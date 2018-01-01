@@ -1,6 +1,9 @@
 package net.brenig.pixelescape.game.data
 
+import de.golfgl.gdxgamesvcs.IGameServiceClient
+import de.golfgl.gdxgamesvcs.NoGameServiceClient
 import net.brenig.pixelescape.game.data.constants.Reference
+import net.brenig.pixelescape.lib.gameservices.DebugGameServiceClient
 
 /**
  * Allows for platform specific game settings
@@ -38,4 +41,11 @@ open class GameConfiguration {
     open val debugSettingsAvailable = Reference.DEBUG_SETTINGS_AVAILABLE
 
     open val loggingEnabled = true
+
+    @Suppress("ConstantConditionIf")
+    open val gameService : IGameServiceClient = if (Reference.DEBUG_SETTINGS_AVAILABLE) DebugGameServiceClient() else NoGameServiceClient()
+
+    open val gameServiceAvailable = Reference.DEBUG_SETTINGS_AVAILABLE
+
+    open val musicAvailable = Reference.ENABLE_MUSIC
 }

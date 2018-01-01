@@ -35,7 +35,7 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
 
         if (!isGameOver) {
             val btnResume = ImageTextButton("Resume", screen.game.skin, "resume")
-            btnResume.imageCell.padRight(6f).padBottom(4f)
+            btnResume.imageCell.padRight(6f)
             btnResume.addListener(object : ClickListener() {
                 override fun clicked(event: InputEvent, x: Float, y: Float) {
                     resumeGame()

@@ -7,13 +7,13 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.*
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton
+import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
 import ktx.style.*
-import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.game.data.constants.Textures
 import net.brenig.pixelescape.lib.info
@@ -38,6 +38,12 @@ class GameAssets {
     lateinit var buttonNinePatch: NinePatch private set
     lateinit var textureAtlas: TextureAtlas private set
 
+    lateinit var playService: Texture private set
+    lateinit var playServiceWhite: Texture private set
+
+    lateinit var leaderboards: Texture private set
+    lateinit var leaderboardsWhite: Texture private set
+
     lateinit var heart: TextureRegion private set
 
     lateinit var itemFrame: TextureRegion private set
@@ -59,14 +65,19 @@ class GameAssets {
 
     lateinit var itemAnimatedBackground: SimpleAnimation private set
 
-    fun disposeAll() {
+    fun disposeAll(config: GameConfiguration) {
         defaultFont.dispose()
-        @Suppress("ConstantConditionIf")
-        if (Reference.ENABLE_MUSIC) {
-            playerCrashedSound.dispose()
+        playerCrashedSound.dispose()
+        if (config.musicAvailable) {
             mainMenuMusic.dispose()
             snpMusic.dispose()
             sslMusic.dispose()
+        }
+        if (config.gameServiceAvailable) {
+            playService.dispose()
+            playServiceWhite.dispose()
+            leaderboards.dispose()
+            leaderboardsWhite.dispose()
         }
 
         textureAtlas.dispose()
@@ -74,13 +85,12 @@ class GameAssets {
         mainUiSkin.dispose()
     }
 
-    fun initAll() {
+    fun initAll(config: GameConfiguration) {
         initFont()
-        initTextureAtlas()
-        initTextures()
-        initSkin()
+        initTextures(config)
+        initSkin(config)
         initSounds()
-        initMusic()
+        initMusic(config)
         info("Game assets loaded!")
     }
 
@@ -89,9 +99,8 @@ class GameAssets {
         playerCrashedSound = Gdx.audio.newSound(Gdx.files.internal("sound/explode.ogg"))
     }
 
-    private fun initMusic() {
-        @Suppress("ConstantConditionIf")
-        if (Reference.ENABLE_MUSIC) {
+    private fun initMusic(config: GameConfiguration) {
+        if (config.musicAvailable) {
             mainMenuMusic = Gdx.audio.newMusic(Gdx.files.internal("music/SynthPower.ogg"))
             mainMenuMusic.isLooping = true
 
@@ -111,12 +120,10 @@ class GameAssets {
         defaultFont.color = Color.BLACK
     }
 
-    private fun initTextureAtlas() {
-        //load ui textures
+    private fun initTextures(config: GameConfiguration) {
+        // load texture atlas
         textureAtlas = TextureAtlas(Gdx.files.internal("drawable/main_textures.atlas"))
-    }
 
-    private fun initTextures() {
         //Cache default button texture for other use cases
         buttonNinePatch = textureAtlas.createPatch("button")
         square = textureAtlas.findRegion("square")
@@ -138,9 +145,16 @@ class GameAssets {
 
         missingTexture = TextureRegionDrawable(textureAtlas.findRegion("fullscreen_hover"))
 
+        if (config.gameServiceAvailable) {
+            playService = Texture(Gdx.files.internal("drawable/play_services.png"))
+            playServiceWhite = Texture(Gdx.files.internal("drawable/play_services_white.png"))
+            leaderboards = Texture(Gdx.files.internal("drawable/leaderboards_green.png"))
+            leaderboardsWhite = Texture(Gdx.files.internal("drawable/leaderboards_white.png"))
+        }
+
     }
 
-    private fun initSkin() {
+    private fun initSkin(config: GameConfiguration) {
         //Setting up skin
         mainUiSkin = skin {
             // button textures
@@ -185,6 +199,16 @@ class GameAssets {
 
             add(Textures.SCROLL_BACKGROUND, textureAtlas.createPatch("scroll_background"))
             add(Textures.SCROLLBAR, textureAtlas.createSprite("scrollbar"))
+
+            add(Textures.TOOLTIP_BACKGROUND, textureAtlas.createPatch("scroll_background"))
+
+            if (config.gameServiceAvailable) {
+                add(Textures.PLAY_SERVICE_GREEN, playService)
+                add(Textures.PLAY_SERVICE_WHITE, playServiceWhite)
+
+                add(Textures.PLAY_LEADERBOARDS_GREEN, leaderboards)
+                add(Textures.PLAY_LEADERBOARDS_WHITE, leaderboardsWhite)
+            }
 
             imageButton(name = StyleNames.BUTTON_SETTINGS) {
                 imageUp = it.getDrawable(Textures.BUTTON_SETTINGS)
@@ -247,7 +271,7 @@ class GameAssets {
                 font = defaultFont
                 fontColor = Color.BLACK
                 downFontColor = Color.WHITE
-                disabledFontColor = Color.GRAY
+                disabledFontColor = Color.LIGHT_GRAY
             }
 
             addStyle(name = StyleNames.BUTTON_PAUSE, style = ImageTextButton.ImageTextButtonStyle(it.get(TextButton.TextButtonStyle::class.java))) {
@@ -299,6 +323,46 @@ class GameAssets {
             scrollPane {
                 background = NinePatchDrawable(it.getPatch(Textures.SCROLL_BACKGROUND))
                 vScrollKnob = it.getDrawable(Textures.SCROLLBAR)
+            }
+
+            textTooltip {
+                label = it[Label.LabelStyle::class.java]
+                background = NinePatchDrawable(it.getPatch(Textures.TOOLTIP_BACKGROUND))
+            }
+
+            if (config.gameServiceAvailable) {
+                imageTextButton(name = StyleNames.SERVICE_LOGIN) {
+                    up = it.getDrawable(Textures.BUTTON_UP)
+                    down = it.getDrawable(Textures.BUTTON_DOWN)
+                    over = it.getDrawable(Textures.BUTTON_HOVER)
+                    disabled = it.getDrawable(Textures.BUTTON_DISABLED)
+                    font = defaultFont
+                    fontColor = Color.BLACK
+                    downFontColor = Color.WHITE
+                    disabledFontColor = Color.LIGHT_GRAY
+                    imageUp = it.getDrawable(Textures.PLAY_SERVICE_GREEN)
+                }
+                imageTextButton(name = StyleNames.SERVICE_LOGOUT, extend = StyleNames.SERVICE_LOGIN) {
+                    imageUp = it.getDrawable(Textures.PLAY_SERVICE_GREEN)
+                }
+                imageTextButton(name = StyleNames.SERVICE_WORKING, extend = StyleNames.SERVICE_LOGIN) {
+                    imageUp = it.newDrawable(Textures.PLAY_SERVICE_WHITE, Color.LIGHT_GRAY)
+                }
+
+                imageTextButton(name = StyleNames.LEADERBOARDS) {
+                    up = it.getDrawable(Textures.BUTTON_UP)
+                    down = it.getDrawable(Textures.BUTTON_DOWN)
+                    over = it.getDrawable(Textures.BUTTON_HOVER)
+                    disabled = it.getDrawable(Textures.BUTTON_DISABLED)
+                    font = defaultFont
+                    fontColor = Color.BLACK
+                    downFontColor = Color.WHITE
+                    disabledFontColor = Color.LIGHT_GRAY
+                    imageUp = it.getDrawable(Textures.PLAY_LEADERBOARDS_GREEN)
+                    imageDown = it.getDrawable(Textures.PLAY_LEADERBOARDS_GREEN)
+                    imageOver = it.getDrawable(Textures.PLAY_LEADERBOARDS_GREEN)
+                    imageDisabled =  it.newDrawable(Textures.PLAY_LEADERBOARDS_WHITE, Color.LIGHT_GRAY)
+                }
             }
         }
     }

@@ -45,4 +45,12 @@ object Textures {
 
     const val SCROLL_BACKGROUND = "scroll_background"
     const val SCROLLBAR = "scrollbar"
+
+    const val PLAY_SERVICE_GREEN = "play_service_green"
+    const val PLAY_SERVICE_WHITE = "play_service_white"
+
+    const val PLAY_LEADERBOARDS_GREEN = "leaderboards_green"
+    const val PLAY_LEADERBOARDS_WHITE = "leaderboards_white"
+
+    const val TOOLTIP_BACKGROUND = "tooltip_background"
 }

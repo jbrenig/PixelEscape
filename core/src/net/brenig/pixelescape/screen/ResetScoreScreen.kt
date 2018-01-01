@@ -11,15 +11,13 @@ import net.brenig.pixelescape.game.data.GameMode
 import net.brenig.pixelescape.lib.utils.UiUtils
 import net.brenig.pixelescape.render.ui.general.HorizontalSpacer
 import net.brenig.pixelescape.render.ui.general.PixelDialog
-import net.brenig.pixelescape.render.ui.general.StageManager
 import java.util.*
 
 /**
  * Screen used to reset scores of different gamemodes
  */
-class ResetScoreScreen(game: PixelEscape) : PixelScreen(game) {
+class ResetScoreScreen(game: PixelEscape) : ScreenWithUi(game) {
 
-    private val uiStage: StageManager = StageManager(game.renderManager)
     private val headLayout: Table
     private val contentLayout: Table
     private val pane: ScrollPane

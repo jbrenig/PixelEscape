@@ -13,7 +13,7 @@ import net.brenig.pixelescape.render.ui.general.TwoStateImageButton
  */
 object UiUtils {
 
-    private val buttonSize = (if (PixelEscape.INSTANCE.gameConfig.useBiggerButtons) 48F else 32F)
+    val buttonSize = (if (PixelEscape.INSTANCE.gameConfig.useBiggerButtons) 48F else 32F)
 
     /**
      * creates an instance of Table to use for sound and music controls (unnecessary)

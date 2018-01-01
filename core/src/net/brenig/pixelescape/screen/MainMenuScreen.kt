@@ -12,15 +12,15 @@ import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.lib.utils.UiUtils
 import net.brenig.pixelescape.render.ui.CurrentHighscoreLabel
-import net.brenig.pixelescape.render.ui.general.StageManager
+import net.brenig.pixelescape.render.ui.general.DisabledTextTooltip
+import net.brenig.pixelescape.render.ui.general.HorizontalSpacer
+import net.brenig.pixelescape.render.ui.general.PlayServiceLoginButton
 import net.brenig.pixelescape.render.ui.general.SwipeTabbedStack
 
 /**
  * PixelEscape MainMenu
  */
-class MainMenuScreen(game: PixelEscape) : PixelScreen(game) {
-
-    private val uiStage: StageManager = StageManager(game.renderManager)
+class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
 
     /**
      * layout used to group main ui elements
@@ -33,6 +33,8 @@ class MainMenuScreen(game: PixelEscape) : PixelScreen(game) {
     private val buttonPanelLayout: Table = UiUtils.createUIHeadLayout(game)
     private val highscoreLabel: CurrentHighscoreLabel
     private val gmImageStack: SwipeTabbedStack?
+    private val playServiceButton: PlayServiceLoginButton?
+    private val btnLeaderboards: ImageTextButton?
 
     private val gameMode: GameMode
         get() {
@@ -109,6 +111,33 @@ class MainMenuScreen(game: PixelEscape) : PixelScreen(game) {
         btnStart.label.setFontScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)
         centerButtons.add(btnStart).padBottom(8f).fillX()
 
+        if (game.gameConfig.gameServiceAvailable) {
+            btnLeaderboards = ImageTextButton("Leaderboards", game.skin, StyleNames.LEADERBOARDS)
+            with(btnLeaderboards) {
+                addListener(object : ClickListener() {
+                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                        game.gameConfig.gameService.showLeaderboards(gameMode.scoreboardName)
+                    }
+                })
+                val tooltip = DisabledTextTooltip("Login to Play Services to view leaderboards", game.skin)
+                tooltip.setInstant(true)
+                tooltip.actor.setFontScale(Reference.GAME_UI_SMALL_FONT_SIZE)
+                tooltip.container.pad(4F)
+                addListener(tooltip)
+                label.setFontScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)
+                isDisabled = !game.gameConfig.gameService.isSessionActive
+                pad(8F)
+                image.setScaling(Scaling.fit)
+                imageCell.size(UiUtils.buttonSize)
+                imageCell.fill()
+                image.setSize(UiUtils.buttonSize, UiUtils.buttonSize)
+            }
+            centerButtons.row()
+            centerButtons.add(btnLeaderboards).padBottom(8f).fillX()
+        } else {
+            btnLeaderboards = null
+        }
+
         //Quit Button
         if (game.gameConfig.canQuitGame) {
             val btnQuit = TextButton("Quit game", game.skin)
@@ -151,9 +180,38 @@ class MainMenuScreen(game: PixelEscape) : PixelScreen(game) {
         arrowRight.toFront()
 
         //Add ui elements to stage
-        uiStage.rootTable.top().right().pad(4f)
+        uiStage.rootTable.top().left().pad(4f)
+
+        if (game.gameConfig.gameServiceAvailable) {
+            playServiceButton = PlayServiceLoginButton(game.skin, StyleNames.SERVICE_LOGIN, StyleNames.SERVICE_WORKING, StyleNames.SERVICE_LOGOUT, game.gameConfig.gameService)
+            playServiceButton.addListener(object : ClickListener() {
+                override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                    btnLeaderboards?.isDisabled = !game.gameConfig.gameService.isSessionActive
+                }
+            })
+            uiStage.add(playServiceButton)
+        } else {
+            playServiceButton = null
+        }
+
+        uiStage.add(HorizontalSpacer())
         uiStage.add(buttonPanelLayout)
         uiStage.addActorToStage(mainUiLayout)
+    }
+
+    override fun gsOnSessionActive() {
+        super.gsOnSessionActive()
+        playServiceStateUpdate()
+    }
+
+    override fun gsOnSessionInactive() {
+        super.gsOnSessionInactive()
+        playServiceStateUpdate()
+    }
+
+    private fun playServiceStateUpdate() {
+        playServiceButton?.updateInfo()
+        btnLeaderboards?.isDisabled = !game.gameConfig.gameService.isSessionActive
     }
 
     override fun show() {

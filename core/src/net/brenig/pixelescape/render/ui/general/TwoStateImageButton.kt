@@ -2,7 +2,6 @@ package net.brenig.pixelescape.render.ui.general
 
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.scenes.scene2d.ui.Button
-import com.badlogic.gdx.scenes.scene2d.ui.Cell
 import com.badlogic.gdx.scenes.scene2d.ui.Image
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
@@ -12,16 +11,17 @@ import com.badlogic.gdx.utils.Scaling
  * ImageButton that can have two states<br></br>
  * draws different texture depending on state
  */
-class TwoStateImageButton(style: TwoStateImageButtonStyle) : Button() {
+open class TwoStateImageButton() : Button() {
 
     var state = false
 
     val image: Image = Image()
 
-    private lateinit var style: TwoStateImageButtonStyle
-
-    val imageCell: Cell<*>
-        get() = getCell<Image>(image)
+    @Suppress("LeakingThis")
+    constructor(style: TwoStateImageButtonStyle) : this() {
+        setStyle(style)
+        setSize(prefWidth, prefHeight)
+    }
 
     constructor(skin: Skin) : this(skin.get<TwoStateImageButtonStyle>(TwoStateImageButtonStyle::class.java))
 
@@ -33,21 +33,19 @@ class TwoStateImageButton(style: TwoStateImageButtonStyle) : Button() {
 
     init {
         image.setScaling(Scaling.fit)
+        @Suppress("LeakingThis")
         add(image).fill().expand()
-        setStyle(style)
-        setSize(prefWidth, prefHeight)
     }
 
     override fun setStyle(style: Button.ButtonStyle) {
         if (style !is TwoStateImageButtonStyle)
             throw IllegalArgumentException("style must be an TwoStateImageButtonStyle.")
         super.setStyle(style)
-        this.style = style
         updateImage()
     }
 
     override fun getStyle(): TwoStateImageButtonStyle {
-        return style
+        return super.getStyle() as TwoStateImageButtonStyle
     }
 
     private fun updateImage() {

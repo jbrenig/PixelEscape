@@ -7,19 +7,18 @@ import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
+import com.badlogic.gdx.utils.Align
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.lib.utils.UiUtils
 import net.brenig.pixelescape.render.ui.general.PixelDialog
-import net.brenig.pixelescape.render.ui.general.StageManager
 
 /**
  * Screen that provides user settings<br></br>
  * Currently used for Music/Sound volume
  */
-class SettingsScreen(game: PixelEscape) : PixelScreen(game) {
+class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
 
-    private val uiStage: StageManager = StageManager(game.renderManager)
     private val uiLayout: Table
     private val headLayout: Table
 
@@ -59,12 +58,12 @@ class SettingsScreen(game: PixelEscape) : PixelScreen(game) {
             sliderSound.addListener(object : ChangeListener() {
                 override fun changed(event: ChangeListener.ChangeEvent, actor: Actor) {
                     game.gameSettings.soundVolume = (actor as Slider).value
-                    if (!actor.isDragging) {
+                    if (!actor.isDragging && game.gameSettings.isSoundEnabled) {
                         game.gameAssets.playerCrashedSound.play(game.gameSettings.soundVolume)
                     }
                 }
             })
-            soundControl.add(sliderSound).fillX().padBottom(4.0f)
+            soundControl.add(sliderSound).fillX().expandX()
 
             uiLayout.add(soundControl).fillX().padBottom(20f)
             uiLayout.row()
@@ -88,7 +87,7 @@ class SettingsScreen(game: PixelEscape) : PixelScreen(game) {
                     game.gameMusic.updateMusicVolume()
                 }
             })
-            musicControl.add(sliderMusic).fillX().padBottom(4.0f)
+            musicControl.add(sliderMusic).fillX().expandX()
 
             uiLayout.add(musicControl).fillX().padBottom(20f)
             uiLayout.row()
@@ -103,8 +102,10 @@ class SettingsScreen(game: PixelEscape) : PixelScreen(game) {
                     game.gameSettings.shortCountdownEnabled = (actor as CheckBox).isChecked
                 }
             })
-            chbx.imageCell.padBottom(8f).padRight(10f).size(32f)
+            chbx.imageCell.padRight(10f).size(32f)
             chbx.label.setFontScale(0.7f)
+            chbx.labelCell.align(Align.left)
+            chbx.labelCell.expandX()
 
             uiLayout.add(chbx).fillX().padBottom(20f)
             uiLayout.row()
@@ -119,8 +120,10 @@ class SettingsScreen(game: PixelEscape) : PixelScreen(game) {
                     game.gameSettings.showHighscoreInWorld = (actor as CheckBox).isChecked
                 }
             })
-            chbx.imageCell.padBottom(8f).padRight(10f).size(32f)
+            chbx.imageCell.padRight(10f).size(32f)
             chbx.label.setFontScale(0.7f)
+            chbx.labelCell.align(Align.left)
+            chbx.labelCell.expandX()
 
             uiLayout.add(chbx).fillX().padBottom(20f)
             uiLayout.row()

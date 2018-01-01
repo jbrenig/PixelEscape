@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.NinePatch
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
+import de.golfgl.gdxgamesvcs.IGameServiceListener
 import net.brenig.pixelescape.game.data.*
 import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.lib.info
@@ -16,6 +17,7 @@ import net.brenig.pixelescape.lib.log
 import net.brenig.pixelescape.lib.setGDXLogLevel
 import net.brenig.pixelescape.lib.warn
 import net.brenig.pixelescape.render.GameRenderManager
+import net.brenig.pixelescape.screen.LoadingScreen
 import net.brenig.pixelescape.screen.MainMenuScreen
 import net.brenig.pixelescape.screen.PixelScreen
 import java.util.*
@@ -23,11 +25,7 @@ import java.util.*
 /**
  * Main Game class
  */
-class PixelEscape @JvmOverloads constructor(
-        /**
-         * Platform dependent GameConfiguration
-         */
-        val gameConfig: GameConfiguration = GameConfiguration()) : Game() {
+class PixelEscape constructor(val gameConfig: GameConfiguration = GameConfiguration()) : Game(), IGameServiceListener {
 
     /**
      * true if assets are loaded. Used for unloading when paused and in background
@@ -116,13 +114,26 @@ class PixelEscape @JvmOverloads constructor(
         //convert legacy savedata
         userData.updateSaveGames()
 
+        screen = LoadingScreen(this)
+
+        gameConfig.gameService.setListener(this)
+        gameConfig.gameService.resumeSession()
+
         //open main menu
         showMainMenu()
+
 
         log("Main", "Finished loading!")
     }
 
+    override fun getScreen(): PixelScreen {
+        return super.getScreen() as PixelScreen
+    }
+
     override fun setScreen(screen: Screen) {
+        if (screen !is PixelScreen) {
+            throw IllegalArgumentException("Give screen has to implement " + PixelScreen::class.toString())
+        }
         //reset font
         renderManager.resetFontSize()
         super.setScreen(screen)
@@ -157,7 +168,7 @@ class PixelEscape @JvmOverloads constructor(
 
     fun unloadAssets() {
         renderManager.dispose()
-        gameAssets.disposeAll()
+        gameAssets.disposeAll(gameConfig)
         assetsLoaded = false
     }
 
@@ -177,7 +188,7 @@ class PixelEscape @JvmOverloads constructor(
 
         gameAssets = GameAssets()
 
-        gameAssets.initAll()
+        gameAssets.initAll(gameConfig)
 
         renderManager.setGameAssets(gameAssets)
 
@@ -213,9 +224,7 @@ class PixelEscape @JvmOverloads constructor(
         if (!gameSettings.isMusicEnabled) {
             gameMusic.fadeOutToStop(0.5f)
         }
-        if (screen is PixelScreen) {
-            (screen as PixelScreen).updateMusic(gameSettings.isMusicEnabled)
-        }
+        getScreen().updateMusic(gameSettings.isMusicEnabled)
     }
 
     /**
@@ -232,6 +241,18 @@ class PixelEscape @JvmOverloads constructor(
         }
     }
 
+    override fun gsShowErrorToUser(et: IGameServiceListener.GsErrorType?, msg: String?, t: Throwable?) {
+        getScreen().gsShowErrorToUser(et, msg, t)
+    }
+
+    override fun gsOnSessionInactive() {
+        getScreen().gsOnSessionInactive()
+    }
+
+    override fun gsOnSessionActive() {
+        getScreen().gsOnSessionActive()
+    }
+
     companion object {
         /**
          * general Random instance
@@ -246,4 +267,4 @@ class PixelEscape @JvmOverloads constructor(
         val INSTANCE: PixelEscape
             get() = pixelEscape ?: throw IllegalStateException("Game not initialized!")
     }
-}//set default config
+}

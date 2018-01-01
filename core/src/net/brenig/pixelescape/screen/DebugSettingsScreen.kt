@@ -10,14 +10,12 @@ import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.GameDebugSettings
 import net.brenig.pixelescape.lib.utils.UiUtils
 import net.brenig.pixelescape.render.ui.general.HorizontalSpacer
-import net.brenig.pixelescape.render.ui.general.StageManager
 
 /**
  * Screen to adjust DEBUG features
  */
-class DebugSettingsScreen(game: PixelEscape) : PixelScreen(game) {
+class DebugSettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
 
-    private val uiStage: StageManager = StageManager(game.renderManager)
     private val uiLayout: Table
     private val headLayout: Table
     private val pane: ScrollPane
@@ -92,7 +90,7 @@ class DebugSettingsScreen(game: PixelEscape) : PixelScreen(game) {
                 game.gameDebugSettings.setBoolean(property, (actor as CheckBox).isChecked)
             }
         })
-        chbx.imageCell.padBottom(8f).padRight(10f).size(32f)
+        chbx.imageCell.padRight(10f).size(32f)
         chbx.label.setFontScale(0.7f)
         return chbx
     }

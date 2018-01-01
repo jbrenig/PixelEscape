@@ -13,5 +13,11 @@ object StyleNames {
     const val BUTTON_PAUSE = "pause"
     const val BUTTON_RESUME = "resume"
 
+    const val SERVICE_LOGIN = "login"
+    const val SERVICE_LOGOUT = "logout"
+    const val SERVICE_WORKING = "working"
+
+    const val LEADERBOARDS = "leaderboards"
+
     const val LABEL_WHITE = "white"
 }

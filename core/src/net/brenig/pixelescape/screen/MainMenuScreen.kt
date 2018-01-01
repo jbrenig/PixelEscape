@@ -116,7 +116,13 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
             with(btnLeaderboards) {
                 addListener(object : ClickListener() {
                     override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        game.gameConfig.gameService.showLeaderboards(gameMode.scoreboardName)
+                        if (!btnLeaderboards.isDisabled) {
+                            if (game.gameConfig.gameService.isSessionActive) {
+                                game.gameConfig.gameService.showLeaderboards(gameMode.scoreboardName)
+                            } else {
+                                playServiceStateUpdate()
+                            }
+                        }
                     }
                 })
                 val tooltip = DisabledTextTooltip("Login to Play Services to view leaderboards", game.skin)

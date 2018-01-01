@@ -116,8 +116,11 @@ class PixelEscape constructor(val gameConfig: GameConfiguration = GameConfigurat
 
         screen = LoadingScreen(this)
 
-        gameConfig.gameService.setListener(this)
-        gameConfig.gameService.resumeSession()
+        if (gameConfig.gameServiceAvailable) {
+            gameConfig.initGameServices()
+            gameConfig.gameService.setListener(this)
+            gameConfig.gameService.resumeSession()
+        }
 
         //open main menu
         showMainMenu()

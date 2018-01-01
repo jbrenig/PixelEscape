@@ -47,5 +47,7 @@ open class GameConfiguration {
 
     open val gameServiceAvailable = Reference.DEBUG_SETTINGS_AVAILABLE
 
+    open fun initGameServices() {}
+
     open val musicAvailable = Reference.ENABLE_MUSIC
 }

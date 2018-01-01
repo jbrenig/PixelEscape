@@ -21,19 +21,22 @@ class AndroidLauncher : AndroidApplication() {
         initialize(PixelEscape(configuration), config)
     }
 
-    class AndroidConfiguration(activity: Activity) : GameConfiguration() {
-        override val gameService = createGameService(activity)
+    class AndroidConfiguration(val activity: Activity) : GameConfiguration() {
+        override val gameService = createGameService()
         override val gameServiceAvailable = true
 
         override val useBiggerButtons = true
 
         override val debugSettingsAvailable = BuildConfig.DEBUG
 
-        private fun createGameService(activity: Activity) : GpgsClient {
+        override fun initGameServices() {
+            gameService.initialize(activity, false)
+        }
+
+        private fun createGameService() : GpgsClient {
             return GpgsClient()
                     .setGpgsAchievementIdMapper(PlayServicesMapper::mapAchievement)
-                    .setGpgsLeaderboardIdMapper(PlayServicesMapper::mapLeaderboard)
-                    .initialize(activity, false)!!
+                    .setGpgsLeaderboardIdMapper(PlayServicesMapper::mapLeaderboard)!!
         }
     }
 

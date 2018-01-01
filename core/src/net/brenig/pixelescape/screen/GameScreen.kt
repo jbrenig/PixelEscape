@@ -349,7 +349,12 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : ScreenWithUi(game)
     fun onGameOver() {
         input.keyHandler = null
         setOverlay(GamePausedOverlay(this, true))
-        game.userData.updateHighscore(gameMode, world.player.score)
+        if (game.userData.updateHighscore(gameMode, world.player.score)) {
+            if (game.gameConfig.gameServiceAvailable && game.gameConfig.gameService.isSessionActive) {
+                game.gameConfig.gameService.submitToLeaderboard(gameMode.scoreboardName, world.player.score.toLong(), null)
+            }
+        }
+
     }
 
     /**

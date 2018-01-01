@@ -112,7 +112,7 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
         centerButtons.add(btnStart).padBottom(8f).fillX()
 
         if (game.gameConfig.gameServiceAvailable) {
-            btnLeaderboards = ImageTextButton("Leaderboards", game.skin, StyleNames.LEADERBOARDS)
+            btnLeaderboards = ImageTextButton("Leaderboard", game.skin, StyleNames.LEADERBOARDS)
             with(btnLeaderboards) {
                 addListener(object : ClickListener() {
                     override fun clicked(event: InputEvent?, x: Float, y: Float) {

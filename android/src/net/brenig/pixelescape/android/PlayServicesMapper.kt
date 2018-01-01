@@ -9,12 +9,12 @@ import net.brenig.pixelescape.lib.error
 object PlayServicesMapper {
 
     private val leaderboards = hashMapOf(
-            GameMode.CLASSIC.gameModeName           to "CgkI4pKZvp8aEAIQAg",
-            GameMode.ARCADE.gameModeName            to "CgkI4pKZvp8aEAIQAw",
-            GameMode.BLINK.gameModeName             to "CgkI4pKZvp8aEAIQBA",
-            GameMode.DRAG.gameModeName              to "CgkI4pKZvp8aEAIQBQ",
-            GameMode.FLASH.gameModeName             to "CgkI4pKZvp8aEAIQBg",
-            GameMode.SPEED.gameModeName             to "CgkI4pKZvp8aEAIQBw"
+            GameMode.CLASSIC.scoreboardName           to "CgkI4pKZvp8aEAIQAg",
+            GameMode.ARCADE.scoreboardName            to "CgkI4pKZvp8aEAIQAw",
+            GameMode.BLINK.scoreboardName             to "CgkI4pKZvp8aEAIQBg",
+            GameMode.DRAG.scoreboardName              to "CgkI4pKZvp8aEAIQBw",
+            GameMode.FLASH.scoreboardName             to "CgkI4pKZvp8aEAIQBQ",
+            GameMode.SPEED.scoreboardName             to "CgkI4pKZvp8aEAIQBA"
     )
 
     fun mapAchievement(id: String) : String? {

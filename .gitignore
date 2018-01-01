@@ -64,3 +64,6 @@ build/
 
 ## OS Specific
 .DS_Store
+
+## Android Keystore information
+android/keystore.properties

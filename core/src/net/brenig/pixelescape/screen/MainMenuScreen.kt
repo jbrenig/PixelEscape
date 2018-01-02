@@ -98,6 +98,12 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
         centerTable.add(highscoreLabel).padBottom(40f)
         centerTable.row()
 
+        gmImageStack.setElementChangedListener(object : SwipeTabbedStack.IElementChangedListener {
+            override fun onElementChanged(newElement: Int) {
+                highscoreLabel.setGameMode(gameMode)
+            }
+        })
+
         //Buttons
         val centerButtons = Table()
 
@@ -163,7 +169,6 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
         arrowLeft.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 gmImageStack.last()
-                highscoreLabel.setGameMode(gameMode)
             }
         })
         mainUiLayout.add(arrowLeft).size(96f, 256f)
@@ -176,7 +181,6 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
         arrowRight.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 gmImageStack.next()
-                highscoreLabel.setGameMode(gameMode)
             }
         })
         mainUiLayout.add(arrowRight).size(96f, 256f)

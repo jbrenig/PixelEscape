@@ -2,7 +2,6 @@ package net.brenig.pixelescape.game.data
 
 import com.badlogic.gdx.audio.Music
 import net.brenig.pixelescape.PixelEscape
-import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.lib.utils.AnimationUtils
 
 /**
@@ -36,8 +35,7 @@ class GameMusic(private val game: PixelEscape) {
 
     fun setCurrentMusic(m: Music?) {
         stop()
-        @Suppress("ConstantConditionIf")
-        if (Reference.ENABLE_MUSIC) {
+        if (game.gameConfig.musicAvailable) {
             currentMusic = m
             if (currentMusic != null) {
                 currentMusic!!.volume = currentVolume
@@ -51,7 +49,7 @@ class GameMusic(private val game: PixelEscape) {
      * @param delta time passed
      */
     fun update(delta: Float) {
-        if (Reference.ENABLE_MUSIC && isFading) {
+        if (game.gameConfig.musicAvailable && isFading) {
             fadingProgress += delta
             if (state == MusicState.FADE_IN) {
                 currentVolume = AnimationUtils.easeInAndOut(fadingProgress, fadingTime) * game.gameSettings.musicVolume
@@ -125,8 +123,7 @@ class GameMusic(private val game: PixelEscape) {
 
     @JvmOverloads
     fun play(fadeIn: Boolean, fadeInTime: Float = defaultFadingTime) {
-        @Suppress("ConstantConditionIf")
-        if (Reference.ENABLE_MUSIC) {
+        if (game.gameConfig.musicAvailable) {
             if (currentMusic != null && state != MusicState.PLAYING && game.gameSettings.isMusicEnabled) {
                 if (fadeIn) {
                     if (!isFading) {
@@ -147,8 +144,7 @@ class GameMusic(private val game: PixelEscape) {
     }
 
     fun playOrFadeInto(music: Music) {
-        @Suppress("ConstantConditionIf")
-        if (Reference.ENABLE_MUSIC) {
+        if (game.gameConfig.musicAvailable) {
             if (currentMusic != null && isPlaying) {
                 if (currentMusic === music) {
                     fadeIn()

@@ -70,8 +70,7 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
         }
 
         //Music
-        @Suppress("ConstantConditionIf")
-        if (Reference.ENABLE_MUSIC) {
+        if (game.gameConfig.musicAvailable) {
             val musicControl = Table()
             musicControl.pad(4f)
 

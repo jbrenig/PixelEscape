@@ -28,6 +28,7 @@ import java.util.*
 class GameAssets {
 
     lateinit var defaultFont: BitmapFont private set
+    lateinit var bigFont: BitmapFont private set
     lateinit var playerCrashedSound: Sound private set
 
     lateinit var mainMenuMusic: Music private set
@@ -114,10 +115,10 @@ class GameAssets {
 
     private fun initFont() {
         //Use custom font
-        val texture = Texture(Gdx.files.internal("font/p2p_0.png"), false)
-        texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest)
-        defaultFont = BitmapFont(Gdx.files.internal("font/p2p.fnt"), TextureRegion(texture))
+        defaultFont = BitmapFont(Gdx.files.internal("font/16p/p2p.fnt"))
         defaultFont.color = Color.BLACK
+        bigFont = BitmapFont(Gdx.files.internal("font/32p/p2p.fnt"))
+        bigFont.color = Color.BLACK
     }
 
     private fun initTextures(config: GameConfiguration) {
@@ -299,6 +300,11 @@ class GameAssets {
             label(name = StyleNames.LABEL_WHITE) {
                 font = defaultFont
                 fontColor = Color.WHITE
+            }
+
+            label(name = StyleNames.LABEL_BIG) {
+                font = bigFont
+                fontColor = Color.BLACK
             }
 
             slider {

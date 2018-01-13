@@ -176,12 +176,12 @@ class CurrentHighscoreLabel(private var gameMode: GameMode?) : Widget() {
 
     companion object {
 
-        private const val SCORE_TEXT = "Highscore: "
+        private const val SCORE_TEXT = "Score: "
         private const val padding_side = 4f
         private const val padding_height = 4f
 
-        private const val font_size_x = 0.6f
-        private const val font_size_y = 0.8f
+        private const val font_size_x = 1f
+        private const val font_size_y = 1f
 
         private const val font_scaling_strength = 0.5f
     }

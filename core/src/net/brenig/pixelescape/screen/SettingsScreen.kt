@@ -3,13 +3,13 @@ package net.brenig.pixelescape.screen
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.InputEvent
-import com.badlogic.gdx.scenes.scene2d.Touchable
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Align
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.constants.Reference
+import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.lib.utils.UiUtils
 import net.brenig.pixelescape.render.ui.general.PixelDialog
 
@@ -35,12 +35,9 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
         uiLayout.center()
         uiLayout.padTop(30f).padBottom(20f)
 
-        val header = Label("Settings", game.skin)
-        header.touchable = Touchable.disabled
-        header.height = 150f
-        header.setScale(2f)
+        val header = Label("Settings", game.skin, StyleNames.LABEL_BIG)
 
-        uiLayout.add(header).padBottom(60f)
+        uiLayout.add(header).padBottom(20f)
         uiLayout.row()
 
         //Sound
@@ -65,7 +62,7 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
             })
             soundControl.add(sliderSound).fillX().expandX()
 
-            uiLayout.add(soundControl).fillX().padBottom(20f)
+            uiLayout.add(soundControl).fillX().padBottom(10f)
             uiLayout.row()
         }
 
@@ -88,7 +85,7 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
             })
             musicControl.add(sliderMusic).fillX().expandX()
 
-            uiLayout.add(musicControl).fillX().padBottom(20f)
+            uiLayout.add(musicControl).fillX().padBottom(10f)
             uiLayout.row()
         }
 
@@ -102,11 +99,10 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
                 }
             })
             chbx.imageCell.padRight(10f).size(32f)
-            chbx.label.setFontScale(0.7f)
             chbx.labelCell.align(Align.left)
             chbx.labelCell.expandX()
 
-            uiLayout.add(chbx).fillX().padBottom(20f)
+            uiLayout.add(chbx).fillX().padBottom(10f)
             uiLayout.row()
         }
 
@@ -120,11 +116,10 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
                 }
             })
             chbx.imageCell.padRight(10f).size(32f)
-            chbx.label.setFontScale(0.7f)
             chbx.labelCell.align(Align.left)
             chbx.labelCell.expandX()
 
-            uiLayout.add(chbx).fillX().padBottom(20f)
+            uiLayout.add(chbx).fillX().padBottom(10f)
             uiLayout.row()
         }
 
@@ -136,8 +131,7 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
                     game.screen = ResetScoreScreen(game)
                 }
             })
-            button.label.setFontScale(0.7f)
-            uiLayout.add(button).fillX().padBottom(20f)
+            uiLayout.add(button).fillX().padBottom(10f)
             uiLayout.row()
         }
 
@@ -151,7 +145,7 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
             })
             btnBack.label.setFontScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)
 
-            uiLayout.add(btnBack)
+            uiLayout.add(btnBack).padTop(10f)
         }
         //Add ui elements to stage
 

@@ -71,9 +71,7 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
         val centerTable = Table()
 
         //PixelEscape Heading
-        val header = Label("PixelEscape", game.skin)
-        header.height = 150f
-        header.setFontScale(1.0f)
+        val header = Label("PixelEscape", game.skin, StyleNames.LABEL_BIG)
 
         centerTable.padTop(0f)
         centerTable.add(header)
@@ -95,7 +93,7 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
 
         //Highscore Label
         highscoreLabel = CurrentHighscoreLabel(gameMode)
-        centerTable.add(highscoreLabel).padBottom(40f)
+        centerTable.add(highscoreLabel).padBottom(10f)
         centerTable.row()
 
         gmImageStack.setElementChangedListener(object : SwipeTabbedStack.IElementChangedListener {
@@ -174,7 +172,7 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
         mainUiLayout.add(arrowLeft).size(96f, 256f)
 
         //Main UI
-        mainUiLayout.add(centerTable)
+        mainUiLayout.add(centerTable).padRight(20f).padLeft(20f)
 
         //Right Arrow
         val arrowRight = Button(game.skin, StyleNames.BUTTON_ARROW_RIGHT)

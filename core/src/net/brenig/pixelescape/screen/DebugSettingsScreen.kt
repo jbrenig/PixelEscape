@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.GameDebugSettings
+import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.lib.utils.UiUtils
 import net.brenig.pixelescape.render.ui.general.HorizontalSpacer
 
@@ -50,8 +51,7 @@ class DebugSettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
         uiStage.rootTable.top().right().pad(4f)
         headLayout = UiUtils.createDefaultUIHeadControls()
 
-        val header = Label("DEBUG Settings", game.skin)
-        header.setFontScale(1.2f)
+        val header = Label("DEBUG Settings", game.skin, StyleNames.LABEL_BIG)
 
         uiStage.add(HorizontalSpacer()).width(headLayout.prefWidth)
         uiStage.add(header).pad(8f).fillX()

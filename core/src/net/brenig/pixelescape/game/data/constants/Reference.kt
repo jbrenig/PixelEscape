@@ -10,13 +10,14 @@ object Reference {
     /**
      * this is the y-axis world height
      */
-    const val GAME_RESOLUTION_Y = 400
+    const val GAME_RESOLUTION_Y = 416
 
     /**
      * in-game-UI-Bar height
      */
-    const val GAME_UI_Y_SIZE = 80
+    const val GAME_UI_Y_SIZE = 64
     const val GAME_UI_Y_PADDING = 4f
+    const val GAME_UI_Y_SIZE_BUTTON_PANEL = Reference.GAME_UI_Y_SIZE.toFloat() - 2 * Reference.GAME_UI_Y_PADDING
 
     /**
      * this is the targeted x-axis world length, this value may be different on other devices

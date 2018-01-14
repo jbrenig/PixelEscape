@@ -111,4 +111,51 @@ open class StageManager(view: Viewport) {
     fun row() {
         rootTable.row()
     }
+
+    /**
+     * creates a new table that should be used for the main menu bar and adds it to the stage
+     *
+     * @return the table created
+     */
+    fun createHeadUiLayoutTable(): Table {
+        val table = Table()
+        table.defaults().height(Reference.GAME_UI_Y_SIZE_BUTTON_PANEL).fillY()
+        table.pad(Reference.GAME_UI_Y_PADDING)
+        table.top().left()
+        add(table).height(Reference.GAME_UI_Y_SIZE.toFloat()).fillY()
+        row()
+        return table
+    }
+
+
+    /**
+     * creates a new table that should be used for the current screen header and adds it (directly) to the stage
+     *
+     * @return the table created
+     */
+    fun createHeaderLayoutTable(): Table {
+        val table = Table()
+        table.setFillParent(true)
+        table.setPosition(0f, 0f)
+        table.top()
+
+        addActorToStage(table)
+        return table
+    }
+
+    /**
+     * creates a new table that should be used for the main content and adds it to the stage
+     *
+     *
+     * this should be created AFTER the head layout menu bar was added
+     *
+     * @return the table created
+     */
+    open fun createContentUiLayoutTable(): Table {
+        val table = Table()
+        table.pad(Reference.GAME_UI_Y_PADDING)
+        table.top().left()
+        add(table).expandY().center()
+        return table
+    }
 }

@@ -33,9 +33,9 @@ class PlayServiceLoginButton(
     init {
         pad(8F)
         image.setScaling(Scaling.fit)
-        imageCell.size(UiUtils.buttonSize)
+        imageCell.size(UiUtils.BUTTON_SIZE)
         imageCell.fill()
-        image.setSize(UiUtils.buttonSize, UiUtils.buttonSize)
+        image.setSize(UiUtils.BUTTON_SIZE, UiUtils.BUTTON_SIZE)
         label.setFontScale(Reference.GAME_UI_SMALL_FONT_SIZE)
         updateInfo()
         addListener(object : ClickListener() {

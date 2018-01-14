@@ -24,8 +24,7 @@ class AndroidLauncher : AndroidApplication() {
     class AndroidConfiguration(val activity: Activity) : GameConfiguration() {
         override val gameService = createGameService()
         override val gameServiceAvailable = true
-
-        override val useBiggerButtons = true
+        override val canQuitGame = false
 
         override val debugSettingsAvailable = BuildConfig.DEBUG
 

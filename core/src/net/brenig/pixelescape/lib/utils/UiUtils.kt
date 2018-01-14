@@ -13,23 +13,19 @@ import net.brenig.pixelescape.render.ui.general.TwoStateImageButton
  */
 object UiUtils {
 
-    val buttonSize = (if (PixelEscape.INSTANCE.gameConfig.useBiggerButtons) 48F else 32F)
+    const val BUTTON_SIZE = 32f
+
 
     /**
-     * creates an instance of Table to use for sound and music controls (unnecessary)
+     * creates an instance of Table to use for sound and music controls, has a default background
      */
     fun createUIHeadLayout(game: PixelEscape): Table {
         val table = Table()
         val ninePatch = (game.skin.getDrawable("up") as NinePatchDrawable).minimize()
         table.background = ninePatch
         //minimize padding
-        table.pad(8f, 8f, 8f, 8f)
-        table.defaults().size(buttonSize)
-        if (game.gameConfig.useBiggerButtons) {
-            table.defaults().pad(2f, 1f, 2f, 1f)
-            table.defaults().expand().fillY()
-            table.height = Reference.GAME_UI_Y_SIZE.toFloat()
-        }
+        table.pad(16f, 16f, 16f, 16f)
+        table.defaults().expand().fillY()
         return table
     }
 
@@ -115,4 +111,8 @@ object UiUtils {
         }
         return layout
     }
+}
+
+fun Table.horizontalSpacer() {
+    this.add(net.brenig.pixelescape.render.ui.general.HorizontalSpacer())
 }

@@ -29,34 +29,17 @@ class StageManagerGame(private val screen: GameScreen) : StageManager(screen.gam
         rootTable.invalidateHierarchy()
     }
 
-    /**
-     * creates a new table that should be used for the main menu bar and adds it to the stage
-     *
-     * @return the table created
-     */
-    fun createHeadUiLayoutTable(): Table {
-        val table = Table()
-        table.defaults().height(screen.uiSize - 2 * screen.uiPadding).fillY()
-        table.pad(screen.uiPadding, screen.uiPadding, screen.uiPadding, screen.uiPadding) //top, left, bottom, right
-        table.top().left()
-        add(table).height(screen.uiSize).fillY()
-        return table
-    }
 
-    /**
-     * creates a new table that should be used for the main content and adds it to the stage
-     *
-     *
-     * this should be created AFTER the head layout menu bar was added
-     *
-     * @return the table created
-     */
-    fun createContentUiLayoutTable(): Table {
+    override fun createContentUiLayoutTable(): Table {
         val table = Table()
-        table.pad(screen.uiPadding, screen.uiPadding, screen.uiPadding, screen.uiPadding) //top, left, bottom, right
+        table.pad(Reference.GAME_UI_Y_PADDING)
         table.top().left()
-        row()
-        add(table).height(Reference.GAME_RESOLUTION_Y.toFloat()).maxHeight(Reference.GAME_RESOLUTION_Y.toFloat()).maxWidth(screen.world.worldWidth.toFloat()).fill().expand()
+        add(table)
+                .height(Reference.GAME_RESOLUTION_Y.toFloat())
+                .maxHeight(Reference.GAME_RESOLUTION_Y.toFloat())
+                .maxWidth(screen.world.worldWidth.toFloat())
+                .fill()
+                .expand()
         return table
     }
 }

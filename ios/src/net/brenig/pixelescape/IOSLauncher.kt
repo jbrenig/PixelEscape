@@ -14,7 +14,6 @@ class IOSLauncher : IOSApplication.Delegate() {
     }
 
     class IOSConfiguration : GameConfiguration() {
-        override val useBiggerButtons = true
     }
 
     companion object {

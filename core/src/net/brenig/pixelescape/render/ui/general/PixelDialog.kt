@@ -83,6 +83,6 @@ class PixelDialog : Dialog {
 
     companion object {
 
-        private val defaultFontScale = 0.7f
+        private val defaultFontScale = 1f
     }
 }

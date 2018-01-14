@@ -11,9 +11,9 @@ import net.brenig.pixelescape.game.data.GameMode
 import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.lib.utils.UiUtils
+import net.brenig.pixelescape.lib.utils.horizontalSpacer
 import net.brenig.pixelescape.render.ui.CurrentHighscoreLabel
 import net.brenig.pixelescape.render.ui.general.DisabledTextTooltip
-import net.brenig.pixelescape.render.ui.general.HorizontalSpacer
 import net.brenig.pixelescape.render.ui.general.PlayServiceLoginButton
 import net.brenig.pixelescape.render.ui.general.SwipeTabbedStack
 
@@ -27,10 +27,6 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
      */
     private val mainUiLayout: Table
 
-    /**
-     * layout used to group setting buttons
-     */
-    private val buttonPanelLayout: Table = UiUtils.createUIHeadLayout(game)
     private val highscoreLabel: CurrentHighscoreLabel
     private val gmImageStack: SwipeTabbedStack?
     private val playServiceButton: PlayServiceLoginButton?
@@ -45,50 +41,67 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
         }
 
     init {
-        //Settings Button Panel
+        //region header
+
+        //PixelEscape Heading
+        val table = uiStage.createHeaderLayoutTable()
+
+        val header = Label("PixelEscape", game.skin, StyleNames.LABEL_BIG)
+        table.add(header).top().padTop(40f)
+
+        //endregion
+
+        //region Header Bar
+
+        val headerBar = uiStage.createHeadUiLayoutTable()
+
+        if (game.gameConfig.gameServiceAvailable) {
+            playServiceButton = PlayServiceLoginButton(game.skin, StyleNames.SERVICE_LOGIN, StyleNames.SERVICE_WORKING, StyleNames.SERVICE_LOGOUT, game.gameConfig.gameService)
+            headerBar.add(playServiceButton)
+        } else {
+            playServiceButton = null
+        }
+
+        headerBar.horizontalSpacer()
+
         //music and sound
-        UiUtils.addSoundAndMusicControllerToLayout(game, buttonPanelLayout)
+        val buttonPanelLayout = UiUtils.addSoundAndMusicControllerToLayout(game, UiUtils.createUIHeadLayout(game))
+
         //settings
-        val btnSettings = ImageButton(game.skin, "settings")
+        val btnSettings = ImageButton(game.skin, StyleNames.BUTTON_SETTINGS)
         btnSettings.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 game.screen = SettingsScreen(game)
             }
         })
-        btnSettings.imageCell.fill().expand()
         buttonPanelLayout.add(btnSettings)
-        buttonPanelLayout.invalidateHierarchy()
+
         //fullscreen
         UiUtils.addFullScreenButtonToTable(game, buttonPanelLayout)
 
+        headerBar.add(buttonPanelLayout)
+
+        //endregion
+
+        //region Content
+
         //Main UI Table
-        mainUiLayout = Table()
-        mainUiLayout.setFillParent(true)
-        mainUiLayout.setPosition(0f, 0f)
-        mainUiLayout.center()
+        mainUiLayout = uiStage.createContentUiLayoutTable().padBottom(Reference.GAME_UI_Y_SIZE.toFloat())
 
         //Center UI Table
         val centerTable = Table()
-
-        //PixelEscape Heading
-        val header = Label("PixelEscape", game.skin, StyleNames.LABEL_BIG)
-
-        centerTable.padTop(0f)
-        centerTable.add(header)
-        centerTable.row()
 
         //GameMode Image
         gmImageStack = SwipeTabbedStack(SwipeTabbedStack.DEFAULT_ANIMATION_X_OFFSET)
         //init gamemodes
         for (mode in game.gameConfig.availableGameModes) {
             val gameModeImage = Image(mode.createIcon(game.gameAssets))
-            //			gameModeImage.setRotation(PixelEscape.rand.nextFloat() * 10 - 5F);
             gameModeImage.setScaling(Scaling.fit)
             gmImageStack.add(gameModeImage)
         }
 
         gmImageStack.replaceCurrentELement(game.userData.lastGameMode)
-        centerTable.add(gmImageStack).pad(20f, 0f, 10f, 0f).height(48f).fillX()
+        centerTable.add(gmImageStack).padBottom(10f).height(48f).fillX()
         centerTable.row()
 
         //Highscore Label
@@ -117,6 +130,13 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
 
         if (game.gameConfig.gameServiceAvailable) {
             btnLeaderboards = ImageTextButton("Leaderboard", game.skin, StyleNames.LEADERBOARDS)
+
+            playServiceButton!!.addListener(object : ClickListener() {
+                override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                    btnLeaderboards.isDisabled = !game.gameConfig.gameService.isSessionActive
+                }
+            })
+
             with(btnLeaderboards) {
                 addListener(object : ClickListener() {
                     override fun clicked(event: InputEvent?, x: Float, y: Float) {
@@ -138,9 +158,9 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
                 isDisabled = !game.gameConfig.gameService.isSessionActive
                 pad(8F)
                 image.setScaling(Scaling.fit)
-                imageCell.size(UiUtils.buttonSize)
+                imageCell.size(UiUtils.BUTTON_SIZE)
                 imageCell.fill()
-                image.setSize(UiUtils.buttonSize, UiUtils.buttonSize)
+                image.setSize(UiUtils.BUTTON_SIZE, UiUtils.BUTTON_SIZE)
             }
             centerButtons.row()
             centerButtons.add(btnLeaderboards).padBottom(8f).fillX()
@@ -187,24 +207,7 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
         arrowLeft.toFront()
         arrowRight.toFront()
 
-        //Add ui elements to stage
-        uiStage.rootTable.top().left().pad(4f)
-
-        if (game.gameConfig.gameServiceAvailable) {
-            playServiceButton = PlayServiceLoginButton(game.skin, StyleNames.SERVICE_LOGIN, StyleNames.SERVICE_WORKING, StyleNames.SERVICE_LOGOUT, game.gameConfig.gameService)
-            playServiceButton.addListener(object : ClickListener() {
-                override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                    btnLeaderboards?.isDisabled = !game.gameConfig.gameService.isSessionActive
-                }
-            })
-            uiStage.add(playServiceButton)
-        } else {
-            playServiceButton = null
-        }
-
-        uiStage.add(HorizontalSpacer())
-        uiStage.add(buttonPanelLayout)
-        uiStage.addActorToStage(mainUiLayout)
+        //endregion
     }
 
     override fun gsOnSessionActive() {
@@ -226,7 +229,6 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
         game.renderManager.resetFontSize()
         uiStage.updateViewportToScreen()
         mainUiLayout.invalidateHierarchy()
-        buttonPanelLayout.invalidateHierarchy()
         @Suppress("ConstantConditionIf")
         if (Reference.ENABLE_MUSIC) game.gameMusic.playOrFadeInto(game.gameAssets.mainMenuMusic)
         Gdx.input.inputProcessor = uiStage.inputProcessor

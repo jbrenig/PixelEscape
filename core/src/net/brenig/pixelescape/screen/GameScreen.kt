@@ -80,12 +80,6 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : ScreenWithUi(game)
     val isGamePaused: Boolean
         get() = overlay.doesPauseGame() || isScreenPaused
 
-    val uiSize: Float
-        get() = Reference.GAME_UI_Y_SIZE.toFloat()
-
-    val uiPadding: Float
-        get() = Reference.GAME_UI_Y_PADDING
-
     init {
         log("GameScreen", "Initializing game. GameMode: " + gameMode.gameModeName)
         //init world and renderer

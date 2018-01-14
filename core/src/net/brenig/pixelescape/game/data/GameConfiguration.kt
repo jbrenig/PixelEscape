@@ -26,11 +26,6 @@ open class GameConfiguration {
     open val canGoFullScreen = false
 
     /**
-     * @return whether this platform should use bigger buttons (eg. to be optimized for touchscreens)
-     */
-    open val useBiggerButtons = false
-
-    /**
      * @return whether this platform has a cursor that can be hidden
      */
     open val canHideCursor = false

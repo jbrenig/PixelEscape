@@ -155,7 +155,7 @@ open class StageManager(view: Viewport) {
         val table = Table()
         table.pad(Reference.GAME_UI_Y_PADDING)
         table.top().left()
-        add(table).expandY().center()
+        add(table).expand().fill().center()
         return table
     }
 }

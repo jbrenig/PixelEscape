@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.GameDebugSettings
+import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.lib.utils.UiUtils
 import net.brenig.pixelescape.render.ui.general.HorizontalSpacer
@@ -18,7 +19,7 @@ import net.brenig.pixelescape.render.ui.general.HorizontalSpacer
 class DebugSettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
 
     private val uiLayout: Table
-    private val headLayout: Table
+    private val headerControls: Table
     private val pane: ScrollPane
 
 
@@ -48,24 +49,25 @@ class DebugSettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
         //Add ui elements to stage
 
         //Head controls
-        uiStage.rootTable.top().right().pad(4f)
-        headLayout = UiUtils.createDefaultUIHeadControls()
 
-        val header = Label("DEBUG Settings", game.skin, StyleNames.LABEL_BIG)
+        val headerLayout = uiStage.createHeaderLayoutTable()
+        val header = Label("Debug Settings", game.skin, StyleNames.LABEL_BIG)
+        headerLayout.add(header).height(Reference.GAME_UI_Y_SIZE.toFloat()).center()
 
-        uiStage.add(HorizontalSpacer()).width(headLayout.prefWidth)
-        uiStage.add(header).pad(8f).fillX()
-        uiStage.add(headLayout)
-        uiStage.row()
 
+        val headerControlsLayout = uiStage.createHeadUiLayoutTable()
+        headerControlsLayout.add(HorizontalSpacer())
+
+        headerControls = UiUtils.createDefaultUIHeadControls()
+        headerControlsLayout.add(headerControls)
 
         //Main Layout
 
+        val mainLayoutTable = uiStage.createContentUiLayoutTable()
+
         //configure scollpane
         pane = ScrollPane(uiLayout, game.skin)
-        //		pane.setFillParent(true);
-        //		uiStage.addActorToStage(pane);
-        uiStage.add(pane).expand().fillX().padTop(8f).padLeft(20f).padRight(20f).center().colspan(3).row()
+        mainLayoutTable.add(pane).expand().fill().center().padLeft(10f).padRight(10f).colspan(3).row()
         uiStage.uiStage.scrollFocus = pane
 
         //Back Button
@@ -78,7 +80,7 @@ class DebugSettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
                 }
             })
 
-            uiStage.add(btnBack).colspan(3).padTop(8f)
+            mainLayoutTable.add(btnBack).colspan(3).padTop(8f)
         }
     }
 
@@ -91,7 +93,6 @@ class DebugSettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
             }
         })
         chbx.imageCell.padRight(10f).size(32f)
-        chbx.label.setFontScale(0.7f)
         return chbx
     }
 
@@ -101,7 +102,7 @@ class DebugSettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
         uiStage.updateViewportToScreen()
         //		uiLayout.invalidateHierarchy();
         pane.invalidateHierarchy()
-        headLayout.invalidateHierarchy()
+        headerControls.invalidateHierarchy()
     }
 
     override fun render(delta: Float) {

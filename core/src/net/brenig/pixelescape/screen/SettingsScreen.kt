@@ -11,6 +11,7 @@ import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.lib.utils.UiUtils
+import net.brenig.pixelescape.lib.utils.horizontalSpacer
 import net.brenig.pixelescape.render.ui.general.PixelDialog
 
 /**
@@ -19,25 +20,60 @@ import net.brenig.pixelescape.render.ui.general.PixelDialog
  */
 class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
 
-    private val uiLayout: Table
-    private val headLayout: Table
-
-
     init {
-        //Setting up stage
+        val headerLayout = uiStage.createHeaderLayoutTable()
+        val header = Label("Settings", game.skin, StyleNames.LABEL_BIG)
+        headerLayout.add(header).height(Reference.GAME_UI_Y_SIZE.toFloat()).center()
 
-        game.renderManager.resetFontSize()
+        val headerControlsLayout = uiStage.createHeadUiLayoutTable()
+        headerControlsLayout.horizontalSpacer()
+
+        val headLayout = UiUtils.createUIHeadLayout(game)
+        headerControlsLayout.add(headLayout)
+
+        UiUtils.addSoundAndMusicControllerToLayout(game, headLayout)
+
+        if (game.gameConfig.debugSettingsAvailable) {
+            val btnSettings = ImageButton(game.skin, "settings")
+            btnSettings.addListener(object : ClickListener() {
+                override fun clicked(event: InputEvent, x: Float, y: Float) {
+                    val d = PixelDialog("Debug Settings", game.skin)
+                    d.prefWidth = uiStage.stageViewport.worldWidth * 0.8f
+                    d.width = uiStage.stageViewport.worldWidth * 0.8f
+                    d.isMovable = false
+                    d.label("Do you want to open DEBUG Settings?")
+                    d.label("(This is only useful to beta testers)")
+                    val btnYes = TextButton("Yes", game.skin)
+                    btnYes.addListener(object : ClickListener() {
+                        override fun clicked(event: InputEvent, x: Float, y: Float) {
+                            game.screen = DebugSettingsScreen(game)
+                            d.hide()
+                        }
+                    })
+                    d.button(btnYes)
+                    val btnNo = TextButton("No", game.skin)
+                    btnNo.addListener(object : ClickListener() {
+                        override fun clicked(event: InputEvent, x: Float, y: Float) {
+                            //show debug screen
+                            d.hide()
+                        }
+                    })
+                    d.button(btnNo)
+                    d.init()
+                    d.show(uiStage.uiStage)
+                }
+            })
+            btnSettings.imageCell.fill().expand()
+            headLayout.add(btnSettings)
+        }
+
+        UiUtils.addFullScreenButtonToTable(game, headLayout)
 
         //configure main layout
-        uiLayout = Table()
-        uiLayout.setFillParent(true)
-        uiLayout.setPosition(0f, 0f)
-        uiLayout.center()
-        uiLayout.padTop(30f).padBottom(20f)
 
-        val header = Label("Settings", game.skin, StyleNames.LABEL_BIG)
-
-        uiLayout.add(header).padBottom(20f)
+        val uiLayout = uiStage.createContentUiLayoutTable()
+        val settingsLayout = Table()
+        uiLayout.add(settingsLayout).fill().expand().center()
         uiLayout.row()
 
         //Sound
@@ -62,8 +98,8 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
             })
             soundControl.add(sliderSound).fillX().expandX()
 
-            uiLayout.add(soundControl).fillX().padBottom(10f)
-            uiLayout.row()
+            settingsLayout.add(soundControl).fillX().padBottom(10f)
+            settingsLayout.row()
         }
 
         //Music
@@ -85,8 +121,8 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
             })
             musicControl.add(sliderMusic).fillX().expandX()
 
-            uiLayout.add(musicControl).fillX().padBottom(10f)
-            uiLayout.row()
+            settingsLayout.add(musicControl).fillX().padBottom(10f)
+            settingsLayout.row()
         }
 
         //Short Countdown
@@ -102,8 +138,8 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
             chbx.labelCell.align(Align.left)
             chbx.labelCell.expandX()
 
-            uiLayout.add(chbx).fillX().padBottom(10f)
-            uiLayout.row()
+            settingsLayout.add(chbx).fillX().padBottom(10f)
+            settingsLayout.row()
         }
 
         //Highscore in world
@@ -119,8 +155,8 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
             chbx.labelCell.align(Align.left)
             chbx.labelCell.expandX()
 
-            uiLayout.add(chbx).fillX().padBottom(10f)
-            uiLayout.row()
+            settingsLayout.add(chbx).fillX().padBottom(10f)
+            settingsLayout.row()
         }
 
         //Reset Scores
@@ -131,8 +167,8 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
                     game.screen = ResetScoreScreen(game)
                 }
             })
-            uiLayout.add(button).fillX().padBottom(10f)
-            uiLayout.row()
+            settingsLayout.add(button).fillX().padBottom(10f)
+            settingsLayout.row()
         }
 
         //Back Button
@@ -147,65 +183,12 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
 
             uiLayout.add(btnBack).padTop(10f)
         }
-        //Add ui elements to stage
-
-        //Head controls
-        uiStage.rootTable.top().right().pad(4f)
-        headLayout = UiUtils.createUIHeadLayout(game)
-
-        UiUtils.addSoundAndMusicControllerToLayout(game, headLayout)
-
-        if (game.gameConfig.debugSettingsAvailable) {
-            val btnSettings = ImageButton(game.skin, "settings")
-            btnSettings.addListener(object : ClickListener() {
-                override fun clicked(event: InputEvent, x: Float, y: Float) {
-                    val d = PixelDialog("Debug Settings", game.skin)
-                    d.prefWidth = uiStage.stageViewport.worldWidth * 0.8f
-                    d.width = uiStage.stageViewport.worldWidth * 0.8f
-                    d.isMovable = false
-                    d.label("Do you want to open DEBUG Settings?")
-                    d.label("(This is only useful to beta testers)")
-                    run {
-                        val btnYes = TextButton("Yes", game.skin)
-                        btnYes.addListener(object : ClickListener() {
-                            override fun clicked(event: InputEvent, x: Float, y: Float) {
-                                game.screen = DebugSettingsScreen(game)
-                                d.hide()
-                            }
-                        })
-                        d.button(btnYes)
-                    }
-                    run {
-                        val btnNo = TextButton("No", game.skin)
-                        btnNo.addListener(object : ClickListener() {
-                            override fun clicked(event: InputEvent, x: Float, y: Float) {
-                                //show debug screen
-                                d.hide()
-                            }
-                        })
-                        d.button(btnNo)
-                    }
-                    d.init()
-                    d.show(uiStage.uiStage)
-                }
-            })
-            btnSettings.imageCell.fill().expand()
-            headLayout.add(btnSettings)
-
-        }
-
-        UiUtils.addFullScreenButtonToTable(game, headLayout)
-        uiStage.add(headLayout)
-        //Main Layout
-        uiStage.addActorToStage(uiLayout)
     }
 
     override fun show() {
         Gdx.input.inputProcessor = uiStage.inputProcessor
         game.renderManager.resetFontSize()
         uiStage.updateViewportToScreen()
-        uiLayout.invalidateHierarchy()
-        headLayout.invalidateHierarchy()
     }
 
     override fun render(delta: Float) {
@@ -215,7 +198,6 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
 
     override fun resize(width: Int, height: Int) {
         uiStage.updateViewport(width, height, true)
-        uiLayout.invalidateHierarchy()
     }
 
     override fun pause() {

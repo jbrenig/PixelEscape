@@ -44,10 +44,9 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
         //region header
 
         //PixelEscape Heading
-        val table = uiStage.createHeaderLayoutTable()
-
+        val headerLayoutTable = uiStage.createHeaderLayoutTable()
         val header = Label("PixelEscape", game.skin, StyleNames.LABEL_BIG)
-        table.add(header).top().padTop(40f)
+        headerLayoutTable.add(header).top().padTop(40f)
 
         //endregion
 
@@ -86,7 +85,7 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
         //region Content
 
         //Main UI Table
-        mainUiLayout = uiStage.createContentUiLayoutTable().padBottom(Reference.GAME_UI_Y_SIZE.toFloat())
+        mainUiLayout = uiStage.createContentUiLayoutTable().padBottom(Reference.GAME_UI_Y_SIZE.toFloat()).center()
 
         //Center UI Table
         val centerTable = Table()

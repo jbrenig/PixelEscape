@@ -10,6 +10,8 @@ import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.GameMode
 import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.game.data.constants.StyleNames
+import net.brenig.pixelescape.lib.LangKeys
+import net.brenig.pixelescape.lib.translate
 import net.brenig.pixelescape.lib.utils.UiUtils
 import net.brenig.pixelescape.lib.utils.horizontalSpacer
 import net.brenig.pixelescape.render.ui.CurrentHighscoreLabel
@@ -45,7 +47,7 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
 
         //PixelEscape Heading
         val headerLayoutTable = uiStage.createHeaderLayoutTable()
-        val header = Label("PixelEscape", game.skin, StyleNames.LABEL_BIG)
+        val header = Label(LangKeys.MainMenu.TITLE.translate(), game.skin, StyleNames.LABEL_BIG)
         headerLayoutTable.add(header).top().padTop(40f)
 
         //endregion
@@ -118,7 +120,7 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
         val centerButtons = Table()
 
         //Start Button
-        val btnStart = TextButton("Start game", game.skin)
+        val btnStart = TextButton(LangKeys.MainMenu.START.translate(), game.skin)
         btnStart.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 game.screen = GameScreen(game, gameMode)
@@ -128,7 +130,7 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
         centerButtons.add(btnStart).padBottom(8f).fillX()
 
         if (game.gameConfig.gameServiceAvailable) {
-            btnLeaderboards = ImageTextButton("Leaderboard", game.skin, StyleNames.LEADERBOARDS)
+            btnLeaderboards = ImageTextButton(LangKeys.LEADERBOARD.translate(), game.skin, StyleNames.LEADERBOARDS)
 
             playServiceButton!!.addListener(object : ClickListener() {
                 override fun clicked(event: InputEvent?, x: Float, y: Float) {
@@ -169,7 +171,7 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
 
         //Quit Button
         if (game.gameConfig.canQuitGame) {
-            val btnQuit = TextButton("Quit game", game.skin)
+            val btnQuit = TextButton(LangKeys.MainMenu.EXIT.translate(), game.skin)
             btnQuit.addListener(object : ClickListener() {
                 override fun clicked(event: InputEvent, x: Float, y: Float) {
                     Gdx.app.exit()
@@ -228,8 +230,7 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
         game.renderManager.resetFontSize()
         uiStage.updateViewportToScreen()
         mainUiLayout.invalidateHierarchy()
-        @Suppress("ConstantConditionIf")
-        if (Reference.ENABLE_MUSIC) game.gameMusic.playOrFadeInto(game.gameAssets.mainMenuMusic)
+        if (game.gameConfig.musicAvailable) game.gameMusic.playOrFadeInto(game.gameAssets.mainMenuMusic)
         Gdx.input.inputProcessor = uiStage.inputProcessor
     }
 

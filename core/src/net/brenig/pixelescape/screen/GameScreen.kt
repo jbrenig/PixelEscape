@@ -17,7 +17,9 @@ import net.brenig.pixelescape.game.data.GameDebugSettings
 import net.brenig.pixelescape.game.data.GameMode
 import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.game.data.constants.StyleNames
+import net.brenig.pixelescape.lib.LangKeys
 import net.brenig.pixelescape.lib.log
+import net.brenig.pixelescape.lib.translate
 import net.brenig.pixelescape.render.WorldRenderer
 import net.brenig.pixelescape.render.overlay.*
 import net.brenig.pixelescape.render.ui.general.HorizontalSpacer
@@ -94,7 +96,7 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : ScreenWithUi(game)
         val table = uiStage.createHeadUiLayoutTable()
 
         game.font.data.setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)
-        val buttonPause = ImageTextButton("Pause", this.game.skin, StyleNames.BUTTON_PAUSE)
+        val buttonPause = ImageTextButton(LangKeys.Ingame.PAUSE.translate(), this.game.skin, StyleNames.BUTTON_PAUSE)
         buttonPause.imageCell.padRight(6f)
         buttonPause.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {

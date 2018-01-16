@@ -8,7 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import com.badlogic.gdx.utils.Align
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.GameMode
+import net.brenig.pixelescape.lib.LangKeys
 import net.brenig.pixelescape.lib.error
+import net.brenig.pixelescape.lib.translate
 import net.brenig.pixelescape.lib.utils.AnimationUtils
 import java.util.*
 
@@ -121,7 +123,7 @@ class CurrentHighscoreLabel(private var gameMode: GameMode?) : Widget() {
     }
 
     private fun updateText() {
-        text = SCORE_TEXT + game.userData.getHighScore(gameMode!!)
+        text = LangKeys.MainMenu.HIGHSCORE.translate(game.userData.getHighScore(gameMode!!))
     }
 
     private fun updateAnimation() {
@@ -175,8 +177,6 @@ class CurrentHighscoreLabel(private var gameMode: GameMode?) : Widget() {
     }
 
     companion object {
-
-        private const val SCORE_TEXT = "Score: "
         private const val padding_side = 4f
         private const val padding_height = 4f
 

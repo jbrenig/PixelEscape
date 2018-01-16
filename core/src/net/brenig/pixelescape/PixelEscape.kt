@@ -114,6 +114,8 @@ class PixelEscape constructor(val gameConfig: GameConfiguration = GameConfigurat
         gameSettings = GameSettings()
         gameDebugSettings = GameDebugSettings()
 
+        reloadLanguage()
+
         //load userdata
         //currently only highscore
         userData = UserData()
@@ -184,6 +186,7 @@ class PixelEscape constructor(val gameConfig: GameConfiguration = GameConfigurat
     override fun resume() {
         if (!assetsLoaded) {
             initializeRendering()
+            reloadLanguage()
         }
         super.resume()
     }
@@ -248,6 +251,10 @@ class PixelEscape constructor(val gameConfig: GameConfiguration = GameConfigurat
                 Gdx.graphics.setWindowedMode(Reference.TARGET_RESOLUTION_X, Reference.TARGET_RESOLUTION_Y)
             }
         }
+    }
+
+    fun reloadLanguage() {
+        gameAssets.loadLanguage(gameSettings.getLanguageWithDefault(gameConfig.defaultLanguage))
     }
 
     override fun gsShowErrorToUser(et: IGameServiceListener.GsErrorType?, msg: String?, t: Throwable?) {

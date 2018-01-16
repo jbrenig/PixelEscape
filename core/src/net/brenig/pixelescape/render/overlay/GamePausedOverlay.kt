@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import net.brenig.pixelescape.game.data.constants.Reference
+import net.brenig.pixelescape.lib.LangKeys
+import net.brenig.pixelescape.lib.translate
 import net.brenig.pixelescape.lib.utils.AnimationUtils
 import net.brenig.pixelescape.lib.utils.UiUtils
 import net.brenig.pixelescape.render.ui.general.HorizontalSpacer
@@ -34,7 +36,7 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
         val table = stage.createHeadUiLayoutTable()
 
         if (!isGameOver) {
-            val btnResume = ImageTextButton("Resume", screen.game.skin, "resume")
+            val btnResume = ImageTextButton(LangKeys.Ingame.RESUME.translate(), screen.game.skin, "resume")
             btnResume.imageCell.padRight(6f)
             btnResume.addListener(object : ClickListener() {
                 override fun clicked(event: InputEvent, x: Float, y: Float) {
@@ -55,7 +57,7 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
         content.add(VerticalSpacer())
         content.row().expandX().center()
 
-        val btnMainMenu = TextButton("Main Menu", screen.game.skin)
+        val btnMainMenu = TextButton(LangKeys.Ingame.MAIN_MENU.translate(), screen.game.skin)
         btnMainMenu.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 gotoMainMenu()
@@ -64,7 +66,7 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
         })
         content.add(btnMainMenu).right().bottom().padBottom(40f).padRight(10f)
 
-        val btnRestartGame = TextButton("Retry", screen.game.skin)
+        val btnRestartGame = TextButton(LangKeys.Ingame.RETRY.translate(), screen.game.skin)
         btnRestartGame.addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {
                 restartGame()
@@ -112,13 +114,13 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
     override fun render(delta: Float) {
         //Game Paused
         screen.game.renderManager.begin()
-        screen.game.bigFont.data.setScale(2f, 3f)
+        screen.game.bigFont.data.setScale(1.6f, 3f)
         if (isGameOver) {
             screen.game.bigFont.setColor(1f, 0f, 0f, 1f)
-            screen.fontLayout.setText(screen.game.bigFont, "Game Over!")
+            screen.fontLayout.setText(screen.game.bigFont, LangKeys.Ingame.Overlay.GAME_OVER.translate())
         } else {
             screen.game.bigFont.setColor(0f, 0f, 1f, 1f)
-            screen.fontLayout.setText(screen.game.bigFont, "Game Paused!")
+            screen.fontLayout.setText(screen.game.bigFont, LangKeys.Ingame.Overlay.GAME_PAUSED.translate())
         }
 
         //Slide in
@@ -131,7 +133,7 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
         //Score
         screen.game.bigFont.setColor(0f, 1f, 0f, 1f)
         screen.game.bigFont.data.setScale(1f)
-        screen.fontLayout.setText(screen.game.bigFont, "Your score: " + screen.world.player.score)
+        screen.fontLayout.setText(screen.game.bigFont, LangKeys.Ingame.Overlay.YOUR_SCORE.translate(screen.world.player.score))
         xPos = screen.world.worldWidth / 2 - screen.fontLayout.width / 2
         val txtScoreHeight = screen.fontLayout.height / 2
         yPos -= txtGameOverHeight + screen.game.bigFont.lineHeight + txtScoreHeight
@@ -141,11 +143,11 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
         if (isGameOver && highscore < screen.world.player.score) {
             screen.game.bigFont.setColor(0f, 1f, 0f, 1f)
             screen.game.bigFont.data.setScale(1f)
-            screen.fontLayout.setText(screen.game.bigFont, "New Highscore!")
+            screen.fontLayout.setText(screen.game.bigFont, LangKeys.Ingame.Overlay.NEW_HIGHSCORE.translate())
         } else {
             screen.game.bigFont.setColor(0f, 0f, 1f, 1f)
             screen.game.bigFont.data.setScale(0.8f)
-            screen.fontLayout.setText(screen.game.bigFont, "Highscore: " + highscore)
+            screen.fontLayout.setText(screen.game.bigFont, LangKeys.Ingame.Overlay.HIGHSCORE.translate(highscore))
         }
         xPos = screen.world.worldWidth / 2 - screen.fontLayout.width / 2
         val txtHighscoreHeight = screen.fontLayout.height / 2
@@ -229,12 +231,12 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
         if (isGameOver) {
             screen.showMainMenu()
         } else {
-            val dialog = PixelDialog("Sure?", screen.game.skin)
+            val dialog = PixelDialog(LangKeys.Ingame.Dialog.MAIN_MENU_TITLE.translate(), screen.game.skin)
             dialog.isMovable = false
             dialog.isModal = true
             dialog.prefWidth = stage.stageViewport.worldWidth * 0.7f
             dialog.width = stage.stageViewport.worldWidth * 0.7f
-            dialog.label("Quit to main menu?")
+            dialog.label(LangKeys.Ingame.Dialog.MAIN_MENU_TEXT.translate())
             dialog.buttonYes(object : ClickListener() {
                 override fun clicked(event: InputEvent, x: Float, y: Float) {
                     dialog.hide()
@@ -255,12 +257,12 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
         if (isGameOver) {
             restartGameDo()
         } else {
-            val dialog = PixelDialog("Sure?", screen.game.skin)
+            val dialog = PixelDialog(LangKeys.Ingame.Dialog.RESTART_TITLE.translate(), screen.game.skin)
             dialog.isMovable = false
             dialog.isModal = true
             dialog.prefWidth = stage.stageViewport.worldWidth * 0.7f
             dialog.width = stage.stageViewport.worldWidth * 0.7f
-            dialog.label("Restart game?")
+            dialog.label(LangKeys.Ingame.Dialog.RESTART_TEXT.translate())
             dialog.buttonYes(object : ClickListener() {
                 override fun clicked(event: InputEvent, x: Float, y: Float) {
                     dialog.hide()

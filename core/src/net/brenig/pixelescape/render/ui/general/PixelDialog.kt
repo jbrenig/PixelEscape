@@ -3,6 +3,8 @@ package net.brenig.pixelescape.render.ui.general
 import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Align
+import net.brenig.pixelescape.lib.LangKeys
+import net.brenig.pixelescape.lib.translate
 
 /**
  * Dialog for PixelEscape<br></br>
@@ -68,14 +70,14 @@ class PixelDialog : Dialog {
     }
 
     fun buttonYes(listener: ClickListener): TextButton {
-        val btnYes = TextButton("Yes", skin)
+        val btnYes = TextButton(LangKeys.DIALOG_YES.translate(), skin)
         btnYes.addListener(listener)
         button(btnYes)
         return btnYes
     }
 
     fun buttonNo(listener: ClickListener): TextButton {
-        val btnNo = TextButton("No", skin)
+        val btnNo = TextButton(LangKeys.DIALOG_NO.translate(), skin)
         btnNo.addListener(listener)
         button(btnNo)
         return btnNo

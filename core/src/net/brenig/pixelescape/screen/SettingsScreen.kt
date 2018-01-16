@@ -7,12 +7,17 @@ import com.badlogic.gdx.scenes.scene2d.ui.*
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Align
+import com.badlogic.gdx.utils.Array
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.game.data.constants.StyleNames
+import net.brenig.pixelescape.lib.DisplayValue
+import net.brenig.pixelescape.lib.LangKeys
+import net.brenig.pixelescape.lib.translate
 import net.brenig.pixelescape.lib.utils.UiUtils
 import net.brenig.pixelescape.lib.utils.horizontalSpacer
 import net.brenig.pixelescape.render.ui.general.PixelDialog
+import java.util.*
 
 /**
  * Screen that provides user settings<br></br>
@@ -76,12 +81,28 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
         uiLayout.add(settingsLayout).fill().expand().center()
         uiLayout.row()
 
+        // Language
+        run {
+            val langSelect = SelectBox<DisplayValue<Locale>>(game.skin)
+            langSelect.items = Array(game.gameConfig.availableLanguages.map { l -> DisplayValue(l, Locale::getDisplayName) }.toTypedArray())
+            langSelect.selected = DisplayValue(game.gameSettings.getLanguageWithDefault(game.gameConfig.defaultLanguage), Locale::getDisplayName)
+            langSelect.addListener(object : ChangeListener() {
+                override fun changed(event: ChangeEvent?, actor: Actor?) {
+                    game.gameSettings.setLanguage(langSelect.selected.value)
+                    game.reloadLanguage()
+                    reloadScreen()
+                }
+            })
+            settingsLayout.add(langSelect).fillX().padBottom(10f)
+            settingsLayout.row()
+        }
+
         //Sound
         run {
             val soundControl = Table()
             soundControl.pad(4f)
 
-            val txtSound = Label("Sound:", game.skin)
+            val txtSound = Label(LangKeys.Settings.SOUND.translate(), game.skin)
             txtSound.setFontScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)
             soundControl.add(txtSound).padRight(8.0f)
 
@@ -107,7 +128,7 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
             val musicControl = Table()
             musicControl.pad(4f)
 
-            val txtMusic = Label("Music:", game.skin)
+            val txtMusic = Label(LangKeys.Settings.MUSIC.translate(), game.skin)
             txtMusic.setFontScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)
             musicControl.add(txtMusic).padRight(8.0f)
             val sliderMusic = Slider(0f, 1f, 0.01f, false, game.skin, "default")
@@ -127,7 +148,7 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
 
         //Short Countdown
         run {
-            val chbx = CheckBox("Short Countdown", game.skin)
+            val chbx = CheckBox(LangKeys.Settings.COUNTDOWN.translate(), game.skin)
             chbx.isChecked = game.gameSettings.shortCountdownEnabled
             chbx.addListener(object : ChangeListener() {
                 override fun changed(event: ChangeListener.ChangeEvent, actor: Actor) {
@@ -144,7 +165,7 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
 
         //Highscore in world
         run {
-            val chbx = CheckBox("Show Highscore in world", game.skin)
+            val chbx = CheckBox(LangKeys.Settings.HIGHSCORE_IN_WORLD.translate(), game.skin)
             chbx.isChecked = game.gameSettings.showHighscoreInWorld
             chbx.addListener(object : ChangeListener() {
                 override fun changed(event: ChangeListener.ChangeEvent, actor: Actor) {
@@ -161,7 +182,7 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
 
         //Reset Scores
         run {
-            val button = TextButton("Reset Scores...", game.skin)
+            val button = TextButton(LangKeys.Settings.RESET_SCORE.translate(), game.skin)
             button.addListener(object : ClickListener() {
                 override fun clicked(event: InputEvent, x: Float, y: Float) {
                     game.screen = ResetScoreScreen(game)
@@ -173,7 +194,7 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
 
         //Back Button
         run {
-            val btnBack = TextButton("Go Back", game.skin)
+            val btnBack = TextButton(LangKeys.BTN_BACK.translate(), game.skin)
             btnBack.addListener(object : ClickListener() {
                 override fun clicked(event: InputEvent, x: Float, y: Float) {
                     game.showMainMenu()
@@ -183,6 +204,10 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
 
             uiLayout.add(btnBack).padTop(10f)
         }
+    }
+
+    private fun reloadScreen() {
+        game.screen = SettingsScreen(game)
     }
 
     override fun show() {

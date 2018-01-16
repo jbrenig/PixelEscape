@@ -28,7 +28,7 @@ class ResetScoreScreen(game: PixelEscape) : ScreenWithUi(game) {
 
     init {
         //Setting up stage
-
+// TODO: update
         game.renderManager.resetFontSize()
 
         //configure main layout

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Preferences
 import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.lib.log
+import java.util.*
 
 /**
  * Contains information about user preferences and handles loading and saving of those
@@ -51,8 +52,21 @@ class GameSettings {
         get() = prefs.getBoolean(Keys.highscoreInWorld, Defaults.highscoreInWorld)
         set(b) { prefs.putBoolean(Keys.highscoreInWorld, b) }
 
+    var language: String
+        get() = prefs.getString(Keys.language, Defaults.language)
+        set(language) { prefs.putString(Keys.language, language)}
+
     init {
         prefs = Gdx.app.getPreferences(PREF_MAIN_SETTINGS)
+    }
+
+    fun getLanguageWithDefault(defLanguage: Locale): Locale {
+        val langStr = prefs.getString(Keys.language, defLanguage.language)
+        return Locale(langStr)
+    }
+
+    fun setLanguage(value: Locale) {
+        language = value.language
     }
 
     fun saveToDisk() {
@@ -67,6 +81,7 @@ class GameSettings {
         const val soundVolume = "VOLUME_SOUND"
         const val shortCountdown = "SHORT_COUNTDOWN"
         const val highscoreInWorld = "HIGHSCORE_INWORLD"
+        const val language = "LANGUAGE"
     }
 
     private object Defaults {
@@ -76,6 +91,7 @@ class GameSettings {
         const val soundVolume = 0.5f
         const val shortCountdown = false
         const val highscoreInWorld = true
+        const val language = "en"
     }
 
     companion object {

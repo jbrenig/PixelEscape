@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Scaling
 import de.golfgl.gdxgamesvcs.IGameServiceClient
 import net.brenig.pixelescape.game.data.constants.Reference
+import net.brenig.pixelescape.lib.LangKeys
+import net.brenig.pixelescape.lib.translate
 import net.brenig.pixelescape.lib.utils.UiUtils
 
 /**
@@ -77,17 +79,17 @@ class PlayServiceLoginButton(
         when (state) {
             State.READY_FOR_LOGIN -> {
                 style = styleLogin
-                text = "Login "
+                text = LangKeys.PlaySerices.LOGIN.translate()
                 isDisabled = false
             }
             State.READY_FOR_LOGOUT -> {
                 style = styleLogout
-                text = "Logout"
+                text = LangKeys.PlaySerices.LOGOUT.translate()
                 isDisabled = false
             }
             State.WORKING -> {
                 style = styleWorking
-                text = " ...  "
+                text = LangKeys.PlaySerices.WORKING.translate()
                 isDisabled = true
             }
         }

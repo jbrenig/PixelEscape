@@ -1,6 +1,8 @@
 package net.brenig.pixelescape.render.overlay
 
+import net.brenig.pixelescape.lib.LangKeys
 import net.brenig.pixelescape.lib.error
+import net.brenig.pixelescape.lib.translate
 import net.brenig.pixelescape.lib.utils.AnimationUtils
 import net.brenig.pixelescape.screen.GameScreen
 
@@ -61,11 +63,11 @@ class CountDownOverlay(screen: GameScreen) : Overlay(screen) {
         screen.game.bigFont.data.setScale(fontScale)
 
         if (secondsRemaining <= 0) {
-            screen.fontLayout.setText(screen.game.bigFont, GO_TEXT)
+            screen.fontLayout.setText(screen.game.bigFont, LangKeys.Ingame.Overlay.COUNTDOWN_GO.translate())
         } else if (!isShort) {
             screen.fontLayout.setText(screen.game.bigFont, "" + secondsRemaining)
         } else {
-            screen.fontLayout.setText(screen.game.bigFont, READY_TEXT)
+            screen.fontLayout.setText(screen.game.bigFont, LangKeys.Ingame.Overlay.COUNTDOWN_READY.translate())
         }
 
         val xPos = screen.world.worldWidth / 2 - screen.fontLayout.width / 2
@@ -90,10 +92,5 @@ class CountDownOverlay(screen: GameScreen) : Overlay(screen) {
     companion object {
 
         private const val COUNT_FROM = 3
-        private const val GO_TEXT = "GO!"
-        /**
-         * only used for short countdown
-         */
-        private const val READY_TEXT = "Ready!"
     }
 }

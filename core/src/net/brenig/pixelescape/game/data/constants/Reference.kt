@@ -1,5 +1,7 @@
 package net.brenig.pixelescape.game.data.constants
 
+import java.util.*
+
 /**
  * Provides default values for PixelEscape
  */

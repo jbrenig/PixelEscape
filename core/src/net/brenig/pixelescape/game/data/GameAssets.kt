@@ -6,13 +6,12 @@ import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.*
-import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton
-import com.badlogic.gdx.scenes.scene2d.ui.Label
-import com.badlogic.gdx.scenes.scene2d.ui.Skin
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton
+import com.badlogic.gdx.scenes.scene2d.ui.*
+import com.badlogic.gdx.scenes.scene2d.ui.List
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable
+import com.badlogic.gdx.utils.I18NBundle
 import ktx.style.*
 import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.game.data.constants.Textures
@@ -65,6 +64,8 @@ class GameAssets {
     lateinit var mainUiSkin: Skin private set
 
     lateinit var itemAnimatedBackground: SimpleAnimation private set
+
+    lateinit var language: I18NBundle private set
 
     fun disposeAll(config: GameConfiguration) {
         defaultFont.dispose()
@@ -336,6 +337,25 @@ class GameAssets {
                 background = NinePatchDrawable(it.getPatch(Textures.TOOLTIP_BACKGROUND))
             }
 
+            list {
+                font = defaultFont
+                fontColorSelected = Color.BLACK
+                fontColorUnselected = Color.DARK_GRAY
+                selection = NinePatchDrawable(buttonNinePatch)
+            }
+
+            selectBox {
+                // TODO: add proper textures
+                font = defaultFont
+                fontColor = Color.BLACK
+                disabledFontColor = Color.LIGHT_GRAY
+                background = it.getDrawable(Textures.BUTTON_UP)
+                backgroundOver = it.getDrawable(Textures.BUTTON_HOVER)
+                backgroundDisabled = it.getDrawable(Textures.BUTTON_DISABLED)
+                scrollStyle = it.get(ScrollPane.ScrollPaneStyle::class.java)
+                listStyle = it.get(List.ListStyle::class.java)
+            }
+
             if (config.gameServiceAvailable) {
                 imageTextButton(name = StyleNames.SERVICE_LOGIN) {
                     up = it.getDrawable(Textures.BUTTON_UP)
@@ -379,5 +399,9 @@ class GameAssets {
             1 -> return sslMusic
         }
         throw IllegalStateException()
+    }
+
+    fun loadLanguage(language: Locale) {
+        this.language =  I18NBundle.createBundle(Gdx.files.internal("i18n/PixelEscape"), language)
     }
 }

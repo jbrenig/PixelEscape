@@ -4,8 +4,10 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.GlyphLayout
 import com.badlogic.gdx.scenes.scene2d.ui.Widget
 import net.brenig.pixelescape.PixelEscape
-import net.brenig.pixelescape.game.entity.impl.EntityPlayer
 import net.brenig.pixelescape.game.data.constants.Reference
+import net.brenig.pixelescape.game.entity.impl.EntityPlayer
+import net.brenig.pixelescape.lib.LangKeys
+import net.brenig.pixelescape.lib.translate
 import net.brenig.pixelescape.screen.GameScreen
 
 /**
@@ -32,8 +34,7 @@ class ScoreWidget(private val player: EntityPlayer, private val fontLayout: Glyp
     }
 
     private fun setScoreText() {
-        val score = SCORE_TEXT + player.score
-        //		game.font.getData().setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE);
+        val score = LangKeys.Ingame.SCORE_WIDGET.translate(player.score)
         fontLayout.setText(game.font, score)
         if (fontLayout.width > lastScoreScreenWidth || lastScoreScreenWidth - fontLayout.width > Reference.GAME_UI_SCORE_SCREEN_SIZE_BUFFER) {
             lastScoreScreenWidth = fontLayout.width
@@ -49,9 +50,5 @@ class ScoreWidget(private val player: EntityPlayer, private val fontLayout: Glyp
     override fun getPrefHeight(): Float {
         setScoreText()
         return game.buttonNinePatch.padBottom + game.buttonNinePatch.padTop + fontLayout.height
-    }
-
-    companion object {
-        private const val SCORE_TEXT = "Score: "
     }
 }

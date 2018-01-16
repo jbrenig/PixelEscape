@@ -112,13 +112,13 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
     override fun render(delta: Float) {
         //Game Paused
         screen.game.renderManager.begin()
-        screen.game.font.data.setScale(2f, 4f)
+        screen.game.bigFont.data.setScale(2f, 3f)
         if (isGameOver) {
-            screen.game.font.setColor(1f, 0f, 0f, 1f)
-            screen.fontLayout.setText(screen.game.font, "Game Over!")
+            screen.game.bigFont.setColor(1f, 0f, 0f, 1f)
+            screen.fontLayout.setText(screen.game.bigFont, "Game Over!")
         } else {
-            screen.game.font.setColor(0f, 0f, 1f, 1f)
-            screen.fontLayout.setText(screen.game.font, "Game Paused!")
+            screen.game.bigFont.setColor(0f, 0f, 1f, 1f)
+            screen.fontLayout.setText(screen.game.bigFont, "Game Paused!")
         }
 
         //Slide in
@@ -126,41 +126,41 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
         var xPos = screen.world.worldWidth / 2 - screen.fontLayout.width / 2
         val txtGameOverHeight = screen.fontLayout.height / 2
         var yPos = (2 * screen.world.worldHeight / 3).toFloat() + screen.uiPos.toFloat() + txtGameOverHeight + gameOverAnim
-        screen.game.font.draw(screen.game.batch, screen.fontLayout, xPos, yPos)
+        screen.game.bigFont.draw(screen.game.batch, screen.fontLayout, xPos, yPos)
 
         //Score
-        screen.game.font.setColor(0f, 1f, 0f, 1f)
-        screen.game.font.data.setScale(1.2f)
-        screen.fontLayout.setText(screen.game.font, "Your score: " + screen.world.player.score)
+        screen.game.bigFont.setColor(0f, 1f, 0f, 1f)
+        screen.game.bigFont.data.setScale(1f)
+        screen.fontLayout.setText(screen.game.bigFont, "Your score: " + screen.world.player.score)
         xPos = screen.world.worldWidth / 2 - screen.fontLayout.width / 2
         val txtScoreHeight = screen.fontLayout.height / 2
-        yPos -= txtGameOverHeight + screen.game.font.lineHeight + txtScoreHeight
-        screen.game.font.draw(screen.game.batch, screen.fontLayout, xPos, yPos)
+        yPos -= txtGameOverHeight + screen.game.bigFont.lineHeight + txtScoreHeight
+        screen.game.bigFont.draw(screen.game.batch, screen.fontLayout, xPos, yPos)
 
         //Highscore
         if (isGameOver && highscore < screen.world.player.score) {
-            screen.game.font.setColor(0f, 1f, 0f, 1f)
-            screen.game.font.data.setScale(1.2f)
-            screen.fontLayout.setText(screen.game.font, "New Highscore!")
+            screen.game.bigFont.setColor(0f, 1f, 0f, 1f)
+            screen.game.bigFont.data.setScale(1f)
+            screen.fontLayout.setText(screen.game.bigFont, "New Highscore!")
         } else {
-            screen.game.font.setColor(0f, 0f, 1f, 1f)
-            screen.game.font.data.setScale(1.0f)
-            screen.fontLayout.setText(screen.game.font, "Highscore: " + highscore)
+            screen.game.bigFont.setColor(0f, 0f, 1f, 1f)
+            screen.game.bigFont.data.setScale(0.8f)
+            screen.fontLayout.setText(screen.game.bigFont, "Highscore: " + highscore)
         }
         xPos = screen.world.worldWidth / 2 - screen.fontLayout.width / 2
         val txtHighscoreHeight = screen.fontLayout.height / 2
-        yPos -= screen.game.font.lineHeight + txtHighscoreHeight
-        screen.game.font.draw(screen.game.batch, screen.fontLayout, xPos, yPos)
+        yPos -= screen.game.bigFont.lineHeight + txtHighscoreHeight
+        screen.game.bigFont.draw(screen.game.batch, screen.fontLayout, xPos, yPos)
 
         animationProgress += delta
 
         super.render(delta)
+        screen.game.bigFont.data.setScale(1f)
     }
 
     private fun restartMusic() {
         if (isGameOver) {
-            @Suppress("ConstantConditionIf")
-            if (Reference.ENABLE_MUSIC) screen.game.gameMusic.setCurrentMusic(screen.gameMusic)
+            if (screen.game.gameConfig.musicAvailable) screen.game.gameMusic.setCurrentMusic(screen.gameMusic)
         }
         screen.game.gameMusic.play(true)
     }

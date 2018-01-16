@@ -39,17 +39,17 @@ class CountDownOverlay(screen: GameScreen) : Overlay(screen) {
             startedAt = System.currentTimeMillis()
             fractionOfCurrentSecond = 1
         }
-        var fontScale = 5f
+        var fontScale = 4f
         var alpha = 1f
         if (fractionOfCurrentSecond < 200) {
-            // big "entry" font scale (15 to 5)
+            // big "entry" font scale (12 to 3)
             val anim = AnimationUtils.easeOut(fractionOfCurrentSecond.toFloat(), 200f)
-            fontScale = 15 - anim * 10
+            fontScale = 12 - anim * 8
             alpha = 0.75f + anim / 4f
         } else if (fractionOfCurrentSecond > 700) {
-            // small "vanish" font scale (5 to 2)
+            // small "vanish" font scale (3 to 1)
             val anim = AnimationUtils.easeIn((fractionOfCurrentSecond - 700).toFloat(), 300f)
-            fontScale = 5 - anim * 3
+            fontScale = 4 - anim * 3
             alpha = 1 - anim / 2f
         }
         if (isShort) {
@@ -57,21 +57,22 @@ class CountDownOverlay(screen: GameScreen) : Overlay(screen) {
         }
 
         screen.game.renderManager.begin()
-        screen.game.font.setColor(0.2f, 0.8f, 0f, alpha)
-        screen.game.font.data.setScale(fontScale)
+        screen.game.bigFont.setColor(0.2f, 0.8f, 0f, alpha)
+        screen.game.bigFont.data.setScale(fontScale)
 
         if (secondsRemaining <= 0) {
-            screen.fontLayout.setText(screen.game.font, GO_TEXT)
+            screen.fontLayout.setText(screen.game.bigFont, GO_TEXT)
         } else if (!isShort) {
-            screen.fontLayout.setText(screen.game.font, "" + secondsRemaining)
+            screen.fontLayout.setText(screen.game.bigFont, "" + secondsRemaining)
         } else {
-            screen.fontLayout.setText(screen.game.font, READY_TEXT)
+            screen.fontLayout.setText(screen.game.bigFont, READY_TEXT)
         }
 
         val xPos = screen.world.worldWidth / 2 - screen.fontLayout.width / 2
         val yPos = (screen.world.worldHeight / 2).toFloat() + screen.fontLayout.height / 2 + screen.uiPos.toFloat()
 
-        screen.game.font.draw(screen.game.batch, screen.fontLayout, xPos, yPos)
+        screen.game.bigFont.draw(screen.game.batch, screen.fontLayout, xPos, yPos)
+        screen.game.bigFont.data.setScale(1f)
     }
 
     override fun doesPauseGame(): Boolean {

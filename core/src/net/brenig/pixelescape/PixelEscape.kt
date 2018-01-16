@@ -64,6 +64,12 @@ class PixelEscape constructor(val gameConfig: GameConfiguration = GameConfigurat
         get() = gameAssets.defaultFont
 
     /**
+     * Big Bitmap font
+     */
+    val bigFont: BitmapFont
+        get() = gameAssets.bigFont
+
+    /**
      * Default button ninepatch
      */
     val buttonNinePatch: NinePatch

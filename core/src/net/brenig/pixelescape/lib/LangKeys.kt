@@ -9,6 +9,7 @@ object LangKeys {
     const val GAME = "game"
     const val LEADERBOARD = "ui.leaderboard"
     const val BTN_BACK = "btn.back"
+    const val BTN_FINISH = "btn.finish"
     const val DIALOG_YES = "ui.dialog.yes"
     const val DIALOG_NO = "ui.dialog.no"
 
@@ -26,6 +27,13 @@ object LangKeys {
         const val COUNTDOWN = "ui.settings.countdown"
         const val HIGHSCORE_IN_WORLD = "ui.settings.highscore_in_world"
         const val RESET_SCORE = "ui.settings.reset_scores"
+    }
+
+    object ResetScores {
+        const val TITLE = "ui.reset_scores.title"
+        const val RESET_ALL = "ui.reset_scores.reset_all"
+        const val DIALOG_TITLE = "ui.reset_scores.dialog.title"
+        const val DIALOG_TEXT = "ui.reset_scores.dialog.text"
     }
 
     object DebugSettings {

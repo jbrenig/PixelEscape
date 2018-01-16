@@ -27,7 +27,7 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
 
     init {
         val headerLayout = uiStage.createHeaderLayoutTable()
-        val header = Label("Settings", game.skin, StyleNames.LABEL_BIG)
+        val header = Label(LangKeys.Settings.TITLE.translate(), game.skin, StyleNames.LABEL_BIG)
         headerLayout.add(header).height(Reference.GAME_UI_Y_SIZE.toFloat()).center()
 
         val headerControlsLayout = uiStage.createHeadUiLayoutTable()

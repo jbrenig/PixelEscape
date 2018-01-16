@@ -8,8 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.GameMode
+import net.brenig.pixelescape.lib.LangKeys
+import net.brenig.pixelescape.lib.translate
 import net.brenig.pixelescape.lib.utils.UiUtils
-import net.brenig.pixelescape.render.ui.general.HorizontalSpacer
+import net.brenig.pixelescape.lib.utils.horizontalSpacer
 import net.brenig.pixelescape.render.ui.general.PixelDialog
 import java.util.*
 
@@ -18,49 +20,36 @@ import java.util.*
  */
 class ResetScoreScreen(game: PixelEscape) : ScreenWithUi(game) {
 
-    private val headLayout: Table
-    private val contentLayout: Table
-    private val pane: ScrollPane
-
     private val gamemodeCheckboxes: MutableMap<CheckBox, GameMode>
     private val resetAllCheckBox: CheckBox
 
 
     init {
         //Setting up stage
-// TODO: update
         game.renderManager.resetFontSize()
 
-        //configure main layout
-        val uiLayout = Table()
-        uiLayout.setFillParent(true)
-        uiLayout.setPosition(0f, 0f)
-        uiLayout.center()
-        uiLayout.padTop(30f).padBottom(20f)
+        createDefaultHeading(LangKeys.ResetScores.TITLE.translate(), 0.8f)
 
-        contentLayout = Table()
+        val headerControlsLayout = uiStage.createHeadUiLayoutTable()
+        val headControls = UiUtils.createDefaultUIHeadControls()
+        headerControlsLayout.horizontalSpacer()
+        headerControlsLayout.add(headControls)
+
+
+        //configure main layout
+        val uiLayout = uiStage.createContentUiLayoutTable()
+
+        val contentLayout = Table()
         contentLayout.center()
         contentLayout.padBottom(30f).padTop(30f)
-
-        //Header
-        val header = Label("Reset Score:", game.skin)
-        header.setFontScale(1.2f)
-        uiLayout.add(header)
-        uiLayout.row()
-
-        //Head controls
-        uiStage.rootTable.top().right().pad(4f)
-        headLayout = UiUtils.createDefaultUIHeadControls()
-        uiStage.add(headLayout)
 
         //content (scrollpane)
         gamemodeCheckboxes = HashMap(game.gameConfig.availableGameModes.size)
 
 
-        resetAllCheckBox = CheckBox("Reset ALL", game.skin)
+        resetAllCheckBox = CheckBox(LangKeys.ResetScores.RESET_ALL.translate(), game.skin)
         resetAllCheckBox.isChecked = false
-        resetAllCheckBox.imageCell.padBottom(8f).padRight(10f).size(32f)
-        resetAllCheckBox.label.setFontScale(0.7f)
+        resetAllCheckBox.imageCell.size(32f)
         resetAllCheckBox.addListener(object : ChangeListener() {
             override fun changed(event: ChangeListener.ChangeEvent, actor: Actor) {
                 for (chbx in gamemodeCheckboxes.keys) {
@@ -88,22 +77,20 @@ class ResetScoreScreen(game: PixelEscape) : ScreenWithUi(game) {
         for (mode in game.gameConfig.availableGameModes) {
             val chbx = CheckBox(mode.gameModeName, game.skin)
             chbx.isChecked = false
-            chbx.imageCell.padBottom(8f).padRight(10f).size(32f)
-            chbx.label.setFontScale(0.7f)
+            chbx.imageCell.size(32f)
             chbx.addListener(chbxListener)
             //suppress events caused by setChecked()
             chbx.setProgrammaticChangeEvents(false)
             gamemodeCheckboxes.put(chbx, mode)
             contentLayout.add(chbx).left()
             val lbl = Label("" + game.userData.getHighScore(mode), game.skin)
-            lbl.setFontScale(0.7f)
             contentLayout.add(lbl)
             contentLayout.row()
         }
 
         //configure scollpane
-        pane = ScrollPane(contentLayout, game.skin)
-        uiLayout.add(pane).expand().fillX().padTop(8f).padLeft(20f).padRight(20f).center().row()
+        val pane = ScrollPane(contentLayout, game.skin)
+        uiLayout.add(pane).expand().fillX().padTop(8f).padLeft(10f).padRight(10f).center().row()
         //set scroll focus
         uiStage.uiStage.scrollFocus = pane
 
@@ -111,23 +98,23 @@ class ResetScoreScreen(game: PixelEscape) : ScreenWithUi(game) {
 
         //Back Button
         run {
-            val btnBack = TextButton("Go Back", game.skin)
+            val btnBack = TextButton(LangKeys.BTN_BACK.translate(), game.skin)
             btnBack.addListener(object : ClickListener() {
                 override fun clicked(event: InputEvent, x: Float, y: Float) {
                     game.screen = SettingsScreen(game)
                 }
             })
 
-            buttonLayout.add(btnBack).padTop(8f).padLeft(20f)
+            buttonLayout.add(btnBack).padTop(8f).padLeft(40f)
         }
-        buttonLayout.add(HorizontalSpacer())
+        buttonLayout.horizontalSpacer()
         //OK Button
         run {
-            val btnFinish = TextButton("Finish", game.skin)
+            val btnFinish = TextButton(LangKeys.BTN_FINISH.translate(), game.skin)
             btnFinish.addListener(object : ClickListener() {
                 override fun clicked(event: InputEvent, x: Float, y: Float) {
-                    val d = PixelDialog("Reset Scores", game.skin)
-                    d.label("Are you sure to reset scores?")
+                    val d = PixelDialog(LangKeys.ResetScores.DIALOG_TITLE.translate(), game.skin)
+                    d.label(LangKeys.ResetScores.DIALOG_TEXT.translate())
                     d.buttonYes(object : ClickListener() {
                         override fun clicked(event: InputEvent, x: Float, y: Float) {
                             apply()
@@ -145,12 +132,10 @@ class ResetScoreScreen(game: PixelEscape) : ScreenWithUi(game) {
                 }
             })
 
-            buttonLayout.add(btnFinish).padTop(8f).padRight(20f)
+            buttonLayout.add(btnFinish).padTop(8f).padRight(40f)
         }
         uiLayout.add(buttonLayout)
-
-        //Add main ui
-        uiStage.addActorToStage(uiLayout)
+        game.renderManager.resetFontSize()
     }
 
     private fun apply() {
@@ -167,8 +152,6 @@ class ResetScoreScreen(game: PixelEscape) : ScreenWithUi(game) {
         Gdx.input.inputProcessor = uiStage.inputProcessor
         game.renderManager.resetFontSize()
         uiStage.updateViewportToScreen()
-        pane.invalidateHierarchy()
-        headLayout.invalidateHierarchy()
     }
 
     override fun render(delta: Float) {
@@ -178,8 +161,6 @@ class ResetScoreScreen(game: PixelEscape) : ScreenWithUi(game) {
 
     override fun resize(width: Int, height: Int) {
         uiStage.updateViewport(width, height, true)
-        contentLayout.invalidateHierarchy()
-        pane.invalidateHierarchy()
     }
 
     override fun pause() {

@@ -138,8 +138,8 @@ open class StageManager(view: Viewport) {
         table.setFillParent(true)
         table.setPosition(0f, 0f)
         table.top()
-
         addActorToStage(table)
+        table.toBack()
         return table
     }
 

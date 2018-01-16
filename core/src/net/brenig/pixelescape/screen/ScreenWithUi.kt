@@ -1,10 +1,13 @@
 package net.brenig.pixelescape.screen
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import de.golfgl.gdxgamesvcs.IGameServiceListener
 import net.brenig.pixelescape.PixelEscape
+import net.brenig.pixelescape.game.data.constants.Reference
+import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.render.ui.general.PixelDialog
 import net.brenig.pixelescape.render.ui.general.StageManager
 
@@ -30,5 +33,12 @@ abstract class ScreenWithUi(game: PixelEscape) : PixelScreen(game) {
         d.button(btnYes)
         d.init()
         d.show(uiStage.uiStage)
+    }
+
+    protected fun createDefaultHeading(heading: String, fontScale: Float = 1f) {
+        val headerLayout = uiStage.createHeaderLayoutTable()
+        val header = Label(heading, game.skin, StyleNames.LABEL_BIG)
+        header.setFontScale(fontScale)
+        headerLayout.add(header).height(Reference.GAME_UI_Y_SIZE.toFloat()).center()
     }
 }

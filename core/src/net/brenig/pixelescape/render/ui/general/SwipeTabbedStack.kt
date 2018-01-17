@@ -133,9 +133,9 @@ class SwipeTabbedStack(touchEnabled: Boolean = true) : Stack() {
         }
     }
 
-    fun replaceCurrentELement(element: Int) {
+    fun replaceCurrentElement(element: Int) {
         children.get(this.currentElement).isVisible = false
-        this.currentElement = currentElement
+        this.currentElement = element
         children.get(this.currentElement).isVisible = true
 
         fireElementChanged()

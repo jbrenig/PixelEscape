@@ -22,6 +22,7 @@ object LangKeys {
 
     object Settings {
         const val TITLE = "ui.settings.title"
+        const val LANGUAGE = "ui.settings.language"
         const val MUSIC = "ui.settings.music"
         const val SOUND = "ui.settings.sound"
         const val COUNTDOWN = "ui.settings.countdown"

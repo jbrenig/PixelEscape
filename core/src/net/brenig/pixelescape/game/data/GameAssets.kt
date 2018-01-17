@@ -351,6 +351,7 @@ class GameAssets {
                 disabledFontColor = Color.LIGHT_GRAY
                 background = it.getDrawable(Textures.BUTTON_UP)
                 backgroundOver = it.getDrawable(Textures.BUTTON_HOVER)
+                backgroundOpen = it.getDrawable(Textures.BUTTON_HOVER)
                 backgroundDisabled = it.getDrawable(Textures.BUTTON_DISABLED)
                 scrollStyle = it.get(ScrollPane.ScrollPaneStyle::class.java)
                 listStyle = it.get(List.ListStyle::class.java)

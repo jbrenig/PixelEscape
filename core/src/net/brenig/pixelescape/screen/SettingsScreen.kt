@@ -10,7 +10,6 @@ import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.constants.Reference
-import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.lib.DisplayValue
 import net.brenig.pixelescape.lib.LangKeys
 import net.brenig.pixelescape.lib.translate
@@ -26,9 +25,7 @@ import java.util.*
 class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
 
     init {
-        val headerLayout = uiStage.createHeaderLayoutTable()
-        val header = Label(LangKeys.Settings.TITLE.translate(), game.skin, StyleNames.LABEL_BIG)
-        headerLayout.add(header).height(Reference.GAME_UI_Y_SIZE.toFloat()).center()
+        createDefaultHeading(LangKeys.Settings.TITLE.translate())
 
         val headerControlsLayout = uiStage.createHeadUiLayoutTable()
         headerControlsLayout.horizontalSpacer()
@@ -83,6 +80,12 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
 
         // Language
         run {
+            val langLayout = Table()
+            langLayout.left()
+
+            val langLabel = Label(LangKeys.Settings.LANGUAGE.translate(), game.skin)
+            langLayout.add(langLabel)
+
             val langSelect = SelectBox<DisplayValue<Locale>>(game.skin)
             langSelect.items = Array(game.gameConfig.availableLanguages.map { l -> DisplayValue(l, Locale::getDisplayName) }.toTypedArray())
             langSelect.selected = DisplayValue(game.gameSettings.getLanguageWithDefault(game.gameConfig.defaultLanguage), Locale::getDisplayName)
@@ -93,14 +96,17 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
                     reloadScreen()
                 }
             })
-            settingsLayout.add(langSelect).fillX().padBottom(10f)
+            langLayout.add(langSelect).fillX().expandX()
+
+            settingsLayout.add(langLayout).fillX().padBottom(10f)
             settingsLayout.row()
         }
 
         //Sound
         run {
             val soundControl = Table()
-            soundControl.pad(4f)
+            soundControl.padTop(4f)
+            soundControl.padBottom(4f)
 
             val txtSound = Label(LangKeys.Settings.SOUND.translate(), game.skin)
             txtSound.setFontScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)
@@ -126,7 +132,8 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
         //Music
         if (game.gameConfig.musicAvailable) {
             val musicControl = Table()
-            musicControl.pad(4f)
+            musicControl.padTop(4f)
+            musicControl.padBottom(4f)
 
             val txtMusic = Label(LangKeys.Settings.MUSIC.translate(), game.skin)
             txtMusic.setFontScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)

@@ -18,6 +18,7 @@ object LangKeys {
         const val START = "ui.main_menu.start_game"
         const val EXIT = "ui.main_menu.exit_game"
         const val HIGHSCORE = "ui.main_menu.highscore_widget"
+        const val LEADERBOARD_TOOLTIP = "ui.main_menu.leaderboard_tooltip"
     }
 
     object Settings {

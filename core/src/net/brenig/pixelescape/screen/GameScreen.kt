@@ -95,7 +95,7 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : ScreenWithUi(game)
 
         val table = uiStage.createHeadUiLayoutTable()
 
-        game.font.data.setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)
+        game.font.data.setScale(1f)
         val buttonPause = ImageTextButton(LangKeys.Ingame.PAUSE.translate(), this.game.skin, StyleNames.BUTTON_PAUSE)
         buttonPause.imageCell.padRight(6f)
         buttonPause.addListener(object : ClickListener() {
@@ -175,7 +175,7 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : ScreenWithUi(game)
             //Draw lives
             renderLives()
 
-            this.game.font.data.setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)
+            this.game.font.data.setScale(1f)
             uiStage.draw(game.renderManager)
             uiStage.act(gameDelta)
         }

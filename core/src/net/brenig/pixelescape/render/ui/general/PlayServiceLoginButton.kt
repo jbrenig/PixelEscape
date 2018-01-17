@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Scaling
 import de.golfgl.gdxgamesvcs.IGameServiceClient
-import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.lib.LangKeys
 import net.brenig.pixelescape.lib.translate
 import net.brenig.pixelescape.lib.utils.UiUtils
@@ -38,7 +37,7 @@ class PlayServiceLoginButton(
         imageCell.size(UiUtils.BUTTON_SIZE)
         imageCell.fill()
         image.setSize(UiUtils.BUTTON_SIZE, UiUtils.BUTTON_SIZE)
-        label.setFontScale(Reference.GAME_UI_SMALL_FONT_SIZE)
+        label.setFontScale(1f)
         updateInfo()
         addListener(object : ClickListener() {
             override fun clicked(event: InputEvent, x: Float, y: Float) {

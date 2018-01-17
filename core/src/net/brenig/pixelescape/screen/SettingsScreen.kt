@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.utils.Align
 import com.badlogic.gdx.utils.Array
 import net.brenig.pixelescape.PixelEscape
-import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.lib.DisplayValue
 import net.brenig.pixelescape.lib.LangKeys
 import net.brenig.pixelescape.lib.translate
@@ -109,7 +108,7 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
             soundControl.padBottom(4f)
 
             val txtSound = Label(LangKeys.Settings.SOUND.translate(), game.skin)
-            txtSound.setFontScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)
+            txtSound.setFontScale(1f)
             soundControl.add(txtSound).padRight(8.0f)
 
             val sliderSound = Slider(0f, 1f, 0.01f, false, game.skin, "default")
@@ -136,7 +135,7 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
             musicControl.padBottom(4f)
 
             val txtMusic = Label(LangKeys.Settings.MUSIC.translate(), game.skin)
-            txtMusic.setFontScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)
+            txtMusic.setFontScale(1f)
             musicControl.add(txtMusic).padRight(8.0f)
             val sliderMusic = Slider(0f, 1f, 0.01f, false, game.skin, "default")
             sliderMusic.value = game.gameSettings.musicVolume
@@ -207,7 +206,7 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
                     game.showMainMenu()
                 }
             })
-            btnBack.label.setFontScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)
+            btnBack.label.setFontScale(1f)
 
             uiLayout.add(btnBack).padTop(10f)
         }

@@ -24,21 +24,14 @@ import net.brenig.pixelescape.render.ui.general.SwipeTabbedStack
  */
 class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
 
-    /**
-     * layout used to group main ui elements
-     */
-    private val mainUiLayout: Table
-
     private val highscoreLabel: CurrentHighscoreLabel
-    private val gmImageStack: SwipeTabbedStack?
+    private val gmImageStack: SwipeTabbedStack
+
     private val playServiceButton: PlayServiceLoginButton?
     private val btnLeaderboards: ImageTextButton?
 
     private val gameMode: GameMode
         get() {
-            if (gmImageStack == null) {
-                throw IllegalStateException("GameMode select UI not initialized!")
-            }
             return game.gameConfig.availableGameModes[gmImageStack.currentElement]
         }
 
@@ -87,7 +80,7 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
         //region Content
 
         //Main UI Table
-        mainUiLayout = uiStage.createContentUiLayoutTable().padBottom(Reference.GAME_UI_Y_SIZE.toFloat()).center()
+        val mainUiLayout = uiStage.createContentUiLayoutTable().padBottom(Reference.GAME_UI_Y_SIZE.toFloat()).center()
 
         //Center UI Table
         val centerTable = Table()
@@ -127,7 +120,6 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
                 game.screen = GameScreen(game, gameMode)
             }
         })
-        btnStart.label.setFontScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)
         centerButtons.add(btnStart).padBottom(8f).fillX()
 
         if (game.gameConfig.gameServiceAvailable) {
@@ -151,12 +143,11 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
                         }
                     }
                 })
-                val tooltip = DisabledTextTooltip("Login to Play Services to view leaderboards", game.skin)
+                val tooltip = DisabledTextTooltip(LangKeys.MainMenu.LEADERBOARD_TOOLTIP.translate(), game.skin)
                 tooltip.setInstant(true)
-                tooltip.actor.setFontScale(Reference.GAME_UI_SMALL_FONT_SIZE)
                 tooltip.container.pad(4F)
                 addListener(tooltip)
-                label.setFontScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)
+
                 isDisabled = !game.gameConfig.gameService.isSessionActive
                 pad(8F)
                 image.setScaling(Scaling.fit)
@@ -178,7 +169,7 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
                     Gdx.app.exit()
                 }
             })
-            btnQuit.label.setFontScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)
+            btnQuit.label.setFontScale(1f)
             centerButtons.row()
             centerButtons.add(btnQuit).fillX()
         }
@@ -230,7 +221,6 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
     override fun show() {
         game.renderManager.resetFontSize()
         uiStage.updateViewportToScreen()
-        mainUiLayout.invalidateHierarchy()
         if (game.gameConfig.musicAvailable) game.gameMusic.playOrFadeInto(game.gameAssets.mainMenuMusic)
         Gdx.input.inputProcessor = uiStage.inputProcessor
     }
@@ -242,7 +232,6 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
 
     override fun resize(width: Int, height: Int) {
         uiStage.updateViewport(width, height, true)
-        mainUiLayout.invalidateHierarchy()
     }
 
     override fun pause() {
@@ -258,7 +247,7 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
     }
 
     override fun dispose() {
-        game.userData.lastGameMode = gmImageStack!!.currentElement
+        game.userData.lastGameMode = gmImageStack.currentElement
         uiStage.dispose()
     }
 }

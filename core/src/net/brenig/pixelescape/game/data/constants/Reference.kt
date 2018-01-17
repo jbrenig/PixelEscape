@@ -1,7 +1,5 @@
 package net.brenig.pixelescape.game.data.constants
 
-import java.util.*
-
 /**
  * Provides default values for PixelEscape
  */
@@ -28,8 +26,6 @@ object Reference {
     const val TARGET_RESOLUTION_Y = GAME_RESOLUTION_Y + GAME_UI_Y_SIZE
 
     const val GAME_UI_SCORE_SCREEN_SIZE_BUFFER = 20
-    const val GAME_UI_MAIN_MENU_FONT_SIZE = 1f
-    const val GAME_UI_SMALL_FONT_SIZE = 1f
 
     const val SCREEN_TINT_STRENGTH = 0.6f
 

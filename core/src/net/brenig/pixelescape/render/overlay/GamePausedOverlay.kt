@@ -31,7 +31,7 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
 
     init {
 
-        screen.game.font.data.setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)
+        screen.game.font.data.setScale(1f)
 
         val table = stage.createHeadUiLayoutTable()
 

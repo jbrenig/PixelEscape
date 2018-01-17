@@ -1,7 +1,6 @@
 package net.brenig.pixelescape.render.overlay
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin
-import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.render.ui.ingame.StageManagerGame
 import net.brenig.pixelescape.screen.GameScreen
 
@@ -16,7 +15,7 @@ abstract class OverlayWithUi(screen: GameScreen) : Overlay(screen) {
         get() = screen.game.skin
 
     override fun render(delta: Float) {
-        screen.game.font.data.setScale(Reference.GAME_UI_MAIN_MENU_FONT_SIZE)
+        screen.game.font.data.setScale(1f)
         stage.act(delta)
         stage.draw(screen.game.renderManager)
     }

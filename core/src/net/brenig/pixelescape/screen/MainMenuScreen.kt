@@ -15,7 +15,6 @@ import net.brenig.pixelescape.lib.translate
 import net.brenig.pixelescape.lib.utils.UiUtils
 import net.brenig.pixelescape.lib.utils.horizontalSpacer
 import net.brenig.pixelescape.render.ui.CurrentHighscoreLabel
-import net.brenig.pixelescape.render.ui.general.DisabledTextTooltip
 import net.brenig.pixelescape.render.ui.general.PlayServiceLoginButton
 import net.brenig.pixelescape.render.ui.general.SwipeTabbedStack
 
@@ -140,13 +139,15 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
                             } else {
                                 playServiceStateUpdate()
                             }
+                        } else {
+                            uiStage.createToast(LangKeys.MainMenu.LEADERBOARD_TOOLTIP.translate(), game.skin, this@with)
                         }
                     }
                 })
-                val tooltip = DisabledTextTooltip(LangKeys.MainMenu.LEADERBOARD_TOOLTIP.translate(), game.skin)
-                tooltip.setInstant(true)
-                tooltip.container.pad(4F)
-                addListener(tooltip)
+//                val tooltip = DisabledTextTooltip(LangKeys.MainMenu.LEADERBOARD_TOOLTIP.translate(), game.skin)
+//                tooltip.setInstant(true)
+//                tooltip.container.pad(4F)
+//                addListener(tooltip)
 
                 isDisabled = !game.gameConfig.gameService.isSessionActive
                 pad(8F)

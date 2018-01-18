@@ -5,6 +5,7 @@ import com.badlogic.gdx.InputProcessor
 import com.badlogic.gdx.scenes.scene2d.Actor
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Cell
+import com.badlogic.gdx.scenes.scene2d.ui.Skin
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import com.badlogic.gdx.utils.viewport.Viewport
@@ -157,5 +158,15 @@ open class StageManager(view: Viewport) {
         table.top().left()
         add(table).expand().fill().center()
         return table
+    }
+
+    fun createToast(message: String, skin: Skin, actor: Actor) {
+        val toast = Toast(message, skin)
+        toast.show(actor)
+    }
+
+    fun createToast(message: String, skin: Skin) {
+        val toast = Toast(message, skin)
+        toast.show(uiStage)
     }
 }

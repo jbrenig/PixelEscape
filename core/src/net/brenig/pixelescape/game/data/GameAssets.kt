@@ -17,6 +17,7 @@ import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.game.data.constants.Textures
 import net.brenig.pixelescape.lib.info
 import net.brenig.pixelescape.render.SimpleAnimation
+import net.brenig.pixelescape.render.ui.general.Toast
 import net.brenig.pixelescape.render.ui.general.TwoStateImageButton
 import net.brenig.pixelescape.render.ui.ingame.AbilityWidget
 import java.util.*
@@ -308,6 +309,12 @@ class GameAssets {
                 fontColor = Color.BLACK
             }
 
+            label(name = StyleNames.LABEL_TOAST) {
+                font = defaultFont
+                fontColor = Color.BLACK
+                background = NinePatchDrawable(it.getPatch(Textures.TOOLTIP_BACKGROUND))
+            }
+
             slider {
                 background = it.getDrawable(Textures.SLIDER_BACKGROUND)
                 knob = it.getDrawable(Textures.SLIDER_KNOB)
@@ -335,6 +342,11 @@ class GameAssets {
             textTooltip {
                 label = it[Label.LabelStyle::class.java]
                 background = NinePatchDrawable(it.getPatch(Textures.TOOLTIP_BACKGROUND))
+            }
+
+            addStyle(name = StyleNames.DEFAULT, style = Toast.ToastStyle()) {
+                label = it.get(StyleNames.LABEL_TOAST, Label.LabelStyle::class.java)
+//                background = NinePatchDrawable(it.getPatch(Textures.TOOLTIP_BACKGROUND))
             }
 
             list {

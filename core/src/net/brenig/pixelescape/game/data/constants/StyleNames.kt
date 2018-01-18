@@ -21,4 +21,5 @@ object StyleNames {
 
     const val LABEL_WHITE = "white"
     const val LABEL_BIG = "big"
+    const val LABEL_TOAST = "toast"
 }

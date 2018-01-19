@@ -2,8 +2,8 @@ package net.brenig.pixelescape.game.data
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Preferences
-import net.brenig.pixelescape.game.data.constants.ScoreboardNames
 import net.brenig.pixelescape.game.data.constants.Reference
+import net.brenig.pixelescape.game.data.constants.ScoreboardNames
 import net.brenig.pixelescape.lib.log
 
 /**
@@ -69,7 +69,7 @@ class UserData {
         return if (GameDebugSettings["FORCE_TUTORIALS"]) {
             true
         } else {
-            Reference.SUPPRESS_TUTORIALS || prefs.getBoolean(Keys.tutorial + gameMode.gameModeName, Defaults.tutorial)
+            !Reference.ENABLE_TUTORIALS || prefs.getBoolean(Keys.tutorial + gameMode.gameModeName, Defaults.tutorial)
         }
     }
 

@@ -9,7 +9,16 @@ import net.brenig.pixelescape.lib.utils.AnimationUtils
  */
 class GameMusic(private val game: PixelEscape) {
 
-    private var currentMusic: Music? = null
+    var currentMusic: Music? = null
+        set(value) {
+            stop()
+            if (game.gameConfig.musicAvailable) {
+                field = value
+                if (field != null) {
+                    field!!.volume = currentVolume
+                }
+            }
+        }
 
     /**
      * The target Music that should get faded in
@@ -22,26 +31,7 @@ class GameMusic(private val game: PixelEscape) {
 
     private var state = MusicState.STOPPED
 
-    /**
-     * @return true if fading is in progress
-     */
-    val isFading: Boolean
-        get() = state == MusicState.FADE_IN || state == MusicState.FADE_OUT_STOP || state == MusicState.FADE_OUT_PAUSE || state == MusicState.FADE_OUT_INTO
-
-    val isPlaying: Boolean
-        get() = state != MusicState.STOPPED && state != MusicState.PAUSED
-
-    fun getState() = state.toString()
-
-    fun setCurrentMusic(m: Music?) {
-        stop()
-        if (game.gameConfig.musicAvailable) {
-            currentMusic = m
-            if (currentMusic != null) {
-                currentMusic!!.volume = currentVolume
-            }
-        }
-    }
+    fun getStateString() = state.toString()
 
     /**
      * this function has to be called for fading
@@ -49,7 +39,7 @@ class GameMusic(private val game: PixelEscape) {
      * @param delta time passed
      */
     fun update(delta: Float) {
-        if (game.gameConfig.musicAvailable && isFading) {
+        if (game.gameConfig.musicAvailable && state.isFading) {
             fadingProgress += delta
             if (state == MusicState.FADE_IN) {
                 currentVolume = AnimationUtils.easeInAndOut(fadingProgress, fadingTime) * game.gameSettings.musicVolume
@@ -75,9 +65,9 @@ class GameMusic(private val game: PixelEscape) {
     }
 
     fun updateMusicVolume() {
-        if (!isFading) {
+        if (!state.isFading) {
             currentVolume = game.gameSettings.musicVolume
-            currentMusic!!.volume = game.gameSettings.musicVolume
+            currentMusic?.volume = game.gameSettings.musicVolume
         }
     }
 
@@ -112,21 +102,16 @@ class GameMusic(private val game: PixelEscape) {
      */
     fun setFadeInMusicCurrent() {
         if (fadeInMusic != null) {
-            setCurrentMusic(fadeInMusic)
+            currentMusic = fadeInMusic
             fadeInMusic = null
         }
     }
 
-    fun play() {
-        play(false, 0f)
-    }
-
-    @JvmOverloads
-    fun play(fadeIn: Boolean, fadeInTime: Float = defaultFadingTime) {
+    fun play(fadeIn: Boolean = false, fadeInTime: Float = DEFAULT_FADING_TIME) {
         if (game.gameConfig.musicAvailable) {
             if (currentMusic != null && state != MusicState.PLAYING && game.gameSettings.isMusicEnabled) {
                 if (fadeIn) {
-                    if (!isFading) {
+                    if (!state.isFading) {
                         fadingProgress = 0f
                         currentMusic!!.volume = 0f
                     }
@@ -145,30 +130,28 @@ class GameMusic(private val game: PixelEscape) {
 
     fun playOrFadeInto(music: Music) {
         if (game.gameConfig.musicAvailable) {
-            if (currentMusic != null && isPlaying) {
+            if (currentMusic != null && state.isPlaying) {
                 if (currentMusic === music) {
                     fadeIn()
                     return
                 }
                 fadeIntoMusic(music)
             } else {
-                setCurrentMusic(music)
+                currentMusic = music
                 play()
             }
         }
     }
 
-    @JvmOverloads
-    fun fadeOutToStop(time: Float = defaultFadingTime) {
-        if (!isFading || state == MusicState.FADE_IN) {
+    fun fadeOutToStop(time: Float = DEFAULT_FADING_TIME) {
+        if (!state.isFading || state == MusicState.FADE_IN) {
             fadingProgress = 0f
             fadingTime = time
         }
         state = MusicState.FADE_OUT_STOP
     }
 
-    @JvmOverloads
-    fun fadeOutToPause(time: Float = defaultFadingTime) {
+    fun fadeOutToPause(time: Float = DEFAULT_FADING_TIME) {
         fadingProgress = 0f
         fadingTime = time
         state = MusicState.FADE_OUT_PAUSE
@@ -184,12 +167,18 @@ class GameMusic(private val game: PixelEscape) {
         state = MusicState.FADE_OUT_INTO
     }
 
-    private enum class MusicState {
-        PLAYING, PAUSED, STOPPED, FADE_IN, FADE_OUT_STOP, FADE_OUT_PAUSE, FADE_OUT_INTO
+    private enum class MusicState(val isFading: Boolean, val isPlaying: Boolean) {
+        PLAYING(false, true),
+        PAUSED(false, false),
+        STOPPED(false, false),
+        FADE_IN(true, true),
+        FADE_OUT_STOP(true, true),
+        FADE_OUT_PAUSE(true, true),
+        FADE_OUT_INTO(true, true)
     }
 
     companion object {
-        private const val defaultFadingTime = 1f
+        private const val DEFAULT_FADING_TIME = 1f
     }
 
 }

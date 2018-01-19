@@ -257,7 +257,7 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : ScreenWithUi(game)
             game.renderManager.begin()
             game.font.color = Color.LIGHT_GRAY
             game.font.data.setScale(0.5f)
-            fontLayout.setText(game.font, "Music state: " + game.gameMusic.getState())
+            fontLayout.setText(game.font, "Music state: " + game.gameMusic.getStateString())
             val pos = 5 + fontLayout.height
             game.font.draw(game.batch, fontLayout, 5f, pos)
             game.font.data.setScale(1f)

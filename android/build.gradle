@@ -42,6 +42,8 @@ android {
         minSdkVersion 15
         targetSdkVersion 26
         signingConfig signingConfigs.config
+        versionName = version
+        versionCode = rootProject.versionNumber
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7

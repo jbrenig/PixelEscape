@@ -22,7 +22,7 @@ allprojects {
 
     version = '1.1.0'
     ext {
-        versionNumber = 2
+        versionNumber = 3
         appName = 'PixelEscape'
         gdxVersion = '1.9.6'
         roboVMVersion = '2.3.0'

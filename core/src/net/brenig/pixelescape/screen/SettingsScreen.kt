@@ -91,6 +91,7 @@ class SettingsScreen(game: PixelEscape) : ScreenWithUi(game) {
             langSelect.addListener(object : ChangeListener() {
                 override fun changed(event: ChangeEvent?, actor: Actor?) {
                     game.gameSettings.setLanguage(langSelect.selected.value)
+                    game.gameSettings.saveToDisk()
                     game.reloadLanguage()
                     reloadScreen()
                 }

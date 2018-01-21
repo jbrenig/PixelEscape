@@ -32,15 +32,15 @@ class GameSettings {
             saveToDisk()
         }
 
-    var musicVolume: Float
-        get() = prefs.getFloat(Keys.musicVolume, Defaults.musicVolume)
+    var musicVolume: Float = Defaults.musicVolume
         set(musicVolume) {
+            field = musicVolume
             prefs.putFloat(Keys.musicVolume, musicVolume)
         }
 
-    var soundVolume: Float
-        get() = prefs.getFloat(Keys.soundVolume, Defaults.soundVolume)
+    var soundVolume: Float = Defaults.soundVolume
         set(soundVolume) {
+            field = soundVolume
             prefs.putFloat(Keys.soundVolume, soundVolume)
         }
 
@@ -58,6 +58,9 @@ class GameSettings {
 
     init {
         prefs = Gdx.app.getPreferences(PREF_MAIN_SETTINGS)
+
+        musicVolume = prefs.getFloat(Keys.musicVolume, Defaults.musicVolume)
+        soundVolume = prefs.getFloat(Keys.soundVolume, Defaults.soundVolume)
     }
 
     fun getLanguageWithDefault(defLanguage: Locale): Locale {

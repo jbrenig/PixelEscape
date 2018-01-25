@@ -31,6 +31,7 @@ class PixelEscape constructor(val gameConfig: GameConfiguration = GameConfigurat
      * true if assets are loaded. Used for unloading when paused and in background
      */
     private var assetsLoaded = false
+    private var disposed = true
 
     /**
      * @return Game Renderer
@@ -91,7 +92,7 @@ class PixelEscape constructor(val gameConfig: GameConfiguration = GameConfigurat
         if (gameConfig.loggingEnabled) {
             setGDXLogLevel(Application.LOG_DEBUG)
         } else {
-            setGDXLogLevel(Application.LOG_NONE)
+            setGDXLogLevel(Application.LOG_ERROR)
         }
         info("Main", "Starting up...")
         if (pixelEscape != null) {
@@ -134,6 +135,7 @@ class PixelEscape constructor(val gameConfig: GameConfiguration = GameConfigurat
         showMainMenu()
 
 
+        disposed = false
         log("Main", "Finished loading!")
     }
 
@@ -167,9 +169,14 @@ class PixelEscape constructor(val gameConfig: GameConfiguration = GameConfigurat
     }
 
     override fun dispose() {
-        saveUserData()
-        unloadAssets()
-        super.dispose()
+        if (disposed) {
+            error("Game already disposed!")
+        } else {
+            saveUserData()
+            unloadAssets()
+            super.dispose()
+            disposed = true
+        }
     }
 
     fun saveUserData() {

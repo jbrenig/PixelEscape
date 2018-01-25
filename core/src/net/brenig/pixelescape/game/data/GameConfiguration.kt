@@ -38,12 +38,9 @@ open class GameConfiguration {
 
     open val loggingEnabled = true
 
-    @Suppress("ConstantConditionIf")
-    open val gameService : IGameServiceClient = if (Reference.DEBUG_SETTINGS_AVAILABLE) DebugGameServiceClient() else NoGameServiceClient()
+    open val gameService : IGameServiceClient get() = if (debugSettingsAvailable) DebugGameServiceClient() else NoGameServiceClient()
 
-    open val gameServiceAvailable = Reference.DEBUG_SETTINGS_AVAILABLE
-
-    open fun initGameServices() {}
+    open val gameServiceAvailable get() = debugSettingsAvailable
 
     open val musicAvailable = Reference.ENABLE_MUSIC
 
@@ -72,4 +69,6 @@ open class GameConfiguration {
                     Locale.ENGLISH
                 }
             }
+
+    open fun initGameServices() {}
 }

@@ -38,7 +38,7 @@ open class GameConfiguration {
 
     open val loggingEnabled = true
 
-    open val gameService : IGameServiceClient get() = if (debugSettingsAvailable) DebugGameServiceClient() else NoGameServiceClient()
+    open val gameService : IGameServiceClient by lazy { if (debugSettingsAvailable) DebugGameServiceClient() else NoGameServiceClient() }
 
     open val gameServiceAvailable get() = debugSettingsAvailable
 

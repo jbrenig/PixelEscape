@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Interpolation
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton
+import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import net.brenig.pixelescape.game.data.constants.Reference
@@ -55,7 +56,24 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
 
         val content = stage.createContentUiLayoutTable()
         content.add(VerticalSpacer())
+
+        if (isGameOver && screen.game.gameConfig.gameService.isSessionActive) {
+            content.row().expandX().center()
+
+            val btnLeaderboard = UiUtils.createLeaderboardsButton(screen.game, stage, screen.gameMode)
+            content.add(btnLeaderboard).padBottom(10f).expandX().center()
+            btnLeaderboard.color.a = 0f
+            btnLeaderboard.addAction(Actions.sequence(
+                    Actions.scaleTo(0.05f, 0.05f),
+                    Actions.delay(TIME_TO_WAIT + 1f),
+                    Actions.parallel(Actions.fadeIn(0.2f, Interpolation.fade), Actions.scaleTo(1f, 1f, 0.2f, Interpolation.fade))
+            ))
+        }
+
         content.row().expandX().center()
+
+        val buttonPanel = Table()
+        content.add(buttonPanel)
 
         val btnMainMenu = TextButton(LangKeys.Ingame.MAIN_MENU.translate(), screen.game.skin)
         btnMainMenu.addListener(object : ClickListener() {
@@ -64,7 +82,7 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
 
             }
         })
-        content.add(btnMainMenu).right().bottom().padBottom(40f).padRight(10f)
+        buttonPanel.add(btnMainMenu).right().bottom().padBottom(40f).padRight(10f)
 
         val btnRestartGame = TextButton(LangKeys.Ingame.RETRY.translate(), screen.game.skin)
         btnRestartGame.addListener(object : ClickListener() {
@@ -73,7 +91,7 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
             }
         })
         btnRestartGame.isVisible = false
-        content.add(btnRestartGame).left().bottom().padBottom(40f).padLeft(10f).width(btnMainMenu.width)
+        buttonPanel.add(btnRestartGame).left().bottom().padBottom(40f).padLeft(10f).width(btnMainMenu.width)
 
         stage.rootTable.layout()
 

@@ -1,11 +1,17 @@
 package net.brenig.pixelescape.lib.utils
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent
+import com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 import net.brenig.pixelescape.PixelEscape
+import net.brenig.pixelescape.game.data.GameMode
 import net.brenig.pixelescape.game.data.constants.Reference
+import net.brenig.pixelescape.game.data.constants.StyleNames
+import net.brenig.pixelescape.lib.LangKeys
+import net.brenig.pixelescape.lib.translate
+import net.brenig.pixelescape.render.ui.general.StageManager
 import net.brenig.pixelescape.render.ui.general.TwoStateImageButton
 
 /**
@@ -110,6 +116,35 @@ object UiUtils {
             layout.add(btnFullScreen)
         }
         return layout
+    }
+
+    fun createLeaderboardsButton(game: PixelEscape, uiStage: StageManager, gameMode: GameMode, serviceStateUpdater: (() -> Unit)? = null) : ImageTextButton {
+        val btnLeaderboards = ImageTextButton(LangKeys.LEADERBOARD.translate(), game.skin, StyleNames.LEADERBOARDS)
+
+        with(btnLeaderboards) {
+            addListener(object : ClickListener() {
+                override fun clicked(event: InputEvent?, x: Float, y: Float) {
+                    if (!btnLeaderboards.isDisabled) {
+                        if (game.gameConfig.gameService.isSessionActive) {
+                            game.gameConfig.gameService.showLeaderboards(gameMode.scoreboardName)
+                        } else {
+                            serviceStateUpdater?.invoke()
+                        }
+                    } else {
+                        uiStage.createToast(net.brenig.pixelescape.lib.LangKeys.MainMenu.LEADERBOARD_TOOLTIP.translate(), game.skin, this@with)
+                    }
+                }
+            })
+
+            isDisabled = !game.gameConfig.gameService.isSessionActive
+            pad(8F)
+            image.setScaling(com.badlogic.gdx.utils.Scaling.fit)
+            imageCell.size(net.brenig.pixelescape.lib.utils.UiUtils.BUTTON_SIZE)
+            imageCell.fill()
+            image.setSize(net.brenig.pixelescape.lib.utils.UiUtils.BUTTON_SIZE, net.brenig.pixelescape.lib.utils.UiUtils.BUTTON_SIZE)
+        }
+
+        return btnLeaderboards
     }
 }
 

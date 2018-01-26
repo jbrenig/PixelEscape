@@ -122,40 +122,13 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
         centerButtons.add(btnStart).padBottom(8f).fillX()
 
         if (game.gameConfig.gameServiceAvailable) {
-            btnLeaderboards = ImageTextButton(LangKeys.LEADERBOARD.translate(), game.skin, StyleNames.LEADERBOARDS)
+            btnLeaderboards = UiUtils.createLeaderboardsButton(game, uiStage, gameMode, ::playServiceStateUpdate)
 
             playServiceButton!!.addListener(object : ClickListener() {
                 override fun clicked(event: InputEvent?, x: Float, y: Float) {
                     btnLeaderboards.isDisabled = !game.gameConfig.gameService.isSessionActive
                 }
             })
-
-            with(btnLeaderboards) {
-                addListener(object : ClickListener() {
-                    override fun clicked(event: InputEvent?, x: Float, y: Float) {
-                        if (!btnLeaderboards.isDisabled) {
-                            if (game.gameConfig.gameService.isSessionActive) {
-                                game.gameConfig.gameService.showLeaderboards(gameMode.scoreboardName)
-                            } else {
-                                playServiceStateUpdate()
-                            }
-                        } else {
-                            uiStage.createToast(LangKeys.MainMenu.LEADERBOARD_TOOLTIP.translate(), game.skin, this@with)
-                        }
-                    }
-                })
-//                val tooltip = DisabledTextTooltip(LangKeys.MainMenu.LEADERBOARD_TOOLTIP.translate(), game.skin)
-//                tooltip.setInstant(true)
-//                tooltip.container.pad(4F)
-//                addListener(tooltip)
-
-                isDisabled = !game.gameConfig.gameService.isSessionActive
-                pad(8F)
-                image.setScaling(Scaling.fit)
-                imageCell.size(UiUtils.BUTTON_SIZE)
-                imageCell.fill()
-                image.setSize(UiUtils.BUTTON_SIZE, UiUtils.BUTTON_SIZE)
-            }
             centerButtons.row()
             centerButtons.add(btnLeaderboards).padBottom(8f).fillX()
         } else {

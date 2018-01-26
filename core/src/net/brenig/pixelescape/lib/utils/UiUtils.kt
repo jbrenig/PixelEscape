@@ -24,8 +24,8 @@ object UiUtils {
         val ninePatch = (game.skin.getDrawable("up") as NinePatchDrawable).minimize()
         table.background = ninePatch
         //minimize padding
-        table.pad(16f, 16f, 16f, 16f)
-        table.defaults().expand().fillY()
+        table.pad(16f, 12f, 16f, 12f)
+        table.defaults().expand().fillY().pad(0f, 4f, 0f, 4f)
         return table
     }
 

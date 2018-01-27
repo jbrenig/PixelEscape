@@ -118,7 +118,7 @@ object UiUtils {
         return layout
     }
 
-    fun createLeaderboardsButton(game: PixelEscape, uiStage: StageManager, gameMode: GameMode, serviceStateUpdater: (() -> Unit)? = null) : ImageTextButton {
+    fun createLeaderboardsButton(game: PixelEscape, uiStage: StageManager, gameMode: (() -> GameMode), serviceStateUpdater: (() -> Unit)? = null) : ImageTextButton {
         val btnLeaderboards = ImageTextButton(LangKeys.LEADERBOARD.translate(), game.skin, StyleNames.LEADERBOARDS)
 
         with(btnLeaderboards) {
@@ -126,7 +126,7 @@ object UiUtils {
                 override fun clicked(event: InputEvent?, x: Float, y: Float) {
                     if (!btnLeaderboards.isDisabled) {
                         if (game.gameConfig.gameService.isSessionActive) {
-                            game.gameConfig.gameService.showLeaderboards(gameMode.scoreboardName)
+                            game.gameConfig.gameService.showLeaderboards(gameMode().scoreboardName)
                         } else {
                             serviceStateUpdater?.invoke()
                         }

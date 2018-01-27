@@ -122,7 +122,7 @@ class MainMenuScreen(game: PixelEscape) : ScreenWithUi(game) {
         centerButtons.add(btnStart).padBottom(8f).fillX()
 
         if (game.gameConfig.gameServiceAvailable) {
-            btnLeaderboards = UiUtils.createLeaderboardsButton(game, uiStage, gameMode, ::playServiceStateUpdate)
+            btnLeaderboards = UiUtils.createLeaderboardsButton(game, uiStage, ::gameMode, ::playServiceStateUpdate)
 
             playServiceButton!!.addListener(object : ClickListener() {
                 override fun clicked(event: InputEvent?, x: Float, y: Float) {

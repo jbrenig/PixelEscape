@@ -60,7 +60,7 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
         if (isGameOver && screen.game.gameConfig.gameService.isSessionActive) {
             content.row().expandX().center()
 
-            val btnLeaderboard = UiUtils.createLeaderboardsButton(screen.game, stage, screen.gameMode)
+            val btnLeaderboard = UiUtils.createLeaderboardsButton(screen.game, stage, screen::gameMode)
             content.add(btnLeaderboard).padBottom(10f).expandX().center()
             btnLeaderboard.color.a = 0f
             btnLeaderboard.addAction(Actions.sequence(

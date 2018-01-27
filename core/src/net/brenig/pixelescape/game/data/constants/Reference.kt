@@ -92,9 +92,9 @@ object Reference {
     //DEBUG FLAGS
     const val ENABLE_TUTORIALS = false
 
-    const val ENABLE_MUSIC = true
+    const val ENABLE_MUSIC = false
 
-    const val DEBUG_SETTINGS_AVAILABLE = true
+    const val DEBUG_SETTINGS_AVAILABLE = false
 
     //VERSION CONSTANTS
     /**

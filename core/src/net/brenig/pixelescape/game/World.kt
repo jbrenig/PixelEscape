@@ -1,5 +1,7 @@
 package net.brenig.pixelescape.game
 
+import com.badlogic.gdx.utils.Array
+import de.golfgl.gdxgamesvcs.leaderboard.ILeaderBoardEntry
 import net.brenig.pixelescape.game.data.GameDebugSettings
 import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.game.entity.Entity
@@ -175,10 +177,12 @@ class World constructor(val screen: GameScreen, worldWidth: Int = Reference.TARG
 
     fun spawnEntities() {
         //Spawn Entities
-        for (e in entitySpawnQueue) {
-            spawnEntityDo(e)
+        synchronized(entitySpawnQueue) {
+            for (e in entitySpawnQueue) {
+                spawnEntityDo(e)
+            }
+            entitySpawnQueue.clear()
         }
-        entitySpawnQueue.clear()
     }
 
     private fun spawnEntityDo(e: Entity) {
@@ -189,7 +193,9 @@ class World constructor(val screen: GameScreen, worldWidth: Int = Reference.TARG
      * spawns the given Entity
      */
     fun spawnEntity(e: Entity) {
-        entitySpawnQueue.add(e)
+        synchronized(entitySpawnQueue) {
+            entitySpawnQueue.add(e)
+        }
     }
 
     fun <T : Entity> createEntity(entity: Class<T>): T {
@@ -288,13 +294,29 @@ class World constructor(val screen: GameScreen, worldWidth: Int = Reference.TARG
 
         //respawn player entity
         spawnEntityDo(player)
-        if (screen.game.gameSettings.showHighscoreInWorld && screen.game.userData.getHighScore(screen.gameMode) > 0) {
-            val entityHighscore = createEntity(EntityHighscore::class.java)
-            spawnEntityDo(entityHighscore)
+        if (screen.game.gameSettings.showHighscoreInWorld) {
+            if (screen.game.userData.getHighScore(screen.gameMode) > 0) {
+                val entityHighscore = createEntity(EntityHighscore::class.java)
+                entityHighscore.score = screen.game.userData.getHighScore(screen.gameMode)
+                spawnEntityDo(entityHighscore)
+            }
+            if (screen.game.gameConfig.gameService.isSessionActive) {
+                val playServices = screen.game.gameConfig.gameService
+                playServices.fetchLeaderboardEntries(screen.gameMode.scoreboardName, 1, false, ::createLeaderboardHighscoreMarker)
+            }
         }
 
         //Reset world gen
         worldGenerator.reset()
+    }
+
+    private fun createLeaderboardHighscoreMarker(leaderBoardEntryArray: Array<ILeaderBoardEntry>?) {
+        if (leaderBoardEntryArray != null && leaderBoardEntryArray.size > 0) {
+            val score = leaderBoardEntryArray[0].sortValue
+            val entityHighscore = createEntity(EntityHighscore::class.java)
+            entityHighscore.score = score.toInt()
+            spawnEntity(entityHighscore)
+        }
     }
 
     /**

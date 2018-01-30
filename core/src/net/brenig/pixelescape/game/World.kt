@@ -1,5 +1,6 @@
 package net.brenig.pixelescape.game
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.utils.Array
 import de.golfgl.gdxgamesvcs.leaderboard.ILeaderBoardEntry
 import net.brenig.pixelescape.game.data.GameDebugSettings
@@ -315,6 +316,7 @@ class World constructor(val screen: GameScreen, worldWidth: Int = Reference.TARG
             val score = leaderBoardEntryArray[0].sortValue
             val entityHighscore = createEntity(EntityHighscore::class.java)
             entityHighscore.score = score.toInt()
+            entityHighscore.color = Color.GOLDENROD
             spawnEntity(entityHighscore)
         }
     }

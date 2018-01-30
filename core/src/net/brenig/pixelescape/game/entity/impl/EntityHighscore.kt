@@ -17,6 +17,7 @@ class EntityHighscore : Entity() {
         get() = field || super.isDead
 
     var score: Int = Int.MAX_VALUE
+    var color: Color = Color.BLUE
 
     init {
         xPos = score.toFloat()
@@ -54,7 +55,7 @@ class EntityHighscore : Entity() {
                 for (i in 0 until maxCount) {
                     val e = world.createEntity(EntityCrashParticle::class.java)
                     e.setPosition(pos, (i * EntityCrashParticle.SIZE + yOffset + yStart).toFloat())
-                    e.setColor(Color.BLUE)
+                    e.setColor(color)
                     e.setVelocity((random.nextFloat() - 0.5f) * 80, (random.nextFloat() - 0.5f) * 40)
                     world.spawnEntity(e)
                 }
@@ -62,7 +63,7 @@ class EntityHighscore : Entity() {
                 renderer.applyForceToScreen((2 + random.nextFloat()) * scoreModifier * 0.2f, 0f)
                 isDead = true
             }
-            renderer.renderManager.setColor(Color.BLUE)
+            renderer.renderManager.setColor(color)
             renderer.renderRectWorld(pos, yPos, EntityCrashParticle.SIZE.toFloat(), world.worldHeight.toFloat())
         }
     }
@@ -73,5 +74,6 @@ class EntityHighscore : Entity() {
         score = Int.MAX_VALUE
         xPos = score.toFloat()
         yPos = 0F
+        color = Color.BLUE
     }
 }

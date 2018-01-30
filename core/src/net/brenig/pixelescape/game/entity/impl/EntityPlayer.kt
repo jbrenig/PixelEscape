@@ -36,7 +36,9 @@ class EntityPlayer(world: World, gameMode: GameMode) : Entity(), IMovingEntity {
      */
     var yVelocity: Float = 0.toFloat()
 
-    private var xVelocityModifier = 0f
+    var xVelocityModifier = 0f
+        private set
+
     private var yVelocityFactor = 1f
 
     var xPosScreen: Int = 0

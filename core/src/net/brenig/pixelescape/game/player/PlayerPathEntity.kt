@@ -1,8 +1,8 @@
 package net.brenig.pixelescape.game.player
 
+import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.game.entity.IMovingEntity
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer
-import net.brenig.pixelescape.game.data.constants.Reference
 
 /**
  * Player path entity
@@ -26,7 +26,7 @@ class PlayerPathEntity(yPos: Float, xPosScreen: Int) : IMovingEntity {
 
     fun update(e: IMovingEntity, delta: Float, playerEntity: EntityPlayer) {
         this.yPos += yVelocity * delta
-        this.yVelocity = (e.yPos - this.yPos) * Reference.PATH_ENTITY_ACCELERATION_MOD * playerEntity.xVelocity
+        this.yVelocity = (e.yPos - this.yPos) * Reference.PATH_ENTITY_ACCELERATION_MOD * (playerEntity.xVelocity + playerEntity.xVelocityModifier)
     }
 
     fun reset(yPos: Float, xPosScreen: Int) {

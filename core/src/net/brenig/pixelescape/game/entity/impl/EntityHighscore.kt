@@ -2,7 +2,7 @@ package net.brenig.pixelescape.game.entity.impl
 
 import com.badlogic.gdx.graphics.Color
 import net.brenig.pixelescape.PixelEscape
-import net.brenig.pixelescape.game.World
+import net.brenig.pixelescape.game.InputManager
 import net.brenig.pixelescape.game.data.GameMode
 import net.brenig.pixelescape.game.entity.Entity
 import net.brenig.pixelescape.game.entity.impl.particle.EntityCrashParticle
@@ -16,17 +16,34 @@ class EntityHighscore : Entity() {
     override var isDead: Boolean = false
         get() = field || super.isDead
 
-    override var world: World
-        get() = super.world
-        set(world) {
-            super.world = world
-            xPos = (world.screen.game.userData.getHighScore(world.screen.gameMode) + world.player.xPosScreen).toFloat()
-            yPos = 0f
+    var score: Int = Int.MAX_VALUE
+
+    init {
+        xPos = score.toFloat()
+        yPos = 0F
+    }
+
+    override fun update(delta: Float, inputManager: InputManager, gameMode: GameMode): Boolean {
+        val target = world.player.xPos + (score - world.player.score)
+        val deltaX = target - xPos
+        when {
+            Math.abs(deltaX) < 1 -> xPos = target
+            xPos > world.currentScreenEnd -> xPos = Math.max(world.currentScreenEnd, target)
+            else -> {
+                var change = 0.5F * deltaX
+                if (Math.abs(change) < 1) {
+                    change = Math.signum(deltaX)
+                }
+                xPos += delta * change
+            }
         }
+        yPos = 0F
+        return super.update(delta, inputManager, gameMode)
+    }
 
     override fun renderBackground(game: PixelEscape, renderer: WorldRenderer, gameMode: GameMode, delta: Float) {
         if (minX < world.currentScreenEnd) {
-            val pos = xPos - world.player.bonusScore
+            val pos = xPos
             if (world.player.xPos > pos) {
                 val random = world.random
                 val yEnd = world.getTerrainTopHeightRealForCoord(pos.toInt())
@@ -53,5 +70,8 @@ class EntityHighscore : Entity() {
     override fun reset() {
         super.reset()
         isDead = false
+        score = Int.MAX_VALUE
+        xPos = score.toFloat()
+        yPos = 0F
     }
 }

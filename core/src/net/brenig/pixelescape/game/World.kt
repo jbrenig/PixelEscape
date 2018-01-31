@@ -303,7 +303,8 @@ class World constructor(val screen: GameScreen, worldWidth: Int = Reference.TARG
             }
             if (screen.game.gameConfig.gameService.isSessionActive) {
                 val playServices = screen.game.gameConfig.gameService
-                playServices.fetchLeaderboardEntries(screen.gameMode.scoreboardName, 1, false, ::createLeaderboardHighscoreMarker)
+                // FIXME: note library implementation of relatedToPlayer leaderboards is incorrect. The parameter is inverted.
+                playServices.fetchLeaderboardEntries(screen.gameMode.scoreboardName, 1, true, ::createLeaderboardHighscoreMarker)
             }
         }
 

@@ -304,7 +304,8 @@ class World constructor(val screen: GameScreen, worldWidth: Int = Reference.TARG
             if (screen.game.gameConfig.gameService.isSessionActive) {
                 val playServices = screen.game.gameConfig.gameService
                 // FIXME: note library implementation of relatedToPlayer leaderboards is incorrect. The parameter is inverted.
-                playServices.fetchLeaderboardEntries(screen.gameMode.scoreboardName, 1, true, ::createLeaderboardHighscoreMarker)
+                playServices.fetchLeaderboardEntries(screen.gameMode.scoreboardName, 1, true,
+                        { entry -> createLeaderboardHighscoreMarker(screen.game.userData.getHighScore(screen.gameMode), entry) })
             }
         }
 
@@ -312,13 +313,15 @@ class World constructor(val screen: GameScreen, worldWidth: Int = Reference.TARG
         worldGenerator.reset()
     }
 
-    private fun createLeaderboardHighscoreMarker(leaderBoardEntryArray: Array<ILeaderBoardEntry>?) {
+    private fun createLeaderboardHighscoreMarker(userScore: Int, leaderBoardEntryArray: Array<ILeaderBoardEntry>?) {
         if (leaderBoardEntryArray != null && leaderBoardEntryArray.size > 0) {
             val score = leaderBoardEntryArray[0].sortValue
-            val entityHighscore = createEntity(EntityHighscore::class.java)
-            entityHighscore.score = score.toInt()
-            entityHighscore.color = Color.GOLDENROD
-            spawnEntity(entityHighscore)
+            if (score > userScore && score > 0) {
+                val entityHighscore = createEntity(EntityHighscore::class.java)
+                entityHighscore.score = score.toInt()
+                entityHighscore.color = Color.GOLDENROD
+                spawnEntity(entityHighscore)
+            }
         }
     }
 

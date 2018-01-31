@@ -346,7 +346,7 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : ScreenWithUi(game)
         input.keyHandler = null
         setOverlay(GamePausedOverlay(this, true))
         if (game.userData.updateHighscore(gameMode, world.player.score)) {
-            if (game.gameConfig.gameServiceAvailable && game.gameConfig.gameService.isSessionActive) {
+            if (game.gameConfig.gameServiceAvailable && game.gameConfig.gameService.isSessionActive && game.gameConfig.canSubmitHighscores) {
                 game.gameConfig.gameService.submitToLeaderboard(gameMode.scoreboardName, world.player.score.toLong(), null)
             }
         }

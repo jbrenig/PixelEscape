@@ -71,4 +71,6 @@ open class GameConfiguration {
             }
 
     open fun initGameServices() {}
+
+    val canSubmitHighscores get() = gameServiceAvailable && !debugSettingsAvailable
 }

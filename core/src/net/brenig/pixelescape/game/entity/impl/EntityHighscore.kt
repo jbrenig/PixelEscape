@@ -60,7 +60,7 @@ class EntityHighscore : Entity() {
                 for (i in 0 until maxCount) {
                     val e = world.createEntity(EntityCrashParticle::class.java)
                     e.setPosition(pos, (i * EntityCrashParticle.SIZE + yOffset + yStart).toFloat())
-                    e.setColor(color)
+                    e.color = color
                     e.setVelocity((random.nextFloat() - 0.5f) * 80, (random.nextFloat() - 0.5f) * 40)
                     world.spawnEntity(e)
                 }

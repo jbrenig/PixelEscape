@@ -17,7 +17,10 @@ class EntityCrashParticle : Entity() {
     private var xVel = 0f
     private var yVel = 0f
 
-    private var color = Color.BLACK
+    var radius: Int = RADIUS
+    private val size: Int get() = radius * 2
+
+    var color = Color.BLACK
 
     /**
      * set whether the particle should collide with the top terrain<br></br>
@@ -40,10 +43,6 @@ class EntityCrashParticle : Entity() {
     fun setVelocity(xVel: Float, yVel: Float) {
         this.xVel = xVel
         this.yVel = yVel
-    }
-
-    fun setColor(color: Color) {
-        this.color = color
     }
 
     override fun render(game: PixelEscape, renderer: WorldRenderer, gameMode: GameMode, delta: Float) {
@@ -153,7 +152,7 @@ class EntityCrashParticle : Entity() {
 
         game.renderManager.begin()
         game.renderManager.setColor(color)
-        renderer.renderRectWorld(xPos - radius, yPos - radius, SIZE.toFloat(), SIZE.toFloat())
+        renderer.renderRectWorld(xPos - radius, yPos - radius, size.toFloat(), size.toFloat())
     }
 
     private fun slowDownX(delta: Float) {
@@ -191,12 +190,14 @@ class EntityCrashParticle : Entity() {
         color = Color.BLACK
         collideTop = true
         isDead = false
+        radius = RADIUS
     }
 
     companion object {
 
-        const val SIZE = 6
-        private const val radius = SIZE / 2
+        const val RADIUS = 3
+        const val SIZE = RADIUS * 2
+
         private const val collisionSpeed = -0.4f
 
         private const val BOUNCE_X = 0.4f

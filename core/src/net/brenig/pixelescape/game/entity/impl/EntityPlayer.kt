@@ -342,7 +342,7 @@ class EntityPlayer(world: World, gameMode: GameMode) : Entity(), IMovingEntity {
             val y = Math.cos(i.toDouble()).toFloat() + (random.nextFloat() - 0.5f)
             val e = world.createEntity(EntityCrashParticle::class.java)
             e.setPosition(xPos - xVelocity * Gdx.graphics.deltaTime + x, yPos - yVelocity * Gdx.graphics.deltaTime + y)
-            e.setColor(if (world.screen.game.gameDebugSettings.getBoolean("PLAYER_EXPLOSION_RED")) Color.RED else Color.BLACK)
+            e.color = (if (world.screen.game.gameDebugSettings.getBoolean("PLAYER_EXPLOSION_RED")) Color.RED else Color.BLACK)
             val xVel = (x * 2 + (random.nextFloat() - 0.5f)) * 70 + xVelocity * 0.4f
             val yVel = (y * 2 + (random.nextFloat() - 0.5f)) * 70
             e.setVelocity(xVel, yVel)
@@ -386,7 +386,7 @@ class EntityPlayer(world: World, gameMode: GameMode) : Entity(), IMovingEntity {
                 val y = Math.cos(i.toDouble()).toFloat() + (random.nextFloat() - 0.5f)
                 val e = world.createEntity(EntityCrashParticle::class.java)
                 e.setPosition(lifeX + x, lifeY + y)
-                e.setColor(Color.RED)
+                e.color = Color.RED
                 e.collideTop = false
                 val xVel = (x * 2 + (random.nextFloat() - 0.5f)) * 70
                 val yVel = (y * 2 + (random.nextFloat() - 0.5f)) * 70

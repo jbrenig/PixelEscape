@@ -17,6 +17,11 @@ class EntityHighscore : Entity() {
         get() = field || super.isDead
 
     var score: Int = Int.MAX_VALUE
+        set(value) {
+            field = value
+            xPos = world.player.xPos + (value - world.player.score)
+        }
+
     var color: Color = Color.BLUE
 
     init {
@@ -45,7 +50,7 @@ class EntityHighscore : Entity() {
     override fun renderBackground(game: PixelEscape, renderer: WorldRenderer, gameMode: GameMode, delta: Float) {
         if (minX < world.currentScreenEnd) {
             val pos = xPos
-            if (world.player.xPos > pos) {
+            if (world.player.xPos > pos && !isDead) {
                 val random = world.random
                 val yEnd = world.getTerrainTopHeightRealForCoord(pos.toInt())
                 val yStart = world.getTerrainBotHeightRealForCoord(pos.toInt())

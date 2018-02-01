@@ -252,7 +252,7 @@ class EntityPlayer(world: World, gameMode: GameMode) : Entity(), IMovingEntity {
                     collide = false
                 }
             }
-            return collide && onPlayerCollide(col, world)
+            return collide && onPlayerCollide(col)
         }
         return false
     }
@@ -336,16 +336,7 @@ class EntityPlayer(world: World, gameMode: GameMode) : Entity(), IMovingEntity {
         realXPos += x
     }
 
-    /**
-     * Gets called when player collides<br></br>
-     * used to spawn explosion and other effects as well as reducing lives/showing gameover screen
-     *
-     * @param col   type of collision
-     * @param world the world instance
-     */
-    private fun onPlayerCollide(col: CollisionType, world: World): Boolean {
-        //Spawn particles
-        val random = world.random
+    fun spawnPlayerEntityExplosion(random: Random) {
         for (i in 0..59) {
             val x = Math.sin(i.toDouble()).toFloat() + (random.nextFloat() - 0.5f)
             val y = Math.cos(i.toDouble()).toFloat() + (random.nextFloat() - 0.5f)
@@ -357,6 +348,20 @@ class EntityPlayer(world: World, gameMode: GameMode) : Entity(), IMovingEntity {
             e.setVelocity(xVel, yVel)
             world.spawnEntity(e)
         }
+    }
+
+    /**
+     * Gets called when player collides<br></br>
+     * used to spawn explosion and other effects as well as reducing lives/showing gameover screen
+     *
+     * @param col   type of collision
+     * @param world the world instance
+     */
+    private fun onPlayerCollide(col: CollisionType): Boolean {
+        //Spawn particles
+        val random = world.random
+        spawnPlayerEntityExplosion(random)
+
         //apply screenshake
         //increase effect with higher score
         val scoreModifier = 1 - 1 / (xVelocity * 0.4f)

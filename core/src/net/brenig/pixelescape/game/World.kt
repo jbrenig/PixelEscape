@@ -172,6 +172,7 @@ class World constructor(val screen: GameScreen, worldWidth: Int = Reference.TARG
                 's' -> ItemScore.ITEM.onCollect(player)
                 'd' -> ItemScoreDynamic.ITEM.onCollect(player)
                 'g' -> GameDebugSettings.toggle("DEBUG_GOD_MODE")
+                'e' -> player.spawnPlayerEntityExplosion(random)
             }
         }
     }

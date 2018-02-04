@@ -33,7 +33,7 @@ class EntityHighscore : Entity() {
         val target = world.player.xPos + (score - world.player.score)
         val deltaX = target - xPos
         when {
-            Math.abs(deltaX) < 1 -> xPos = target
+            Math.abs(deltaX) < 1 -> {}
             xPos > world.currentScreenEnd -> xPos = Math.max(world.currentScreenEnd, target)
             else -> {
                 var change = 0.5F * deltaX

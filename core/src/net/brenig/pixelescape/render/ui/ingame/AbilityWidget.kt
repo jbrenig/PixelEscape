@@ -43,10 +43,11 @@ class AbilityWidget : Button {
      */
     private fun initialize() {
         addListener(object : ClickListener() {
-            override fun clicked(event: InputEvent, x: Float, y: Float) {
+            override fun touchDown(event: InputEvent?, x: Float, y: Float, pointer: Int, button: Int): Boolean {
                 if (!gameScreen.isGamePaused && player.hasAbility() && player.cooldownRemaining == 0f) {
                     player.useAbility()
                 }
+                return super.touchDown(event, x, y, pointer, button)
             }
         })
     }

@@ -5,12 +5,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.World
 import net.brenig.pixelescape.game.data.GameAssets
+import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer
 import net.brenig.pixelescape.game.entity.impl.particle.EntityFadingParticle
-import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.screen.GameScreen
 
-class AbilityBlink : Ability(maxCooldown) {
+class AbilityBlink(cooldown: Float = maxCooldown) : Ability(cooldown) {
 
     override fun onActivate(screen: GameScreen, world: World, player: EntityPlayer): Boolean {
         for (i in 0..59) {
@@ -36,7 +36,7 @@ class AbilityBlink : Ability(maxCooldown) {
 
     companion object {
 
-        private val maxCooldown = 10f
+        private val maxCooldown = 5f
         private val range = (Reference.BLOCK_WIDTH * 4).toFloat()
     }
 }

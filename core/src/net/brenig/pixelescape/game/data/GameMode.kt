@@ -163,7 +163,7 @@ enum class GameMode(name: String, scoreBoardName: String, private val iconTextur
             stack.add(table)
         }
     },
-    BLINK("Blink", ScoreboardNames.SCOREBOARD_BLINK, "gamemode_blink", true, Abilities.BLINK, -1) {
+    BLINK("Blink", ScoreboardNames.SCOREBOARD_BLINK, "gamemode_blink", true, Abilities.BLINK_LONG_COOLDOWN, -1) {
         override fun registerWorldGenerators(worldGenerator: WorldGenerator) {
             worldGenerator.registerDefaultTerrainGenerators()
             worldGenerator.addSpecialGenerator(BarricadeGenerator(400))

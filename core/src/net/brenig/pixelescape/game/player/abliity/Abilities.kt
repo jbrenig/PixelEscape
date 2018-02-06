@@ -5,4 +5,5 @@ package net.brenig.pixelescape.game.player.abliity
  */
 object Abilities {
     val BLINK = AbilityBlink()
+    val BLINK_LONG_COOLDOWN = AbilityBlink(10f)
 }

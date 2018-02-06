@@ -9,6 +9,8 @@ import net.brenig.pixelescape.game.entity.Entity
 import net.brenig.pixelescape.game.entity.EntityPoolManager
 import net.brenig.pixelescape.game.entity.impl.EntityHighscore
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer
+import net.brenig.pixelescape.game.entity.impl.particle.EntityCrashParticle
+import net.brenig.pixelescape.game.entity.impl.particle.EntityFadingParticle
 import net.brenig.pixelescape.game.player.abliity.Abilities
 import net.brenig.pixelescape.game.player.effects.EffectMove
 import net.brenig.pixelescape.game.player.effects.EffectShield
@@ -122,7 +124,11 @@ class World constructor(val screen: GameScreen, worldWidth: Int = Reference.TARG
 
         //load entity pool manager
         entityPoolManager = EntityPoolManager(this)
-        //		entityPoolManager.allocateObjects(EntityCrashParticle.class, 100);
+        @Suppress("ConstantConditionIf")
+        if (Reference.PREALLOCATE_ENTITIES) {
+            entityPoolManager.preallocate(EntityCrashParticle::class.java, 100)
+            entityPoolManager.preallocate(EntityFadingParticle::class.java, 60)
+        }
 
         restart()
     }

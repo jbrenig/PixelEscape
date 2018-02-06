@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion
 /**
  * simple animation using [com.badlogic.gdx.graphics.g2d.Animation]
  */
-class SimpleAnimation @JvmOverloads constructor(cols: Int, rows: Int, texture: TextureRegion, frameTime: Float, playMode: Animation.PlayMode = Animation.PlayMode.LOOP) {
+class SimpleAnimation constructor(cols: Int, rows: Int, texture: TextureRegion, frameTime: Float, playMode: Animation.PlayMode = Animation.PlayMode.LOOP) {
 
     private var frameTime = 0f
     val animation: Animation<TextureRegion>

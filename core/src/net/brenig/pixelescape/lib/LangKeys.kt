@@ -44,7 +44,7 @@ object LangKeys {
         const val LINE2 = "ui.debug_settings.dialog.line2"
     }
 
-    object PlaySerices {
+    object PlayServices {
         const val LOGIN = "ui.gs.login"
         const val LOGOUT = "ui.gs.logout"
         const val WORKING = "ui.gs.working"

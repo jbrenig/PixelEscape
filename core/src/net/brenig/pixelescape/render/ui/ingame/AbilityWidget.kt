@@ -18,7 +18,7 @@ class AbilityWidget : Button {
 
 
     private val gameScreen: GameScreen
-    private lateinit var player: EntityPlayer
+    private val player: EntityPlayer
 
     private var animCounter = 0f
 
@@ -28,13 +28,13 @@ class AbilityWidget : Button {
 
     constructor(style: AbilityButtonStyle, player: EntityPlayer, gameScreen: GameScreen) : super(style) {
         this.gameScreen = gameScreen
-        setPlayer(player)
+        this.player = player
         initialize()
     }
 
     constructor(player: EntityPlayer, gameScreen: GameScreen) : super() {
         this.gameScreen = gameScreen
-        setPlayer(player)
+        this.player = player
         initialize()
     }
 
@@ -50,13 +50,6 @@ class AbilityWidget : Button {
                 return super.touchDown(event, x, y, pointer, button)
             }
         })
-    }
-
-    /**
-     * sets the player that has the ability
-     */
-    fun setPlayer(player: EntityPlayer) {
-        this.player = player
     }
 
     override fun draw(batch: Batch, parentAlpha: Float) {

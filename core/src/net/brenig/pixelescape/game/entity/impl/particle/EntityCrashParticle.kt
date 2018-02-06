@@ -20,7 +20,7 @@ class EntityCrashParticle : Entity() {
     var radius: Int = RADIUS
     private val size: Int get() = radius * 2
 
-    var color = Color.BLACK
+    var color: Color = Color.BLACK
 
     /**
      * set whether the particle should collide with the top terrain<br></br>
@@ -197,8 +197,6 @@ class EntityCrashParticle : Entity() {
 
         const val RADIUS = 3
         const val SIZE = RADIUS * 2
-
-        private const val collisionSpeed = -0.4f
 
         private const val BOUNCE_X = 0.4f
         private const val BOUNCE_Y = 0.1f

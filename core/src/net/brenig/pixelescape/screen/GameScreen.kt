@@ -65,6 +65,9 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : ScreenWithUi(game)
     var isInitialized = true
         private set
 
+    /**
+     * true if the screen was initialized, false if it was disposed / not initialized
+     */
     @Volatile private var valid = false
 
     // Game UI
@@ -127,8 +130,7 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : ScreenWithUi(game)
     override fun show() {
         isInitialized = false
         valid = true
-        @Suppress("ConstantConditionIf")
-        if (Reference.ENABLE_MUSIC) game.gameMusic.playOrFadeInto(gameMusic)
+        if (game.gameConfig.musicAvailable) game.gameMusic.playOrFadeInto(gameMusic)
         Gdx.input.inputProcessor = inputMultiplexer
     }
 

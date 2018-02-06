@@ -48,4 +48,12 @@ class EntityPoolManager(private val world: World) {
         Pools.free(entity)
     }
 
+    fun <T : Entity> preallocate(type: Class<T>, initCount: Int, maxCount: Int = 100) {
+        val pool = Pools.get(type, maxCount)
+        (1..initCount).forEach {
+            val instance = pool.obtain()
+            pool.free(instance)
+        }
+    }
+
 }

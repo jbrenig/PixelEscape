@@ -6,6 +6,7 @@ import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.InputManager
 import net.brenig.pixelescape.game.data.GameMode
 import net.brenig.pixelescape.game.entity.Entity
+import net.brenig.pixelescape.game.player.Item
 import net.brenig.pixelescape.lib.debug
 import net.brenig.pixelescape.render.WorldRenderer
 
@@ -18,7 +19,7 @@ import net.brenig.pixelescape.render.WorldRenderer
  */
 class EntityItem : Entity() {
 
-    var item: net.brenig.pixelescape.game.player.Item? = null
+    var item: Item? = null
 
     override var isDead = false
         private set(value) {

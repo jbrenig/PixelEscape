@@ -56,7 +56,7 @@ class EntityPlayer(world: World, gameMode: GameMode) : Entity(), IMovingEntity {
     var bonusScore: Int = 0
         private set
 
-    val pathEntities: Array<net.brenig.pixelescape.game.player.PlayerPathEntity> = Array(4, { PlayerPathEntity(0F, 0) })
+    val pathEntities: Array<PlayerPathEntity> = Array(4, { PlayerPathEntity(0F, 0) })
 
     override var isDead = false
 
@@ -110,9 +110,6 @@ class EntityPlayer(world: World, gameMode: GameMode) : Entity(), IMovingEntity {
         get() = if (currentAbility != null) {
             cooldownRemaining / currentAbility!!.cooldown
         } else 0f
-
-    val statusEffects: Collection<StatusEffect>
-        get() = effects
 
     init {
         reset(gameMode)
@@ -267,7 +264,7 @@ class EntityPlayer(world: World, gameMode: GameMode) : Entity(), IMovingEntity {
 
     private fun renderStatusEffectTimes(game: PixelEscape, renderer: WorldRenderer) {
         val thickness = 2
-        for ((index, effect) in statusEffects.sortedBy(StatusEffect::scaledTime).reversed().withIndex()) {
+        for ((index, effect) in effects.sortedBy(StatusEffect::scaledTime).reversed().withIndex()) {
             effect.updateRenderColor(game.renderManager)
             renderer.renderRectangularCircle(xPosScreen.toFloat(), yPos, (this.playerSizeRadius + index * thickness).toFloat(), thickness.toFloat(), (2 * PI * effect.scaledTime).toFloat())
         }
@@ -355,7 +352,6 @@ class EntityPlayer(world: World, gameMode: GameMode) : Entity(), IMovingEntity {
      * used to spawn explosion and other effects as well as reducing lives/showing gameover screen
      *
      * @param col   type of collision
-     * @param world the world instance
      */
     private fun onPlayerCollide(col: CollisionType): Boolean {
         //Spawn particles

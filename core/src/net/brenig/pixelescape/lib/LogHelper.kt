@@ -58,7 +58,6 @@ fun debug(msg: String) {
     debug(null, msg, null)
 }
 
-@JvmOverloads
 fun debug(tag: String?, msg: String, t: Throwable? = null) {
     if (GameDebugSettings["DEBUG_LOGGING"]) {
         log(LogLevel.DEBUG, tag, msg, t)

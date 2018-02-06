@@ -17,7 +17,7 @@ import java.util.*
 /**
  * Label that displays current highscore (animated, no frame)
  */
-class CurrentHighscoreLabel(private var gameMode: GameMode?) : Widget() {
+class CurrentHighscoreLabel(private var gameMode: GameMode) : Widget() {
 
     private val fontLayout: GlyphLayout
     private val game: PixelEscape = PixelEscape.INSTANCE
@@ -28,7 +28,7 @@ class CurrentHighscoreLabel(private var gameMode: GameMode?) : Widget() {
     private var animationDuration = 0f
     private var animationData = 0
 
-    private var text: String? = null
+    private var text: String = ""
 
     init {
         state = Animations.WAIT
@@ -100,7 +100,7 @@ class CurrentHighscoreLabel(private var gameMode: GameMode?) : Widget() {
             fontSizeY = font_size_y
         }
         game.font.data.setScale(fontSizeX, fontSizeY)
-        fontLayout.setText(game.font, text!!, color, 0f, Align.center, false)
+        fontLayout.setText(game.font, text, color, 0f, Align.center, false)
         game.font.draw(batch, fontLayout, x + padding_side + offsetX + width / 2, y + fontLayout.height + padding_height + offsetY)
 
         val delta = Gdx.graphics.deltaTime
@@ -123,7 +123,7 @@ class CurrentHighscoreLabel(private var gameMode: GameMode?) : Widget() {
     }
 
     private fun updateText() {
-        text = LangKeys.MainMenu.HIGHSCORE.translate(game.userData.getHighScore(gameMode!!))
+        text = LangKeys.MainMenu.HIGHSCORE.translate(game.userData.getHighScore(gameMode))
     }
 
     private fun updateAnimation() {
@@ -142,9 +142,6 @@ class CurrentHighscoreLabel(private var gameMode: GameMode?) : Widget() {
         when (state) {
             CurrentHighscoreLabel.Animations.MOVE_X -> animationData = 1 + PixelEscape.rand.nextInt(4)
             CurrentHighscoreLabel.Animations.MOVE_Y -> animationData = 1 + PixelEscape.rand.nextInt(3)
-            CurrentHighscoreLabel.Animations.BLEND -> {
-                //				Gdx.gl.glDisable(GL20.GL_BLEND);
-            }
             else -> { }
         }
     }

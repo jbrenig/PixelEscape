@@ -29,32 +29,22 @@ import net.brenig.pixelescape.render.ui.general.SwipeTabbedStack
 
 /**
  * GameMode information
+ *
+ * @param startingAbility the ability that is available when the game begins (null if abilities are disabled)
+ * @param startingAbilityUses the uses the starting ability has left (default -1)
+ * @param extraLives the amount of extra lives the player has when the game starts
+ * @param maxEntitySpeed maximum speed of entities
+ * @param startingSpeed the speed the player has when the game starts
+ * @param speedIncreaseFactor the speed increase of the player
  */
 enum class GameMode(name: String, scoreBoardName: String, private val iconTexture: String, private val abilitiesEnabled: Boolean = false,
-        /**
-         * @return the ability that is available when the game begins (returns null if abilities are disabled)
-         */
                     val startingAbility: Ability? = null,
-        /**
-         * @return the uses the starting ability has left (default -1)
-         */
                     val startingAbilityUses: Int = -1,
-        /**
-         * @return the amount of extra lives the player has when the game starts
-         */
                     val extraLives: Int = 0,
-        /**
-         * @return maximum speed of entities
-         */
                     val maxEntitySpeed: Float = Reference.MAX_ENTITY_SPEED,
-        /**
-         * @return the speed the player has when the game starts
-         */
                     val startingSpeed: Float = Reference.STARTING_SPEED,
-        /**
-         * @return the speed increase of the player
-         */
                     val speedIncreaseFactor: Float = Reference.SPEED_MODIFIER) {
+
     CLASSIC("Classic", ScoreboardNames.SCOREBOARD_CLASSIC, "gamemode_classic") {
         override fun createCustomTutorial(skin: Skin, stack: SwipeTabbedStack, contentSizeX: Int, contentSizeY: Int) {
             val maxLabelWidth = contentSizeX - 60

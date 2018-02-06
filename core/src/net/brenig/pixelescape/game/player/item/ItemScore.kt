@@ -9,11 +9,7 @@ import net.brenig.pixelescape.game.player.Item
 /**
  * Item that increases the players score by a flat value
  */
-class ItemScore
-/**
- * @param score amount of score added
- */
-(private val score: Int) : Item {
+class ItemScore(private val score: Int) : Item {
 
 
     override fun getItemDrawable(assets: GameAssets): Drawable {

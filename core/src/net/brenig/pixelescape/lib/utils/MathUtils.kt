@@ -22,14 +22,14 @@ object MathUtils {
             currentAngle -= twoPI
         }
 
-        // find edge ofview
+        // find edge of view
         // Ref: http://stackoverflow.com/questions/4061576/finding-points-on-a-rectangle-at-a-given-angle
         val aa = xRadius * 2                                          // "a" in the diagram
         val bb = yRadius * 2                                         // "b"
 
         // Find our region (diagram)
         val rectAtan = MathUtils.atan2(bb, aa)
-        val tanangle = Math.tan(currentAngle.toDouble()).toFloat()
+        val tanAngle = Math.tan(currentAngle.toDouble()).toFloat()
 
         val region: Int
         region = if ((currentAngle > -rectAtan)
@@ -58,10 +58,10 @@ object MathUtils {
         if ((region == 1)
                 || (region == 3)) {
             edgePoint.x += xFactor * (aa / 2F)                                     // "Z0"
-            edgePoint.y += yFactor * (aa / 2F) * tanangle
+            edgePoint.y += yFactor * (aa / 2F) * tanAngle
         } else                                                                        // region 2 or 4
         {
-            edgePoint.x += xFactor * (bb / (2F * tanangle))                        // "Z1"
+            edgePoint.x += xFactor * (bb / (2F * tanAngle))                        // "Z1"
             edgePoint.y += yFactor * (bb / 2F)
         }
 

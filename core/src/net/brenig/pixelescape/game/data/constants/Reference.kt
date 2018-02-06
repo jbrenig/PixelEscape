@@ -96,6 +96,8 @@ object Reference {
 
     const val DEBUG_SETTINGS_AVAILABLE = false
 
+    const val PREALLOCATE_ENTITIES = false
+
     //VERSION CONSTANTS
     /**
      * current version of saved data<br></br>

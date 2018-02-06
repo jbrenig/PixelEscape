@@ -5,15 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 
 /**
- * general utilities
- */
-object Utils {
-
-
-
-}
-
-/**
  * NinePatchDrawables use their total size as minimum size by default
  * This helper function resizes them to their minimum, so they can be resized to be smaller than their total size
  *

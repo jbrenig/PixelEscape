@@ -91,7 +91,7 @@ abstract class Overlay(protected val screen: GameScreen) {
     /**
      * Renders a black, transparent overlay
      */
-    @JvmOverloads protected fun renderScreenTint(alpha: Float = 0.3f) {
+    protected fun renderScreenTint(alpha: Float = 0.3f) {
         renderScreenTint(0f, 0f, 0f, alpha)
     }
 

@@ -78,17 +78,17 @@ class PlayServiceLoginButton(
         when (state) {
             State.READY_FOR_LOGIN -> {
                 style = styleLogin
-                text = LangKeys.PlaySerices.LOGIN.translate()
+                text = LangKeys.PlayServices.LOGIN.translate()
                 isDisabled = false
             }
             State.READY_FOR_LOGOUT -> {
                 style = styleLogout
-                text = LangKeys.PlaySerices.LOGOUT.translate()
+                text = LangKeys.PlayServices.LOGOUT.translate()
                 isDisabled = false
             }
             State.WORKING -> {
                 style = styleWorking
-                text = LangKeys.PlaySerices.WORKING.translate()
+                text = LangKeys.PlayServices.WORKING.translate()
                 isDisabled = true
             }
         }

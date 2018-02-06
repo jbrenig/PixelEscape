@@ -317,7 +317,7 @@ class WorldRenderer(private val game: PixelEscape, val world: World) {
      */
     fun renderRectangularCircle(x: Float, y: Float, innerRadius: Float, thickness: Float, arc: Float, start: Float = 0F) {
         if (start != 0F) {
-            throw UnsupportedOperationException("starting arc not xet implemented!");
+            throw UnsupportedOperationException("starting arc not xet implemented!")
         }
         val maxLength = innerRadius * 2 + thickness
         val progress = Math.min(1F, (arc / (Math.PI * 2F)).toFloat())

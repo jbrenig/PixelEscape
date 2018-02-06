@@ -93,7 +93,7 @@ class Toast(text: String, style: ToastStyle) : Table() {
         /** Optional.  */
         var background: Drawable? = null
 
-        constructor() {}
+        constructor()
 
         constructor(label: Label.LabelStyle, background: Drawable) {
             this.label = label

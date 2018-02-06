@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 import net.brenig.pixelescape.PixelEscape
 import net.brenig.pixelescape.game.data.GameMode
-import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.lib.LangKeys
 import net.brenig.pixelescape.lib.translate
@@ -61,8 +60,7 @@ object UiUtils {
         })
         layout.add(btnSound)
 
-        @Suppress("ConstantConditionIf")
-        if (Reference.ENABLE_MUSIC) {
+        if (game.gameConfig.musicAvailable) {
             val btnMusic = TwoStateImageButton(game.skin, "music")
             btnMusic.state = !game.gameSettings.isMusicEnabled
             btnMusic.addListener(object : ClickListener() {

@@ -20,11 +20,11 @@ import net.brenig.pixelescape.screen.GameScreen
  */
 class DragMovementController : PlayerMovementController {
 
-    private var acceleration: Float = 0.toFloat()
+    private var acceleration: Float = 0f
 
     private var isTouched: Boolean = false
-    private var touchX: Float = 0.toFloat()
-    private var touchY: Float = 0.toFloat()
+    private var touchX: Float = 0f
+    private var touchY: Float = 0f
 
     @Suppress("LiftReturnOrAssignment")
     override fun updatePlayerMovement(game: PixelEscape, manager: InputManager, gameMode: GameMode, world: World, player: EntityPlayer, deltaTick: Float, yVelocityFactor: Float) {
@@ -42,8 +42,8 @@ class DragMovementController : PlayerMovementController {
                     }
                 }
                 isTouched = false
-                touchX = java.lang.Float.MIN_VALUE
-                touchY = java.lang.Float.MIN_VALUE
+                touchX = Float.MIN_VALUE
+                touchY = Float.MIN_VALUE
             }
         } else if (manager.isTouched) {
             touchX = game.scaledMouseX
@@ -71,8 +71,8 @@ class DragMovementController : PlayerMovementController {
     override fun reset(mode: GameMode) {
         acceleration = 0f
         isTouched = false
-        touchX = java.lang.Float.MIN_VALUE
-        touchY = java.lang.Float.MIN_VALUE
+        touchX = Float.MIN_VALUE
+        touchY = Float.MIN_VALUE
     }
 
     override fun createTutorialWindow(skin: Skin, screen: GameScreen, maxWidth: Int, maxHeight: Int): Table {

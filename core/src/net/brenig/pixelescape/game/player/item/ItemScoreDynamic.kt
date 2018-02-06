@@ -7,13 +7,11 @@ import net.brenig.pixelescape.game.entity.impl.particle.EntityFadingText
 import net.brenig.pixelescape.game.player.Item
 
 /**
- * Item that increases the players score by a flat value
- */
-class ItemScoreDynamic
-/**
+ * Item that increases the players score by a flat
+ *
  * @param scoreMod amount of score added (factor based on player score --> 0.05F : 5% of current player score
  */
-(private val scoreMod: Float) : Item {
+class ItemScoreDynamic(private val scoreMod: Float) : Item {
 
 
     override fun getItemDrawable(assets: GameAssets): Drawable {

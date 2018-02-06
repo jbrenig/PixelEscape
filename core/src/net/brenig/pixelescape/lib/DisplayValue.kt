@@ -38,4 +38,8 @@ class DisplayValue<V> {
         return true
     }
 
+    override fun hashCode(): Int {
+        return value?.hashCode() ?: 0
+    }
+
 }

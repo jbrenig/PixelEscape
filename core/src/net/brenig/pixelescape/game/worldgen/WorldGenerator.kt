@@ -2,11 +2,11 @@ package net.brenig.pixelescape.game.worldgen
 
 import net.brenig.pixelescape.game.World
 import net.brenig.pixelescape.game.data.GameMode
+import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.game.worldgen.predefined.IScoreWorldFeature
 import net.brenig.pixelescape.game.worldgen.special.BarricadeGenerator
 import net.brenig.pixelescape.game.worldgen.special.ISpecialWorldGenerator
 import net.brenig.pixelescape.game.worldgen.terrain.*
-import net.brenig.pixelescape.game.data.constants.Reference
 import net.brenig.pixelescape.lib.error
 import java.util.*
 
@@ -43,26 +43,22 @@ class WorldGenerator(private val world: World, private val gameMode: GameMode) {
      * @param random           world random-generator
      */
     fun generateWorld(blockToGenerate: Int, generationPasses: Int, random: Random) {
-        var blockToGenerate = blockToGenerate
-        var generationPasses = generationPasses
-        if (blockToGenerate > 0) {
+        var remainingBlocksToGenerate = blockToGenerate
+        var remainingGenerationPasses = generationPasses
+        if (remainingBlocksToGenerate > 0) {
             //Init available terrain gen list
             val gens = terrainGenerators.createCopy()
 
-            while (generationPasses > 0 && blockToGenerate > 0) {
+            while (remainingGenerationPasses > 0 && remainingBlocksToGenerate > 0) {
                 //get last terrain
-                var lastGeneratedTerrainPair = world.terrain.newest
-                if (lastGeneratedTerrainPair == null) {
-                    lastGeneratedTerrainPair = TerrainPair(Reference.STARTING_TERRAIN_HEIGHT, Reference.STARTING_TERRAIN_HEIGHT)
-                }
+                val lastGeneratedTerrainPair = world.terrain.newest
 
                 val oldTerrainBufferIndexStart = world.terrainBufferWorldIndex
-                val gen = gens.getRandomValueWithFilter(random, WorldGenFilter(lastGeneratedTerrainPair, blockToGenerate)) ?: //no applicable generators left
-                        break
-                val generated = gen.generate(world, lastGeneratedTerrainPair, blockToGenerate, world.terrainBufferWorldIndex, random)
-                blockToGenerate -= generated
-                generationPasses--
-                if (blockToGenerate < 0) {
+                val gen = gens.getRandomValueWithFilter(random, WorldGenFilter(lastGeneratedTerrainPair, remainingBlocksToGenerate)) ?: break //no applicable generators left
+                val generated = gen.generate(world, lastGeneratedTerrainPair, remainingBlocksToGenerate, world.terrainBufferWorldIndex, random)
+                remainingBlocksToGenerate -= generated
+                remainingGenerationPasses--
+                if (remainingBlocksToGenerate < 0) {
                     error("Invalid World Gen!! Generator ignoring MAX! Generator: " + gen)
                 }
                 if (oldTerrainBufferIndexStart + generated != world.terrainBufferWorldIndex) {

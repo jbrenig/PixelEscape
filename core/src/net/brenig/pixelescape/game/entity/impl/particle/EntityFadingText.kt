@@ -14,9 +14,9 @@ import net.brenig.pixelescape.render.WorldRenderer
  */
 class EntityFadingText : Entity() {
 
-    private var fadeDuration: Float = 0.toFloat()
+    var fadeDuration: Float = 0.toFloat()
     private var timePassed: Float = 0.toFloat()
-    private var text: String? = null
+    var text: String = ""
 
     private var colorRed = 0f
     private var colorGreen = 0f
@@ -45,25 +45,9 @@ class EntityFadingText : Entity() {
         val currentAlpha = 1 - AnimationUtils.easeOut(timePassed, fadeDuration, 2)
         renderer.renderManager.font.setColor(colorRed, colorGreen, colorBlue, currentAlpha)
         renderer.renderManager.setFontScale(0.5f)
-        renderer.renderTextWorld(text!!, xPos, yPos)
+        renderer.renderTextWorld(text, xPos, yPos)
 
         timePassed += delta
-    }
-
-    /**
-     * sets the text to be displayed
-     */
-    fun setText(text: String) {
-        this.text = text
-    }
-
-    /**
-     * sets lifetime of this entity
-     *
-     * @param fadeDuration time in seconds
-     */
-    fun setFadeDuration(fadeDuration: Float) {
-        this.fadeDuration = fadeDuration
     }
 
     /**
@@ -79,7 +63,7 @@ class EntityFadingText : Entity() {
     }
 
     override fun reset() {
-        text = null
+        text = ""
         timePassed = 0f
         fadeDuration = 0.6f
         setColor(Color.DARK_GRAY)

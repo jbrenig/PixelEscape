@@ -16,7 +16,7 @@ abstract class PixelScreen(val game: PixelEscape) : Screen, IGameServiceListener
     }
 
     override fun gsShowErrorToUser(et: IGameServiceListener.GsErrorType?, msg: String?, t: Throwable?) {
-        net.brenig.pixelescape.lib.error("Error: ${et.toString()} - $msg")
+        error("Error: ${et.toString()} - $msg")
     }
 
     override fun gsOnSessionInactive() {

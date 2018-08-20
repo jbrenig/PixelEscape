@@ -10,7 +10,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         // disable gwt (kotlin not supported)
 //        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
-        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.android.tools.build:gradle:2.3.2'
         classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.0'
         classpath 'com.badlogicgames.gdx:gdx-tools:1.9.6'
     }

@@ -17,6 +17,7 @@ import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.game.data.constants.Textures
 import net.brenig.pixelescape.lib.info
 import net.brenig.pixelescape.render.SimpleAnimation
+import net.brenig.pixelescape.render.createPixelRegion
 import net.brenig.pixelescape.render.ui.general.Toast
 import net.brenig.pixelescape.render.ui.general.TwoStateImageButton
 import net.brenig.pixelescape.render.ui.ingame.AbilityWidget
@@ -48,6 +49,9 @@ class GameAssets {
     lateinit var heart: TextureRegion private set
 
     lateinit var itemFrame: TextureRegion private set
+    lateinit var itemFrameFinite: TextureRegion private set
+    lateinit var itemFrameChargeBar: TextureRegion private set
+
     lateinit var itemBlink: Drawable private set
     lateinit var itemSlow: Drawable private set
     lateinit var itemShield: Drawable private set
@@ -144,6 +148,8 @@ class GameAssets {
         effectItemShield = textureAtlas.findRegion("effect_item_shield")
 
         itemFrame = textureAtlas.findRegion(Textures.ITEM_FRAME)
+        itemFrameFinite = textureAtlas.findRegion(Textures.ITEM_FRAME_FINITE)
+        itemFrameChargeBar = textureAtlas.findRegion(Textures.ITEM_FRAME_CHARGE_BAR)
         itemAnimatedBackground = SimpleAnimation(3, 2, textureAtlas.findRegion("item_blob_filled"), 0.16f, Animation.PlayMode.LOOP_PINGPONG)
 
         missingTexture = TextureRegionDrawable(textureAtlas.findRegion("fullscreen_hover"))
@@ -192,6 +198,8 @@ class GameAssets {
             add(Textures.BUTTON_RESUME, textureAtlas.createSprite("resume"))
 
             add(Textures.ITEM_FRAME, textureAtlas.createSprite("item_frame"))
+            add(Textures.ITEM_FRAME_FINITE, textureAtlas.createSprite("item_frame_finite"))
+            add(Textures.ITEM_FRAME_CHARGE_BAR, textureAtlas.createPixelRegion("item_frame_charge_bar"))
 
             add(Textures.SLIDER_BACKGROUND, textureAtlas.createSprite("slider_background"))
             add(Textures.SLIDER_KNOB, textureAtlas.createSprite("slider_knob"))
@@ -287,11 +295,19 @@ class GameAssets {
                 imageDown = it.getDrawable(Textures.BUTTON_RESUME)
             }
 
-            addStyle(name = StyleNames.DEFAULT, style = AbilityWidget.AbilityButtonStyle()) {
+            addStyle(name = StyleNames.ITEM_FRAME_DEFAULT, style = AbilityWidget.AbilityButtonStyle()) {
                 up = it.getDrawable(Textures.ITEM_FRAME)
                 down = it.getDrawable(Textures.ITEM_FRAME)
                 over = it.getDrawable(Textures.ITEM_FRAME)
                 disabled = it.getDrawable(Textures.ITEM_FRAME)
+            }
+
+            addStyle(name = StyleNames.ITEM_FRAME_FINITE, style = AbilityWidget.AbilityButtonStyle()) {
+                up = it.getDrawable(Textures.ITEM_FRAME_FINITE)
+                down = it.getDrawable(Textures.ITEM_FRAME_FINITE)
+                over = it.getDrawable(Textures.ITEM_FRAME_FINITE)
+                disabled = it.getDrawable(Textures.ITEM_FRAME_FINITE)
+                usesBar = it[Textures.ITEM_FRAME_CHARGE_BAR]
             }
 
             label {

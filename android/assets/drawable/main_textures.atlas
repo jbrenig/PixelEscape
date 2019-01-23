@@ -60,28 +60,28 @@ button_pause
   index: -1
 checkbox
   rotate: false
-  xy: 652, 56
+  xy: 42, 8
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 checkbox_checked
   rotate: false
-  xy: 672, 76
+  xy: 178, 10
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 checkbox_hover
   rotate: false
-  xy: 42, 8
+  xy: 706, 76
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
   index: -1
 effect_item_shield
   rotate: false
-  xy: 198, 10
+  xy: 60, 8
   size: 16, 16
   orig: 16, 16
   offset: 0, 0
@@ -205,86 +205,100 @@ item_frame
   orig: 32, 32
   offset: 0, 0
   index: -1
-item_move
+item_frame_charge_bar
   rotate: false
-  xy: 158, 8
-  size: 18, 18
-  orig: 18, 18
+  xy: 2, 2
+  size: 20, 2
+  orig: 20, 2
   offset: 0, 0
   index: -1
-item_score
+item_frame_finite
   rotate: false
   xy: 448, 26
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-item_shield
-  rotate: false
-  xy: 652, 74
-  size: 18, 18
-  orig: 18, 18
-  offset: 0, 0
-  index: -1
-item_slow
+item_move
   rotate: false
   xy: 22, 6
   size: 18, 18
   orig: 18, 18
   offset: 0, 0
   index: -1
-item_small_obstacles
-  rotate: false
-  xy: 178, 8
-  size: 18, 18
-  orig: 18, 18
-  offset: 0, 0
-  index: -1
-music_disabled
+item_score
   rotate: false
   xy: 482, 60
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-music_disabled_hover
+item_shield
+  rotate: false
+  xy: 158, 8
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
+item_slow
+  rotate: false
+  xy: 652, 40
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
+item_small_obstacles
+  rotate: false
+  xy: 686, 74
+  size: 18, 18
+  orig: 18, 18
+  offset: 0, 0
+  index: -1
+music_disabled
   rotate: false
   xy: 482, 26
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-music_enabled
+music_disabled_hover
   rotate: false
   xy: 516, 60
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-music_enabled_hover
+music_enabled
   rotate: false
   xy: 516, 26
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-pause
+music_enabled_hover
   rotate: false
   xy: 550, 60
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
-resume
+pause
   rotate: false
   xy: 550, 26
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
+resume
+  rotate: false
+  xy: 584, 60
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 scroll_background
   rotate: false
-  xy: 652, 39
+  xy: 196, 11
   size: 15, 15
   split: 4, 4, 4, 4
   orig: 15, 15
@@ -313,35 +327,35 @@ slider_knob
   index: -1
 sound_disabled
   rotate: false
-  xy: 584, 60
+  xy: 584, 26
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 sound_disabled_hover
   rotate: false
-  xy: 584, 26
+  xy: 618, 60
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 sound_enabled
   rotate: false
-  xy: 618, 60
+  xy: 618, 26
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 sound_enabled_hover
   rotate: false
-  xy: 618, 26
+  xy: 652, 60
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
 square
   rotate: false
-  xy: 2, 2
+  xy: 24, 2
   size: 2, 2
   orig: 2, 2
   offset: 0, 0

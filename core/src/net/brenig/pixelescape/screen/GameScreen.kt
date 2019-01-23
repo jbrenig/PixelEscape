@@ -113,7 +113,8 @@ class GameScreen(game: PixelEscape, val gameMode: GameMode) : ScreenWithUi(game)
             uiStage.row()
             uiStage.add(VerticalSpacer())
             uiStage.row()
-            uiStage.add(AbilityWidget(game.skin, world.player, this)).bottom().right().size(128f).pad(0f, 0f, 32f, (uiPos + 32).toFloat())
+            val style = if (gameMode.startingAbilityUses < 0 && gameMode.startingAbility != null) StyleNames.ITEM_FRAME_DEFAULT else StyleNames.ITEM_FRAME_FINITE
+            uiStage.add(AbilityWidget(game.skin, style, world.player, this)).bottom().right().size(128f).pad(0f, 0f, 32f, (uiPos + 32).toFloat())
         }
 
         //init input

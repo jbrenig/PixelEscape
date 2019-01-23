@@ -4,6 +4,9 @@ object StyleNames {
 
     const val DEFAULT = "default"
 
+    const val ITEM_FRAME_DEFAULT = DEFAULT
+    const val ITEM_FRAME_FINITE = "finite";
+
     const val BUTTON_SETTINGS = "settings"
     const val BUTTON_MUSIC = "music"
     const val BUTTON_SOUND = "sound"

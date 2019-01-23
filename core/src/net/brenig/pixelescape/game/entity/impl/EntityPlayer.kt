@@ -62,7 +62,8 @@ class EntityPlayer(world: World, gameMode: GameMode) : Entity(), IMovingEntity {
 
     var currentAbility: Ability? = null
         private set
-    private var remainingAbilityUses: Int = 0
+    var remainingAbilityUses: Int = 0
+        private set
 
     var cooldownRemaining = 0f
         private set

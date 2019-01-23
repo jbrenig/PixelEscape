@@ -35,6 +35,8 @@ object Textures {
     const val BUTTON_LEFT = "button_left"
 
     const val ITEM_FRAME = "item_frame"
+    const val ITEM_FRAME_FINITE = "item_frame_finite"
+    const val ITEM_FRAME_CHARGE_BAR = "item_frame_charge_bar"
 
     const val SLIDER_BACKGROUND = "slider_background"
     const val SLIDER_KNOB = "slider_knob"

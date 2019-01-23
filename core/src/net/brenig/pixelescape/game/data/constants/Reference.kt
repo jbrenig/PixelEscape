@@ -63,7 +63,7 @@ object Reference {
     const val TERRAIN_BUFFER_LEFT = 2
 
     /**
-     * amount of blocks that is not visible on screen but already generated (needs to be higher that [.TERRAIN_GENERATION_THRESHOLD], otherwise not enough blocks are available toe the right of the screen)
+     * amount of blocks that is not visible on screen but already generated (needs to be higher than [TERRAIN_GENERATION_THRESHOLD], otherwise not enough blocks are available toe the right of the screen)
      */
     const val TERRAIN_BUFFER = 32
     /**

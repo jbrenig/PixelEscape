@@ -9,7 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable
 import net.brenig.pixelescape.game.entity.impl.EntityPlayer
 import net.brenig.pixelescape.lib.utils.AnimationUtils
+import net.brenig.pixelescape.render.PixelTextureRegion
 import net.brenig.pixelescape.screen.GameScreen
+import kotlin.math.min
 
 /**
  * Gui Button that triggers use of the current player Ability
@@ -20,6 +22,7 @@ class AbilityWidget : Button {
     private val gameScreen: GameScreen
     private val player: EntityPlayer
 
+
     private var animCounter = 0f
 
     constructor(skin: Skin, style: String, player: EntityPlayer, gameScreen: GameScreen) : this(skin.get<AbilityButtonStyle>(style, AbilityButtonStyle::class.java), player, gameScreen)
@@ -27,12 +30,6 @@ class AbilityWidget : Button {
     constructor(skin: Skin, player: EntityPlayer, gameScreen: GameScreen) : this(skin.get<AbilityButtonStyle>(AbilityButtonStyle::class.java), player, gameScreen)
 
     constructor(style: AbilityButtonStyle, player: EntityPlayer, gameScreen: GameScreen) : super(style) {
-        this.gameScreen = gameScreen
-        this.player = player
-        initialize()
-    }
-
-    constructor(player: EntityPlayer, gameScreen: GameScreen) : super() {
         this.gameScreen = gameScreen
         this.player = player
         initialize()
@@ -68,14 +65,28 @@ class AbilityWidget : Button {
                 gameScreen.game.renderManager.setColor(1f, 1f, 1f, alpha)
                 gameScreen.game.renderManager.rect(batch, x + itemFrame, y + itemFrame, width - itemFrame * 2, height - itemFrame * 2)
             }
+
+            if (player.remainingAbilityUses > 0) {
+                val scale = min(player.remainingAbilityUses, 5).toFloat() / 5F
+                style.usesBar?.draw(batch, x + charge_bar_x_pos * width, y + charge_bar_y_pos * height,
+                        width * charge_bar_width * scale, height * charge_bar_height,
+                        0, 0, (scale * charge_bar_texture_width.toFloat()).toInt(), charge_bar_texture_height)
+            }
         }
+    }
+    override fun getStyle(): AbilityButtonStyle {
+        return super.getStyle() as AbilityButtonStyle
     }
 
     class AbilityButtonStyle : Button.ButtonStyle {
 
-        constructor()
+        var usesBar: PixelTextureRegion? = null
 
-        constructor(up: Drawable, down: Drawable, checked: Drawable) : super(up, down, checked)
+        constructor() : super()
+
+        constructor(up: Drawable, down: Drawable, checked: Drawable, usesBar: PixelTextureRegion?) : super(up, down, checked) {
+            this.usesBar = usesBar
+        }
 
         constructor(style: AbilityButtonStyle) : super(style)
     }
@@ -84,5 +95,11 @@ class AbilityWidget : Button {
         private const val ANIM_DURATION = 0.5f
 
         private const val item_frame_border = 0.21875f
+        private const val charge_bar_x_pos = 0.15625f
+        private const val charge_bar_y_pos = 0.09375f
+        private const val charge_bar_width = 0.625f
+        private const val charge_bar_height = 0.0625f
+        private const val charge_bar_texture_width = 20
+        private const val charge_bar_texture_height = 2
     }
 }

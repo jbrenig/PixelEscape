@@ -19,7 +19,7 @@ android {
         }
     }
 
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '28.0.3'
     compileSdkVersion 26
     sourceSets {
         main {
@@ -31,8 +31,6 @@ android {
             assets.srcDirs = ['assets']
             jniLibs.srcDirs = ['libs']
         }
-
-        instrumentTest.setRoot('tests')
     }
     packagingOptions {
         exclude 'META-INF/robovm/ios/robovm.xml'
@@ -64,28 +62,36 @@ android {
 // the natives configuration, and extracts them to the proper libs/ folders
 // so they get packed with the APK.
 task copyAndroidNatives() {
-    file("libs/armeabi/").mkdirs();
-    file("libs/armeabi-v7a/").mkdirs();
-    file("libs/arm64-v8a/").mkdirs();
-    file("libs/x86_64/").mkdirs();
-    file("libs/x86/").mkdirs();
+    doFirst {
+        file("libs/armeabi/").mkdirs()
+        file("libs/armeabi-v7a/").mkdirs()
+        file("libs/arm64-v8a/").mkdirs()
+        file("libs/x86_64/").mkdirs()
+        file("libs/x86/").mkdirs()
 
-    configurations.natives.files.each { jar ->
-        def outputDir = null
-        if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("libs/arm64-v8a")
-        if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("libs/armeabi-v7a")
-        if (jar.name.endsWith("natives-armeabi.jar")) outputDir = file("libs/armeabi")
-        if (jar.name.endsWith("natives-x86_64.jar")) outputDir = file("libs/x86_64")
-        if (jar.name.endsWith("natives-x86.jar")) outputDir = file("libs/x86")
-        if (outputDir != null) {
-            copy {
-                from zipTree(jar)
-                into outputDir
-                include "*.so"
+        configurations.natives.files.each { jar ->
+            def outputDir = null
+            if (jar.name.endsWith("natives-arm64-v8a.jar")) outputDir = file("libs/arm64-v8a")
+            if (jar.name.endsWith("natives-armeabi-v7a.jar")) outputDir = file("libs/armeabi-v7a")
+            if (jar.name.endsWith("natives-armeabi.jar")) outputDir = file("libs/armeabi")
+            if (jar.name.endsWith("natives-x86_64.jar")) outputDir = file("libs/x86_64")
+            if (jar.name.endsWith("natives-x86.jar")) outputDir = file("libs/x86")
+            if (outputDir != null) {
+                copy {
+                    from zipTree(jar)
+                    into outputDir
+                    include "*.so"
+                }
             }
         }
     }
 }
+tasks.whenTaskAdded { packageTask ->
+    if (packageTask.name.contains("package")) {
+        packageTask.dependsOn 'copyAndroidNatives'
+    }
+}
+
 task run(type: Exec) {
     def path
     def localProperties = project.file("../local.properties")
@@ -105,7 +111,7 @@ task run(type: Exec) {
     }
 
     def adb = path + "/platform-tools/adb"
-    commandLine "$adb", 'shell', 'am', 'start', '-n', 'net.brenig.pixelescape.android/net.brenig.pixelescape.android.AndroidLauncher'
+    commandLine "$adb", 'shell', 'am', 'start', '-n', '%PACKAGE%/%PACKAGE%.AndroidLauncher'
 }
 // sets up the Android Eclipse project, using the old Ant based build.
 eclipse {
@@ -130,7 +136,7 @@ eclipse {
     project {
         name = appName + "-android"
         natures 'com.android.ide.eclipse.adt.AndroidNature'
-        buildCommands.clear();
+        buildCommands.clear()
         buildCommand "com.android.ide.eclipse.adt.ResourceManagerBuilder"
         buildCommand "com.android.ide.eclipse.adt.PreCompilerBuilder"
         buildCommand "org.eclipse.jdt.core.javabuilder"
@@ -140,14 +146,14 @@ eclipse {
 // sets up the Android Idea project, using the old Ant based build.
 idea {
     module {
-        sourceDirs += file("src");
+        sourceDirs += file("src")
         scopes = [COMPILE: [plus: [project.configurations.compile]]]
 
         iml {
             withXml {
                 def node = it.asNode()
-                def builder = NodeBuilder.newInstance();
-                builder.current = node;
+                def builder = NodeBuilder.newInstance()
+                builder.current = node
                 builder.component(name: "FacetManager") {
                     facet(type: "android", name: "Android") {
                         configuration {

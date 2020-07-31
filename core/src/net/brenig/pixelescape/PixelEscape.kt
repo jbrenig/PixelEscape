@@ -145,7 +145,7 @@ class PixelEscape constructor(val gameConfig: GameConfiguration = GameConfigurat
 
     override fun setScreen(screen: Screen) {
         if (screen !is PixelScreen) {
-            throw IllegalArgumentException("Give screen has to implement " + PixelScreen::class.toString())
+            throw IllegalArgumentException("Screen has to implement " + PixelScreen::class.toString())
         }
         //reset font
         renderManager.resetFontSize()

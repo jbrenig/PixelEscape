@@ -10,6 +10,7 @@ import net.brenig.pixelescape.game.data.GameMode
 import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.lib.LangKeys
 import net.brenig.pixelescape.lib.translate
+import net.brenig.pixelescape.render.ui.general.HorizontalSpacer
 import net.brenig.pixelescape.render.ui.general.StageManager
 import net.brenig.pixelescape.render.ui.general.TwoStateImageButton
 
@@ -129,7 +130,7 @@ object UiUtils {
                             serviceStateUpdater?.invoke()
                         }
                     } else {
-                        uiStage.createToast(net.brenig.pixelescape.lib.LangKeys.MainMenu.LEADERBOARD_TOOLTIP.translate(), game.skin, this@with)
+                        uiStage.createToast(LangKeys.MainMenu.LEADERBOARD_TOOLTIP.translate(), game.skin, this@with)
                     }
                 }
             })
@@ -137,9 +138,9 @@ object UiUtils {
             isDisabled = !game.gameConfig.gameService.isSessionActive
             pad(8F)
             image.setScaling(com.badlogic.gdx.utils.Scaling.fit)
-            imageCell.size(net.brenig.pixelescape.lib.utils.UiUtils.BUTTON_SIZE)
+            imageCell.size(BUTTON_SIZE)
             imageCell.fill()
-            image.setSize(net.brenig.pixelescape.lib.utils.UiUtils.BUTTON_SIZE, net.brenig.pixelescape.lib.utils.UiUtils.BUTTON_SIZE)
+            image.setSize(BUTTON_SIZE, BUTTON_SIZE)
         }
 
         return btnLeaderboards
@@ -147,5 +148,5 @@ object UiUtils {
 }
 
 fun Table.horizontalSpacer() {
-    this.add(net.brenig.pixelescape.render.ui.general.HorizontalSpacer())
+    this.add(HorizontalSpacer())
 }

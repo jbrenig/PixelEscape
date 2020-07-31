@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
 import net.brenig.pixelescape.game.data.constants.Reference
+import net.brenig.pixelescape.game.data.constants.StyleNames
 import net.brenig.pixelescape.lib.LangKeys
 import net.brenig.pixelescape.lib.translate
 import net.brenig.pixelescape.lib.utils.AnimationUtils
@@ -37,7 +38,7 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
         val table = stage.createHeadUiLayoutTable()
 
         if (!isGameOver) {
-            val btnResume = ImageTextButton(LangKeys.Ingame.RESUME.translate(), screen.game.skin, "resume")
+            val btnResume = ImageTextButton(LangKeys.Ingame.RESUME.translate(), screen.game.skin, StyleNames.BUTTON_RESUME)
             btnResume.imageCell.padRight(6f)
             btnResume.addListener(object : ClickListener() {
                 override fun clicked(event: InputEvent, x: Float, y: Float) {
@@ -203,7 +204,11 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
         if (!isGameOver || animationProgress > TIME_TO_WAIT) {
             when (keycode) {
                 Input.Keys.SPACE -> {
-                    resumeGame()
+                    if (isGameOver) {
+                        restartGameDo()
+                    } else {
+                        resumeGame()
+                    }
                     return true
                 }
                 Input.Keys.ESCAPE -> {

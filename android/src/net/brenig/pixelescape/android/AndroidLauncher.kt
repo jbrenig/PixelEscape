@@ -22,7 +22,11 @@ class AndroidLauncher : AndroidApplication() {
     }
 
     class AndroidConfiguration(val activity: Activity) : GameConfiguration() {
-        override val gameService = createGameService()
+        override val gameService by lazy {
+            GpgsClient()
+                    .setGpgsAchievementIdMapper(PlayServicesMapper.Companion::mapAchievement)
+                    .setGpgsLeaderboardIdMapper(PlayServicesMapper.Companion::mapLeaderboard)!!
+        }
         override val gameServiceAvailable = true
         override val canQuitGame = false
 
@@ -30,12 +34,6 @@ class AndroidLauncher : AndroidApplication() {
 
         override fun initGameServices() {
             gameService.initialize(activity, false)
-        }
-
-        private fun createGameService() : GpgsClient {
-            return GpgsClient()
-                    .setGpgsAchievementIdMapper(PlayServicesMapper::mapAchievement)
-                    .setGpgsLeaderboardIdMapper(PlayServicesMapper::mapLeaderboard)!!
         }
     }
 

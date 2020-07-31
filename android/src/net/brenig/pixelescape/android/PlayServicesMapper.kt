@@ -6,28 +6,34 @@ import net.brenig.pixelescape.lib.error
 /**
  *
  */
-object PlayServicesMapper {
+class PlayServicesMapper {
 
-    private val leaderboards = hashMapOf(
-            GameMode.CLASSIC.scoreboardName           to "CgkI4pKZvp8aEAIQAg",
-            GameMode.ARCADE.scoreboardName            to "CgkI4pKZvp8aEAIQAw",
-            GameMode.BLINK.scoreboardName             to "CgkI4pKZvp8aEAIQBg",
-            GameMode.DRAG.scoreboardName              to "CgkI4pKZvp8aEAIQBw",
-            GameMode.FLASH.scoreboardName             to "CgkI4pKZvp8aEAIQBQ",
-            GameMode.SPEED.scoreboardName             to "CgkI4pKZvp8aEAIQBA"
-    )
+    companion object {
 
-    fun mapAchievement(id: String) : String? {
-        error("Unknown achievement: $id")
-        return null
-    }
+        @JvmStatic
+        private val leaderboards = hashMapOf(
+                GameMode.CLASSIC.scoreboardName to "CgkI4pKZvp8aEAIQAg",
+                GameMode.ARCADE.scoreboardName to "CgkI4pKZvp8aEAIQAw",
+                GameMode.BLINK.scoreboardName to "CgkI4pKZvp8aEAIQBg",
+                GameMode.DRAG.scoreboardName to "CgkI4pKZvp8aEAIQBw",
+                GameMode.FLASH.scoreboardName to "CgkI4pKZvp8aEAIQBQ",
+                GameMode.SPEED.scoreboardName to "CgkI4pKZvp8aEAIQBA"
+        )
 
-    fun mapLeaderboard(id: String) : String? {
-        val out = leaderboards[id]
-        if (out == null) {
-            error("Unknown leader board: $id")
+        @JvmStatic
+        fun mapAchievement(id: String): String? {
+            error("Unknown achievement: $id")
             return null
         }
-        return out
+
+        @JvmStatic
+        fun mapLeaderboard(id: String): String? {
+            val out = leaderboards[id]
+            if (out == null) {
+                error("Unknown leader board: $id")
+                return null
+            }
+            return out
+        }
     }
 }

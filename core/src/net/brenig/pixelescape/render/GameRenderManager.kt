@@ -135,21 +135,13 @@ class GameRenderManager : Disposable {
      */
     fun end() {
         when (state) {
-            GameRenderManager.State.READY -> return
-            GameRenderManager.State.BATCH -> batch.end()
-            GameRenderManager.State.INVALID -> {
+            State.READY -> return
+            State.BATCH -> batch.end()
+            State.INVALID -> {
                 warn("RenderManager in invalid state. Initializing...")
                 batch.dispose()
                 initializeRendering()
                 return
-            }
-            else -> {
-                error("RenderManager in unknown state!")
-                if (batch.isDrawing) {
-                    batch.end()
-                } else {
-                    error("Unable to reconstruct state!!")
-                }
             }
         }
         state = State.READY

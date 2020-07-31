@@ -1,9 +1,13 @@
 apply plugin: "java"
+
 sourceCompatibility = 1.7
 sourceSets.main.java.srcDirs = ["src/"]
+sourceSets.main.resources.srcDirs = ["../android/assets"]
+
 project.ext.mainClassName = "net.brenig.pixelescape.desktop.DesktopLauncher"
 project.ext.assetsDir = new File("../android/assets");
 project.ext.texturePacker = ["assets/texturepacker", "android/assets/drawable", "main_textures"]
+
 task run(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
@@ -11,6 +15,7 @@ task run(dependsOn: classes, type: JavaExec) {
     workingDir = project.assetsDir
     ignoreExitValue = true
 }
+
 task debug(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
@@ -19,39 +24,25 @@ task debug(dependsOn: classes, type: JavaExec) {
     ignoreExitValue = true
     debug = true
 }
-task dist(type: Jar) {
-    from files(sourceSets.main.output.classesDir)
-    from files(sourceSets.main.output.resourcesDir)
-    from { configurations.compile.collect { zipTree(it) } }
-    from files(project.assetsDir);
 
+task dist(type: Jar) {
     manifest {
         attributes 'Main-Class': project.mainClassName
     }
+    from {
+        configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    with jar
 }
 dist.dependsOn classes
-eclipse {
-    project {
-        name = appName + "-desktop"
-        linkedResource name: 'assets', type: '2', location: 'PARENT-1-PROJECT_LOC/android/assets'
-    }
-}
-task afterEclipseImport(description: "Post processing after project generation", group: "IDE") {
-    doLast {
-        def classpath = new XmlParser().parse(file(".classpath"))
-        new Node(classpath, "classpathentry", [kind: 'src', path: 'assets']);
-        def writer = new FileWriter(file(".classpath"))
-        def printer = new XmlNodePrinter(new PrintWriter(writer))
-        printer.setPreserveWhitespace(true)
-        printer.print(classpath)
-    }
-}
+
 import com.badlogic.gdx.tools.texturepacker.TexturePacker
-task texturePacker << {
-    if (project.ext.has('texturePacker')) {
-        logger.info "Calling TexturePacker: " + texturePacker
-        TexturePacker.process(texturePacker[0], texturePacker[1], texturePacker[2])
+
+task texturePacker {
+    doLast {
+        if (project.ext.has('texturePacker')) {
+            logger.info "Calling TexturePacker: " + texturePacker
+            TexturePacker.process(texturePacker[0], texturePacker[1], texturePacker[2])
+        }
     }
-}
-dependencies {
 }

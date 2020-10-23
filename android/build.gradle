@@ -20,7 +20,7 @@ android {
     }
 
     buildToolsVersion '28.0.3'
-    compileSdkVersion 28
+    compileSdkVersion 29
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -39,7 +39,7 @@ android {
         //multiDexEnabled true
         applicationId "net.brenig.pixelescape"
         minSdkVersion 15
-        targetSdkVersion 28
+        targetSdkVersion 29
         signingConfig signingConfigs.config
         versionName = version
         versionCode = rootProject.versionNumber
@@ -54,8 +54,9 @@ android {
         }
         release {
             signingConfig signingConfigs.config
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            shrinkResources true
+            minifyEnabled true
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }

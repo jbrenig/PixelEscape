@@ -67,3 +67,7 @@ build/
 
 ## Android Keystore information
 android/keystore.properties
+
+## binaries
+android/libs/
+android/release/

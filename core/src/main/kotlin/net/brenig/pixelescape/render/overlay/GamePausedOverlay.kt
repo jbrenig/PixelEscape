@@ -236,6 +236,10 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
         return false
     }
 
+    override fun touchCancelled(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
+        return false
+    }
+
     override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
         return false
     }
@@ -244,7 +248,7 @@ class GamePausedOverlay(screen: GameScreen, private val isGameOver: Boolean) : O
         return false
     }
 
-    override fun scrolled(amount: Int): Boolean {
+    override fun scrolled(amountX: Float, amountY: Float): Boolean {
         return false
     }
 

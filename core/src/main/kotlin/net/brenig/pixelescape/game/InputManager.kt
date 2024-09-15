@@ -92,6 +92,11 @@ class InputManager : InputProcessor {
         return true
     }
 
+    override fun touchCancelled(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
+        isTouched = false
+        return true
+    }
+
     override fun touchDragged(screenX: Int, screenY: Int, pointer: Int): Boolean {
         return isTouched
     }
@@ -102,7 +107,7 @@ class InputManager : InputProcessor {
         return false
     }
 
-    override fun scrolled(amount: Int): Boolean {
+    override fun scrolled(amountX: Float, amountY: Float): Boolean {
         return false
     }
 

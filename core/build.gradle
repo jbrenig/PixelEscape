@@ -1,5 +1,13 @@
-apply plugin: "kotlin"
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-sourceSets.main.java.srcDirs = ["src/"]
+eclipse.project.name = appName + '-core'
+
+dependencies {
+  api "com.badlogicgames.gdx:gdx:$gdxVersion"
+  api "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+  api "io.github.libktx:ktx-style:$ktxVersion"
+  api "de.golfgl.gdxgamesvcs:gdx-gamesvcs-core:$gamesvcsVersion"
+
+  if(enableGraalNative == 'true') {
+    implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"
+  }
+}

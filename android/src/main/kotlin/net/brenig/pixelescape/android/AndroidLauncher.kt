@@ -33,7 +33,7 @@ class AndroidLauncher : AndroidApplication() {
         override val gameServiceAvailable = true
         override val canQuitGame = false
 
-        override val debugSettingsAvailable = BuildConfig.DEBUG
+        override val debugSettingsAvailable = false //BuildConfig.DEBUG
 
         override fun initGameServices() {
             gameService.initialize(activity, false)

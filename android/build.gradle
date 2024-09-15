@@ -46,8 +46,8 @@ android {
     applicationId 'net.brenig.pixelescape'
     minSdkVersion 19
     targetSdkVersion 34
-    versionCode == versionNumber
-    versionName = version
+    versionCode = versionNumber as Integer
+    versionName = projectVersion
     signingConfig signingConfigs.config
     multiDexEnabled true
   }

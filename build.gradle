@@ -61,7 +61,7 @@ configure(subprojects - project(':android')) {
 }
 
 subprojects {
-  version = '$projectVersion'
+  version = ext.projectVersion
   ext.appName = 'PixelEscape'
   repositories {
     mavenCentral()

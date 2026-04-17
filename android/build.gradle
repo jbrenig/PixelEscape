@@ -22,7 +22,7 @@ android {
   }
 
   namespace "net.brenig.pixelescape"
-  compileSdk 34
+  compileSdk 36
   sourceSets {
     main {
       manifest.srcFile 'AndroidManifest.xml'
@@ -44,8 +44,8 @@ android {
   }
   defaultConfig {
     applicationId 'net.brenig.pixelescape'
-    minSdkVersion 19
-    targetSdkVersion 34
+    minSdkVersion 21
+    targetSdkVersion 36
     versionCode = versionNumber as Integer
     versionName = projectVersion
     signingConfig signingConfigs.config
@@ -80,10 +80,11 @@ repositories {
 configurations { natives }
 
 dependencies {
-  coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.4'
+  coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
   implementation "com.badlogicgames.gdx:gdx-backend-android:$gdxVersion"
   implementation "de.golfgl.gdxgamesvcs:gdx-gamesvcs-android-gpgs:$gamesvcsVersion"
   implementation project(':core')
+  implementation "androidx.core:core:1.17.0"
 
   natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-arm64-v8a"
   natives "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-armeabi-v7a"
